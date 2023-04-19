@@ -8,5 +8,6 @@ namespace Librarian.ViewModels
 {
     class ViewModelLocator
     {
+
     }
 }

@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Librarian.ViewModels
 {
-    public class ViewModelLocator
+    public static class ViewModelRegistrator
     {
-        public MainWindowViewModel? MainWindowModel => App.Services?.GetRequiredService<MainWindowViewModel>();
+        public static IServiceCollection AddViewModels(this IServiceCollection services) => services
+            .AddSingleton<MainWindowViewModel>()
+            ;
     }
 }

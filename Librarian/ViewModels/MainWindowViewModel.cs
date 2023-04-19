@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Librarian.ViewModels
 {
-    class MainViewModel : ViewModel
+    public class MainWindowViewModel : ViewModel
     {
         #region Tilte
         private string? _Title = "Librarian";

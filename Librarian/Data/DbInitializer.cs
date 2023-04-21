@@ -157,6 +157,7 @@ namespace Librarian.Data
                 });
 
             await _dbContext.Deals.AddRangeAsync(deals);
+            await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"Initialize deals comleted in {timer.Elapsed.TotalSeconds} s");
         }

@@ -25,7 +25,11 @@ namespace Librarian
         {
             var host = Host;
             if (host == null) throw new ArgumentNullException(nameof(host));
-            base.OnStartup(e);
+
+            using (var scope = Services?.CreateScope())
+                scope?.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync().Wait();
+
+                base.OnStartup(e);
             await host.StartAsync();
         }
 

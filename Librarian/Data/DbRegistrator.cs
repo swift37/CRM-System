@@ -28,6 +28,7 @@ namespace Librarian.Data
                         break;
                 }
             })
+            .AddTransient<DbInitializer>()
             ;
     }
 }

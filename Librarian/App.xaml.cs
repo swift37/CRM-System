@@ -1,4 +1,5 @@
-﻿using Librarian.Services;
+﻿using Librarian.Data;
+using Librarian.Services;
 using Librarian.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,7 +18,8 @@ namespace Librarian
 
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
             .AddServices()
-            .AddViewModels();
+            .AddViewModels()
+            .AddDatabase(host.Configuration.GetSection("Database"));
 
         protected override async void OnStartup(StartupEventArgs e)
         {

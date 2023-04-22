@@ -84,7 +84,30 @@ namespace Librarian.DAL.Migrations
                     b.ToTable("Categorys");
                 });
 
-            modelBuilder.Entity("Librarian.DAL.Entities.Deal", b =>
+            modelBuilder.Entity("Librarian.DAL.Entities.Seller", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Patronymic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sellers");
+                });
+
+            modelBuilder.Entity("Librarian.DAL.Entities.Transaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,30 +135,7 @@ namespace Librarian.DAL.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Deals");
-                });
-
-            modelBuilder.Entity("Librarian.DAL.Entities.Seller", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Patronymic")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sellers");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Librarian.DAL.Entities.Book", b =>
@@ -147,7 +147,7 @@ namespace Librarian.DAL.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Librarian.DAL.Entities.Deal", b =>
+            modelBuilder.Entity("Librarian.DAL.Entities.Transaction", b =>
                 {
                     b.HasOne("Librarian.DAL.Entities.Book", "Book")
                         .WithMany()

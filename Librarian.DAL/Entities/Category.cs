@@ -5,5 +5,7 @@ namespace Librarian.DAL.Entities
     public class Category : NamedEntity
     {
         public virtual IEnumerable<Book?>? Books { get; set; }
+
+        public override string ToString() => $"{Name}";
     }
 }

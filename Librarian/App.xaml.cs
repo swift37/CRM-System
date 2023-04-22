@@ -17,9 +17,10 @@ namespace Librarian
         public static IServiceProvider? Services => Host?.Services;
 
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
+            .AddDatabase(host.Configuration.GetSection("Database"))
             .AddServices()
             .AddViewModels()
-            .AddDatabase(host.Configuration.GetSection("Database"));
+            ;
 
         protected override async void OnStartup(StartupEventArgs e)
         {
@@ -27,7 +28,7 @@ namespace Librarian
             if (host == null) throw new ArgumentNullException(nameof(host));
 
             using (var scope = Services?.CreateScope())
-                await scope?.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync();
+                scope?.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync().Wait();
 
                 base.OnStartup(e);
             await host.StartAsync();

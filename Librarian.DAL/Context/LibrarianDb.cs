@@ -1,10 +1,5 @@
 ﻿using Librarian.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Librarian.DAL.Context
 {
@@ -18,7 +13,7 @@ namespace Librarian.DAL.Context
 
         public DbSet<Seller> Sellers { get; set; }
 
-        public DbSet<Deal> Deals { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         public LibrarianDb(DbContextOptions<LibrarianDb> options) : base(options) 
         { 

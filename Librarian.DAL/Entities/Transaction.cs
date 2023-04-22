@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Librarian.DAL.Entities
 {
-    public class Deal : Entity
+    public class Transaction : Entity
     {
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
@@ -13,5 +13,8 @@ namespace Librarian.DAL.Entities
         public virtual Seller? Seller { get; set; }
 
         public virtual Buyer? Buyer { get; set; }
+
+        public override string ToString() => 
+            $"Transaction for the sale of the {Book?.Category} {Book}: {Seller}, {Buyer}, {Price:C}";
     }
 }

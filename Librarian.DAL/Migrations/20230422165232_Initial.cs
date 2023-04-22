@@ -73,7 +73,7 @@ namespace Librarian.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Deals",
+                name: "Transactions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -85,19 +85,19 @@ namespace Librarian.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Deals", x => x.Id);
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Deals_Books_BookId",
+                        name: "FK_Transactions_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Deals_Buyers_BuyerId",
+                        name: "FK_Transactions_Buyers_BuyerId",
                         column: x => x.BuyerId,
                         principalTable: "Buyers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Deals_Sellers_SellerId",
+                        name: "FK_Transactions_Sellers_SellerId",
                         column: x => x.SellerId,
                         principalTable: "Sellers",
                         principalColumn: "Id");
@@ -109,18 +109,18 @@ namespace Librarian.DAL.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deals_BookId",
-                table: "Deals",
+                name: "IX_Transactions_BookId",
+                table: "Transactions",
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deals_BuyerId",
-                table: "Deals",
+                name: "IX_Transactions_BuyerId",
+                table: "Transactions",
                 column: "BuyerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deals_SellerId",
-                table: "Deals",
+                name: "IX_Transactions_SellerId",
+                table: "Transactions",
                 column: "SellerId");
         }
 
@@ -128,7 +128,7 @@ namespace Librarian.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Deals");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Books");

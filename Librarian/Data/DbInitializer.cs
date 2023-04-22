@@ -33,7 +33,7 @@ namespace Librarian.Data
             _logger.LogInformation($"Deleting an existing database comleted in {timer.ElapsedMilliseconds} ms");
 
             _logger.LogInformation("Migration database...");
-            await _dbContext.Database.MigrateAsync();
+            await _dbContext.Database.MigrateAsync().ConfigureAwait(false);
             _logger.LogInformation($"Migration database comleted in {timer.ElapsedMilliseconds} ms");
 
             if (await _dbContext.Books.AnyAsync()) return;
@@ -42,7 +42,7 @@ namespace Librarian.Data
             await InitializeBooks();
             await InitializeSellers();
             await InitializeBuyers();
-            await InitializeDeals();
+            await InitializeTransactions();
 
             _logger.LogInformation($"Initialize database comleted in {timer.Elapsed.TotalSeconds} s");
         }
@@ -136,19 +136,19 @@ namespace Librarian.Data
             _logger.LogInformation($"Initialize sellers comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _dealsCount = 3000;
+        private const int _transactionsCount = 3000;
 
-        public async Task InitializeDeals()
+        public async Task InitializeTransactions()
         {
             var timer = Stopwatch.StartNew();
-            _logger.LogInformation("Initialize deals...");
+            _logger.LogInformation("Initialize transactions...");
 
             if (_books is null || _sellers is null || _buyers is null) throw new ArgumentNullException("Field _books, _sellers or _buyers can`t be empty");
 
             var random = new Random();
 
-            var deals = Enumerable.Range(1, _dealsCount)
-                .Select(d => new Deal
+            var transactions = Enumerable.Range(1, _transactionsCount)
+                .Select(d => new Transaction
                 {
                     Book = random.NextItem(_books),
                     Seller = random.NextItem(_sellers),
@@ -156,10 +156,10 @@ namespace Librarian.Data
                     Price = (decimal) (random.NextDouble() * 300 + 50)
                 });
 
-            await _dbContext.Deals.AddRangeAsync(deals);
+            await _dbContext.Transactions.AddRangeAsync(transactions);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation($"Initialize deals comleted in {timer.Elapsed.TotalSeconds} s");
+            _logger.LogInformation($"Initialize transactions comleted in {timer.Elapsed.TotalSeconds} s");
         }
     }
 }

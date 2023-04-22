@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Librarian", "Librarian\Librarian.csproj", "{A5476B42-6E0B-40F0-9CB2-C36A43691D7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Librarian.DAL", "Librarian.DAL\Librarian.DAL.csproj", "{0219DBA8-42C8-4631-A4B3-B97FB849377C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Librarian.DAL", "Librarian.DAL\Librarian.DAL.csproj", "{0219DBA8-42C8-4631-A4B3-B97FB849377C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Librarian.Interfaces", "Librarian.Interfaces\Librarian.Interfaces.csproj", "{E2358838-FB49-4608-94A0-C61CE2FBC4DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0219DBA8-42C8-4631-A4B3-B97FB849377C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0219DBA8-42C8-4631-A4B3-B97FB849377C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0219DBA8-42C8-4631-A4B3-B97FB849377C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2358838-FB49-4608-94A0-C61CE2FBC4DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2358838-FB49-4608-94A0-C61CE2FBC4DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2358838-FB49-4608-94A0-C61CE2FBC4DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2358838-FB49-4608-94A0-C61CE2FBC4DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

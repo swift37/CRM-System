@@ -1,4 +1,5 @@
-﻿using Librarian.DAL.Context;
+﻿using Librarian.DAL;
+using Librarian.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,7 @@ namespace Librarian.Data
                 }
             })
             .AddTransient<DbInitializer>()
+            .AddRepositoriesDb()
             ;
     }
 }

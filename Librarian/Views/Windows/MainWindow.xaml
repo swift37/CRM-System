@@ -3,10 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Librarian"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title}"
         Width="800" Height="450">
+    <br:Interaction.Triggers>
+        <br:EventTrigger EventName="Loaded">
+            <br:InvokeCommandAction Command="{Binding ShowBooksViewCommand}"/>
+        </br:EventTrigger>
+    </br:Interaction.Triggers>
     <DockPanel>
         <Menu IsMainMenu="True">
             <MenuItem Header="Books" Command="{Binding ShowBooksViewCommand}"/>

@@ -18,6 +18,7 @@ namespace Librarian.ViewModels
         private readonly IRepository<Book> _booksRepository;
         private readonly IRepository<Seller> _sellersRepository;
         private readonly IRepository<Buyer> _buyersRepository;
+        private readonly IRepository<Transaction> _transactionsRepository;
 
         #region Properties
 
@@ -44,12 +45,12 @@ namespace Librarian.ViewModels
         #region Commands
 
         #region ShowBooksViewCommand
-        private ICommand _ShowBooksViewCommand;
+        private ICommand? _ShowBooksViewCommand;
 
         /// <summary>
         /// Show BooksView
         /// </summary>
-        public ICommand ShowBooksViewCommand => _ShowBooksViewCommand ??= new LambdaCommand(OnShowBooksViewCommandExecuted, CanShowBooksViewCommandnExecute);
+        public ICommand? ShowBooksViewCommand => _ShowBooksViewCommand ??= new LambdaCommand(OnShowBooksViewCommandExecuted, CanShowBooksViewCommandnExecute);
 
         private bool CanShowBooksViewCommandnExecute() => true;
 
@@ -60,12 +61,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region ShowBuyersViewCommand
-        private ICommand _ShowBuyersViewCommand;
+        private ICommand? _ShowBuyersViewCommand;
 
         /// <summary>
         /// Show BuyersView
         /// </summary>
-        public ICommand ShowBuyersViewCommand => _ShowBuyersViewCommand ??= new LambdaCommand(OnShowBuyersViewCommandExecuted, CanShowBuyersViewCommandnExecute);
+        public ICommand? ShowBuyersViewCommand => _ShowBuyersViewCommand ??= new LambdaCommand(OnShowBuyersViewCommandExecuted, CanShowBuyersViewCommandnExecute);
 
         private bool CanShowBuyersViewCommandnExecute() => true;
 
@@ -76,29 +77,35 @@ namespace Librarian.ViewModels
         #endregion
 
         #region ShowStatisticViewCommand
-        private ICommand _ShowStatisticViewCommand;
+        private ICommand? _ShowStatisticViewCommand;
 
         /// <summary>
         /// Show StatisticView
         /// </summary>
-        public ICommand ShowStatisticViewCommand => _ShowStatisticViewCommand ??= new LambdaCommand(OnShowStatisticViewCommandExecuted, CanShowStatisticViewCommandnExecute);
+        public ICommand? ShowStatisticViewCommand => _ShowStatisticViewCommand ??= new LambdaCommand(OnShowStatisticViewCommandExecuted, CanShowStatisticViewCommandnExecute);
 
         private bool CanShowStatisticViewCommandnExecute() => true;
 
         private void OnShowStatisticViewCommandExecuted()
         {
-            CurrentViewModel = new StatisticViewModel(_booksRepository, _sellersRepository, _buyersRepository);
+            CurrentViewModel = new StatisticViewModel(_booksRepository, _sellersRepository, _buyersRepository, _transactionsRepository);
         }
         #endregion
 
         #endregion
 
-        public MainWindowViewModel(IRepository<Book> booksRepository, IRepository<Seller> sellersRepository, IRepository<Buyer> buyersRepository, ITradingService tradingService)
+        public MainWindowViewModel(
+            IRepository<Book> booksRepository, 
+            IRepository<Seller> sellersRepository, 
+            IRepository<Buyer> buyersRepository,
+            IRepository<Transaction> transactionsRepository,
+            ITradingService tradingService)
         {
             _booksRepository = booksRepository;
-            _tradingService = tradingService;
             _sellersRepository = sellersRepository;
             _buyersRepository = buyersRepository;
+            _transactionsRepository = transactionsRepository;
+            _tradingService = tradingService;
         }
 
         //public async void TestTransactionAsync()

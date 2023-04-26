@@ -11,6 +11,7 @@
   <ItemGroup>
     <Folder Include="Infrastructure\Commands\" />
     <Folder Include="Models\" />
+    <Folder Include="Templates\" />
   </ItemGroup>
 
   <ItemGroup>

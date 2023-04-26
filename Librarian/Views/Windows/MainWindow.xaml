@@ -9,15 +9,15 @@
         Width="800" Height="450">
     <DockPanel>
         <Menu IsMainMenu="True">
-            <MenuItem Header="Books"/>
-            <MenuItem Header="Buyers"/>
-            <MenuItem Header="Statistic"/>
+            <MenuItem Header="Books" Command="{Binding ShowBooksViewCommand}"/>
+            <MenuItem Header="Buyers" Command="{Binding ShowBuyersViewCommand}"/>
+            <MenuItem Header="Statistic" Command="{Binding ShowStatisticViewCommand}"/>
         </Menu>
         <StatusBar>
             <StatusBarItem Content="Done!"/>
         </StatusBar>
         <Grid>
-            
+            <ContentControl Content="{Binding CurrentViewModel}"/>
         </Grid>
     </DockPanel>
 </Window>

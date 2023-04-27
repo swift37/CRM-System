@@ -10,6 +10,8 @@ namespace Librarian
 {
     public partial class App
     {
+        public static bool IsDesignMode { get; private set; } = true;
+
         private static IHost? _host;
 
         public static IHost? Host => _host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
@@ -24,6 +26,8 @@ namespace Librarian
 
         protected override async void OnStartup(StartupEventArgs e)
         {
+            IsDesignMode = false;
+
             var host = Host;
             if (host == null) throw new ArgumentNullException(nameof(host));
 

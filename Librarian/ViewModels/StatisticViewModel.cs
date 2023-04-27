@@ -62,19 +62,20 @@ namespace Librarian.ViewModels
         private async Task CollectTransactionsStatisticAsync()
         {
             var transactions = _transactionsRepository.Entities;
+
             if (transactions is null) return;
+            if (_booksRepository.Entities is null) return;
+
             var topBooksQuery = transactions.GroupBy(transaction => transaction.Book.Id)
-                .Select(bookTransactions => new { BookId = bookTransactions.Key, TransactionsCount = bookTransactions.Count() })
+                .Select(bookTransactions => new { BookId = bookTransactions.Key, TransactionsCount = bookTransactions.Count(), TransactionsAmount = bookTransactions.Sum(t => t.Price) })
                 .OrderByDescending(book => book.TransactionsCount)
                 .Take(10)
                 .Join(_booksRepository.Entities,
                     transactions => transactions.BookId,
                     book => book.Id,
-                    (transactions, book) => new TopBookInfo { Book = book, TransactionsCount = transactions.TransactionsCount });
+                    (transactions, book) => new TopBookInfo { Book = book, TransactionsCount = transactions.TransactionsCount, TransactionsAmount = transactions.TransactionsAmount });
 
-            TopBooks.Clear();
-            foreach (var book in await topBooksQuery.ToArrayAsync())
-                TopBooks.Add(book);
+            TopBooks.ClearAdd(await topBooksQuery.ToArrayAsync());    
         }
         #endregion
 

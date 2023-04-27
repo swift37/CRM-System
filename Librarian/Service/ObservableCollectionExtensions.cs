@@ -9,5 +9,11 @@ namespace System.Collections.ObjectModel
             foreach (var item in items)
                 collection.Add(item);
         }
+
+        public static void ClearAdd<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
+        {
+            collection.Clear();
+            collection.Add(items);
+        }
     }
 }

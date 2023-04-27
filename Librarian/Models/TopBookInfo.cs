@@ -7,5 +7,7 @@ namespace Librarian.Models
         public Book? Book { get; set; }
 
         public int TransactionsCount { get; set; }
+
+        public decimal TransactionsAmount { get; set; }
     }
 }

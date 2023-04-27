@@ -12,6 +12,7 @@ namespace Librarian.Services
     {
         public static IServiceCollection AddServices(this IServiceCollection services) => services
             .AddTransient<ITradingService, TradingService>()
+            .AddTransient<IUserDialogService, UserDialogService>()
             ;
     }
 }

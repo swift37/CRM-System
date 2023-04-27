@@ -15,6 +15,7 @@ namespace Librarian.ViewModels
     public class MainWindowViewModel : ViewModel
     {
         private readonly ITradingService _tradingService;
+        private readonly IUserDialogService _dialogService;
         private readonly IRepository<Book> _booksRepository;
         private readonly IRepository<Seller> _sellersRepository;
         private readonly IRepository<Buyer> _buyersRepository;
@@ -56,7 +57,7 @@ namespace Librarian.ViewModels
 
         private void OnShowBooksViewCommandExecuted()
         {
-            CurrentViewModel = new BooksViewModel(_booksRepository);
+            CurrentViewModel = new BooksViewModel(_booksRepository, _dialogService);
         }
         #endregion
 
@@ -99,13 +100,15 @@ namespace Librarian.ViewModels
             IRepository<Seller> sellersRepository, 
             IRepository<Buyer> buyersRepository,
             IRepository<Transaction> transactionsRepository,
-            ITradingService tradingService)
+            ITradingService tradingService,
+            IUserDialogService dialogService)
         {
             _booksRepository = booksRepository;
             _sellersRepository = sellersRepository;
             _buyersRepository = buyersRepository;
             _transactionsRepository = transactionsRepository;
             _tradingService = tradingService;
+            _dialogService = dialogService;
         }
 
         //public async void TestTransactionAsync()

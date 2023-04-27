@@ -1,56 +1,158 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Infrastructure.DebugServices;
 using Librarian.Interfaces;
+using Librarian.Models;
+using Librarian.Services;
+using Librarian.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Librarian.ViewModels
 {
     public class BooksViewModel : ViewModel
     {
         private readonly IRepository<Book> _booksRepository;
+        private readonly IUserDialogService _dialogService;
+
+        private CollectionViewSource _booksViewSource;
+
+        #region Properties
+
+        public ICollectionView BooksView => _booksViewSource.View;
 
         #region BooksNameFilter
-        private string _BooksNameFilter;
+        private string? _BooksNameFilter;
 
         /// <summary>
         /// Filter books by name
         /// </summary>
-        public string BooksNameFilter { 
+        public string? BooksNameFilter
+        {
             get => _BooksNameFilter;
             set
             {
                 if (Set(ref _BooksNameFilter, value))
                     _booksViewSource.View.Refresh();
-            } 
+            }
         }
         #endregion
 
-        private CollectionViewSource _booksViewSource;
+        #region Books
+        private ObservableCollection<Book>? _Books;
 
-        public ICollectionView BooksView => _booksViewSource.View;
-        
-        public IEnumerable<Book>? Books => _booksRepository.Entities;
+        /// <summary>
+        /// Books collection
+        /// </summary>
+        public ObservableCollection<Book>? Books 
+        { 
+            get => _Books;
+            set 
+            {
+                if(Set(ref _Books, value))
+                    _booksViewSource.Source = value;
+                OnPropertyChanged(nameof(BooksView));
+            }
+        }
+        #endregion
 
-        public BooksViewModel() : this(new DebugBooksRepository())
+        #region SelectedBook
+        private Book? _SelectedBook;
+
+        /// <summary>
+        /// Selected book
+        /// </summary>
+        public Book? SelectedBook { get => _SelectedBook; set => Set(ref _SelectedBook, value); }
+        #endregion
+
+        #endregion
+
+        #region Commands
+
+        #region LoadDataCommand
+        private ICommand? _LoadDataCommand;
+
+        /// <summary>
+        /// Load data command 
+        /// </summary>
+        public ICommand? LoadDataCommand => _LoadDataCommand ??= new LambdaCommandAsync(OnLoadDataCommandExecuted, CanLoadDataCommandnExecute);
+
+        private bool CanLoadDataCommandnExecute() => true;
+
+        private async Task OnLoadDataCommandExecuted()
+        {
+            if (_booksRepository.Entities is null) return;
+            
+            Books = (await _booksRepository.Entities.ToArrayAsync()).ToObservableCollection();
+        }
+        #endregion
+
+        #region AddBookCommand
+        private ICommand? _AddBookCommand;
+
+        /// <summary>
+        /// Add new book command 
+        /// </summary>
+        public ICommand? AddBookCommand => _AddBookCommand ??= new LambdaCommand(OnAddBookCommandExecuted, CanAddBookCommandnExecute);
+
+        private bool CanAddBookCommandnExecute() => true;
+
+        private void OnAddBookCommandExecuted()
+        {
+            var newBook = new Book();
+
+            if (_dialogService.Edit(newBook)) return;
+
+            var book = _booksRepository.Add(newBook);
+            if (book is null) throw new ArgumentNullException(nameof(book));
+            _Books?.Add(book);
+        }
+        #endregion
+
+        #region RemoveBookCommand
+        private ICommand? _RemoveBookCommand;
+
+        /// <summary>
+        /// Remove selected book command 
+        /// </summary>
+        public ICommand? RemoveBookCommand => _RemoveBookCommand ??= new LambdaCommand(OnRemoveBookCommandExecuted, CanRemoveBookCommandnExecute);
+
+        private bool CanRemoveBookCommandnExecute() => 
+            _booksRepository.Entities != null && SelectedBook != null && _booksRepository.Entities.Any(b => b == SelectedBook);
+
+        private void OnRemoveBookCommandExecuted()
+        {
+            
+        }
+        #endregion
+
+        #endregion
+
+        public BooksViewModel() : this(new DebugBooksRepository(), new UserDialogService())
         {
             if(!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
+
+            _ = OnLoadDataCommandExecuted();
         }
 
-        public BooksViewModel(IRepository<Book> booksRepository)
+        public BooksViewModel(IRepository<Book> booksRepository, IUserDialogService dialogService)
         {
             _booksRepository = booksRepository;
 
+            _dialogService = dialogService;
+
             _booksViewSource = new CollectionViewSource
             {
-                Source = _booksRepository.Entities?.ToArray(),
                 SortDescriptions =
                 {
                     new SortDescription(nameof(Book.Name), ListSortDirection.Ascending)

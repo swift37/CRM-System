@@ -9,6 +9,7 @@ namespace Librarian.ViewModels
             .AddSingleton<BooksViewModel>()
             .AddSingleton<BuyersViewModel>()
             .AddSingleton<StatisticViewModel>()
+            .AddSingleton<BookEditorViewModel>()
             ;
     }
 }

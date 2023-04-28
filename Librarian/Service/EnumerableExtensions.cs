@@ -2,6 +2,7 @@
 
 namespace System.Collections.Generic
 {
+    //todo: Перенести EnumerableExtensions в пакет
     public static class EnumerableExtensions
     {
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> items)

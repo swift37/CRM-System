@@ -4,12 +4,19 @@ using Librarian.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace Librarian
 {
     public partial class App
     {
+        public static Window? CurrentWindow => FocusedWindow ?? ActiveWindow;
+
+        public static Window? ActiveWindow => Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive);
+
+        public static Window? FocusedWindow => Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsFocused);
+
         public static bool IsDesignMode { get; private set; } = true;
 
         private static IHost? _host;

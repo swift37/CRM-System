@@ -3,16 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Librarian.ViewModels"
         xmlns:local="clr-namespace:Librarian.Views.Windows"
-        DataContext="{Binding BookEditorViewModel, Source={StaticResource Locator}}"
+        d:DataContext="{d:DesignInstance {x:Type vm:BookEditorViewModel}, IsDesignTimeCreatable=True}"
         Title="{Binding Title}"
-        Width="300" Height="150">
+        Width="300" Height="150" MinWidth="190" MinHeight="150">
     <DockPanel Margin="3">
         <TextBlock DockPanel.Dock="Top" Text="{Binding BookId, StringFormat=Book (Id: {0})}" HorizontalAlignment="Center" Margin="0,5,0,7" 
                    FontSize="14" FontWeight="Bold"/>
             <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="5" HorizontalAlignment="Right">
-                <Button Content="Cancel" IsCancel="True" Margin="0,0,3,0" Padding="25,1"/>
-                <Button Content="Ok" IsDefault="True" Margin="3,0,0,0" Padding="25,1"/>
+                <Button Content="Cancel" IsCancel="True" Margin="0,0,3,0" Padding="25,1"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="False"/>
+                <Button Content="Ok" IsDefault="True" Margin="3,0,0,0" Padding="25,1"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="True"/>
             </UniformGrid>
             <Grid>
                 <Grid.ColumnDefinitions>

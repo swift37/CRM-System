@@ -36,6 +36,7 @@ namespace Librarian.ViewModels
         {
             BookId = book.Id;
             BookTitle = book.Name;
+            //todo: Реализовать выбор категории при добавлении новой книги
         }
     }
 }

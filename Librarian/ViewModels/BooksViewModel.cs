@@ -12,8 +12,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -96,6 +98,7 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        //todo: Переделать команды добавления и удаления книги, добавив возможность передать книгу через параметр (добавить в пакет LambdaCommand<T>)
         #region AddBookCommand
         private ICommand? _AddBookCommand;
 
@@ -110,11 +113,14 @@ namespace Librarian.ViewModels
         {
             var newBook = new Book();
 
-            if (_dialogService.Edit(newBook)) return;
+            if (!_dialogService.EditBook(newBook)) 
+                return;
 
             var book = _booksRepository.Add(newBook);
             if (book is null) throw new ArgumentNullException(nameof(book));
             _Books?.Add(book);
+
+            SelectedBook = book;
         }
         #endregion
 
@@ -131,7 +137,15 @@ namespace Librarian.ViewModels
 
         private void OnRemoveBookCommandExecuted()
         {
-            
+            if (SelectedBook is null) return;
+
+            //todo: Диалог с подтверждением удаления
+            if (!_dialogService.Confirmation($"Do you confirm the permanent deletion of the book {SelectedBook.Name}?", "Book deleting")) return;
+
+            _booksRepository.Remove(SelectedBook.Id);
+            Books?.Remove(SelectedBook);
+            //if (ReferenceEquals(SelectedBook, removableBook))
+            SelectedBook = null;
         }
         #endregion
 
@@ -151,6 +165,7 @@ namespace Librarian.ViewModels
 
             _dialogService = dialogService;
 
+            //todo: Перенести всё связанное с сортировкой и фильтрами в разметку окна
             _booksViewSource = new CollectionViewSource
             {
                 SortDescriptions =

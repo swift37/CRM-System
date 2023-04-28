@@ -2,6 +2,7 @@
 
 namespace System.Collections.ObjectModel
 {
+    //todo: Перенести ObservableCollectionExtensions в пакет
     public static class ObservableCollectionExtensions
     {
         public static void Add<T>(this ObservableCollection<T> collection, IEnumerable<T> items)

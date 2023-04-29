@@ -98,7 +98,6 @@ namespace Librarian.ViewModels
         }
         #endregion
 
-        //todo: Переделать команды добавления и удаления книги, добавив возможность передать книгу через параметр (добавить в пакет LambdaCommand<T>)
         #region AddBookCommand
         private ICommand? _AddBookCommand;
 
@@ -130,22 +129,25 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Remove selected book command 
         /// </summary>
-        public ICommand? RemoveBookCommand => _RemoveBookCommand ??= new LambdaCommand(OnRemoveBookCommandExecuted, CanRemoveBookCommandnExecute);
+        public ICommand? RemoveBookCommand => _RemoveBookCommand ??= new LambdaCommand<Book>(OnRemoveBookCommandExecuted, CanRemoveBookCommandnExecute);
 
-        private bool CanRemoveBookCommandnExecute() => 
-            _booksRepository.Entities != null && SelectedBook != null && _booksRepository.Entities.Any(b => b == SelectedBook);
+        private bool CanRemoveBookCommandnExecute(Book? book) => 
+            _booksRepository.Entities != null 
+            && (book != null || SelectedBook != null) 
+            && _booksRepository.Entities.Any(b => b == SelectedBook);
 
-        private void OnRemoveBookCommandExecuted()
+        private void OnRemoveBookCommandExecuted(Book? book)
         {
-            if (SelectedBook is null) return;
+            var removableBook = book ?? SelectedBook;
+            if (removableBook is null) return;
 
             //todo: Диалог с подтверждением удаления
-            if (!_dialogService.Confirmation($"Do you confirm the permanent deletion of the book {SelectedBook.Name}?", "Book deleting")) return;
+            if (!_dialogService.Confirmation($"Do you confirm the permanent deletion of the book {removableBook.Name}?", "Book deleting")) return;
 
-            _booksRepository.Remove(SelectedBook.Id);
-            Books?.Remove(SelectedBook);
-            //if (ReferenceEquals(SelectedBook, removableBook))
-            SelectedBook = null;
+            _booksRepository.Remove(removableBook.Id);
+            Books?.Remove(removableBook);
+            if (ReferenceEquals(SelectedBook, removableBook)) 
+                SelectedBook = null;
         }
         #endregion
 

@@ -1,4 +1,5 @@
 ﻿using Librarian.DAL.Entities;
+using Librarian.Interfaces;
 using Librarian.Services.Interfaces;
 using Librarian.ViewModels;
 using Librarian.Views.Windows;
@@ -13,9 +14,9 @@ namespace Librarian.Services
 {
     public class UserDialogService : IUserDialogService
     {
-        public bool EditBook(Book book)
+        public bool EditBook(Book book, IRepository<Category> categoriesRepository)
         {
-            var bookEditorModel = new BookEditorViewModel(book);
+            var bookEditorModel = new BookEditorViewModel(book, categoriesRepository);
             var bookEditorWindow = new BookEditorWindow
             {
                 DataContext = bookEditorModel,
@@ -24,6 +25,7 @@ namespace Librarian.Services
             if (bookEditorWindow.ShowDialog() != true) return false;
 
             book.Name = bookEditorModel.BookTitle;
+            book.Category = bookEditorModel.BookCategory;
 
             return true;
         }

@@ -24,6 +24,7 @@ namespace Librarian.ViewModels
     public class BooksViewModel : ViewModel
     {
         private readonly IRepository<Book> _booksRepository;
+        private readonly IRepository<Category> _categoriesRepository;
         private readonly IUserDialogService _dialogService;
 
         private CollectionViewSource _booksViewSource;
@@ -86,9 +87,9 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Load data command 
         /// </summary>
-        public ICommand? LoadDataCommand => _LoadDataCommand ??= new LambdaCommandAsync(OnLoadDataCommandExecuted, CanLoadDataCommandnExecute);
+        public ICommand? LoadDataCommand => _LoadDataCommand ??= new LambdaCommandAsync(OnLoadDataCommandExecuted, CanLoadDataCommandExecute);
 
-        private bool CanLoadDataCommandnExecute() => true;
+        private bool CanLoadDataCommandExecute() => true;
 
         private async Task OnLoadDataCommandExecuted()
         {
@@ -112,7 +113,7 @@ namespace Librarian.ViewModels
         {
             var newBook = new Book();
 
-            if (!_dialogService.EditBook(newBook)) 
+            if (!_dialogService.EditBook(newBook, _categoriesRepository)) 
                 return;
 
             var book = _booksRepository.Add(newBook);
@@ -153,7 +154,7 @@ namespace Librarian.ViewModels
 
         #endregion
 
-        public BooksViewModel() : this(new DebugBooksRepository(), new UserDialogService())
+        public BooksViewModel() : this(new DebugBooksRepository(), new DebugCategoriesRepository(), new UserDialogService())
         {
             if(!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
@@ -161,10 +162,10 @@ namespace Librarian.ViewModels
             _ = OnLoadDataCommandExecuted();
         }
 
-        public BooksViewModel(IRepository<Book> booksRepository, IUserDialogService dialogService)
+        public BooksViewModel(IRepository<Book> booksRepository, IRepository<Category> categoriesRepository, IUserDialogService dialogService)
         {
             _booksRepository = booksRepository;
-
+            _categoriesRepository = categoriesRepository;
             _dialogService = dialogService;
 
             //todo: Перенести всё связанное с сортировкой и фильтрами в разметку окна

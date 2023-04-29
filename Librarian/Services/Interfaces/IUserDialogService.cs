@@ -1,10 +1,11 @@
 ﻿using Librarian.DAL.Entities;
+using Librarian.Interfaces;
 
 namespace Librarian.Services.Interfaces
 {
     public interface IUserDialogService
     {
-        bool EditBook(Book book);
+        bool EditBook(Book book, IRepository<Category> categoriesRepository);
 
         bool Confirmation(string message, string caption);
 

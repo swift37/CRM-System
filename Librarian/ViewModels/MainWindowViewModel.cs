@@ -74,7 +74,7 @@ namespace Librarian.ViewModels
 
         private void OnShowCategoriesViewCommandExecuted()
         {
-            CurrentViewModel = new CategoriesViewModel(_categoriesRepository);
+            CurrentViewModel = new CategoriesViewModel(_categoriesRepository, _dialogService);
         }
         #endregion
 

@@ -2,6 +2,7 @@
 using Librarian.Infrastructure.DebugServices;
 using Librarian.Interfaces;
 using Librarian.Services;
+using Librarian.Services.Interfaces;
 using Librarian.Views;
 using Microsoft.EntityFrameworkCore;
 using Swftx.Wpf.Commands;
@@ -21,7 +22,7 @@ namespace Librarian.ViewModels
     public class CategoriesViewModel : ViewModel
     {
         private readonly IRepository<Category> _categoriesRepository;
-
+        private readonly IUserDialogService _dialogService;
         private CollectionViewSource _categoriesViewSource;
 
         #region Properties
@@ -91,10 +92,61 @@ namespace Librarian.ViewModels
             if (_categoriesRepository.Entities is null) return;
 
             Categories = (await _categoriesRepository.Entities.ToArrayAsync()).ToObservableCollection();
-        } 
+        }
         #endregion
 
-        public CategoriesViewModel() : this(new DebugCategoriesRepository())
+        #region AddCategoryCommand
+        private ICommand? _AddCategoryCommand;
+
+        /// <summary>
+        /// AddCategory command
+        /// </summary>
+        public ICommand? AddCategoryCommand => _AddCategoryCommand ??= new LambdaCommand(OnAddCategoryCommandExecuted, CanAddCategoryCommandExecute);
+
+        private bool CanAddCategoryCommandExecute() => true;
+
+        private void OnAddCategoryCommandExecuted()
+        {
+            var category = new Category();
+
+            if(!_dialogService.EditCategory(category)) return;
+
+            _categoriesRepository.Add(category);
+            Categories?.Add(category);
+
+            SelectedCategory = category;
+        }
+        #endregion
+
+        #region RemoveCategoryCommand
+        private ICommand? _RemoveCategoryCommand;
+
+        /// <summary>
+        /// RemoveCategory command
+        /// </summary>
+        public ICommand? RemoveCategoryCommand => _RemoveCategoryCommand ??= new LambdaCommand<Category>(OnRemoveCategoryCommandExecuted, CanRemoveCategoryCommandExecute);
+
+        private bool CanRemoveCategoryCommandExecute(Category? category) =>
+            _categoriesRepository.Entities != null 
+            && (category != null || SelectedCategory != null) 
+            && (_categoriesRepository.Entities.Any(c => c == category) || _categoriesRepository.Entities.Any(c => c == SelectedCategory));
+
+        private void OnRemoveCategoryCommandExecuted(Category? category)
+        {
+            var removableCategory = category ?? SelectedCategory;
+            if (removableCategory is null) return;
+
+            //todo: Переделать диалог с подтверждением удаления
+            if (!_dialogService.Confirmation($"Do you confirm the permanent deletion of the category \"{removableCategory.Name}\"?", "Category deleting")) return;
+
+            _categoriesRepository.Remove(removableCategory.Id);
+            Categories?.Remove(removableCategory);
+            if (ReferenceEquals(SelectedCategory, removableCategory))
+                SelectedCategory = null;
+        }
+        #endregion
+
+        public CategoriesViewModel() : this(new DebugCategoriesRepository(), new UserDialogService())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
@@ -102,9 +154,10 @@ namespace Librarian.ViewModels
             _ = OnLoadDataCommandExecuted();
         }
 
-        public CategoriesViewModel(IRepository<Category> categoriesRepository)
+        public CategoriesViewModel(IRepository<Category> categoriesRepository, IUserDialogService dialogService)
         {
             _categoriesRepository = categoriesRepository;
+            _dialogService = dialogService;
 
             _categoriesViewSource = new CollectionViewSource
             {

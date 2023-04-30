@@ -7,7 +7,7 @@ namespace Librarian.DAL.Context
     {
         public DbSet<Book> Books { get; set; }
 
-        public DbSet<Category> Categorys { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         public DbSet<Buyer> Buyers { get; set; }
 

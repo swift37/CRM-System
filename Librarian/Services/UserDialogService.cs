@@ -30,6 +30,21 @@ namespace Librarian.Services
             return true;
         }
 
+        public bool EditCategory(Category category)
+        {
+            var categoryEditorModel = new CategoryEditorViewModel(category);
+            var categoryEditorWindow = new CategoryEditorWindow
+            {
+                DataContext = categoryEditorModel,
+            };
+
+            if (categoryEditorWindow.ShowDialog() != true) return false;
+
+            category.Name = categoryEditorModel.CategoryName;
+
+            return true;
+        }
+
         public bool Confirmation(string message, string caption) => 
             MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
 

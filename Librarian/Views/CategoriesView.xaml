@@ -15,10 +15,15 @@
     </br:Interaction.Triggers>
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" Text="Categories" 
-                   FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,15"/>
+                   FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10"/>
         <TextBox DockPanel.Dock="Top" Height="25" Margin="175,0" VerticalContentAlignment="Center" FontSize="14"
                  Text="{Binding CategoriesNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
-        <ListBox DockPanel.Dock="Bottom" Margin="25,15" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+        <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right" Margin="0,0,35,10">
+            <Button Content="Add" Padding="35,1" Margin="0,0,10,0" Command="{Binding AddCategoryCommand}"/>
+            <Button Content="Remove" Padding="35,1" Margin="10,0,0,0" Command="{Binding RemoveCategoryCommand}" 
+                    CommandParameter="{Binding SelectedCategory}"/>
+        </UniformGrid>
+        <ListBox DockPanel.Dock="Bottom" Margin="25,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
                  ItemsSource="{Binding CategoriesView}" SelectedItem="{Binding SelectedCategory}">
             <ListBox.ItemTemplate>
                 <DataTemplate>

@@ -7,6 +7,8 @@ namespace Librarian.Services.Interfaces
     {
         bool EditBook(Book book, IRepository<Category> categoriesRepository);
 
+        bool EditCategory(Category category);
+
         bool Confirmation(string message, string caption);
 
         void Warning(string message, string caption);

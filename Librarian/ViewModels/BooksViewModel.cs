@@ -31,7 +31,9 @@ namespace Librarian.ViewModels
 
         #region Properties
 
-        public ICollectionView BooksView => _booksViewSource.View;
+        #region CategoryView
+        public ICollectionView BooksView => _booksViewSource.View; 
+        #endregion
 
         #region BooksNameFilter
         private string? _BooksNameFilter;
@@ -182,7 +184,7 @@ namespace Librarian.ViewModels
 
         private void OnBooksNameFilter(object sender, FilterEventArgs e)
         {
-            if(!(e.Item is Book book) || string.IsNullOrWhiteSpace(BooksNameFilter)) return;
+            if (!(e.Item is Book book) || string.IsNullOrWhiteSpace(BooksNameFilter)) return;
 
             if (book.Name is null || !book.Name.Contains(BooksNameFilter))
                 e.Accepted = false;

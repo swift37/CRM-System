@@ -16,11 +16,13 @@
     <DockPanel>
         <Menu IsMainMenu="True">
             <MenuItem Header="Books" Command="{Binding ShowBooksViewCommand}"/>
+            <MenuItem Header="Categories" Command="{Binding ShowCategoriesViewCommand}"/>
+            <MenuItem Header="Sellers" Command="{Binding ShowSellersViewCommand}"/>
             <MenuItem Header="Buyers" Command="{Binding ShowBuyersViewCommand}"/>
             <MenuItem Header="Statistic" Command="{Binding ShowStatisticViewCommand}"/>
         </Menu>
         <StatusBar>
-            <StatusBarItem Content="Done!"/>
+            <StatusBarItem Content=""/>
         </StatusBar>
         <Grid>
             <ContentControl Content="{Binding CurrentViewModel}"/>

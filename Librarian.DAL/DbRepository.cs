@@ -55,14 +55,19 @@ namespace Librarian.DAL
             //var entity = Get(id);
             //if(entity is null) return;
             //_dbContext.Entry(entity);
-            _dbContext.Remove(new T { Id = id});
+
+            var entity = _dbSet.Local.FirstOrDefault(entity => entity.Id == id) ?? new T { Id = id };
+
+            _dbContext.Remove(entity);
             if (AutoSaveChanges)
                 _dbContext.SaveChanges();
         }
 
         public async Task RemoveAsync(int id, CancellationToken cancellation = default)
         {
-            _dbContext.Remove(new T { Id = id });
+            var entity = _dbSet.Local.FirstOrDefault(entity => entity.Id == id) ?? new T { Id = id };
+
+            _dbContext.Remove(entity);
             if (AutoSaveChanges)
                 await _dbContext.SaveChangesAsync(cancellation).ConfigureAwait(false);
         }

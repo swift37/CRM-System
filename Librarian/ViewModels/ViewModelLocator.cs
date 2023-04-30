@@ -11,5 +11,7 @@ namespace Librarian.ViewModels
         public BuyersViewModel? BuyersViewModel => App.Services?.GetRequiredService<BuyersViewModel>();
 
         public StatisticViewModel? StatisticViewModel => App.Services?.GetRequiredService<StatisticViewModel>();
+
+        public BookEditorViewModel? BookEditorViewModel => App.Services?.GetRequiredService<BookEditorViewModel>();
     }
 }

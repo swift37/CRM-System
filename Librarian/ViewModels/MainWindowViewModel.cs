@@ -122,7 +122,7 @@ namespace Librarian.ViewModels
 
         private void OnShowStatisticViewCommandExecuted()
         {
-            CurrentViewModel = new StatisticViewModel(_booksRepository, _sellersRepository, _buyersRepository, _transactionsRepository);
+            CurrentViewModel = new StatisticViewModel(_booksRepository, _categoriesRepository, _sellersRepository, _buyersRepository, _transactionsRepository);
         }
         #endregion
 

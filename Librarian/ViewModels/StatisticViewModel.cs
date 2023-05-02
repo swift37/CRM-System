@@ -18,6 +18,7 @@ namespace Librarian.ViewModels
     public class StatisticViewModel : ViewModel
     {
         private readonly IRepository<Book> _booksRepository;
+        private readonly IRepository<Category> _categoriesRepository;
         private readonly IRepository<Seller> _sellersRepository;
         private readonly IRepository<Buyer> _buyersRepository;
         private readonly IRepository<Transaction> _transactionsRepository;
@@ -25,7 +26,11 @@ namespace Librarian.ViewModels
         #region Properties
 
         #region TopBooks
-        public ObservableCollection<TopBookInfo> TopBooks { get; set; } = new ObservableCollection<TopBookInfo>(); 
+        public ObservableCollection<TopBookInfo> TopBooks { get; set; } = new ObservableCollection<TopBookInfo>();
+        #endregion
+
+        #region TopCategories
+        public ObservableCollection<TopCategoryInfo> TopCategories { get; set; } = new ObservableCollection<TopCategoryInfo>(); 
         #endregion
 
         #region BooksCount
@@ -56,10 +61,11 @@ namespace Librarian.ViewModels
             if (_booksRepository.Entities is null) return;
             BooksCount = await _booksRepository.Entities.CountAsync();
 
-            await CollectTransactionsStatisticAsync();
+            await CollectBooksTransactionsStatisticAsync();
+            await CollectCategoriesTransactionsStatisticAsync();
         }
 
-        private async Task CollectTransactionsStatisticAsync()
+        private async Task CollectBooksTransactionsStatisticAsync()
         {
             var transactions = _transactionsRepository.Entities;
 
@@ -67,9 +73,9 @@ namespace Librarian.ViewModels
             if (_booksRepository.Entities is null) return;
 
             var topBooksQuery = transactions.GroupBy(transaction => transaction.Book.Id)
-                .Select(bookTransactions => new { BookId = bookTransactions.Key, TransactionsCount = bookTransactions.Count(), TransactionsAmount = bookTransactions.Sum(t => t.Price) })
+                .Select(bookStatistic => new { BookId = bookStatistic.Key, TransactionsCount = bookStatistic.Count(), TransactionsAmount = bookStatistic.Sum(t => t.Price) })
                 .OrderByDescending(book => book.TransactionsCount)
-                .Take(10)
+                .Take(50)
                 .Join(_booksRepository.Entities,
                     transactions => transactions.BookId,
                     book => book.Id,
@@ -77,17 +83,38 @@ namespace Librarian.ViewModels
 
             TopBooks.ClearAdd(await topBooksQuery.ToArrayAsync());    
         }
+
+        private async Task CollectCategoriesTransactionsStatisticAsync()
+        {
+            var transactions = _transactionsRepository.Entities;
+
+            if (transactions is null) return;
+            if (_categoriesRepository.Entities is null) return;
+
+            var topCategoriesQuery = transactions.GroupBy(transaction => transaction.Book.Category.Id)
+                .Select(categoryStatistic => new { CategoryId = categoryStatistic.Key, TransactionsCount = categoryStatistic.Count(), TransactionsAmount = categoryStatistic.Sum(t => t.Price) })
+                .OrderByDescending(category => category.TransactionsCount)
+                .Take(20)
+                .Join(_categoriesRepository.Entities,
+                    transactions => transactions.CategoryId,
+                    category => category.Id,
+                    (transactions, category) => new TopCategoryInfo { Category = category, TransactionsCount = transactions.TransactionsCount, TransactionsAmount = transactions.TransactionsAmount });
+
+            TopCategories.ClearAdd(await topCategoriesQuery.ToArrayAsync());
+        }
         #endregion
 
         #endregion
 
         public StatisticViewModel(
-            IRepository<Book> booksRepository, 
+            IRepository<Book> booksRepository,
+            IRepository<Category> categoriesRepository,
             IRepository<Seller> sellersRepository, 
             IRepository<Buyer> buyersRepository, 
             IRepository<Transaction> transactionsRepository)
         {
             _booksRepository = booksRepository;
+            _categoriesRepository = categoriesRepository;
             _sellersRepository = sellersRepository;
             _buyersRepository = buyersRepository;
             _transactionsRepository = transactionsRepository;

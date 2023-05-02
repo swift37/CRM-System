@@ -51,6 +51,15 @@ namespace Librarian.ViewModels
         public Category? BookCategory { get => _BookCategory; set => Set(ref _BookCategory, value); }
         #endregion
 
+        #region BookPrice
+        private decimal _BookPrice;
+
+        /// <summary>
+        /// Book price
+        /// </summary>
+        public decimal BookPrice { get => _BookPrice; set => Set(ref _BookPrice, value); }
+        #endregion
+
         #region Categories
 
         private IEnumerable<Category>? _Categories;
@@ -96,6 +105,7 @@ namespace Librarian.ViewModels
             BookId = book.Id;
             BookTitle = book.Name;
             BookCategory = book.Category;
+            BookPrice = book.Price;
         }
     }
 }

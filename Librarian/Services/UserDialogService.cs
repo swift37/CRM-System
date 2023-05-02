@@ -26,6 +26,7 @@ namespace Librarian.Services
 
             book.Name = bookEditorModel.BookTitle;
             book.Category = bookEditorModel.BookCategory;
+            book.Price = bookEditorModel.BookPrice;
 
             return true;
         }

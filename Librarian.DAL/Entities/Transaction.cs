@@ -5,8 +5,12 @@ namespace Librarian.DAL.Entities
 {
     public class Transaction : Entity
     {
+        public DateTime? TransactionDate { get; set; }
+
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Price { get; set; }
+        public decimal Amount { get; set; }
+
+        public decimal Discount { get; set; }
 
         public virtual Book? Book { get; set; }
 
@@ -15,6 +19,6 @@ namespace Librarian.DAL.Entities
         public virtual Buyer? Buyer { get; set; }
 
         public override string ToString() => 
-            $"Transaction for the sale of the {Book?.Category} {Book}: {Seller}, {Buyer}, {Price:C}";
+            $"[{TransactionDate}]: Transaction for the sale of the {Book?.Category} {Book}: {Seller}, {Buyer}, {Amount:C}";
     }
 }

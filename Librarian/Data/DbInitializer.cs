@@ -81,6 +81,7 @@ namespace Librarian.Data
                 .Select(i => new Book
                 {
                     Name = $"Book {i}",
+                    Price = (decimal)(random.NextDouble() * 300 + 50),
                     Category = random.NextItem(_categories)
                 }).ToArray();
 
@@ -104,6 +105,9 @@ namespace Librarian.Data
                 .Select(i => new Buyer
                 {
                     Name = $"Buyer {i}",
+                    ContactNumber = random.Next(100000000,999999999).ToString(),
+                    ContactMail = $"buyer{i}@gamil.com",
+                    CashbackBalance = (decimal)(random.NextDouble() * 100)
                 }).ToArray();
 
             await _dbContext.Buyers.AddRangeAsync(_buyers);
@@ -150,10 +154,12 @@ namespace Librarian.Data
             var transactions = Enumerable.Range(1, _transactionsCount)
                 .Select(d => new Transaction
                 {
+                    TransactionDate = DateTime.Now,
                     Book = random.NextItem(_books),
                     Seller = random.NextItem(_sellers),
                     Buyer = random.NextItem(_buyers),
-                    Price = (decimal) (random.NextDouble() * 300 + 50)
+                    Discount = random.Next(50),
+                    Amount = (decimal)(random.NextDouble() * 300 + 50)
                 });
 
             await _dbContext.Transactions.AddRangeAsync(transactions);

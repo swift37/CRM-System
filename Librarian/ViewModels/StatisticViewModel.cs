@@ -73,7 +73,7 @@ namespace Librarian.ViewModels
             if (_booksRepository.Entities is null) return;
 
             var topBooksQuery = transactions.GroupBy(transaction => transaction.Book.Id)
-                .Select(bookStatistic => new { BookId = bookStatistic.Key, TransactionsCount = bookStatistic.Count(), TransactionsAmount = bookStatistic.Sum(t => t.Price) })
+                .Select(bookStatistic => new { BookId = bookStatistic.Key, TransactionsCount = bookStatistic.Count(), TransactionsAmount = bookStatistic.Sum(t => t.Amount) })
                 .OrderByDescending(book => book.TransactionsCount)
                 .Take(50)
                 .Join(_booksRepository.Entities,
@@ -92,7 +92,7 @@ namespace Librarian.ViewModels
             if (_categoriesRepository.Entities is null) return;
 
             var topCategoriesQuery = transactions.GroupBy(transaction => transaction.Book.Category.Id)
-                .Select(categoryStatistic => new { CategoryId = categoryStatistic.Key, TransactionsCount = categoryStatistic.Count(), TransactionsAmount = categoryStatistic.Sum(t => t.Price) })
+                .Select(categoryStatistic => new { CategoryId = categoryStatistic.Key, TransactionsCount = categoryStatistic.Count(), TransactionsAmount = categoryStatistic.Sum(t => t.Amount) })
                 .OrderByDescending(category => category.TransactionsCount)
                 .Take(20)
                 .Join(_categoriesRepository.Entities,

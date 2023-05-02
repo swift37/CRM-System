@@ -36,7 +36,7 @@ namespace Librarian.Services
                 Book = book,
                 Seller = seller,
                 Buyer = buyer,
-                Price = transactionАmount
+                Amount = transactionАmount
             };
 
             return await _transactions.AddAsync(transaction);

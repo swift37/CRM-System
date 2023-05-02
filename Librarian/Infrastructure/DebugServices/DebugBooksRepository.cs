@@ -11,11 +11,14 @@ namespace Librarian.Infrastructure.DebugServices
     {
         public DebugBooksRepository()
         {
+            var random = new Random();
+
             var books = Enumerable.Range(1, 100)
                 .Select(i => new Book
                 {
                     Id = i,
-                    Name = $"Test book #{i}"
+                    Name = $"Test book #{i}",
+                    Price = (decimal)(random.NextDouble() * 300 + 50)
                 })
                 .ToArray();
 

@@ -24,7 +24,8 @@
                 <TextBox DockPanel.Dock="Top" Margin="0,5" Text="{Binding BooksNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
                 <UniformGrid DockPanel.Dock="Bottom" Rows="1">
                     <Button Content="Add" Margin="2,3" Padding="25,2" Command="{Binding AddBookCommand}"/>
-                    <Button Content="Remove" Margin="2,3" Padding="25,2" Command="{Binding RemoveBookCommand}"/>
+                    <Button Content="Remove" Margin="2,3" Padding="25,2" Command="{Binding RemoveBookCommand}"
+                            CommandParameter="{Binding SelectedBook}"/>
                 </UniformGrid>
                 <ListBox MinWidth="175" ItemsSource="{Binding BooksView}" SelectedItem="{Binding SelectedBook}">
                     <ListBox.ItemTemplate>

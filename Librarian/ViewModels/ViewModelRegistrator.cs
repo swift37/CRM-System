@@ -7,9 +7,12 @@ namespace Librarian.ViewModels
         public static IServiceCollection AddViewModels(this IServiceCollection services) => services
             .AddSingleton<MainWindowViewModel>()
             .AddSingleton<BooksViewModel>()
+            .AddSingleton<CategoriesViewModel>()
+            .AddSingleton<SellersViewModel>()
             .AddSingleton<BuyersViewModel>()
             .AddSingleton<StatisticViewModel>()
             .AddSingleton<BookEditorViewModel>()
+            .AddSingleton<CategoryEditorViewModel>()
             ;
     }
 }

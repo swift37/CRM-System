@@ -31,7 +31,9 @@ namespace Librarian.ViewModels
 
         #region Properties
 
-        public ICollectionView BooksView => _booksViewSource.View;
+        #region CategoryView
+        public ICollectionView BooksView => _booksViewSource.View; 
+        #endregion
 
         #region BooksNameFilter
         private string? _BooksNameFilter;
@@ -135,14 +137,14 @@ namespace Librarian.ViewModels
         private bool CanRemoveBookCommandnExecute(Book? book) => 
             _booksRepository.Entities != null 
             && (book != null || SelectedBook != null) 
-            && _booksRepository.Entities.Any(b => b == SelectedBook);
+            && (_booksRepository.Entities.Any(b => b == book) || _booksRepository.Entities.Any(b => b == SelectedBook));
 
         private void OnRemoveBookCommandExecuted(Book? book)
         {
             var removableBook = book ?? SelectedBook;
             if (removableBook is null) return;
 
-            //todo: Диалог с подтверждением удаления
+            //todo: Переделать диалог с подтверждением удаления
             if (!_dialogService.Confirmation($"Do you confirm the permanent deletion of the book {removableBook.Name}?", "Book deleting")) return;
 
             _booksRepository.Remove(removableBook.Id);
@@ -182,7 +184,7 @@ namespace Librarian.ViewModels
 
         private void OnBooksNameFilter(object sender, FilterEventArgs e)
         {
-            if(!(e.Item is Book book) || string.IsNullOrWhiteSpace(BooksNameFilter)) return;
+            if (!(e.Item is Book book) || string.IsNullOrWhiteSpace(BooksNameFilter)) return;
 
             if (book.Name is null || !book.Name.Contains(BooksNameFilter))
                 e.Accepted = false;

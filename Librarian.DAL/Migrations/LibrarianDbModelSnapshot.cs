@@ -81,7 +81,7 @@ namespace Librarian.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categorys");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Librarian.DAL.Entities.Seller", b =>

@@ -60,7 +60,7 @@ namespace Librarian.Data
             for (int i = 0; i < _categoriesCount; i++)
                 _categories[i] = new Category { Name = $"Category {i + 1}" };
 
-            await _dbContext.Categorys.AddRangeAsync(_categories);
+            await _dbContext.Categories.AddRangeAsync(_categories);
             await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"Initialize categories comleted in {timer.Elapsed.TotalSeconds} s");

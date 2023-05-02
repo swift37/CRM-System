@@ -26,7 +26,7 @@ namespace Librarian.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categorys",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -35,7 +35,7 @@ namespace Librarian.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categorys", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,9 +66,9 @@ namespace Librarian.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Books", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Books_Categorys_CategoryId",
+                        name: "FK_Books_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Categorys",
+                        principalTable: "Categories",
                         principalColumn: "Id");
                 });
 
@@ -140,7 +140,7 @@ namespace Librarian.DAL.Migrations
                 name: "Sellers");
 
             migrationBuilder.DropTable(
-                name: "Categorys");
+                name: "Categories");
         }
     }
 }

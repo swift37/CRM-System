@@ -16,7 +16,7 @@
     <TabControl>
         <TabItem Header="Books">
             <GroupBox Header="Top books">
-                <DataGrid ItemsSource="{Binding TopBooks}" AutoGenerateColumns="False">
+                <DataGrid ItemsSource="{Binding TopBooks}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Book" Width="*" Binding="{Binding Book.Name}"/>
                         <DataGridTextColumn Header="Transactions amount" Binding="{Binding TransactionsAmount, StringFormat=#.## $}"/>
@@ -25,8 +25,17 @@
                 </DataGrid>
             </GroupBox>
         </TabItem>
-        <TabItem Header="Categories"/>
+        <TabItem Header="Categories">
+            <GroupBox Header="Top categories">
+                <DataGrid ItemsSource="{Binding TopCategories}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Category" Width="*" Binding="{Binding Category.Name}"/>
+                        <DataGridTextColumn Header="Transactions amount" Binding="{Binding TransactionsAmount, StringFormat=#.## $}"/>
+                        <DataGridTextColumn Header="Transactions count" Binding="{Binding TransactionsCount}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </TabItem>
         <TabItem Header="Sellers"/>
-        <TabItem Header="Buyers"/>
     </TabControl>
 </UserControl>

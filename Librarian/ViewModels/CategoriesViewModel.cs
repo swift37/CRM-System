@@ -52,7 +52,7 @@ namespace Librarian.ViewModels
         private ObservableCollection<Category>? _Categories;
 
         /// <summary>
-        /// Categories collection
+        /// Buyers collection
         /// </summary>
         public ObservableCollection<Category>? Categories
         {
@@ -124,12 +124,10 @@ namespace Librarian.ViewModels
         /// <summary>
         /// RemoveCategory command
         /// </summary>
-        public ICommand? RemoveCategoryCommand => _RemoveCategoryCommand ??= new LambdaCommand<Category>(OnRemoveCategoryCommandExecuted, CanRemoveCategoryCommandExecute);
+        public ICommand? RemoveCategoryCommand => _RemoveCategoryCommand 
+            ??= new LambdaCommand<Category>(OnRemoveCategoryCommandExecuted, CanRemoveCategoryCommandExecute);
 
-        private bool CanRemoveCategoryCommandExecute(Category? category) =>
-            _categoriesRepository.Entities != null 
-            && (category != null || SelectedCategory != null) 
-            && (_categoriesRepository.Entities.Any(c => c == category) || _categoriesRepository.Entities.Any(c => c == SelectedCategory));
+        private bool CanRemoveCategoryCommandExecute(Category? category) => category != null || SelectedCategory != null;
 
         private void OnRemoveCategoryCommandExecuted(Category? category)
         {
@@ -137,9 +135,15 @@ namespace Librarian.ViewModels
             if (removableCategory is null) return;
 
             //todo: Переделать диалог с подтверждением удаления
-            if (!_dialogService.Confirmation($"Do you confirm the permanent deletion of the category \"{removableCategory.Name}\"?", "Category deleting")) return;
+            if (!_dialogService.Confirmation(
+                $"Do you confirm the permanent deletion of the category \"{removableCategory.Name}\"?",
+                "Category deleting")) return;
 
-            _categoriesRepository.Remove(removableCategory.Id);
+            if (_categoriesRepository.Entities != null 
+                && _categoriesRepository.Entities.Any(c => c == category || c == SelectedCategory)) 
+                _categoriesRepository.Remove(removableCategory.Id);
+
+
             Categories?.Remove(removableCategory);
             if (ReferenceEquals(SelectedCategory, removableCategory))
                 SelectedCategory = null;

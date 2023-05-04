@@ -106,7 +106,7 @@ namespace Librarian.ViewModels
 
         private void OnShowBuyersViewCommandExecuted()
         {
-            CurrentViewModel = new BuyersViewModel(_buyersRepository);
+            CurrentViewModel = new BuyersViewModel(_buyersRepository, _dialogService);
         }
         #endregion
 

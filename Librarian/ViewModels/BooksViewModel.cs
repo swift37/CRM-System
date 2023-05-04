@@ -132,12 +132,10 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Remove selected book command 
         /// </summary>
-        public ICommand? RemoveBookCommand => _RemoveBookCommand ??= new LambdaCommand<Book>(OnRemoveBookCommandExecuted, CanRemoveBookCommandnExecute);
+        public ICommand? RemoveBookCommand => _RemoveBookCommand 
+            ??= new LambdaCommand<Book>(OnRemoveBookCommandExecuted, CanRemoveBookCommandnExecute);
 
-        private bool CanRemoveBookCommandnExecute(Book? book) => 
-            _booksRepository.Entities != null 
-            && (book != null || SelectedBook != null) 
-            && (_booksRepository.Entities.Any(b => b == book) || _booksRepository.Entities.Any(b => b == SelectedBook));
+        private bool CanRemoveBookCommandnExecute(Book? book) => book != null || SelectedBook != null;
 
         private void OnRemoveBookCommandExecuted(Book? book)
         {
@@ -145,9 +143,14 @@ namespace Librarian.ViewModels
             if (removableBook is null) return;
 
             //todo: Переделать диалог с подтверждением удаления
-            if (!_dialogService.Confirmation($"Do you confirm the permanent deletion of the book {removableBook.Name}?", "Book deleting")) return;
+            if (!_dialogService.Confirmation(
+                $"Do you confirm the permanent deletion of the book {removableBook.Name}?",
+                "Book deleting")) return;
 
+            if (_booksRepository.Entities != null && _booksRepository.Entities.Any(b => b == book || b == SelectedBook))
             _booksRepository.Remove(removableBook.Id);
+
+
             Books?.Remove(removableBook);
             if (ReferenceEquals(SelectedBook, removableBook)) 
                 SelectedBook = null;

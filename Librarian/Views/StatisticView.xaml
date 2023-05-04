@@ -36,6 +36,16 @@
                 </DataGrid>
             </GroupBox>
         </TabItem>
-        <TabItem Header="Sellers"/>
+        <TabItem Header="Sellers">
+            <GroupBox Header="Top sellers">
+                <DataGrid ItemsSource="{Binding TopSellers}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Seller" Width="*" Binding="{Binding Seller}"/>
+                        <DataGridTextColumn Header="Deals amount" Binding="{Binding DealsAmount}"/>
+                        <DataGridTextColumn Header="Deals count" Binding="{Binding DealsCount}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </TabItem>
     </TabControl>
 </UserControl>

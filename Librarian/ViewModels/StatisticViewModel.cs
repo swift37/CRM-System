@@ -30,7 +30,11 @@ namespace Librarian.ViewModels
         #endregion
 
         #region TopCategories
-        public ObservableCollection<TopCategoryInfo> TopCategories { get; set; } = new ObservableCollection<TopCategoryInfo>(); 
+        public ObservableCollection<TopCategoryInfo> TopCategories { get; set; } = new ObservableCollection<TopCategoryInfo>();
+        #endregion
+
+        #region TopSellers
+        public ObservableCollection<TopSellerInfo> TopSellers { get; set; } = new ObservableCollection<TopSellerInfo>();
         #endregion
 
         #region BooksCount
@@ -63,6 +67,7 @@ namespace Librarian.ViewModels
 
             await CollectBooksTransactionsStatisticAsync();
             await CollectCategoriesTransactionsStatisticAsync();
+            await CollectSellersDealsStatisticAsync();
         }
 
         private async Task CollectBooksTransactionsStatisticAsync()
@@ -94,13 +99,31 @@ namespace Librarian.ViewModels
             var topCategoriesQuery = transactions.GroupBy(transaction => transaction.Book.Category.Id)
                 .Select(categoryStatistic => new { CategoryId = categoryStatistic.Key, TransactionsCount = categoryStatistic.Count(), TransactionsAmount = categoryStatistic.Sum(t => t.Amount) })
                 .OrderByDescending(category => category.TransactionsCount)
-                .Take(20)
+                .Take(15)
                 .Join(_categoriesRepository.Entities,
                     transactions => transactions.CategoryId,
                     category => category.Id,
                     (transactions, category) => new TopCategoryInfo { Category = category, TransactionsCount = transactions.TransactionsCount, TransactionsAmount = transactions.TransactionsAmount });
 
             TopCategories.ClearAdd(await topCategoriesQuery.ToArrayAsync());
+        }
+
+        private async Task CollectSellersDealsStatisticAsync()
+        {
+            var transactions = _transactionsRepository.Entities;
+
+            if (transactions is null) return;
+            if (_sellersRepository.Entities is null) return;
+
+            var topSellersQuery = transactions.GroupBy(transaction => transaction.Seller.Id)
+                .Select(sellerStatistic => new { SellerId = sellerStatistic.Key, DealsCount = sellerStatistic.Count(), DealsAmount = sellerStatistic.Sum(d => d.Amount) })
+                .OrderByDescending(seller => seller.DealsCount)
+                .Join(_sellersRepository.Entities,
+                    deal => deal.SellerId,
+                    seller => seller.Id,
+                    (deal, seller) => new TopSellerInfo { Seller = seller, DealsCount = deal.DealsCount, DealsAmount = deal.DealsAmount });
+
+            TopSellers.ClearAdd(await topSellersQuery.ToArrayAsync());
         }
         #endregion
 

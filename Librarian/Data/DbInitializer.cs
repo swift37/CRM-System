@@ -47,7 +47,7 @@ namespace Librarian.Data
             _logger.LogInformation($"Initialize database comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _categoriesCount = 10;
+        private const int _categoriesCount = 15;
 
         private Category[]? _categories;
 
@@ -66,7 +66,7 @@ namespace Librarian.Data
             _logger.LogInformation($"Initialize categories comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _booksCount = 10;
+        private const int _booksCount = 100;
 
         private Book[]? _books;
 
@@ -91,7 +91,7 @@ namespace Librarian.Data
             _logger.LogInformation($"Initialize books comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _buyersCount = 10;
+        private const int _buyersCount = 100;
 
         private Buyer[]? _buyers;
 
@@ -116,7 +116,7 @@ namespace Librarian.Data
             _logger.LogInformation($"Initialize buyers comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _sellersCount = 10;
+        private const int _sellersCount = 15;
 
         private Seller[]? _sellers;
 
@@ -140,7 +140,7 @@ namespace Librarian.Data
             _logger.LogInformation($"Initialize sellers comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _transactionsCount = 3000;
+        private const int _transactionsCount = 3500;
 
         public async Task InitializeTransactions()
         {

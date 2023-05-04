@@ -20,5 +20,9 @@ namespace Librarian.ViewModels
 
         public CategoryEditorViewModel? CategoryEditorViewModel => App.Services?.GetRequiredService<CategoryEditorViewModel>();
 
+        public BuyerEditorViewModel? BuyerEditorViewModel => App.Services?.GetRequiredService<BuyerEditorViewModel>();
+
+        public SellerEditorViewModel? SellerEditorViewModel => App.Services?.GetRequiredService<SellerEditorViewModel>();
+
     }
 }

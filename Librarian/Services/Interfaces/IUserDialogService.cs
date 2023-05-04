@@ -9,10 +9,13 @@ namespace Librarian.Services.Interfaces
 
         bool EditCategory(Category category);
 
+        bool EditBuyer(Buyer buyer);
+
         bool Confirmation(string message, string caption);
 
         void Warning(string message, string caption);
 
         void Error(string message, string caption);
+        bool EditSeller(Seller seller);
     }
 }

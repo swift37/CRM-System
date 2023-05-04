@@ -46,6 +46,40 @@ namespace Librarian.Services
             return true;
         }
 
+        public bool EditBuyer(Buyer buyer)
+        {
+            var buyerEditorModel = new BuyerEditorViewModel(buyer);
+            var buyerEditWindow = new BuyerEditorWindow
+            {
+                DataContext = buyerEditorModel,
+            };
+
+            if(buyerEditWindow.ShowDialog() != true) return false;
+
+            buyer.Name = buyerEditorModel.BuyerName;
+            buyer.Surname = buyerEditorModel.BuyerSurname;
+            buyer.ContactNumber = buyerEditorModel.BuyerNumber;
+            buyer.ContactMail = buyerEditorModel.BuyerMail;
+
+            return true;
+        }
+
+        public bool EditSeller(Seller seller)
+        {
+            var sellerEditorModel = new SellerEditorViewModel(seller);
+            var sellerEditorWindow = new SellerEditorWindow 
+            { 
+                DataContext = sellerEditorModel 
+            };
+
+            if (sellerEditorWindow.ShowDialog() != true) return false;
+
+            seller.Name = sellerEditorModel.SellerName;
+            seller.Surname = sellerEditorModel.SellerSurname;
+
+            return true;
+        }
+
         public bool Confirmation(string message, string caption) => 
             MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
 

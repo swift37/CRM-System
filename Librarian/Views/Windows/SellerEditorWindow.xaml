@@ -1,0 +1,14 @@
+﻿<Window x:Class="Librarian.Views.Windows.SellerEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Librarian.ViewModels"
+        xmlns:local="clr-namespace:Librarian.Views.Windows"
+        d:DataContext="{d:DesignInstance {x:Type vm:SellerEditorViewModel}, IsDesignTimeCreatable=True}"
+        Title="SellersEditorWindow"
+        Height="450" Width="800">
+    <Grid>
+        
+    </Grid>
+</Window>

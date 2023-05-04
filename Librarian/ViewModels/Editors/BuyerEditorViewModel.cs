@@ -39,7 +39,7 @@ namespace Librarian.ViewModels
         private string? _BuyerSurname;
 
         /// <summary>
-        /// Buyer name
+        /// Buyer surname
         /// </summary>
         public string? BuyerSurname { get => _BuyerSurname; set => Set(ref _BuyerSurname, value); }
         #endregion

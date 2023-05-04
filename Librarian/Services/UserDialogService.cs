@@ -48,25 +48,36 @@ namespace Librarian.Services
 
         public bool EditBuyer(Buyer buyer)
         {
-            var buyerEditModel = new BuyerEditorViewModel(buyer);
+            var buyerEditorModel = new BuyerEditorViewModel(buyer);
             var buyerEditWindow = new BuyerEditorWindow
             {
-                DataContext = buyerEditModel,
+                DataContext = buyerEditorModel,
             };
 
             if(buyerEditWindow.ShowDialog() != true) return false;
 
-            buyer.Name = buyerEditModel.BuyerName;
-            buyer.Surname = buyerEditModel.BuyerSurname;
-            buyer.ContactNumber = buyerEditModel.BuyerNumber;
-            buyer.ContactMail = buyerEditModel.BuyerMail;
+            buyer.Name = buyerEditorModel.BuyerName;
+            buyer.Surname = buyerEditorModel.BuyerSurname;
+            buyer.ContactNumber = buyerEditorModel.BuyerNumber;
+            buyer.ContactMail = buyerEditorModel.BuyerMail;
 
             return true;
         }
 
         public bool EditSeller(Seller seller)
         {
-            return false;
+            var sellerEditorModel = new SellerEditorViewModel(seller);
+            var sellerEditorWindow = new SellerEditorWindow 
+            { 
+                DataContext = sellerEditorModel 
+            };
+
+            if (sellerEditorWindow.ShowDialog() != true) return false;
+
+            seller.Name = sellerEditorModel.SellerName;
+            seller.Surname = sellerEditorModel.SellerSurname;
+
+            return true;
         }
 
         public bool Confirmation(string message, string caption) => 

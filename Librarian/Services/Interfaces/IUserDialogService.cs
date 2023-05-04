@@ -16,5 +16,6 @@ namespace Librarian.Services.Interfaces
         void Warning(string message, string caption);
 
         void Error(string message, string caption);
+        bool EditSeller(Seller seller);
     }
 }

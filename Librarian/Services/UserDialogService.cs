@@ -64,6 +64,11 @@ namespace Librarian.Services
             return true;
         }
 
+        public bool EditSeller(Seller seller)
+        {
+            return false;
+        }
+
         public bool Confirmation(string message, string caption) => 
             MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
 

@@ -90,7 +90,7 @@ namespace Librarian.ViewModels
 
         private void OnShowSellersViewCommandExecuted()
         {
-            CurrentViewModel = new SellersViewModel(_sellersRepository);
+            CurrentViewModel = new SellersViewModel(_sellersRepository, _dialogService);
         }
         #endregion
 

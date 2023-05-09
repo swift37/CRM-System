@@ -10,5 +10,6 @@
         <Setter Property="HeadersVisibility" Value="Column"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="FontSize" Value="14"/>
     </Style>
 </ResourceDictionary>

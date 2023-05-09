@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:Librarian.Views"
              xmlns:vm="clr-namespace:Librarian.ViewModels"
              d:DataContext="{d:DesignInstance {x:Type vm:StatisticViewModel}}" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="525" d:DesignWidth="900">
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">
             <br:InvokeCommandAction Command="{Binding CollectStatisticsCommand}"/>
@@ -16,13 +16,17 @@
     <TabControl>
         <TabItem Header="Books">
             <GroupBox Header="Top books">
-                <DataGrid ItemsSource="{Binding TopBooks}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Book" Width="*" Binding="{Binding Book.Name}"/>
-                        <DataGridTextColumn Header="Transactions amount" Binding="{Binding TransactionsAmount, StringFormat=#.## $}"/>
-                        <DataGridTextColumn Header="Transactions count" Binding="{Binding TransactionsCount}" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                <DockPanel>
+                    <TextBox DockPanel.Dock="Top" Margin="5" Height="23" VerticalContentAlignment="Center" FontSize="14"
+                             Text="{Binding BooksNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding TopBooksView}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Book" Width="*" Binding="{Binding Book.Name}"/>
+                            <DataGridTextColumn Header="Transactions amount" Binding="{Binding TransactionsAmount, StringFormat=#.## $}"/>
+                            <DataGridTextColumn Header="Transactions count" Binding="{Binding TransactionsCount}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
             </GroupBox>
         </TabItem>
         <TabItem Header="Categories">

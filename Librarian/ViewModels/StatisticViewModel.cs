@@ -8,9 +8,11 @@ using Swftx.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Librarian.ViewModels
@@ -23,17 +25,63 @@ namespace Librarian.ViewModels
         private readonly IRepository<Buyer> _buyersRepository;
         private readonly IRepository<Transaction> _transactionsRepository;
 
+        private CollectionViewSource _topBooksViewSource;
+
         #region Properties
 
         #region TopBooks
-        public ObservableCollection<TopBookInfo> TopBooks { get; set; } = new ObservableCollection<TopBookInfo>();
+        private ObservableCollection<TopBookInfo>? _TopBooks = new ObservableCollection<TopBookInfo>();
+
+        /// <summary>
+        /// Top books collection.
+        /// </summary>
+        public ObservableCollection<TopBookInfo>? TopBooks
+        {
+            get => _TopBooks;
+            set
+            {
+                if (Set(ref _TopBooks, value))
+                    _topBooksViewSource.Source = value;
+                OnPropertyChanged(nameof(TopBooksView));
+            }
+        }
+        #endregion
+
+        #region BooksView
+        /// <summary>
+        /// Top books collection view.
+        /// </summary>
+        public ICollectionView TopBooksView => _topBooksViewSource.View; 
+        #endregion
+
+        #region BooksNameFilter
+        private string? _BooksNameFilter;
+
+        /// <summary>
+        /// Books name filter.
+        /// </summary>
+        public string? BooksNameFilter 
+        { 
+            get => _BooksNameFilter; 
+            set
+            {
+                if (Set(ref _BooksNameFilter, value))
+                    _topBooksViewSource.View.Refresh();
+            } 
+        }
         #endregion
 
         #region TopCategories
+        /// <summary>
+        /// Top categories collection view.
+        /// </summary>
         public ObservableCollection<TopCategoryInfo> TopCategories { get; set; } = new ObservableCollection<TopCategoryInfo>();
         #endregion
 
         #region TopSellers
+        /// <summary>
+        /// Top sellers collection view.
+        /// </summary>
         public ObservableCollection<TopSellerInfo> TopSellers { get; set; } = new ObservableCollection<TopSellerInfo>();
         #endregion
 
@@ -41,7 +89,7 @@ namespace Librarian.ViewModels
         private int _BooksCount;
 
         /// <summary>
-        /// Books count
+        /// Books count.
         /// </summary>
         public int BooksCount { get => _BooksCount; set => Set(ref _BooksCount, value); }
         #endregion
@@ -86,7 +134,7 @@ namespace Librarian.ViewModels
                     book => book.Id,
                     (transactions, book) => new TopBookInfo { Book = book, TransactionsCount = transactions.TransactionsCount, TransactionsAmount = transactions.TransactionsAmount });
 
-            TopBooks.ClearAdd(await topBooksQuery.ToArrayAsync());    
+            TopBooks = (await topBooksQuery.ToArrayAsync()).ToObservableCollection();    
         }
 
         private async Task CollectCategoriesTransactionsStatisticAsync()
@@ -141,6 +189,17 @@ namespace Librarian.ViewModels
             _sellersRepository = sellersRepository;
             _buyersRepository = buyersRepository;
             _transactionsRepository = transactionsRepository;
+
+            _topBooksViewSource = new CollectionViewSource();
+            _topBooksViewSource.Filter += OnBookNameFilter;
+        }
+
+        private void OnBookNameFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is TopBookInfo topbook) || string.IsNullOrWhiteSpace(BooksNameFilter)) return;
+
+            if (topbook.Book is null || topbook.Book.Name is null || !topbook.Book.Name.Contains(BooksNameFilter)) 
+                e.Accepted = false;
         }
     }
 }

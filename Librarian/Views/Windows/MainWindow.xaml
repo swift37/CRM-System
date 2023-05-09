@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Librarian"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title}"
-        Width="800" Height="450">
+        Width="900" Height="525">
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">
             <br:InvokeCommandAction Command="{Binding ShowBooksViewCommand}"/>

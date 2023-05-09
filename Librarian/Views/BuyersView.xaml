@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:Librarian.ViewModels"
              xmlns:local="clr-namespace:Librarian.Views"
              d:DataContext="{d:DesignInstance {x:Type vm:BuyersViewModel}, IsDesignTimeCreatable=True}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="525" d:DesignWidth="900">
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">
             <br:InvokeCommandAction Command="{Binding LoadDataCommand}"/>

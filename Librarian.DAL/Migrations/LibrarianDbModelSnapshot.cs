@@ -104,6 +104,18 @@ namespace Librarian.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ContactMail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DeteOfBirth")
+                        .HasColumnType("date");
+
+                    b.Property<string>("IndeidentityDocumentNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -112,6 +124,9 @@ namespace Librarian.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkingRate")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

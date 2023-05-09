@@ -48,6 +48,11 @@ namespace Librarian.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    DeteOfBirth = table.Column<DateTime>(type: "date", nullable: false),
+                    ContactNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactMail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IndeidentityDocumentNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WorkingRate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true)

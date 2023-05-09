@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Librarian.DAL.Migrations
 {
     [DbContext(typeof(LibrarianDb))]
-    [Migration("20230502154331_Initial")]
+    [Migration("20230509092524_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -107,6 +107,18 @@ namespace Librarian.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ContactMail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DeteOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IndeidentityDocumentNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -115,6 +127,9 @@ namespace Librarian.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkingRate")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

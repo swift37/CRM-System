@@ -106,7 +106,7 @@ namespace Librarian.Data
                 {
                     Name = $"Buyer {i}",
                     ContactNumber = random.Next(100000000,999999999).ToString(),
-                    ContactMail = $"buyer{i}@gamil.com",
+                    ContactMail = $"buyer{i}@gmail.com",
                     CashbackBalance = (decimal)(random.NextDouble() * 100)
                 }).ToArray();
 
@@ -131,7 +131,12 @@ namespace Librarian.Data
                 {
                     Name = $"Seller Name: {i}",
                     Surname = $"Seller Surname: {i}",
-                    Patronymic = $"Seller Patronymic {i}"
+                    Patronymic = $"Seller Patronymic {i}",
+                    DeteOfBirth = DateTime.Now,
+                    ContactNumber = random.Next(100000000, 999999999).ToString(),
+                    ContactMail = $"seller{i}@gmail.com",
+                    IndeidentityDocumentNumber = Guid.NewGuid().ToString(),
+                    WorkingRate = "1/2"
                 }).ToArray();
 
             await _dbContext.Sellers.AddRangeAsync(_sellers);

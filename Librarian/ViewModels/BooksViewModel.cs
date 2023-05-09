@@ -176,10 +176,10 @@ namespace Librarian.ViewModels
             //todo: Перенести всё связанное с сортировкой и фильтрами в разметку окна
             _booksViewSource = new CollectionViewSource
             {
-                SortDescriptions =
-                {
-                    new SortDescription(nameof(Book.Name), ListSortDirection.Ascending)
-                }
+                //SortDescriptions =
+                //{
+                //    new SortDescription(nameof(Book.Name), ListSortDirection.Ascending)
+                //}
             };
 
             _booksViewSource.Filter += OnBooksNameFilter;

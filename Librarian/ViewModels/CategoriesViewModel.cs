@@ -165,10 +165,10 @@ namespace Librarian.ViewModels
 
             _categoriesViewSource = new CollectionViewSource
             {
-                SortDescriptions =
-                {
-                    new SortDescription(nameof(Category.Name), ListSortDirection.Ascending)
-                }
+                //SortDescriptions =
+                //{
+                //    new SortDescription(nameof(Category.Name), ListSortDirection.Ascending)
+                //}
             };
 
             _categoriesViewSource.Filter += OnCategoriesNameFilter;

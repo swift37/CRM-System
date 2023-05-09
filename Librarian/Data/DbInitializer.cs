@@ -159,7 +159,7 @@ namespace Librarian.Data
             var transactions = Enumerable.Range(1, _transactionsCount)
                 .Select(d => new Transaction
                 {
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     Book = random.NextItem(_books),
                     Seller = random.NextItem(_sellers),
                     Buyer = random.NextItem(_buyers),

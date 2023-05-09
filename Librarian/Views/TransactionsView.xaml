@@ -8,7 +8,33 @@
              xmlns:local="clr-namespace:Librarian.Views"
              d:DataContext="{d:DesignInstance {x:Type vm:TransactionsViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="525" d:DesignWidth="900">
-    <Grid>
-        <TextBlock Text="Transactions" FontSize="72" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    </Grid>
+    <br:Interaction.Triggers>
+        <br:EventTrigger EventName="Loaded">
+            <br:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </br:EventTrigger>
+    </br:Interaction.Triggers>
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top" Text="Transactions" 
+                   FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10"/>
+        <TextBox DockPanel.Dock="Top" Height="25" Margin="175,0" VerticalContentAlignment="Center" FontSize="14"
+                 Text="{Binding TransactionsFilter, UpdateSourceTrigger=PropertyChanged}"/>
+        <DataGrid Margin="25,10" ItemsSource="{Binding TransactionsView}"
+                  VirtualizingPanel.IsContainerVirtualizable="True"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling">
+            <DataGrid.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </DataGrid.ItemsPanel>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Transaction Date" Binding="{Binding TransactionDate}"/>
+                <DataGridTextColumn Header="Book" Width="*" Binding="{Binding Book.Name}"/>
+                <DataGridTextColumn Header="Amount" Width="Auto" MinWidth="75" Binding="{Binding Amount}"/>
+                <DataGridTextColumn Header="Discount" Width="Auto" MinWidth="75" Binding="{Binding Discount}"/>
+                <DataGridTextColumn Header="Seller" Width="Auto" MinWidth="150" Binding="{Binding Seller.Name}"/>
+                <DataGridTextColumn Header="Buyer" Width="Auto" MinWidth="150" Binding="{Binding Buyer.ContactNumber}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </UserControl>

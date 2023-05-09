@@ -98,6 +98,38 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #region RemoveTransactionCommand
+        private ICommand? _RemoveTransactionCommand;
+
+        /// <summary>
+        /// Remove transaction command
+        /// </summary>
+        public ICommand? RemoveTransactionCommand => _RemoveTransactionCommand
+            ??= new LambdaCommand<Transaction>(OnRemoveTransactionCommandExecuted, CanRemoveTransactionCommandExecute);
+
+        private bool CanRemoveTransactionCommandExecute(Transaction? transaction) => transaction != null || SelectedTransaction != null;
+
+        private void OnRemoveTransactionCommandExecuted(Transaction? transaction)
+        {
+            var removableTransaction = transaction ?? SelectedTransaction;
+            if (removableTransaction is null) return;
+
+            //todo: Переделать диалог с подтверждением удаления
+            if (!_dialogService.Confirmation(
+                $"Do you confirm the permanent deletion of the transaction \"{removableTransaction.Id}\"?",
+                "Transaction deleting")) return;
+
+            if (_transactionsRepository.Entities != null
+                && _transactionsRepository.Entities.Any(c => c == transaction || c == SelectedTransaction))
+                _transactionsRepository.Remove(removableTransaction.Id);
+
+
+            Transactions?.Remove(removableTransaction);
+            if (ReferenceEquals(SelectedTransaction, removableTransaction))
+                SelectedTransaction = null;
+        }
+        #endregion
+
         public TransactionsViewModel() : this(new DebugTransactionsRepository(), new UserDialogService())
         {
             if (!App.IsDesignMode)

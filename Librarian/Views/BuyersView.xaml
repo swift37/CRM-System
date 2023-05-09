@@ -19,9 +19,9 @@
         <TextBox DockPanel.Dock="Top" Height="25" Margin="175,0" VerticalContentAlignment="Center" FontSize="14"
                  Text="{Binding BuyersFilter, UpdateSourceTrigger=PropertyChanged}"/>
         <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right" Margin="0,0,35,10">
-            <Button Content="Add" Padding="35,1" Margin="0,0,10,0" Command="{Binding AddBuyerCommand}"/>
-            <Button Content="Remove" Padding="35,1" Margin="10,0,0,0" Command="{Binding RemoveBuyerCommand}" 
+            <Button Content="Remove" Padding="35,1" Margin="0,0,10,0" Command="{Binding RemoveBuyerCommand}" 
                     CommandParameter="{Binding SelectedBuyer}"/>
+            <Button Content="Add" Padding="35,1" Margin="10,0,0,0" Command="{Binding AddBuyerCommand}"/>
         </UniformGrid>
         <ListBox DockPanel.Dock="Bottom" Margin="25,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
                  ItemsSource="{Binding BuyersView}" SelectedItem="{Binding SelectedBuyer}">

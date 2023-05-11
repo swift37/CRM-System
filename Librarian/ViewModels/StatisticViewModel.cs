@@ -33,7 +33,7 @@ namespace Librarian.ViewModels
         private ObservableCollection<TopBookInfo>? _TopBooks = new ObservableCollection<TopBookInfo>();
 
         /// <summary>
-        /// Top books collection.
+        /// Top _booksRepository collection.
         /// </summary>
         public ObservableCollection<TopBookInfo>? TopBooks
         {
@@ -49,7 +49,7 @@ namespace Librarian.ViewModels
 
         #region BooksView
         /// <summary>
-        /// Top books collection view.
+        /// Top _booksRepository collection view.
         /// </summary>
         public ICollectionView TopBooksView => _topBooksViewSource.View; 
         #endregion
@@ -80,7 +80,7 @@ namespace Librarian.ViewModels
 
         #region TopSellers
         /// <summary>
-        /// Top sellers collection view.
+        /// Top _sellersRepository collection view.
         /// </summary>
         public ObservableCollection<TopSellerInfo> TopSellers { get; set; } = new ObservableCollection<TopSellerInfo>();
         #endregion

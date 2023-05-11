@@ -21,6 +21,9 @@ namespace Librarian.ViewModels
     public class TransactionsViewModel : ViewModel
     {
         private readonly IRepository<Transaction> _transactionsRepository;
+        private readonly IRepository<Book> _booksRepository;
+        private readonly IRepository<Seller> _sellersRepository;
+        private readonly IRepository<Buyer> _buyersRepository;
         private readonly IUserDialogService _dialogService;
 
         private CollectionViewSource _transactionsViewSource;
@@ -98,6 +101,30 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #region AddTransactionCommand
+        private ICommand? _AddTransactionCommand;
+
+        /// <summary>
+        /// Add transaction command
+        /// </summary>
+        public ICommand? AddTransactionCommand => _AddTransactionCommand
+            ??= new LambdaCommand(OnAddTransactionCommandExecuted, CanAddTransactionCommandExecute);
+
+        private bool CanAddTransactionCommandExecute() => true;
+
+        private void OnAddTransactionCommandExecuted()
+        {
+            var transaction = new Transaction();
+
+            if (!_dialogService.EditTransaction(transaction, _booksRepository, _sellersRepository, _buyersRepository)) return;
+
+            _transactionsRepository.Add(transaction);
+            Transactions?.Add(transaction);
+
+            SelectedTransaction = transaction;
+        }
+        #endregion
+
         #region RemoveTransactionCommand
         private ICommand? _RemoveTransactionCommand;
 
@@ -129,8 +156,13 @@ namespace Librarian.ViewModels
                 SelectedTransaction = null;
         }
         #endregion
-
-        public TransactionsViewModel() : this(new DebugTransactionsRepository(), new UserDialogService())
+        
+        public TransactionsViewModel() : this(
+            new DebugTransactionsRepository(),
+            new DebugBooksRepository(),
+            new DebugSellersRepository(),
+            new DebugBuyersRepository(),
+            new UserDialogService())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
@@ -138,9 +170,17 @@ namespace Librarian.ViewModels
             _ = OnLoadDataCommandExecuted();
         }
 
-        public TransactionsViewModel(IRepository<Transaction> transactionRepository, IUserDialogService dialogService)
+        public TransactionsViewModel(
+            IRepository<Transaction> transactionRepository,
+            IRepository<Book> books,
+            IRepository<Seller> sellers,
+            IRepository<Buyer> buyers,
+            IUserDialogService dialogService)
         {
             _transactionsRepository = transactionRepository;
+            _booksRepository = books;
+            _sellersRepository = sellers;
+            _buyersRepository = buyers;
             _dialogService = dialogService;
 
             _transactionsViewSource = new CollectionViewSource();

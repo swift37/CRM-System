@@ -39,7 +39,7 @@ namespace Librarian.ViewModels
         private string? _BooksNameFilter;
 
         /// <summary>
-        /// Filter books by name
+        /// Filter _booksRepository by name
         /// </summary>
         public string? BooksNameFilter
         {

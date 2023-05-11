@@ -67,15 +67,35 @@ namespace Librarian.Services
         public bool EditSeller(Seller seller)
         {
             var sellerEditorModel = new SellerEditorViewModel(seller);
-            var sellerEditorWindow = new SellerEditorWindow 
-            { 
-                DataContext = sellerEditorModel 
+            var sellerEditorWindow = new SellerEditorWindow
+            {
+                DataContext = sellerEditorModel
             };
 
             if (sellerEditorWindow.ShowDialog() != true) return false;
 
             seller.Name = sellerEditorModel.SellerName;
             seller.Surname = sellerEditorModel.SellerSurname;
+
+            return true;
+        }
+
+        public bool EditTransaction(Transaction transaction, IRepository<Book> books, IRepository<Seller> sellers, IRepository<Buyer> buyers)
+        {
+            var transactionEditorModel = new TransactionEditorViewModel(transaction, books, sellers, buyers);
+            var transactionEditorWindow = new TransactionEditorWindow
+            {
+                DataContext = transactionEditorModel
+            };
+
+            if (transactionEditorWindow.ShowDialog() != true) return false;
+
+            transaction.TransactionDate = transactionEditorModel.TransactionDate;
+            transaction.Amount = transactionEditorModel.TransactionAmount;
+            transaction.Discount = transactionEditorModel.TransactionDiscount;
+            transaction.Book = transactionEditorModel.Book;
+            transaction.Seller = transactionEditorModel.Seller;
+            transaction.Buyer = transactionEditorModel.Buyer;
 
             return true;
         }

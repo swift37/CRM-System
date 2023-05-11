@@ -65,7 +65,7 @@ namespace Librarian.ViewModels
         private IEnumerable<Category>? _Categories;
 
         /// <summary>
-        /// Buyers collection
+        /// Categories collection
         /// </summary>
         public IEnumerable<Category>? Categories { get => _Categories; set => Set(ref _Categories, value); }
         #endregion 

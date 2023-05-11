@@ -26,5 +26,7 @@ namespace Librarian.ViewModels
 
         public SellerEditorViewModel? SellerEditorViewModel => App.Services?.GetRequiredService<SellerEditorViewModel>();
 
+        public TransactionEditorViewModel? TransactionEditorViewModel => App.Services?.GetRequiredService<TransactionEditorViewModel>();
+
     }
 }

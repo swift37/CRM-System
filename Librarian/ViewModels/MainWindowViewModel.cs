@@ -122,7 +122,12 @@ namespace Librarian.ViewModels
 
         private void OnShowTransactionsViewCommandExecuted()
         {
-            CurrentViewModel = new TransactionsViewModel(_transactionsRepository, _dialogService);
+            CurrentViewModel = new TransactionsViewModel(
+                _transactionsRepository, 
+                _booksRepository, 
+                _sellersRepository, 
+                _buyersRepository, 
+                _dialogService);
         }
         #endregion
 

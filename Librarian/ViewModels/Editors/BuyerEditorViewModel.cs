@@ -53,7 +53,7 @@ namespace Librarian.ViewModels
         public string? BuyerNumber { get => _BuyerNumber; set => Set(ref _BuyerNumber, value); }
         #endregion
 
-        #region BuyerSurname
+        #region BuyerMail
         private string? _BuyerMail;
 
         /// <summary>

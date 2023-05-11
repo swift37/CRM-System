@@ -11,6 +11,12 @@ namespace Librarian.Services.Interfaces
 
         bool EditBuyer(Buyer buyer);
 
+        bool EditTransaction(
+            Transaction transaction, 
+            IRepository<Book> books, 
+            IRepository<Seller> sellers, 
+            IRepository<Buyer> buyers);
+
         bool Confirmation(string message, string caption);
 
         void Warning(string message, string caption);

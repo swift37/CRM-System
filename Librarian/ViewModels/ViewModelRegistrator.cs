@@ -16,6 +16,7 @@ namespace Librarian.ViewModels
             .AddSingleton<CategoryEditorViewModel>()
             .AddSingleton<BuyerEditorViewModel>()
             .AddSingleton<SellerEditorViewModel>()
+            .AddSingleton<TransactionsViewModel>()
             ;
     }
 }

@@ -15,6 +15,6 @@ namespace Librarian.DAL.Entities
 
         public string? WorkingRate { get; set; }
 
-        public override string ToString() => $"Seller {Name} {Surname} {Patronymic}";
+        public override string ToString() => $"{Name} {Surname}";
     }
 }

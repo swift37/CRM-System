@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:Librarian.ViewModels"
         xmlns:local="clr-namespace:Librarian.Views.Windows"
         d:DataContext="{d:DesignInstance {x:Type vm:TransactionEditorViewModel}, IsDesignTimeCreatable=True}"
-        Title="TransactionEditorWindow" 
+        Title="{Binding Title}" 
         Width="300" Height="340" MinWidth="190" MinHeight="340">
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">
@@ -58,7 +58,8 @@
                        Margin="5,15,0,0"/>
             <ComboBox Grid.Column="1" Grid.Row="3" Margin="7,15,5,0" VerticalContentAlignment="Center"
                       IsTextSearchEnabled="True" IsEditable="True" ScrollViewer.CanContentScroll="True"
-                      Height="23" ItemsSource="{Binding Books}" SelectedItem="{Binding Book}"/>
+                      Height="23" ItemsSource="{Binding BooksView}" SelectedItem="{Binding Book}"
+                      Text="{Binding BooksFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="4" Text="Seller: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
                        Margin="5,15,0,0"/>
@@ -69,12 +70,8 @@
                        Margin="5,15,0,0"/>
             <ComboBox Grid.Column="1" Grid.Row="5" Margin="7,15,5,0" VerticalContentAlignment="Center" 
                       IsTextSearchEnabled="True" IsEditable="True" ScrollViewer.CanContentScroll="True" 
-                      Height="23" ItemsSource="{Binding Buyers}"  SelectedItem="{Binding Buyer}">
-                <!--<ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding ContactNumber}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>-->
+                      Height="23" ItemsSource="{Binding BuyersView}"  SelectedItem="{Binding Buyer}"
+                      Text="{Binding BuyersFilter, UpdateSourceTrigger=PropertyChanged}">
             </ComboBox>
         </Grid>
     </DockPanel>

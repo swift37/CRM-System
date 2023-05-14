@@ -6,9 +6,11 @@ using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Librarian.ViewModels
@@ -18,6 +20,9 @@ namespace Librarian.ViewModels
         private readonly IRepository<Book> _booksRepository;
         private readonly IRepository<Seller> _sellersRepository;
         private readonly IRepository<Buyer> _buyersRepository;
+
+        private CollectionViewSource _booksViewSource;
+        private CollectionViewSource _buyersViewSource;
 
         #region Properties
 
@@ -105,14 +110,47 @@ namespace Librarian.ViewModels
         public Buyer? Buyer { get => _Buyer; set => Set(ref _Buyer, value); }
         #endregion
 
+        #region BooksView
+        /// <summary>
+        /// Books collection view.
+        /// </summary>
+        public ICollectionView BooksView => _booksViewSource.View;
+        #endregion 
+
         #region Books
         private IEnumerable<Book>? _Books;
 
         /// <summary>
         /// Books collection
         /// </summary>
-        public IEnumerable<Book>? Books { get => _Books; set => Set(ref _Books, value); }
+        public IEnumerable<Book>? Books 
+        { 
+            get => _Books;
+            set 
+            {
+                if (Set(ref _Books, value))
+                    _booksViewSource.Source = value;
+                OnPropertyChanged(nameof(BooksView));
+            } 
+        }
         #endregion 
+
+        #region BooksFilter
+        private string? _BooksFilter;
+
+        /// <summary>
+        /// Filter books by name
+        /// </summary>
+        public string? BooksFilter
+        {
+            get => _BooksFilter;
+            set
+            {
+                if (Set(ref _BooksFilter, value))
+                    _booksViewSource.View.Refresh();
+            }
+        }
+        #endregion
 
         #region Sellers
         private IEnumerable<Seller>? _Sellers;
@@ -123,14 +161,47 @@ namespace Librarian.ViewModels
         public IEnumerable<Seller>? Sellers { get => _Sellers; set => Set(ref _Sellers, value); }
         #endregion 
 
+        #region BuyersView
+        /// <summary>
+        /// Buyers collection view.
+        /// </summary>
+        public ICollectionView BuyersView => _buyersViewSource.View;
+        #endregion 
+
         #region Buyers
         private IEnumerable<Buyer>? _Buyers;
 
         /// <summary>
         /// Buyers collection
         /// </summary>
-        public IEnumerable<Buyer>? Buyers { get => _Buyers; set => Set(ref _Buyers, value); }
+        public IEnumerable<Buyer>? Buyers 
+        { 
+            get => _Buyers;
+            set 
+            {
+                if (Set(ref _Buyers, value))
+                    _buyersViewSource.Source = value;
+                OnPropertyChanged(nameof(BuyersView));
+            } 
+        }
         #endregion 
+
+        #region BuyersFilter
+        private string? _BuyersFilter;
+
+        /// <summary>
+        /// Filter buyers by name, number and mail
+        /// </summary>
+        public string? BuyersFilter
+        {
+            get => _BuyersFilter;
+            set
+            {
+                if (Set(ref _BuyersFilter, value))
+                    _buyersViewSource.View.Refresh();
+            }
+        }
+        #endregion
 
         #endregion
 
@@ -179,6 +250,12 @@ namespace Librarian.ViewModels
             _sellersRepository = sellers;
             _buyersRepository = buyers;
 
+            _booksViewSource = new CollectionViewSource();
+            _buyersViewSource = new CollectionViewSource();
+            
+            _booksViewSource.Filter += OnBooksFilter;
+            _buyersViewSource.Filter += OnBuyersFilter;
+
             TransactionId = transaction.Id;
             TransactionDate = transaction.TransactionDate;
             TransactionAmount = transaction.Amount;
@@ -186,6 +263,25 @@ namespace Librarian.ViewModels
             Book = transaction.Book;
             Seller = transaction.Seller;
             Buyer = transaction.Buyer;
+        }
+
+        private void OnBooksFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Book book) || string.IsNullOrWhiteSpace(BooksFilter)) return;
+
+            if (book.Name is null || !book.Name.Contains(BooksFilter))
+                e.Accepted = false;
+        }
+
+        private void OnBuyersFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Buyer buyer) || string.IsNullOrWhiteSpace(BuyersFilter)) return;
+
+            if ((buyer.Name is null || !buyer.Name.Contains(BuyersFilter)) && 
+                (buyer.Surname is null || !buyer.Surname.Contains(BuyersFilter)) &&
+                (buyer.ContactNumber is null || !buyer.ContactNumber.Contains(BuyersFilter)) &&
+                (buyer.ContactMail is null || !buyer.ContactMail.Contains(BuyersFilter)))
+                e.Accepted = false;
         }
     }
 }

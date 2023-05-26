@@ -39,6 +39,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:local="clr-namespace:Librarian"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Height="740" Width="1280" WindowStartupLocation="CenterScreen"
@@ -81,9 +82,70 @@
 
                 <Separator Height="0.8" Margin="20,30" Background="#46558a"/>
 
+                <!--Menu buttons-->
+                <Button Style="{StaticResource menuButtonActive}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Main page" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </Button>
 
+                <Button Style="{StaticResource menuButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Book" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Books" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </Button>
 
-            </StackPanel>
+                <Button Style="{StaticResource menuButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="TableList" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Catgories" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource menuButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Users" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Clients" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource menuButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="UsersViewfinder" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Sellers" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource menuButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Coins" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Transactions" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource menuButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="ChartArea" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Statistics" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </Button>
+                
+                <Button Style="{StaticResource menuButton}" >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Cog" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Settins" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource menuButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="PowerOff" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Logout" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel> 
             
         </Border>
 
@@ -95,6 +157,9 @@
                     <GradientStop Color="#2c386c" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
+
+            
+            
         </Border>
         
     </Grid>

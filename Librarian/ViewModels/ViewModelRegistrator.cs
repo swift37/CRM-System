@@ -10,11 +10,13 @@ namespace Librarian.ViewModels
             .AddSingleton<CategoriesViewModel>()
             .AddSingleton<SellersViewModel>()
             .AddSingleton<BuyersViewModel>()
+            .AddSingleton<TransactionsViewModel>()
             .AddSingleton<StatisticViewModel>()
             .AddSingleton<BookEditorViewModel>()
             .AddSingleton<CategoryEditorViewModel>()
             .AddSingleton<BuyerEditorViewModel>()
             .AddSingleton<SellerEditorViewModel>()
+            .AddSingleton<TransactionsViewModel>()
             ;
     }
 }

@@ -28,6 +28,9 @@ namespace Librarian.ViewModels
         #region Properties
 
         #region CategoriesView
+        /// <summary>
+        /// Categories collection view.
+        /// </summary>
         public ICollectionView CategoriesView => _categoriesViewSource.View;
         #endregion
 

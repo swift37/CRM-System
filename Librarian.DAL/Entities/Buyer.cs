@@ -13,6 +13,6 @@ namespace Librarian.DAL.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal CashbackBalance { get; set; }
 
-        public override string ToString() => $"Buyer {Name} {Surname} {Patronymic}";
+        public override string ToString() => $"{Name} {Surname}";
     }
 }

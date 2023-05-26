@@ -73,7 +73,7 @@ namespace Librarian.Data
         private async Task InitializeBooks()
         {
             var timer = Stopwatch.StartNew();
-            _logger.LogInformation("Initialize books...");
+            _logger.LogInformation("Initialize _booksRepository...");
 
             if (_categories is null) throw new ArgumentNullException(nameof(_categories));
             var random = new Random();
@@ -88,7 +88,7 @@ namespace Librarian.Data
             await _dbContext.Books.AddRangeAsync(_books);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation($"Initialize books comleted in {timer.Elapsed.TotalSeconds} s");
+            _logger.LogInformation($"Initialize _booksRepository comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
         private const int _buyersCount = 100;
@@ -98,7 +98,7 @@ namespace Librarian.Data
         private async Task InitializeBuyers()
         {
             var timer = Stopwatch.StartNew();
-            _logger.LogInformation("Initialize buyers...");
+            _logger.LogInformation("Initialize _buyersRepository...");
 
             var random = new Random();
             _buyers = Enumerable.Range(1, _buyersCount)
@@ -113,7 +113,7 @@ namespace Librarian.Data
             await _dbContext.Buyers.AddRangeAsync(_buyers);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation($"Initialize buyers comleted in {timer.Elapsed.TotalSeconds} s");
+            _logger.LogInformation($"Initialize _buyersRepository comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
         private const int _sellersCount = 15;
@@ -123,7 +123,7 @@ namespace Librarian.Data
         private async Task InitializeSellers()
         {
             var timer = Stopwatch.StartNew();
-            _logger.LogInformation("Initialize sellers...");
+            _logger.LogInformation("Initialize _sellersRepository...");
 
             var random = new Random();
             _sellers = Enumerable.Range(1, _sellersCount)
@@ -142,7 +142,7 @@ namespace Librarian.Data
             await _dbContext.Sellers.AddRangeAsync(_sellers);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation($"Initialize sellers comleted in {timer.Elapsed.TotalSeconds} s");
+            _logger.LogInformation($"Initialize _sellersRepository comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
         private const int _transactionsCount = 3500;
@@ -152,14 +152,14 @@ namespace Librarian.Data
             var timer = Stopwatch.StartNew();
             _logger.LogInformation("Initialize transactions...");
 
-            if (_books is null || _sellers is null || _buyers is null) throw new ArgumentNullException("Field _books, _sellers or _buyers can`t be empty");
+            if (_books is null || _sellers is null || _buyers is null) throw new ArgumentNullException("Field _booksRepository, _sellersRepository or _buyersRepository can`t be empty");
 
             var random = new Random();
 
             var transactions = Enumerable.Range(1, _transactionsCount)
                 .Select(d => new Transaction
                 {
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     Book = random.NextItem(_books),
                     Seller = random.NextItem(_sellers),
                     Buyer = random.NextItem(_buyers),

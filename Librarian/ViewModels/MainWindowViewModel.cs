@@ -110,6 +110,27 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #region ShowTransactionsViewCommand
+        private ICommand? _ShowTransactionsViewCommand;
+
+        /// <summary>
+        /// Show TransactionsView
+        /// </summary>
+        public ICommand? ShowTransactionsViewCommand => _ShowTransactionsViewCommand ??= new LambdaCommand(OnShowTransactionsViewCommandExecuted, CanShowTransactionsViewCommandnExecute);
+
+        private bool CanShowTransactionsViewCommandnExecute() => true;
+
+        private void OnShowTransactionsViewCommandExecuted()
+        {
+            CurrentViewModel = new TransactionsViewModel(
+                _transactionsRepository, 
+                _booksRepository, 
+                _sellersRepository, 
+                _buyersRepository, 
+                _dialogService);
+        }
+        #endregion
+
         #region ShowStatisticViewCommand
         private ICommand? _ShowStatisticViewCommand;
 

@@ -54,7 +54,7 @@ namespace Librarian.ViewModels
         private string? _SellersFilter;
 
         /// <summary>
-        /// Filter sellers by Name, Surname...
+        /// Filter _sellersRepository by Name, Surname...
         /// </summary>
         public string? SellersFilter
         {

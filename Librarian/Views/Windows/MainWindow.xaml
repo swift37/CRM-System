@@ -19,7 +19,7 @@
             <MenuItem Header="Categories" Command="{Binding ShowCategoriesViewCommand}"/>
             <MenuItem Header="Sellers" Command="{Binding ShowSellersViewCommand}"/>
             <MenuItem Header="Clients" Command="{Binding ShowBuyersViewCommand}"/>
-            <MenuItem Header="Transactions" Command=""/>
+            <MenuItem Header="Transactions" Command="{Binding ShowTransactionsViewCommand}"/>
             <MenuItem Header="Statistic" Command="{Binding ShowStatisticViewCommand}"/>
         </Menu>
         <StatusBar>

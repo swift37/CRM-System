@@ -158,8 +158,30 @@
                 </LinearGradientBrush>
             </Border.Background>
 
-            
-            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--Top menu-->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,35,30,20">
+                    <Button Content="Today" Style="{StaticResource topMenuButton}"
+                            Background="#5b60c4" Foreground="#ffffff"/>
+                    <Button Content="Week" Style="{StaticResource topMenuButton}"/>
+                    <Button Content="Month" Style="{StaticResource topMenuButton}"/>
+                    <Button Content="Year" Style="{StaticResource topMenuButton}"/>
+                </StackPanel>
+                
+                <!--Title-->
+                <TextBlock Text="Good morning, Administrator" FontSize="26" Foreground="#ccd7ff" 
+                           HorizontalAlignment="Left" Margin="50,35,0,20"/>
+                
+                <!--Info Card-->
+                
+            </Grid>
+
         </Border>
         
     </Grid>

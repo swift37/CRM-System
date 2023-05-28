@@ -86,7 +86,7 @@
                 <Button Style="{StaticResource menuButtonActive}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
-                        <TextBlock Text="Main page" Style="{StaticResource menuButtonText}"/>
+                        <TextBlock Text="Dashboard" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
 
@@ -100,20 +100,20 @@
                 <Button Style="{StaticResource menuButton}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="TableList" Style="{StaticResource menuButtonIcon}"/>
-                        <TextBlock Text="Catgories" Style="{StaticResource menuButtonText}"/>
+                        <TextBlock Text="Categories" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
 
                 <Button Style="{StaticResource menuButton}">
                     <StackPanel Orientation="Horizontal">
-                        <fa:IconImage Icon="Users" Style="{StaticResource menuButtonIcon}"/>
+                        <fa:IconImage Icon="UsersViewfinder " Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Clients" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
 
                 <Button Style="{StaticResource menuButton}">
                     <StackPanel Orientation="Horizontal">
-                        <fa:IconImage Icon="UsersViewfinder" Style="{StaticResource menuButtonIcon}"/>
+                        <fa:IconImage Icon="Users" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Sellers" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
@@ -135,7 +135,7 @@
                 <Button Style="{StaticResource menuButton}" >
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Cog" Style="{StaticResource menuButtonIcon}"/>
-                        <TextBlock Text="Settins" Style="{StaticResource menuButtonText}"/>
+                        <TextBlock Text="Settings" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
 
@@ -166,7 +166,8 @@
                 </Grid.RowDefinitions>
 
                 <!--Top menu-->
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,35,30,20">
+                <StackPanel Grid.Row="0" Orientation="Horizontal" 
+                            VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,35,30,20">
                     <Button Content="Today" Style="{StaticResource topMenuButton}"
                             Background="#5b60c4" Foreground="#ffffff"/>
                     <Button Content="Week" Style="{StaticResource topMenuButton}"/>
@@ -175,10 +176,20 @@
                 </StackPanel>
                 
                 <!--Title-->
-                <TextBlock Text="Good morning, Administrator" FontSize="26" Foreground="#ccd7ff" 
+                <TextBlock Grid.Row="0" Text="Good morning, Administrator" FontSize="26" Foreground="#ccd7ff" 
                            HorizontalAlignment="Left" Margin="50,35,0,20"/>
                 
                 <!--Info Card-->
+                <Grid Grid.Row="1" Margin="50,20,15,40">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    
+                    
+                </Grid>
                 
             </Grid>
 

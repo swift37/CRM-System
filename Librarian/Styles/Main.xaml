@@ -121,4 +121,19 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="titleText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#ffffff"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Margin" Value="10,0,0,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="titleIcon" TargetType="fa:IconImage">
+        <Setter Property="Width" Value="18"/>
+        <Setter Property="Height" Value="18"/>
+        <Setter Property="Margin" Value="0,3,0,0"/>
+        <Setter Property="Foreground" Value="#7b82ea"/>
+    </Style>
+
 </ResourceDictionary>

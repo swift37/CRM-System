@@ -40,10 +40,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:v="clr-namespace:Librarian.Views"
         xmlns:local="clr-namespace:Librarian"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Height="740" Width="1280" WindowStartupLocation="CenterScreen"
-        WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -186,11 +187,52 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    
-                    
+
+                    <v:InfoCardView Grid.Column="0" Title="Total Views" Number="768,234" Icon="Eye" 
+                                    Background_1="#827bff" Background_2="#d9b5ff"
+                                    EllipseBackground_1="#b298fd" EllipseBackground_2="#e4bbff"/>
+
+                    <v:InfoCardView Grid.Column="1" Title="Total Orders" Number="129,943" Icon="ShoppingCart" 
+                                    Background_1="#fd8a87" Background_2="#f3ab92"
+                                    EllipseBackground_1="#fbd5a8" EllipseBackground_2="#fdb89b"/>
+
+                    <v:InfoCardView Grid.Column="2" Title="Total Revenue" Number="870,317" Icon="Coins" 
+                                    Background_1="#fc84cb" Background_2="#fc8fae"
+                                    EllipseBackground_1="#fc8fae" EllipseBackground_2="#ffabe6"/>
                 </Grid>
-                
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="300"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Chart section-->
+                    <Border Grid.Column="0" CornerRadius="20" Padding="35,25" Background="#243771" Margin="50,0,10,40">
+                        
+                    </Border>
+
+                    <!--Last orders section-->
+                    <Border Grid.Column="1" CornerRadius="20" Padding="0,25" Background="#243771" Margin="15,0,47,40">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" Margin="20,1,0,14">
+                                <fa:IconImage Icon="Circle" Style="{StaticResource titleIcon}"/>
+                                <TextBlock Text="Last orders" Style="{StaticResource titleText}"/>  
+                            </StackPanel>
+                            
+                            <!--Orders-->
+                            <StackPanel Grid.Row="1">
+                                
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+
             </Grid>
 
         </Border>

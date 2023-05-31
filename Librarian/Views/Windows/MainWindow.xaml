@@ -31,8 +31,6 @@
     </DockPanel>
 </Window>-->
     
-
-    
 <Window x:Class="Librarian.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
@@ -158,11 +156,10 @@
                     <GradientStop Color="#2c386c" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
-
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="200"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -209,7 +206,16 @@
 
                     <!--Chart section-->
                     <Border Grid.Column="0" CornerRadius="20" Padding="35,25" Background="#243771" Margin="50,0,10,40">
-                        
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <StackPanel>
+                                
+                            </StackPanel>
+                        </Grid>
                     </Border>
 
                     <!--Last orders section-->
@@ -227,7 +233,11 @@
                             
                             <!--Orders-->
                             <StackPanel Grid.Row="1">
-                                
+                                <v:OrderView Title="Test order" Desc="Test Seller - 10:30" Icon="Bolt"/>
+                                <v:OrderView Title="Test order" Desc="Test Seller - 11:15" Icon="Hamburger"/>
+                                <v:OrderView Title="Test order" Desc="Test Seller - 12:00" Icon="StaffSnake"/>
+                                <v:OrderView Title="Test order" Desc="Test Seller - 12:45" Icon="SackDollar"/>
+                                <v:OrderView Title="Test order" Desc="Test Seller - 12:57" Icon="Deezer"/>
                             </StackPanel>
                         </Grid>
                     </Border>

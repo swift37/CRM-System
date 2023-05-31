@@ -38,6 +38,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:lc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:v="clr-namespace:Librarian.Views"
         xmlns:local="clr-namespace:Librarian"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
@@ -246,6 +247,46 @@
                             </StackPanel>
                             
                             <!--Chart-->
+                            <lc:CartesianChart Grid.Row="1" Margin="45,0,0,25">
+                                <lc:CartesianChart.Background>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="#26376f" Offset="0"/>
+                                        <GradientStop Color="#6a6ae4" Offset="1.5"/>
+                                    </LinearGradientBrush>
+                                </lc:CartesianChart.Background>
+
+                                <lc:CartesianChart.DataTooltip>
+                                    <lc:DefaultTooltip Background="#24336a" Foreground="#d5e2ff"/>
+                                </lc:CartesianChart.DataTooltip>
+
+                                <lc:CartesianChart.AxisX>
+                                    <lc:Axis MinValue="1" MaxValue="5" Foreground="#717eb2" ShowLabels="False">
+                                        <lc:Axis.Separator>
+                                            <lc:Separator StrokeThickness="0"/>
+                                        </lc:Axis.Separator>
+                                    </lc:Axis>
+                                </lc:CartesianChart.AxisX>
+
+                                <lc:CartesianChart.AxisY>
+                                    <lc:Axis MinValue="0" MaxValue="60000" Foreground="#717eb2" ShowLabels="False">
+                                        <lc:Axis.Separator>
+                                            <lc:Separator StrokeThickness="0"/>
+                                        </lc:Axis.Separator>
+                                    </lc:Axis>
+                                </lc:CartesianChart.AxisY>
+
+                                <lc:CartesianChart.Series>
+                                    <lc:LineSeries Stroke="#ada4fd" StrokeThickness="2" PointGeometrySize="0"
+                                                   Values="20000,17000,30000,15000,50000,30000,20000">
+                                        <lc:LineSeries.Fill>
+                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                <GradientStop Color="#b397e2" Offset="0.4"/>
+                                                <GradientStop Color="#6a6ae4" Offset="1.2"/>
+                                            </LinearGradientBrush>
+                                        </lc:LineSeries.Fill>
+                                    </lc:LineSeries>
+                                </lc:CartesianChart.Series>
+                            </lc:CartesianChart>
                             
                         </Grid>
                     </Border>

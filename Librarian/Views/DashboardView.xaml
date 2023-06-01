@@ -31,7 +31,7 @@
         <TextBlock Grid.Row="0" Text="Good morning, Administrator" FontSize="26" Foreground="#ccd7ff" 
                            HorizontalAlignment="Left" Margin="50,35,0,20"/>
 
-        <!--Info Card-->
+        <!--Info Cards-->
         <Grid Grid.Row="1" Margin="50,20,15,40">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

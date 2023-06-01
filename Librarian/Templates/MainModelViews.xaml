@@ -3,7 +3,7 @@
                     xmlns:vm="clr-namespace:Librarian.ViewModels"
                     xmlns:v="clr-namespace:Librarian.Views">
     <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
-        <v:BooksView DataContext="{Binding}"/>
+        <v:DashboardView DataContext="{Binding}"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:BooksViewModel}">
         <v:BooksView DataContext="{Binding}"/>

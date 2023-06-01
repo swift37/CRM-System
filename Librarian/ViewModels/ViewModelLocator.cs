@@ -28,5 +28,7 @@ namespace Librarian.ViewModels
 
         public TransactionEditorViewModel? TransactionEditorViewModel => App.Services?.GetRequiredService<TransactionEditorViewModel>();
 
+        public DashboardViewModel? DashboardViewModel => App.Services?.GetRequiredService<DashboardViewModel>();
+
     }
 }

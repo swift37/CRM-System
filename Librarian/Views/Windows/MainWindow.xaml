@@ -42,7 +42,7 @@
         xmlns:v="clr-namespace:Librarian.Views"
         xmlns:local="clr-namespace:Librarian"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
-        Height="740" Width="1280" WindowStartupLocation="CenterScreen"
+        Width="1280" Height="740" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -132,7 +132,7 @@
                     </StackPanel>
                 </Button>
                 
-                <Button Style="{StaticResource menuButton}" >
+                <Button Style="{StaticResource menuButton}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Cog" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Settings" Style="{StaticResource menuButtonText}"/>
@@ -150,175 +150,15 @@
         </Border>
 
         <!--Main Container-->
-        <Border Grid.Column="1" CornerRadius="0,10,10,0" MouseDown="Border_MouseDown">
+        <Border Grid.Column="1" CornerRadius="0,10,10,0">
             <Border.Background>
                 <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
                     <GradientStop Color="#41518f" Offset="0"/>
                     <GradientStop Color="#2c386c" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="200"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <!--Top menu-->
-                <StackPanel Grid.Row="0" Orientation="Horizontal" 
-                            VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,35,30,20">
-                    <Button Content="Today" Style="{StaticResource topMenuButton}"
-                            Background="#5b60c4" Foreground="#ffffff"/>
-                    <Button Content="Week" Style="{StaticResource topMenuButton}"/>
-                    <Button Content="Month" Style="{StaticResource topMenuButton}"/>
-                    <Button Content="Year" Style="{StaticResource topMenuButton}"/>
-                </StackPanel>
-                
-                <!--Title-->
-                <TextBlock Grid.Row="0" Text="Good morning, Administrator" FontSize="26" Foreground="#ccd7ff" 
-                           HorizontalAlignment="Left" Margin="50,35,0,20"/>
-                
-                <!--Info Card-->
-                <Grid Grid.Row="1" Margin="50,20,15,40">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <v:InfoCardView Grid.Column="0" Title="Total Views" Number="768,234" Icon="Eye" 
-                                    Background_1="#827bff" Background_2="#d9b5ff"
-                                    EllipseBackground_1="#b298fd" EllipseBackground_2="#e4bbff"/>
-
-                    <v:InfoCardView Grid.Column="1" Title="Total Orders" Number="129,943" Icon="ShoppingCart" 
-                                    Background_1="#fd8a87" Background_2="#f3ab92"
-                                    EllipseBackground_1="#fbd5a8" EllipseBackground_2="#fdb89b"/>
-
-                    <v:InfoCardView Grid.Column="2" Title="Total Revenue" Number="870,317" Icon="Coins" 
-                                    Background_1="#fc84cb" Background_2="#fc8fae"
-                                    EllipseBackground_1="#fc8fae" EllipseBackground_2="#ffabe6"/>
-                </Grid>
-
-                <Grid Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="300"/>
-                    </Grid.ColumnDefinitions>
-
-                    <!--Chart section-->
-                    <Border Grid.Column="0" CornerRadius="20" Padding="35,25" Background="#243771" Margin="50,0,10,40">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            
-                            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,25">
-                                <fa:IconImage Icon="Circle" Style="{StaticResource titleIcon}"/>
-                                <TextBlock Text="Profit" Style="{StaticResource titleText}"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
-                                        Margin="0,0,0,25">
-                                <TextBlock Text="70000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                <TextBlock Text="60000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                <TextBlock Text="50000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                <TextBlock Text="40000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                <TextBlock Text="30000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                <TextBlock Text="20000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                <TextBlock Text="10000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                <TextBlock Text="0" Foreground="#717eb2" HorizontalAlignment="Right"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                                        Orientation="Horizontal" Margin="50,0,0,0">
-                                <TextBlock Text="1" Foreground="#717eb2"/>
-                                <TextBlock Text="2" Foreground="#717eb2" Margin="41,0,0,0"/>
-                                <TextBlock Text="3" Foreground="#717eb2" Margin="41,0,0,0"/>
-                                <TextBlock Text="4" Foreground="#717eb2" Margin="41,0,0,0"/>
-                                <TextBlock Text="5" Foreground="#717eb2" Margin="41,0,0,0"/>
-                                <TextBlock Text="6" Foreground="#717eb2" Margin="41,0,0,0"/>
-                                <TextBlock Text="7" Foreground="#717eb2" Margin="41,0,0,0"/>
-                                <TextBlock Text="8" Foreground="#717eb2" Margin="41,0,0,0"/>
-                                <TextBlock Text="9" Foreground="#717eb2" Margin="41,0,0,0"/>
-                                <TextBlock Text="10" Foreground="#717eb2" Margin="41,0,0,0"/>
-                                <TextBlock Text="11" Foreground="#717eb2" Margin="41,0,0,0"/>
-                                <TextBlock Text="12" Foreground="#717eb2" Margin="41,0,0,0"/>
-                            </StackPanel>
-                            
-                            <!--Chart-->
-                            <lc:CartesianChart Grid.Row="1" Margin="45,0,0,25">
-                                <lc:CartesianChart.Background>
-                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                        <GradientStop Color="#26376f" Offset="0"/>
-                                        <GradientStop Color="#6a6ae4" Offset="1.5"/>
-                                    </LinearGradientBrush>
-                                </lc:CartesianChart.Background>
-
-                                <lc:CartesianChart.DataTooltip>
-                                    <lc:DefaultTooltip Background="#24336a" Foreground="#d5e2ff"/>
-                                </lc:CartesianChart.DataTooltip>
-
-                                <lc:CartesianChart.AxisX>
-                                    <lc:Axis MinValue="1" MaxValue="5" Foreground="#717eb2" ShowLabels="False">
-                                        <lc:Axis.Separator>
-                                            <lc:Separator StrokeThickness="0"/>
-                                        </lc:Axis.Separator>
-                                    </lc:Axis>
-                                </lc:CartesianChart.AxisX>
-
-                                <lc:CartesianChart.AxisY>
-                                    <lc:Axis MinValue="0" MaxValue="60000" Foreground="#717eb2" ShowLabels="False">
-                                        <lc:Axis.Separator>
-                                            <lc:Separator StrokeThickness="0"/>
-                                        </lc:Axis.Separator>
-                                    </lc:Axis>
-                                </lc:CartesianChart.AxisY>
-
-                                <lc:CartesianChart.Series>
-                                    <lc:LineSeries Stroke="#ada4fd" StrokeThickness="2" PointGeometrySize="0"
-                                                   Values="20000,17000,30000,15000,50000,30000,20000">
-                                        <lc:LineSeries.Fill>
-                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                <GradientStop Color="#b397e2" Offset="0.4"/>
-                                                <GradientStop Color="#6a6ae4" Offset="1.2"/>
-                                            </LinearGradientBrush>
-                                        </lc:LineSeries.Fill>
-                                    </lc:LineSeries>
-                                </lc:CartesianChart.Series>
-                            </lc:CartesianChart>
-                            
-                        </Grid>
-                    </Border>
-
-                    <!--Last orders section-->
-                    <Border Grid.Column="1" CornerRadius="20" Padding="0,25" Background="#243771" Margin="15,0,47,40">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <StackPanel Orientation="Horizontal" Margin="20,1,0,14">
-                                <fa:IconImage Icon="Circle" Style="{StaticResource titleIcon}"/>
-                                <TextBlock Text="Last orders" Style="{StaticResource titleText}"/>  
-                            </StackPanel>
-                            
-                            <!--Orders-->
-                            <StackPanel Grid.Row="1">
-                                <v:OrderView Title="Test order" Desc="Test Seller - 10:30" Icon="Bolt"/>
-                                <v:OrderView Title="Test order" Desc="Test Seller - 11:15" Icon="Hamburger"/>
-                                <v:OrderView Title="Test order" Desc="Test Seller - 12:00" Icon="StaffSnake"/>
-                                <v:OrderView Title="Test order" Desc="Test Seller - 12:45" Icon="SackDollar"/>
-                                <v:OrderView Title="Test order" Desc="Test Seller - 12:57" Icon="Deezer"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </Grid>
-
-            </Grid>
 
         </Border>
-        
+
     </Grid>
 </Window>

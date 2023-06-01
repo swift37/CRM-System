@@ -65,13 +65,16 @@
                    Foreground="#ccd7ff"/>
         
         <!--Add Button-->
-        <Button>
+        <Button Grid.Row="1" Style="{StaticResource addButton}">
             <StackPanel Orientation="Horizontal">
                 <fa:IconImage Icon="Plus" VerticalAlignment="Center" Width="11" Height="11" Margin="0,1,8,0"/>
                 <TextBlock Text="Add New Client"/>
             </StackPanel>
         </Button>
         
+        <!--Separator-->
+        <Separator Grid.Row="3" Height="1" Background="#46558a" Margin="0,-1,0,10"/>
+
     </Grid>
     
 </UserControl>

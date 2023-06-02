@@ -281,6 +281,46 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="gridEditButton" TargetType="Button">
+        <Setter Property="Background" Value="#512da8"/>
+        <Setter Property="BorderBrush" Value="#4a148c"/>
+        <Setter Property="Foreground" Value="#ffffff"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/> 
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#673ab7"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="gridRemoveButton" TargetType="Button" BasedOn="{StaticResource gridEditButton}">
+        <Setter Property="Background" Value="#d32f2f"/>
+        <Setter Property="BorderBrush" Value="#b71c1c"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#f44336"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="gridButtonIcon" TargetType="fa:IconImage">
+        <Setter Property="Width" Value="12"/>
+        <Setter Property="Height" Value="12"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    
     <Style x:Key="pagingButtonIcon" TargetType="fa:IconImage">
         <Setter Property="Foreground" Value="#9eabe2"/>
         <Setter Property="Width" Value="10"/>

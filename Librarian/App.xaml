@@ -12,7 +12,10 @@
                 <ResourceDictionary Source="Styles/DataGrid.xaml"/>
                 <ResourceDictionary Source="Templates/MainModelViews.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
             <vm:ViewModelLocator x:Key="Locator"/>
+
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

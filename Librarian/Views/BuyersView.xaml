@@ -50,20 +50,20 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <!--Top Buttons-->
-        <Button Style="{StaticResource topButton}" Margin="0,14,20,0" Background="#dcdcdc" HorizontalAlignment="Right">
+        <Button Style="{StaticResource topButton}" Margin="0,5,20,0" Background="#dcdcdc" HorizontalAlignment="Right">
             <fa:IconImage Icon="Cog"/>
         </Button>
 
-        <Button Style="{StaticResource topButton}" Margin="0,14,55,0" HorizontalAlignment="Right">
+        <Button Style="{StaticResource topButton}" Margin="0,5,55,0" HorizontalAlignment="Right">
             <fa:IconImage Icon="Bell"/>
         </Button>
 
         <!--Main Section-->
         <TextBlock Grid.Row="1" Text="Clients" FontSize="32" FontWeight="SemiBold" Margin="0,20,0,0" HorizontalAlignment="Left"
                    Foreground="#ccd7ff"/>
-        
+
         <!--Add Button-->
         <Button Grid.Row="1" Style="{StaticResource addButton}">
             <StackPanel Orientation="Horizontal">
@@ -71,15 +71,61 @@
                 <TextBlock Text="Add New Client"/>
             </StackPanel>
         </Button>
-        
+
         <!--Separator-->
         <Separator Grid.Row="3" Height="1" Background="#46558a" Margin="0,-1,0,10"/>
-        
+
         <!--Tab Buttons-->
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
-            <Button Content="Cat 1"/>
+            <Button Content="Tab 1" Style="{StaticResource tabButton}"/>
+            <Button Content="Tab 2" Style="{StaticResource tabButton}"/>
+            <Button Content="Tab 3" Style="{StaticResource tabButton}"/>
         </StackPanel>
-        
+
+        <!--Counter Title-->
+        <TextBlock Grid.Row="4" Text="78 Clients" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff" 
+                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <TextBlock Grid.Row="4" Text="Filter by" FontSize="13" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,215,0" 
+                   HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+        <!--Filter TextBox-->
+        <Grid Grid.Row="4" Width="200" HorizontalAlignment="Right">
+            <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
+                       Panel.ZIndex="1" Text="Search in Clients ..."
+                       Visibility="{Binding ElementName=txtSearch, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+            <TextBox x:Name="txtSearch" Style="{StaticResource textBoxFilter}"/>
+        </Grid>
+
+        <!--Clients DataGrid-->
+
+        <!--Pagination Section-->
+        <Border Grid.Row="6" HorizontalAlignment="Right" CornerRadius="5" Padding="5" Background="#243771" Margin="0,10,10,10">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource pagingButton}">
+                    <fa:IconImage Icon="ChevronLeft" Style="{StaticResource pagingButtonIcon}"/>
+                </Button>
+
+                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
+
+                <Button Style="{StaticResource pagingButton}" Content="1"/>
+                <Button Style="{StaticResource pagingButton}" Content="2" Background="#7950f2" Foreground="#ffffff"/>
+                <Button Style="{StaticResource pagingButton}" Content="3"/>
+
+                <TextBlock Text="..." Foreground="#9eabe2" VerticalAlignment="Center" FontSize="15" Margin="10,0"/>
+
+                <Button Style="{StaticResource pagingButton}" Content="7"/>
+                <Button Style="{StaticResource pagingButton}" Content="8"/>
+                <Button Style="{StaticResource pagingButton}" Content="9"/>
+
+                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
+
+                <Button Style="{StaticResource pagingButton}">
+                    <fa:IconImage Icon="ChevronRight" Style="{StaticResource pagingButtonIcon}"/>
+                </Button>
+            </StackPanel>
+        </Border>
+
     </Grid>
-    
 </UserControl>

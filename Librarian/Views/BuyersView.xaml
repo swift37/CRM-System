@@ -39,7 +39,13 @@
             </ListBox.ItemTemplate>
         </ListBox>
     </DockPanel>-->
-
+    
+    <br:Interaction.Triggers>
+        <br:EventTrigger EventName="Loaded">
+            <br:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </br:EventTrigger>
+    </br:Interaction.Triggers>
+    
     <Grid Margin="30,20,20,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -100,7 +106,7 @@
         
         <!--Clients DataGrid-->
         <DataGrid Grid.Row="5" x:Name="usersDataGrid" Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}"
-                  ItemsSource="{Binding BuyersView}">
+                  ItemsSource="{Binding BuyersView}" SelectedItem="{Binding SelectedBuyer}">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" ElementStyle="{StaticResource CheckBoxStyle1}">
                     <DataGridCheckBoxColumn.HeaderTemplate>
@@ -110,26 +116,30 @@
                     </DataGridCheckBoxColumn.HeaderTemplate>
                 </DataGridCheckBoxColumn>
 
-                <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto"/>
+                <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Id}"/>
 
                 <DataGridTemplateColumn Header="Client" IsReadOnly="True" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Border Width="25" Height="25" CornerRadius="50" Margin="0,0,10,0" Background="Red">
+                                <Border Width="25" Height="25" CornerRadius="50" Margin="0,0,10,0" Background="DimGray">
                                     <TextBlock Text="..." Foreground="#ffffff" Margin="0,0,0,1" 
                                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Border>
 
-                                <TextBlock Text="..." VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Surname}" VerticalAlignment="Center" Margin="5,0,0,0"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTextColumn Header="Email Address" IsReadOnly="True" CanUserResize="False" Width="*"/>
-                <DataGridTextColumn Header="Phone Number" IsReadOnly="True" CanUserResize="False" Width="*"/>
-                <DataGridTextColumn Header="Cashback Balance" IsReadOnly="True" CanUserResize="False" Width="*"/>
+                <DataGridTextColumn Header="Email Address" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding ContactNumber}"/>
+                <DataGridTextColumn Header="Phone Number" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding ContactMail}"/>
+                <DataGridTextColumn Header="Cashback Balance" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding CashbackBalance}"/>
 
                 <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
@@ -138,7 +148,7 @@
                                 <Button Style="{StaticResource gridEditButton}">
                                     <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
                                 </Button>
-                                <Button Style="{StaticResource gridRemoveButton}">
+                                <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0">
                                     <fa:IconImage Icon="Remove" Style="{StaticResource gridButtonIcon}"/>
                                 </Button>
                             </StackPanel>

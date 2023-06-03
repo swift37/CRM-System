@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp">
 
-    <Style x:Key="menuButton" TargetType="Button">
+    <Style x:Key="menuButton" TargetType="RadioButton">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="#707db2"/>
         <Setter Property="Margin" Value="0,0,0,5"/>
@@ -11,7 +11,7 @@
         <Setter Property="Tag" Value="#6673b7"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
+                <ControlTemplate TargetType="RadioButton">
                     <Border Background="{TemplateBinding Background}" BorderThickness="4,0,0,0" BorderBrush="Transparent">
                         <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     </Border>
@@ -20,7 +20,7 @@
         </Setter>
 
         <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
+            <Trigger x:Name="qweqr"  Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="#bccaf1"/>
                 <Setter Property="Tag" Value="#7071f0"/>
                 <Setter Property="Background">
@@ -33,7 +33,30 @@
                 </Setter>
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="Button">
+                        <ControlTemplate TargetType="RadioButton">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="4,0,0,0" BorderBrush="#a5a1f5">
+                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="IsEnabled" Value="False"/>
+                <Setter Property="Foreground" Value="#bccaf1"/>
+                <Setter Property="Tag" Value="#7071f0"/>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                            <GradientStop Color="#31407b" Offset="0"/>
+                            <GradientStop Color="#495385" Offset="3"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="RadioButton">
                             <Border Background="{TemplateBinding Background}" BorderThickness="4,0,0,0" BorderBrush="#a5a1f5">
                                 <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                             </Border>
@@ -44,42 +67,17 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="menuButtonActive" TargetType="Button">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                    <GradientStop Color="#31407b" Offset="0"/>
-                    <GradientStop Color="#495385" Offset="3"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Foreground" Value="#bccaf1"/>
-        <Setter Property="Margin" Value="0,0,0,5"/>
-        <Setter Property="Height" Value="45"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="Tag" Value="#7071f0"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" BorderThickness="4,0,0,0" BorderBrush="#a5a1f5">
-                        <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
     <Style x:Key="menuButtonIcon" TargetType="fa:IconImage">
         <Setter Property="Width" Value="23"/>
         <Setter Property="Height" Value="23"/>
         <Setter Property="Margin" Value="35,0,20,0"/>
-        <Setter Property="Foreground" Value="{Binding Path=Tag,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}"/>
+        <Setter Property="Foreground" Value="{Binding Path=Tag,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type RadioButton}}}"/>
     </Style>
 
     <Style x:Key="menuButtonText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="{Binding Path=Foreground,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}"/>
+        <Setter Property="Foreground" Value="{Binding Path=Foreground,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type RadioButton}}}"/>
         
     </Style>
 
@@ -205,7 +203,7 @@
     </Style>
 
     <Style x:Key="addButton" TargetType="Button">
-        <Setter Property="Background" Value="#6741d9"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="#ffffff"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Width" Value="150"/>
@@ -225,7 +223,7 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#7b5cd6"/>
+                <Setter Property="Background" Value="#5b60c4"/>
                 <Setter Property="Foreground" Value="#ffffff"/>
             </Trigger>
         </Style.Triggers>
@@ -275,15 +273,15 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#7950f2"/>
+                <Setter Property="Background" Value="#5b60c4"/>
                 <Setter Property="Foreground" Value="#ffffff"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="gridEditButton" TargetType="Button">
-        <Setter Property="Background" Value="#512da8"/>
-        <Setter Property="BorderBrush" Value="#4a148c"/>
+        <Setter Property="Background" Value="#5b60c4"/>
+        <Setter Property="BorderBrush" Value="#5b60c4"/>
         <Setter Property="Foreground" Value="#ffffff"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

@@ -9,37 +9,7 @@
              xmlns:local="clr-namespace:Librarian.Views"
              d:DataContext="{d:DesignInstance {x:Type vm:BuyersViewModel}, IsDesignTimeCreatable=True}"
              d:DesignWidth="1030" d:DesignHeight="740">
-    <!--<br:Interaction.Triggers>
-        <br:EventTrigger EventName="Loaded">
-            <br:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
-        </br:EventTrigger>
-    </br:Interaction.Triggers>
-    <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Text="Clients" 
-                   FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10"/>
-        <TextBox DockPanel.Dock="Top" Height="25" Margin="175,0" VerticalContentAlignment="Center" FontSize="14"
-                 Text="{Binding BuyersFilter, UpdateSourceTrigger=PropertyChanged}"/>
-        <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right" Margin="0,0,35,10">
-            <Button Content="Remove" Padding="35,1" Margin="0,0,10,0" Command="{Binding RemoveBuyerCommand}" 
-                    CommandParameter="{Binding SelectedBuyer}"/>
-            <Button Content="Add" Padding="35,1" Margin="10,0,0,0" Command="{Binding AddBuyerCommand}"/>
-        </UniformGrid>
-        <ListBox DockPanel.Dock="Bottom" Margin="25,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
-                 ItemsSource="{Binding BuyersView}" SelectedItem="{Binding SelectedBuyer}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name, StringFormat=Name: {0}}" FontSize="14" Margin="5,3,5,3"/>
-                        <TextBlock Text="{Binding Surname}" FontSize="14" Margin="5,3,25,3"/>
-                        <TextBlock Text="{Binding ContactNumber, StringFormat=Number: {0}}" FontSize="14" Margin="5,3,25,3"/>
-                        <TextBlock Text="{Binding ContactMail, StringFormat=Mail: {0}}" FontSize="14" Margin="5,3,25,3"/>
-                        <TextBlock Text="{Binding CashbackBalance, StringFormat=CashbackBalance: {0}}" FontSize="14" Margin="5,3"/> 
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-    </DockPanel>-->
-    
+
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">
             <br:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
@@ -58,17 +28,17 @@
         </Grid.RowDefinitions>
 
         <!--Top Buttons-->
-        <Button Style="{StaticResource topButton}" Margin="0,5,20,0" Background="#dcdcdc" HorizontalAlignment="Right">
+        <!--<Button Style="{StaticResource topButton}" Margin="0,5,20,0" Background="#dcdcdc" HorizontalAlignment="Right">
             <fa:IconImage Icon="Cog"/>
         </Button>
 
         <Button Style="{StaticResource topButton}" Margin="0,5,55,0" HorizontalAlignment="Right">
             <fa:IconImage Icon="Bell"/>
-        </Button>
+        </Button>-->
 
         <!--Main Section-->
         <TextBlock Grid.Row="1" Text="Clients" FontSize="32" FontWeight="SemiBold" Margin="0,20,0,0" HorizontalAlignment="Left"
-                   Foreground="#ccd7ff"/>
+                   Foreground="#ffffff"/>
 
         <!--Add Button-->
         <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddBuyerCommand}">
@@ -79,14 +49,15 @@
         </Button>
 
         <!--Separator-->
-        <Separator Grid.Row="3" Height="1" Background="#46558a" Margin="0,-1,0,10"/>
-
+        <!--<Separator Grid.Row="3" Height="1" Background="#46558a" Margin="0,-1,0,10"/>-->
+        <Separator Grid.Row="3" Height="1" Background="#46558a" Margin="0,11,0,10"/>
+        
         <!--Tab Buttons-->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
+        <!--<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
             <Button Content="Tab 1" Style="{StaticResource tabButton}"/>
             <Button Content="Tab 2" Style="{StaticResource tabButton}"/>
             <Button Content="Tab 3" Style="{StaticResource tabButton}"/>
-        </StackPanel>
+        </StackPanel>-->
 
         <!--Counter Title-->
         <TextBlock Grid.Row="4" Text="78 Clients" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff" 
@@ -101,7 +72,7 @@
                        Panel.ZIndex="1" Text="Search in Clients ..."
                        Visibility="{Binding ElementName=txtSearch, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
-            <TextBox x:Name="txtSearch" Style="{StaticResource textBoxFilter}" Text="{Binding BuyersFilter}"/>
+            <TextBox x:Name="txtSearch" Style="{StaticResource textBoxFilter}" Text="{Binding BuyersFilter, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         
         <!--Clients DataGrid-->
@@ -122,8 +93,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Border Width="25" Height="25" CornerRadius="50" Margin="0,0,10,0" Background="DimGray">
-                                    <TextBlock Text="..." Foreground="#ffffff" Margin="0,0,0,1" 
+                                <Border Width="25" Height="25" CornerRadius="50" Margin="0,0,10,0" Background="PaleVioletRed">
+                                    <TextBlock Text="A" Foreground="#ffffff" Margin="0,0,0,1" 
                                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Border>
 
@@ -135,9 +106,9 @@
                 </DataGridTemplateColumn>
                 
                 <DataGridTextColumn Header="Email Address" IsReadOnly="True" CanUserResize="False" Width="*"
-                                    Binding="{Binding ContactNumber}"/>
-                <DataGridTextColumn Header="Phone Number" IsReadOnly="True" CanUserResize="False" Width="*"
                                     Binding="{Binding ContactMail}"/>
+                <DataGridTextColumn Header="Phone Number" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding ContactNumber}"/>
                 <DataGridTextColumn Header="Cashback Balance" IsReadOnly="True" CanUserResize="False" Width="*"
                                     Binding="{Binding CashbackBalance}"/>
 
@@ -145,11 +116,12 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource gridEditButton}">
+                                <Button Style="{StaticResource gridEditButton}" Command="{Binding AddBuyerCommand}">
                                     <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
                                 </Button>
-                                <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0">
-                                    <fa:IconImage Icon="Remove" Style="{StaticResource gridButtonIcon}"/>
+                                <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
+                                        Command="{Binding RemoveBuyerCommand}" CommandParameter="{Binding SelectedBuyer}">
+                                    <fa:IconImage Icon="TrashAlt" Style="{StaticResource gridButtonIcon}"/>
                                 </Button>
                             </StackPanel>
                         </DataTemplate>
@@ -169,7 +141,7 @@
                 <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
 
                 <Button Style="{StaticResource pagingButton}" Content="1"/>
-                <Button Style="{StaticResource pagingButton}" Content="2" Background="#7950f2" Foreground="#ffffff"/>
+                <Button Style="{StaticResource pagingButton}" Content="2" Background="#5b60c4" Foreground="#ffffff"/>
                 <Button Style="{StaticResource pagingButton}" Content="3"/>
 
                 <TextBlock Text="..." Foreground="#9eabe2" VerticalAlignment="Center" FontSize="15" Margin="10,0"/>

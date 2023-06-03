@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:vm="clr-namespace:Librarian.ViewModels"
         xmlns:local="clr-namespace:Librarian"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Width="1280" Height="740" WindowStartupLocation="CenterScreen"
@@ -53,68 +54,68 @@
                 <Separator Height="0.8" Margin="20,30" Background="#46558a"/>
 
                 <!--Menu buttons-->
-                <Button Style="{StaticResource menuButtonActive}" Command="{Binding ShowDashboardViewCommand}">
+                <RadioButton Style="{StaticResource menuButton}" Command="{Binding ShowDashboardViewCommand}" IsChecked="True">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Dashboard" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
-                </Button>
+                </RadioButton>
 
-                <Button Style="{StaticResource menuButton}" Command="{Binding ShowBooksViewCommand}">
+                <RadioButton Style="{StaticResource menuButton}" Command="{Binding ShowBooksViewCommand}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Book" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Books" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
-                </Button>
+                </RadioButton>
 
-                <Button Style="{StaticResource menuButton}" Command="{Binding ShowCategoriesViewCommand}"> 
+                <RadioButton Style="{StaticResource menuButton}" Command="{Binding ShowCategoriesViewCommand}"> 
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="TableList" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Categories" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
-                </Button>
+                </RadioButton>
 
-                <Button Style="{StaticResource menuButton}" Command="{Binding ShowBuyersViewCommand}">
+                <RadioButton Style="{StaticResource menuButton}" Command="{Binding ShowBuyersViewCommand}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="UsersViewfinder " Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Clients" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
-                </Button>
+                </RadioButton>
 
-                <Button Style="{StaticResource menuButton}" Command="{Binding ShowSellersViewCommand}">
+                <RadioButton Style="{StaticResource menuButton}" Command="{Binding ShowSellersViewCommand}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Users" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Sellers" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
-                </Button>
+                </RadioButton>
 
-                <Button Style="{StaticResource menuButton}" Command="{Binding ShowTransactionsViewCommand}">
+                <RadioButton Style="{StaticResource menuButton}" Command="{Binding ShowTransactionsViewCommand}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Coins" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Transactions" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
-                </Button>
+                </RadioButton>
 
-                <Button Style="{StaticResource menuButton}" Command="{Binding ShowStatisticViewCommand}">
+                <RadioButton Style="{StaticResource menuButton}" Command="{Binding ShowStatisticViewCommand}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="ChartArea" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Statistic" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
-                </Button>
+                </RadioButton>
                 
-                <Button Style="{StaticResource menuButton}">
+                <RadioButton Style="{StaticResource menuButton}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Cog" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Settings" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
-                </Button>
+                </RadioButton>
 
-                <Button Style="{StaticResource menuButton}">
+                <RadioButton Style="{StaticResource menuButton}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="PowerOff" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Logout" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
-                </Button>
+                </RadioButton>
             </StackPanel> 
             
         </Border>

@@ -20,9 +20,10 @@
     <!--#endregion-->
 
     <!--#region DataGrid Custom Style-->
+    
     <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="#222528"/>
+        <Setter Property="Foreground" Value="#7c8dc3"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
@@ -40,6 +41,7 @@
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="ColumnWidth" Value="*"/>
         <Setter Property="GridLinesVisibility" Value="None"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGrid}">
@@ -95,7 +97,7 @@
 
     <Style x:Key="DataGridColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="#69717d"/>
+        <Setter Property="Foreground" Value="#ffffff"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Margin" Value="15,0,15,10"/>
         <Setter Property="Template">
@@ -114,7 +116,7 @@
     </Style>
 
     <Style x:Key="DataGridRowStyle1" TargetType="{x:Type DataGridRow}">
-        <Setter Property="Background" Value="#ffffff"/>
+        <Setter Property="Background" Value="#243771"/>
         <Setter Property="Margin" Value="0,4,0,0"/>
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
@@ -149,12 +151,12 @@
         
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#623ed0"/>
+                <Setter Property="Background" Value="#364c8f"/>
                 <Setter Property="Foreground" Value="#ffffff"/>
             </Trigger>
 
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#623ed0"/>
+                <Setter Property="Background" Value="#364c8f"/>
                 <Setter Property="Foreground" Value="#ffffff"/>
             </Trigger>
 
@@ -163,8 +165,8 @@
                     <Condition Property="IsSelected" Value="True"/>
                     <Condition Property="Selector.IsSelectionActive" Value="False"/>
                 </MultiTrigger.Conditions>
-                
-                <Setter Property="Background" Value="#dfdfdf"/>
+
+                <Setter Property="Background" Value="#364c8f"/>
             </MultiTrigger>
         </Style.Triggers>
     </Style>
@@ -183,6 +185,17 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsSelected" Value="True"/>
+                    <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                </MultiTrigger.Conditions>
+
+                <Setter Property="Foreground" Value="#ffffff"/>
+            </MultiTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">

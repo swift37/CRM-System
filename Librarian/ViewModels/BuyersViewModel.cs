@@ -160,10 +160,10 @@ namespace Librarian.ViewModels
 
             _buyersViewSource = new CollectionViewSource
             {
-                SortDescriptions =
-                {
-                    new SortDescription(nameof(Buyer.Name), ListSortDirection.Ascending)
-                }
+                //SortDescriptions =
+                //{
+                //    new SortDescription(nameof(Buyer.Name), ListSortDirection.Ascending)
+                //}
             };
 
             _buyersViewSource.Filter += OnBuyersFilter;

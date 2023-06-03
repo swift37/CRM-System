@@ -5,7 +5,7 @@ using Librarian.Tools;
 
 namespace Librarian.Infrastructure.Behaviors
 {
-    class WindowTitleBarBehavior : Behavior<UIElement>
+    public class WindowTitleBarBehavior : Behavior<UIElement>
     {
         protected override void OnAttached() => AssociatedObject.MouseLeftButtonDown += OnMouseLeftButtonDown;
 

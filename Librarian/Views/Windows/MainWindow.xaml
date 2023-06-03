@@ -112,6 +112,9 @@
                 </RadioButton>
 
                 <RadioButton Style="{StaticResource menuButton}">
+                    <br:Interaction.Behaviors>
+                        <b:CloseWindow/>
+                    </br:Interaction.Behaviors>
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="PowerOff" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Logout" Style="{StaticResource menuButtonText}"/>

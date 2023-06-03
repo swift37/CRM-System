@@ -43,7 +43,7 @@
         <!--Add Button-->
         <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddBuyerCommand}">
             <StackPanel Orientation="Horizontal">
-                <fa:IconImage Icon="Plus" Foreground="#ffffff" VerticalAlignment="Center" Width="11" Height="11" Margin="0,1,8,0"/>
+                <fa:IconImage Icon="Plus" Foreground="#ffffff" VerticalAlignment="Center" Width="12" Height="12" Margin="0,1,8,0"/>
                 <TextBlock Text="Add New Client"/>
             </StackPanel>
         </Button>

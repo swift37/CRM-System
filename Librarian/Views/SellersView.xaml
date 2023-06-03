@@ -62,7 +62,7 @@
         <!--Filter TextBox-->
         <Grid Grid.Row="4" Width="200" HorizontalAlignment="Right">
             <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
-                       Panel.ZIndex="1" Text="Search in Clients ..."
+                       Panel.ZIndex="1" Text="Search in Sellers ..."
                        Visibility="{Binding ElementName=txtSearch, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
             <TextBox x:Name="txtSearch" Style="{StaticResource textBoxFilter}" Text="{Binding SellersFilter, UpdateSourceTrigger=PropertyChanged}"/>
@@ -82,7 +82,7 @@
 
                 <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Id}"/>
 
-                <DataGridTemplateColumn Header="Client" IsReadOnly="True" Width="*">
+                <DataGridTemplateColumn Header="Seller" IsReadOnly="True" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

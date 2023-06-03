@@ -32,6 +32,15 @@ namespace Librarian.ViewModels
         public ICollectionView SellersView => _sellersViewSource.View;
         #endregion
 
+        #region SellersCount
+        private int _SellersCount;
+
+        /// <summary>
+        /// Sellers count
+        /// </summary>
+        public int SellersCount { get => _SellersCount; set => Set(ref _SellersCount, value); }
+        #endregion
+
         #region Sellers
         private ObservableCollection<Seller>? _Sellers;
 
@@ -96,6 +105,8 @@ namespace Librarian.ViewModels
             if (_sellersRepository.Entities is null) return;
 
             Sellers = (await _sellersRepository.Entities.ToArrayAsync()).ToObservableCollection();
+
+            SellersCount = await _sellersRepository.Entities.CountAsync();
         }
         #endregion
 
@@ -171,10 +182,10 @@ namespace Librarian.ViewModels
 
             _sellersViewSource = new CollectionViewSource
             {
-                SortDescriptions =
-                {
-                    new SortDescription(nameof(Seller.Name), ListSortDirection.Ascending)
-                }
+                //SortDescriptions =
+                //{
+                //    new SortDescription(nameof(Seller.Name), ListSortDirection.Ascending)
+                //}
             };
 
             _sellersViewSource.Filter += OnSellersFilter;

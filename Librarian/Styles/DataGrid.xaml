@@ -21,7 +21,7 @@
 
     <!--#region DataGrid Custom Style-->
     
-    <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
+    <Style x:Key="DataGridCustomStyle" TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="#7c8dc3"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -39,6 +39,7 @@
         <Setter Property="CanUserResizeRows" Value="False"/>
         <Setter Property="CanUserReorderColumns" Value="False"/>
         <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="ColumnWidth" Value="*"/>
         <Setter Property="GridLinesVisibility" Value="None"/>
         <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
@@ -95,7 +96,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DataGridColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
+    <Style x:Key="DataGridColumnHeaderCustomStyle" TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="#ffffff"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -115,7 +116,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DataGridRowStyle1" TargetType="{x:Type DataGridRow}">
+    <Style x:Key="DataGridRowCustomStyle" TargetType="{x:Type DataGridRow}">
         <Setter Property="Background" Value="#243771"/>
         <Setter Property="Margin" Value="0,4,0,0"/>
         <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -171,7 +172,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="DataGridCellStyle1" TargetType="{x:Type DataGridCell}">
+    <Style x:Key="DataGridCellCustomStyle" TargetType="{x:Type DataGridCell}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>

@@ -2,7 +2,34 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp">
 
-    <Style x:Key="menuButton" TargetType="RadioButton">
+    <Style x:Key="TabControlCustomStyle" TargetType="{x:Type TabControl}">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ColumnDefinition0"/>
+                            <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
+                            <RowDefinition x:Name="RowDefinition1" Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TabPanel x:Name="headerPanel" Background="Transparent" Grid.Column="0" IsItemsHost="true" Margin="0,0,0,10" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
+                        <Border x:Name="contentPanel" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                            <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="menuRadioButton" TargetType="RadioButton">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="#707db2"/>
         <Setter Property="Margin" Value="0,0,0,5"/>
@@ -67,14 +94,14 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="menuButtonIcon" TargetType="fa:IconImage">
+    <Style x:Key="menuRadioButtonIcon" TargetType="fa:IconImage">
         <Setter Property="Width" Value="23"/>
         <Setter Property="Height" Value="23"/>
         <Setter Property="Margin" Value="35,0,20,0"/>
         <Setter Property="Foreground" Value="{Binding Path=Tag,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type RadioButton}}}"/>
     </Style>
 
-    <Style x:Key="menuButtonText" TargetType="TextBlock">
+    <Style x:Key="menuRadioButtonText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="{Binding Path=Foreground,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type RadioButton}}}"/>
@@ -127,6 +154,7 @@
         <Setter Property="Foreground" Value="#b0b9c6"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="Padding" Value="15,10"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="0,10"/>
@@ -178,7 +206,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="topButton" TargetType="Button">
+    <Style x:Key="topAppButton" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="#6e7783"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -260,6 +288,7 @@
         <Setter Property="Foreground" Value="#9eabe2"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="Margin" Value="1,0"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -327,7 +356,52 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
-    <!--#region CheckBox Castom Style-->
+    <Style x:Key="TabItemCustomStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="#ffffff"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="45"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
+                        <Border x:Name="mainBorder" Background="{TemplateBinding Background}" BorderThickness="0,0,0,1" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="true"/>
+                                <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="BorderBrush" Value="#784ff2"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}}" Value="false"/>
+                                <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="BorderBrush" Value="#784ff2"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=Self}}" Value="true"/>
+                                <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="BorderBrush" Value="#784ff2"/>
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--#region CheckBox Custom Style-->
 
     <SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>
     <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070"/>
@@ -341,7 +415,7 @@
     <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6"/>
     <SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC"/>
     <SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
-    <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}">
+    <Style x:Key="CheckBoxCustomStyle" TargetType="{x:Type CheckBox}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
         <Setter Property="BorderBrush" Value="#dae2ea"/>

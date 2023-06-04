@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:local="clr-namespace:Librarian.Views"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:vm="clr-namespace:Librarian.ViewModels"
+             xmlns:local="clr-namespace:Librarian.Views"
              d:DataContext="{d:DesignInstance {x:Type vm:StatisticViewModel}}" 
              d:DesignHeight="525" d:DesignWidth="900">
     <br:Interaction.Triggers>
@@ -13,7 +14,68 @@
             <br:InvokeCommandAction Command="{Binding CollectStatisticsCommand}"/>
         </br:EventTrigger>
     </br:Interaction.Triggers>
-    <TabControl>
+
+    <Grid Margin="30,20,20,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--Main Section-->
+        <TextBlock Grid.Row="1" Text="Statistic" FontSize="32" FontWeight="SemiBold" Margin="0,20,0,0" HorizontalAlignment="Left"
+                   Foreground="#ffffff"/>
+
+        <!--Separator-->
+        <Separator Grid.Row="2" Height="1" Background="#46558a" Margin="0,54,0,10"/>
+
+        <!--Tab Contol-->
+        <TabControl Style="{DynamicResource TabControlCustomStyle}" Grid.Row="3" Margin="0,-55,0,0">
+
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Books">
+                
+            </TabItem>
+
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Categories">
+            </TabItem>
+
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Sellers">
+            </TabItem>
+            
+        </TabControl>
+
+        <!--Pagination Section-->
+        <Border Grid.Row="4" HorizontalAlignment="Right" CornerRadius="5" Padding="5" Background="#243771" Margin="0,10,10,10">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource pagingButton}">
+                    <fa:IconImage Icon="ChevronLeft" Style="{StaticResource pagingButtonIcon}"/>
+                </Button>
+
+                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
+
+                <Button Style="{StaticResource pagingButton}" Content="1"/>
+                <Button Style="{StaticResource pagingButton}" Content="2" Background="#5b60c4" Foreground="#ffffff"/>
+                <Button Style="{StaticResource pagingButton}" Content="3"/>
+
+                <TextBlock Text="..." Foreground="#9eabe2" VerticalAlignment="Center" FontSize="15" Margin="10,0"/>
+
+                <Button Style="{StaticResource pagingButton}" Content="7"/>
+                <Button Style="{StaticResource pagingButton}" Content="8"/>
+                <Button Style="{StaticResource pagingButton}" Content="9"/>
+
+                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
+
+                <Button Style="{StaticResource pagingButton}">
+                    <fa:IconImage Icon="ChevronRight" Style="{StaticResource pagingButtonIcon}"/>
+                </Button>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+
+    <!--<TabControl>
         <TabItem Header="Books">
             <GroupBox Header="Top books">
                 <DockPanel>
@@ -51,5 +113,5 @@
                 </DataGrid>
             </GroupBox>
         </TabItem>
-    </TabControl>
+    </TabControl>-->
 </UserControl>

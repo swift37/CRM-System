@@ -35,15 +35,133 @@
         <TabControl Style="{DynamicResource TabControlCustomStyle}" Grid.Row="3" Margin="0,-55,0,0">
 
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Books">
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="50" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,7,0"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="Top Books" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="0" Text="Filter by" FontSize="13" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,215,0" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                    <!--Filter TextBox-->
+                    <Grid Grid.Row="0" Width="200" HorizontalAlignment="Right">
+                        <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Search in Top Books ..." FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtSearch, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtSearch" Style="{StaticResource textBoxFilter}" Text="{Binding BooksNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <!--Clients DataGrid-->
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                              ItemsSource="{Binding TopBooksView}">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Book.Id}"/>
+
+                            <DataGridTextColumn Header="Book" IsReadOnly="True" CanUserResize="False" Width="*"
+                                                Binding="{Binding Book.Name}"/>
+                            <DataGridTextColumn Header="Transactions Amount" IsReadOnly="True" CanUserResize="False" Width="175"
+                                                Binding="{Binding TransactionsAmount, StringFormat=#.## $}"/>
+                            <DataGridTextColumn Header="Transactions Count" IsReadOnly="True" CanUserResize="False" Width="175" 
+                                                Binding="{Binding TransactionsCount}"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </TabItem>
 
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Categories">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="Top Categories" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!--Clients DataGrid-->
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                              ItemsSource="{Binding TopCategories}">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Category.Id}"/>
+
+                            <DataGridTextColumn Header="Category" IsReadOnly="True" CanUserResize="False" Width="*"
+                                                Binding="{Binding Category.Name}"/>
+                            <DataGridTextColumn Header="Transactions Amount" IsReadOnly="True" CanUserResize="False" Width="175"
+                                                Binding="{Binding TransactionsAmount, StringFormat=#.## $}"/>
+                            <DataGridTextColumn Header="Transactions Count" IsReadOnly="True" CanUserResize="False" Width="175" 
+                                                Binding="{Binding TransactionsCount}"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </TabItem>
 
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Sellers">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="Top Sellers" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!--Clients DataGrid-->
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                              ItemsSource="{Binding TopSellers}">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Seller.Id}"/>
+
+                            <DataGridTemplateColumn Header="Seller" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="25" Height="25" CornerRadius="50" Margin="0,0,10,0" Background="PaleVioletRed">
+                                                <TextBlock Text="A" Foreground="#ffffff" Margin="0,0,0,1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>
+
+                                            <TextBlock Text="{Binding Seller.Name}" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Seller.Surname}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Deals Amount" IsReadOnly="True" CanUserResize="False" Width="175"
+                                                Binding="{Binding DealsAmount, StringFormat=#.## $}"/>
+                            <DataGridTextColumn Header="Deals Count" IsReadOnly="True" CanUserResize="False" Width="175" 
+                                                Binding="{Binding DealsCount}"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </TabItem>
-            
+
         </TabControl>
 
         <!--Pagination Section-->
@@ -74,44 +192,4 @@
         </Border>
 
     </Grid>
-
-    <!--<TabControl>
-        <TabItem Header="Books">
-            <GroupBox Header="Top books">
-                <DockPanel>
-                    <TextBox DockPanel.Dock="Top" Margin="5" Height="23" VerticalContentAlignment="Center" FontSize="14"
-                             Text="{Binding BooksNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
-                    <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding TopBooksView}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Book" Width="*" Binding="{Binding Book.Name}"/>
-                            <DataGridTextColumn Header="Transactions amount" Binding="{Binding TransactionsAmount, StringFormat=#.## $}"/>
-                            <DataGridTextColumn Header="Transactions count" Binding="{Binding TransactionsCount}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </DockPanel>
-            </GroupBox>
-        </TabItem>
-        <TabItem Header="Categories">
-            <GroupBox Header="Top categories">
-                <DataGrid ItemsSource="{Binding TopCategories}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Category" Width="*" Binding="{Binding Category.Name}"/>
-                        <DataGridTextColumn Header="Transactions amount" Binding="{Binding TransactionsAmount, StringFormat=#.## $}"/>
-                        <DataGridTextColumn Header="Transactions count" Binding="{Binding TransactionsCount}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </GroupBox>
-        </TabItem>
-        <TabItem Header="Sellers">
-            <GroupBox Header="Top sellers">
-                <DataGrid ItemsSource="{Binding TopSellers}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Seller" Width="*" Binding="{Binding Seller}"/>
-                        <DataGridTextColumn Header="Deals amount" Binding="{Binding DealsAmount}"/>
-                        <DataGridTextColumn Header="Deals count" Binding="{Binding DealsCount}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </GroupBox>
-        </TabItem>
-    </TabControl>-->
 </UserControl>

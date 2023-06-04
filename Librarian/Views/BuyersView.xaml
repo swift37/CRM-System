@@ -49,15 +49,7 @@
         </Button>
 
         <!--Separator-->
-        <!--<Separator Grid.Row="3" Height="1" Background="#46558a" Margin="0,-1,0,10"/>-->
         <Separator Grid.Row="3" Height="1" Background="#46558a" Margin="0,11,0,10"/>
-        
-        <!--Tab Buttons-->
-        <!--<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
-            <Button Content="Tab 1" Style="{StaticResource tabButton}"/>
-            <Button Content="Tab 2" Style="{StaticResource tabButton}"/>
-            <Button Content="Tab 3" Style="{StaticResource tabButton}"/>
-        </StackPanel>-->
 
         <!--Counter Title-->
         <StackPanel Grid.Row="4" Orientation="Horizontal">

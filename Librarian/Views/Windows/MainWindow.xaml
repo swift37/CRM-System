@@ -116,8 +116,8 @@
                         <b:CloseWindow/>
                     </br:Interaction.Behaviors>
                     <StackPanel Orientation="Horizontal">
-                        <fa:IconImage Icon="PowerOff" Style="{StaticResource menuRadioButtonIcon}"/>
-                        <TextBlock Text="Logout" Style="{StaticResource menuRadioButtonText}"/>
+                        <fa:IconImage Icon="SignOut" Style="{StaticResource menuRadioButtonIcon}"/>
+                        <TextBlock Text="Sign Out" Style="{StaticResource menuRadioButtonText}"/>
                     </StackPanel>
                 </RadioButton>
             </StackPanel> 

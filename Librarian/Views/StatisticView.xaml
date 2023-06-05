@@ -44,9 +44,6 @@
 
                     <!--Counter Title-->
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <TextBlock Text="50" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,7,0"
-                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
-
                         <TextBlock Text="Top Books" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
                                    HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </StackPanel>
@@ -85,7 +82,7 @@
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Categories">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="52"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
@@ -118,7 +115,7 @@
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Sellers">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="52"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>

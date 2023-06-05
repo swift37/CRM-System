@@ -75,7 +75,7 @@
 
                     <!--Actual Books DataGrid-->
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
-                              ItemsSource="{Binding BooksView}">
+                              ItemsSource="{Binding BooksView}" SelectedItem="{Binding SelectedBook}">
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Id}"/>
@@ -91,11 +91,12 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding AddBookCommand}">
+                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.AddBookCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                                 <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
-                                                    Command="{Binding RemoveBookCommand}" CommandParameter="{Binding SelectedBook}">
+                                                    Command="{Binding DataContext.RemoveBookCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                                    CommandParameter="{Binding SelectedBook}">
                                                 <fa:IconImage Icon="TrashAlt" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                         </StackPanel>

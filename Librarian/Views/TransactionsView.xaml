@@ -104,12 +104,12 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.AddTransactionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                                <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
+                                                <fa:IconImage Icon="Edit" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
                                                     Command="{Binding DataContext.RemoveTransactionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                                     CommandParameter="{Binding SelectedTransaction}">
-                                                <fa:IconImage Icon="TrashAlt" Style="{StaticResource gridButtonIcon}"/>
+                                                <fa:IconImage Icon="Trash" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>

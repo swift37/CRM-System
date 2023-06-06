@@ -33,7 +33,8 @@
 
         <!--Tab Contol-->
         <TabControl Style="{DynamicResource TabControlCustomStyle}" Grid.Row="3" Margin="0,-55,0,0">
-
+            
+            <!--Books-->
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Books">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -61,7 +62,7 @@
                     </Grid>
 
                     <!--Clients DataGrid-->
-                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStatisticStyle}"
                               ItemsSource="{Binding TopBooksView}">
                         <DataGrid.Columns>
 
@@ -78,7 +79,8 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-
+            
+            <!--Categories-->
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Categories">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -94,7 +96,7 @@
                     </StackPanel>
 
                     <!--Clients DataGrid-->
-                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStatisticStyle}"
                               ItemsSource="{Binding TopCategories}">
                         <DataGrid.Columns>
 
@@ -111,7 +113,8 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-
+            
+            <!--Sellers-->
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Sellers">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -127,7 +130,7 @@
                     </StackPanel>
 
                     <!--Clients DataGrid-->
-                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStatisticStyle}"
                               ItemsSource="{Binding TopSellers}">
                         <DataGrid.Columns>
 

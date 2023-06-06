@@ -118,7 +118,7 @@
                                 </Button>
                                 <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
                                         Command="{Binding RemoveBuyerCommand}" CommandParameter="{Binding SelectedBuyer}">
-                                    <fa:IconImage Icon="TrashAlt" Style="{StaticResource gridButtonIcon}"/>
+                                    <fa:IconImage Icon="Trash" Style="{StaticResource gridButtonIcon}"/>
                                 </Button>
                             </StackPanel>
                         </DataTemplate>

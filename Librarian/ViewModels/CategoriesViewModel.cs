@@ -34,6 +34,15 @@ namespace Librarian.ViewModels
         public ICollectionView CategoriesView => _categoriesViewSource.View;
         #endregion
 
+        #region CategoriesCount
+        private int _CategoriesCount;
+
+        /// <summary>
+        /// Categories count
+        /// </summary>
+        public int CategoriesCount { get => _CategoriesCount; set => Set(ref _CategoriesCount, value); }
+        #endregion
+
         #region CategoriesNameFilter
         private string? _CategoriesNameFilter;
 
@@ -95,6 +104,8 @@ namespace Librarian.ViewModels
             if (_categoriesRepository.Entities is null) return;
 
             Categories = (await _categoriesRepository.Entities.ToArrayAsync()).ToObservableCollection();
+
+            CategoriesCount = await _categoriesRepository.Entities.CountAsync();
         }
         #endregion
 

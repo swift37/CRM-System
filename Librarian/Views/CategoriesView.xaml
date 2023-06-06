@@ -72,7 +72,7 @@
                         <TextBox x:Name="txtSearch" Style="{StaticResource textBoxFilter}" Text="{Binding CategoriesNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
 
-                    <!--Actual Books DataGrid-->
+                    <!--Actual Categories DataGrid-->
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
                               ItemsSource="{Binding CategoriesView}" SelectedItem="{Binding SelectedCategory}">
                         <DataGrid.Columns>
@@ -93,7 +93,7 @@
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
                                                     Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                                                    CommandParameter="{Binding SelectedBook}">
+                                                    CommandParameter="{Binding SelectedCategory}">
                                                 <fa:IconImage Icon="TrashAlt" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                         </StackPanel>

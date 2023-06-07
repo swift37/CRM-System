@@ -29,11 +29,18 @@
         <TextBlock Grid.Row="1" Text="Books" FontSize="32" FontWeight="SemiBold" Margin="0,20,0,0" HorizontalAlignment="Left"
                    Foreground="#ffffff"/>
 
-        <!--Add Button-->
+        <!--Add Buttons-->
         <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddBookCommand}">
             <StackPanel Orientation="Horizontal">
-                <fa:IconImage Icon="Plus" Foreground="#ffffff" VerticalAlignment="Center" Width="12" Height="12" Margin="0,1,8,0"/>
+                <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
                 <TextBlock Text="Add New Book"/>
+            </StackPanel>
+        </Button>
+        
+        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddBookCommand}" Margin="0,0,0,-100" Panel.ZIndex="10000">
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
+                <TextBlock Text="Add New Category"/>
             </StackPanel>
         </Button>
 
@@ -73,9 +80,37 @@
                         <TextBox x:Name="txtSearch" Style="{StaticResource textBoxFilter}" Text="{Binding BooksFilter, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
 
-                    <!--Actual Books DataGrid-->
+                    <!--Actual Books DataGrid-->                    
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
-                              ItemsSource="{Binding BooksView}" SelectedItem="{Binding SelectedBook}">
+                              ItemsSource="{Binding BooksView}" SelectedItem="{Binding SelectedBook}"
+                              VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit ="Pixel" VirtualizingPanel.VirtualizationMode="Recycling">
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.Panel>
+                                    <ItemsPanelTemplate>
+                                        <DataGridRowsPresenter/>
+                                    </ItemsPanelTemplate>
+                                </GroupStyle.Panel>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Border CornerRadius="5" Background="Transparent" Margin="0,4,0,0" Height="40">
+                                            <DockPanel Margin="5,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Style="{StaticResource categoryTitleText}" Text="{Binding Name}"/>
+                                                    <TextBlock Style="{StaticResource categoryTitleText}" Text="{Binding ItemCount, StringFormat=({0})}"/>
+                                                </StackPanel>
+                                                <Button DockPanel.Dock="Right" Style="{StaticResource addButton}" Margin="0" Command="{Binding DataContext.AddBookCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
+                                                        <TextBlock Text="Add New Book"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </DockPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Id}"/>

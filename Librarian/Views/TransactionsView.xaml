@@ -31,7 +31,7 @@
         <!--Add Button-->
         <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddTransactionCommand}">
             <StackPanel Orientation="Horizontal">
-                <fa:IconImage Icon="Plus" Foreground="#ffffff" VerticalAlignment="Center" Width="12" Height="12" Margin="0,1,8,0"/>
+                <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
                 <TextBlock Text="Add New Transactions"/>
             </StackPanel>
         </Button>
@@ -74,7 +74,8 @@
 
                     <!--Actual Books DataGrid-->
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
-                              ItemsSource="{Binding TransactionsView}" SelectedItem="{Binding SelectedTransaction}">
+                              ItemsSource="{Binding TransactionsView}" SelectedItem="{Binding SelectedTransaction}"
+                              VirtualizingPanel.IsVirtualizing="True"  VirtualizingPanel.ScrollUnit ="Pixel" VirtualizingPanel.VirtualizationMode="Recycling">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" ElementStyle="{StaticResource CheckBoxCustomStyle}">
                                 <DataGridCheckBoxColumn.HeaderTemplate>

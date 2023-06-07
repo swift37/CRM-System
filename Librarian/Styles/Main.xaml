@@ -348,6 +348,14 @@
         <Setter Property="Height" Value="12"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
+
+    <Style x:Key="addButtonIcon" TargetType="fa:IconImage">
+        <Setter Property="Foreground" Value="#ffffff"/>
+        <Setter Property="Width" Value="12"/>
+        <Setter Property="Height" Value="12"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,1,8,0"/>
+    </Style>
     
     <Style x:Key="pagingButtonIcon" TargetType="fa:IconImage">
         <Setter Property="Foreground" Value="#9eabe2"/>
@@ -399,6 +407,14 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="categoryTitleText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#ffffff"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Margin" Value="5,0,0,0"/>
+        <Setter Property="TextAlignment" Value="Center"/>
     </Style>
 
     <!--#region CheckBox Custom Style-->

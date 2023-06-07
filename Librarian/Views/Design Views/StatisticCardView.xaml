@@ -62,7 +62,7 @@
                 </lc:CartesianChart.DataTooltip>
 
                 <lc:CartesianChart.AxisX>
-                    <lc:Axis MinValue="1" MaxValue="5" Foreground="#717eb2" ShowLabels="False">
+                    <lc:Axis MinValue="0.1" MaxValue="6" Foreground="#717eb2" ShowLabels="False">
                         <lc:Axis.Separator>
                             <lc:Separator StrokeThickness="0"/>
                         </lc:Axis.Separator>
@@ -70,7 +70,7 @@
                 </lc:CartesianChart.AxisX>
 
                 <lc:CartesianChart.AxisY>
-                    <lc:Axis MinValue="0" MaxValue="60000" Foreground="#717eb2" ShowLabels="False">
+                    <lc:Axis MinValue="0" MaxValue="55000" Foreground="#717eb2" ShowLabels="False">
                         <lc:Axis.Separator>
                             <lc:Separator StrokeThickness="0"/>
                         </lc:Axis.Separator>

@@ -4,6 +4,7 @@ using Librarian.Interfaces;
 using Librarian.Models;
 using Librarian.Services;
 using Librarian.Services.Interfaces;
+using Librarian.Views;
 using Microsoft.EntityFrameworkCore;
 using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
@@ -105,7 +106,7 @@ namespace Librarian.ViewModels
         private async Task OnLoadDataCommandExecuted()
         {
             if (_booksRepository.Entities is null) return;
-            
+
             Books = (await _booksRepository.Entities.ToArrayAsync()).ToObservableCollection();
 
             BooksCount = await _booksRepository.Entities.CountAsync();
@@ -187,6 +188,11 @@ namespace Librarian.ViewModels
             //todo: Перенести всё связанное с сортировкой и фильтрами в разметку окна
             _booksViewSource = new CollectionViewSource
             {
+                GroupDescriptions =
+                {
+                    new PropertyGroupDescription(nameof(Book.Category))
+                }
+
                 //SortDescriptions =
                 //{
                 //    new SortDescription(nameof(Book.Name), ListSortDirection.Ascending)

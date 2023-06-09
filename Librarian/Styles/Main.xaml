@@ -471,12 +471,12 @@
         <Setter Property="TextAlignment" Value="Center"/>
     </Style>
 
-    <!--#region editorComboBox-->
+    <!--#region ComboBox Editor Style-->
     
-    <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+    <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ToggleButton">
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -495,7 +495,7 @@
         </Setter>
     </Style>
     
-    <ControlTemplate x:Key="ComboBoxTextBox" TargetType="TextBox">
+    <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
         <Border x:Name="PART_ContentHost" Focusable="True" />
     </ControlTemplate>
 
@@ -561,10 +561,8 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-        </Style.Triggers>
     </Style>
-    
+
     <Style x:Key="editorComboBoxItem" TargetType="{x:Type ComboBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -590,8 +588,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+        
     <!--#endregion-->
+        
     <!--#region CheckBox Custom Style-->
 
     <SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>

@@ -29,7 +29,7 @@
                    Foreground="#ffffff"/>
 
         <!--Add Button-->
-        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddCategoryCommand}">
+        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding DataContext.AddSellerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
             <StackPanel Orientation="Horizontal">
                 <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
                 <TextBlock Text="Add New Seller"/>

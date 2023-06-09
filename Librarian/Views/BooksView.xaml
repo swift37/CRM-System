@@ -99,10 +99,10 @@
                                                     <TextBlock Style="{StaticResource categoryTitleText}" Text="{Binding Name}"/>
                                                     <TextBlock Style="{StaticResource categoryTitleText}" Text="{Binding ItemCount, StringFormat=({0})}"/>
                                                 </StackPanel>
-                                                <Button DockPanel.Dock="Right" Style="{StaticResource addButton}" Margin="0" Command="{Binding DataContext.AddBookCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Button DockPanel.Dock="Right" Style="{StaticResource addButton}" Width="220" Margin="0" Command="{Binding DataContext.AddBookCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Right" VerticalAlignment="Center">
                                                     <StackPanel Orientation="Horizontal">
                                                         <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
-                                                        <TextBlock Text="Add New Book"/>
+                                                        <TextBlock Text="Add New Book to Category"/>
                                                     </StackPanel>
                                                 </Button>
                                             </DockPanel>

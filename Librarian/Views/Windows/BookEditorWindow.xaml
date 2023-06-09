@@ -3,18 +3,109 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp" 
+        xmlns:b="clr-namespace:Librarian.Infrastructure.Behaviors"        
         xmlns:vm="clr-namespace:Librarian.ViewModels"
         xmlns:local="clr-namespace:Librarian.Views.Windows"
-        xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
         d:DataContext="{d:DesignInstance {x:Type vm:BookEditorViewModel}, IsDesignTimeCreatable=True}"
-        Title="{Binding Title}"
-        Width="300" Height="220" MinWidth="190" MinHeight="220">
+        Width="300" Height="350" MinWidth="300" MinHeight="350" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">
             <br:InvokeCommandAction Command="{Binding LoadCategoriesCommand}"/>
         </br:EventTrigger>
     </br:Interaction.Triggers>
-    <DockPanel Margin="3">
+
+    <Border CornerRadius="15">
+        <br:Interaction.Behaviors>
+            <b:WindowTitleBarBehavior/>
+        </br:Interaction.Behaviors>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#382c7e" Offset="0"/>
+                <GradientStop Color="#44468c" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <DockPanel Margin="20,20,20,15">
+            
+            <!--Title-->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <fa:IconImage Icon="Circle" Style="{StaticResource titleIcon}"/>
+                <TextBlock Text="{Binding BookId, StringFormat=Book  ( Id: {0} )}" Style="{StaticResource titleText}"/>
+            </StackPanel>
+            
+            <!--Buttons-->
+            <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right">
+                <Button Content="Cancel" IsCancel="True" Padding="25,1" Style="{StaticResource dialogButton}"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="False"/>
+                <Button Content="Ok" IsDefault="True" Margin="7,0,0,0" Padding="25,1" Style="{StaticResource dialogButton}"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="True"/>
+            </UniformGrid>
+            
+            <!--Fields-->
+            <Grid Margin="0,25">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!--Book Title-->
+                <DockPanel Grid.Row="0">
+                    <TextBlock DockPanel.Dock="Top" Text="Title" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <Grid>
+                        <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Book Title" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtInput" Style="{StaticResource textBoxEditor}" Text="{Binding BookTitle}"/>
+                    </Grid>
+                </DockPanel>
+
+                <!--Book Category-->
+                <DockPanel Grid.Row="1">
+                    <TextBlock DockPanel.Dock="Top" Text="Category" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <Grid>
+                        <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                               Panel.ZIndex="1" Text="Select a category" FontSize="12" FontWeight="Normal"
+                               Visibility="{Binding ElementName=comboInput, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <ComboBox Grid.Row="1" x:Name="comboInput" IsEditable="True" ItemsSource="{Binding CategoriesView}" 
+                              Style="{DynamicResource editorComboBox}" ItemContainerStyle="{DynamicResource editorComboBoxItem}" 
+                              SelectedItem="{Binding BookCategory}"
+                              Text="{Binding CategoriesNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </DockPanel>
+                
+
+                <!--Book Price-->
+                <DockPanel Grid.Row="2">
+                    <TextBlock DockPanel.Dock="Top" Text="Price" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <Grid>
+                        <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Book Price" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput3, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtInput3" Style="{StaticResource textBoxEditor}" Text="{Binding BookPrice}"/>
+                    </Grid>
+                </DockPanel>
+                
+            </Grid>
+        </DockPanel>
+        
+    </Border>
+    
+    <!--<DockPanel Margin="3">
         <TextBlock DockPanel.Dock="Top" Text="{Binding BookId, StringFormat=Book (Id: {0})}" 
                    HorizontalAlignment="Center" Margin="0,5,0,12" 
                    FontSize="16" FontWeight="Bold"/>
@@ -52,5 +143,5 @@
             <TextBox Grid.Column="1" Grid.Row="2" Height="23" Margin="7,15,5,0" VerticalContentAlignment="Center" 
                      Text="{Binding BookPrice}"/>
         </Grid>
-    </DockPanel>
+    </DockPanel>-->
 </Window>

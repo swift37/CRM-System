@@ -64,7 +64,7 @@ namespace Librarian.ViewModels
         private ObservableCollection<Category>? _Categories;
 
         /// <summary>
-        /// Buyers collection
+        /// Categories collection
         /// </summary>
         public ObservableCollection<Category>? Categories
         {

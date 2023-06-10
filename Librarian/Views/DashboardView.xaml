@@ -13,7 +13,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="735.417"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--Title-->
@@ -28,7 +28,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200"/>
-                        <RowDefinition Height="450.417"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <!--Info Cards-->
@@ -176,7 +176,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200"/>
-                        <RowDefinition Height="450.417"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <!--Info Cards-->
@@ -324,7 +324,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200"/>
-                        <RowDefinition Height="450.417"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <!--Info Cards-->
@@ -472,7 +472,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200"/>
-                        <RowDefinition Height="450.417"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <!--Info Cards-->

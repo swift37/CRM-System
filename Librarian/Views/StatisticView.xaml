@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:v="clr-namespace:Librarian.Views"
              xmlns:vm="clr-namespace:Librarian.ViewModels"
              xmlns:local="clr-namespace:Librarian.Views"
              d:DataContext="{d:DesignInstance {x:Type vm:StatisticViewModel}}" 
@@ -63,7 +64,12 @@
 
                     <!--Books DataGrid-->
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStatisticStyle}"
-                              ItemsSource="{Binding TopBooksView}" VirtualizingPanel.ScrollUnit ="Pixel">
+                              ItemsSource="{Binding TopBooksView}" VirtualizingPanel.ScrollUnit ="Pixel" x:Name="statist">
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+                                <v:StatisticCardView/>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Book.Id}"/>
@@ -97,7 +103,12 @@
 
                     <!--Categories DataGrid-->
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStatisticStyle}"
-                              ItemsSource="{Binding TopCategories}" VirtualizingPanel.ScrollUnit ="Pixel">
+                              ItemsSource="{Binding TopCategories}" VirtualizingPanel.ScrollUnit="Pixel">
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+                                <v:StatisticCardView/>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Category.Id}"/>
@@ -132,6 +143,11 @@
                     <!--Sellers DataGrid-->
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStatisticStyle}"
                               ItemsSource="{Binding TopSellers}" VirtualizingPanel.ScrollUnit ="Pixel">
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+                                <v:StatisticCardView/>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Seller.Id}"/>

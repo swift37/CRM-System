@@ -6,7 +6,7 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:lc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:Librarian.Views"
-             MinWidth="700" Height="340">
+             x:Name="statisticCard" MinWidth="950" Height="380">
 
     <Border CornerRadius="20" Padding="30,20" Background="#243771">
         <Grid>
@@ -22,30 +22,29 @@
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
                                         Margin="0,0,0,25">
-                <TextBlock Text="70000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                <TextBlock Text="60000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                <TextBlock Text="50000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                <TextBlock Text="40000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                <TextBlock Text="30000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                <TextBlock Text="20000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                <TextBlock Text="10000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                <TextBlock Text="0" Foreground="#717eb2" HorizontalAlignment="Right"/>
+                <TextBlock Text="{Binding AxisYLabels[6], ElementName=statisticCard}" Foreground="#717eb2" Margin="0,0,0,25"/>
+                <TextBlock Text="{Binding AxisYLabels[5], ElementName=statisticCard}" Foreground="#717eb2" Margin="0,0,0,25"/>
+                <TextBlock Text="{Binding AxisYLabels[4], ElementName=statisticCard}" Foreground="#717eb2" Margin="0,0,0,25"/>
+                <TextBlock Text="{Binding AxisYLabels[3], ElementName=statisticCard}" Foreground="#717eb2" Margin="0,0,0,25"/>
+                <TextBlock Text="{Binding AxisYLabels[2], ElementName=statisticCard}" Foreground="#717eb2" Margin="0,0,0,25"/>
+                <TextBlock Text="{Binding AxisYLabels[1], ElementName=statisticCard}" Foreground="#717eb2" Margin="0,0,0,25"/>
+                <TextBlock Text="{Binding AxisYLabels[0], ElementName=statisticCard}" Foreground="#717eb2" HorizontalAlignment="Right"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                                         Orientation="Horizontal" Margin="50,0,0,0">
-                <TextBlock Text="1" Foreground="#717eb2"/>
-                <TextBlock Text="2" Foreground="#717eb2" Margin="41,0,0,0"/>
-                <TextBlock Text="3" Foreground="#717eb2" Margin="41,0,0,0"/>
-                <TextBlock Text="4" Foreground="#717eb2" Margin="41,0,0,0"/>
-                <TextBlock Text="5" Foreground="#717eb2" Margin="41,0,0,0"/>
-                <TextBlock Text="6" Foreground="#717eb2" Margin="41,0,0,0"/>
-                <TextBlock Text="7" Foreground="#717eb2" Margin="41,0,0,0"/>
-                <TextBlock Text="8" Foreground="#717eb2" Margin="41,0,0,0"/>
-                <TextBlock Text="9" Foreground="#717eb2" Margin="41,0,0,0"/>
-                <TextBlock Text="10" Foreground="#717eb2" Margin="41,0,0,0"/>
-                <TextBlock Text="11" Foreground="#717eb2" Margin="41,0,0,0"/>
-                <TextBlock Text="12" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[0], ElementName=statisticCard}" Foreground="#717eb2"/>
+                <TextBlock Text="{Binding AxisXLabels[1], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[2], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[3], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[4], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[5], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[6], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[7], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[8], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[9], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[10], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
+                <TextBlock Text="{Binding AxisXLabels[11], ElementName=statisticCard}" Foreground="#717eb2" Margin="41,0,0,0"/>
             </StackPanel>
 
             <!--Chart-->
@@ -62,7 +61,7 @@
                 </lc:CartesianChart.DataTooltip>
 
                 <lc:CartesianChart.AxisX>
-                    <lc:Axis MinValue="0.1" MaxValue="6" Foreground="#717eb2" ShowLabels="False">
+                    <lc:Axis MinValue="0.1" MaxValue="{Binding ChartDataSource.Length, ElementName=statisticCard}" Foreground="#717eb2" ShowLabels="False">
                         <lc:Axis.Separator>
                             <lc:Separator StrokeThickness="0"/>
                         </lc:Axis.Separator>
@@ -70,7 +69,7 @@
                 </lc:CartesianChart.AxisX>
 
                 <lc:CartesianChart.AxisY>
-                    <lc:Axis MinValue="0" MaxValue="55000" Foreground="#717eb2" ShowLabels="False">
+                    <lc:Axis MinValue="0" MaxValue="{Binding AxisYMaxValue, ElementName=statisticCard}" Foreground="#717eb2" ShowLabels="False">
                         <lc:Axis.Separator>
                             <lc:Separator StrokeThickness="0"/>
                         </lc:Axis.Separator>
@@ -79,7 +78,7 @@
 
                 <lc:CartesianChart.Series>
                     <lc:LineSeries Stroke="#ada4fd" StrokeThickness="2" PointGeometrySize="0"
-                                                   Values="20000,17000,30000,15000,50000,30000,20000">
+                                                   Values="{Binding ChartDataSource, ElementName=statisticCard}">
                         <lc:LineSeries.Fill>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Color="#b397e2" Offset="0.4"/>

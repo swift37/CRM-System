@@ -24,7 +24,8 @@ namespace Librarian.ViewModels
         private readonly IRepository<Seller> _sellersRepository;
         private readonly IRepository<Buyer> _buyersRepository;
         private readonly IRepository<Transaction> _transactionsRepository;
-
+        public double[] testval1 = new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+        public double[] testval2 = new double[] { 1, 2, 3, 4, 5, 6, 7 };
         private CollectionViewSource _topBooksViewSource;
 
         #region Properties

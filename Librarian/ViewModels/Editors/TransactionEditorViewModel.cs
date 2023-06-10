@@ -277,7 +277,8 @@ namespace Librarian.ViewModels
         {
             if (!(e.Item is Buyer buyer) || string.IsNullOrWhiteSpace(BuyersFilter)) return;
 
-            if ((buyer.Name is null || !buyer.Name.Contains(BuyersFilter)) &&
+            if (!buyer.ToString().Contains(BuyersFilter) &&
+                (buyer.Name is null || !buyer.Name.Contains(BuyersFilter)) &&
                 (buyer.Surname is null || !buyer.Surname.Contains(BuyersFilter)) &&
                 (buyer.ContactNumber is null || !buyer.ContactNumber.Contains(BuyersFilter)) &&
                 (buyer.ContactMail is null || !buyer.ContactMail.Contains(BuyersFilter)))

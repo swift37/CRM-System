@@ -46,6 +46,22 @@ namespace Librarian.ViewModels
 
         #region Commands
 
+        #region ShowDashboardViewCommand
+        private ICommand? _ShowDashboardViewCommand;
+
+        /// <summary>
+        /// Show Dashboard View
+        /// </summary>
+        public ICommand? ShowDashboardViewCommand => _ShowDashboardViewCommand ??= new LambdaCommand(OnShowDashboardViewCommandExecuted, CanShowDashboardViewCommandnExecute);
+
+        private bool CanShowDashboardViewCommandnExecute() => true;
+
+        private void OnShowDashboardViewCommandExecuted()
+        {
+            CurrentViewModel = new DashboardViewModel();
+        }
+        #endregion
+
         #region ShowBooksViewCommand
         private ICommand? _ShowBooksViewCommand;
 

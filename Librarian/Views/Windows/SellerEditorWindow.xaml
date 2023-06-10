@@ -3,41 +3,167 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:b="clr-namespace:Librarian.Infrastructure.Behaviors"      
         xmlns:vm="clr-namespace:Librarian.ViewModels"
         xmlns:local="clr-namespace:Librarian.Views.Windows"
         d:DataContext="{d:DesignInstance {x:Type vm:SellerEditorViewModel}, IsDesignTimeCreatable=True}"
-        Title="{Binding Title}"
-        Width="300" Height="170" MinWidth="190" MinHeight="170">
-    <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding SellerId, StringFormat=Seller (Id: {0})}"
-                   FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,5,0,15"/>
-        <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="5" HorizontalAlignment="Right">
-            <Button Content="Cancel" IsCancel="True" Margin="0,0,3,0" Padding="25,1"
+        Width="640" Height="425" MinWidth="640" MinHeight="425" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
+
+    <Border CornerRadius="15">
+        <br:Interaction.Behaviors>
+            <b:WindowTitleBarBehavior/>
+        </br:Interaction.Behaviors>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#382c7e" Offset="0"/>
+                <GradientStop Color="#44468c" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <DockPanel Margin="20,20,20,15">
+
+            <!--Title-->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <fa:IconImage Icon="Circle" Style="{StaticResource titleIcon}"/>
+                <TextBlock Text="{Binding SellerId, StringFormat=Seller  ( Id: {0} )}" Style="{StaticResource titleText}"/>
+            </StackPanel>
+
+            <!--Buttons-->
+            <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right">
+                <Button Content="Cancel" IsCancel="True" Padding="25,1" Style="{StaticResource dialogButton}"
                         Command="{StaticResource DialogResultCommand}"
                         CommandParameter="False"/>
-            <Button Content="Ok" IsDefault="True" Margin="3,0,0,0" Padding="25,1"
+                <Button Content="Ok" IsDefault="True" Margin="7,0,0,0" Padding="25,1" Style="{StaticResource dialogButton}"
                         Command="{StaticResource DialogResultCommand}"
                         CommandParameter="True"/>
-        </UniformGrid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+            </UniformGrid>
 
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Name: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
-                       Margin="5,0,0,0"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Margin="7,0,5,0" VerticalContentAlignment="Center" 
-                     Text="{Binding SellerName}"/>
+            <!--Fields-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Surname: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
-                       Margin="5,15,0,0"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Margin="7,15,5,0" VerticalContentAlignment="Center" 
-                     Text="{Binding SellerSurname}"/>
-        </Grid>
-    </DockPanel>
+                <Grid Grid.Column="0" Margin="0,25,20,25">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Seller Name-->
+                    <DockPanel Grid.Row="0">
+                        <TextBlock DockPanel.Dock="Top" Text="Name" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Name" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBox x:Name="txtInput" Style="{StaticResource textBoxEditor}" Text="{Binding SellerName}"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <!--Seller Surname-->
+                    <DockPanel Grid.Row="1">
+                        <TextBlock DockPanel.Dock="Top" Text="Surname" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Surname" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput2, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBox x:Name="txtInput2" Style="{StaticResource textBoxEditor}" Text="{Binding SellerSurname}"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <!--Seller Phone Number-->
+                    <DockPanel Grid.Row="2">
+                        <TextBlock DockPanel.Dock="Top" Text="Phone Number" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Phone Number" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput3, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBox x:Name="txtInput3" Style="{StaticResource textBoxEditor}" Text="{Binding BookTitle}"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <!--Seller Mail-->
+                    <DockPanel Grid.Row="3">
+                        <TextBlock DockPanel.Dock="Top" Text="Mail" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Mail" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput4, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBox x:Name="txtInput4" Style="{StaticResource textBoxEditor}" Text="{Binding BookPrice}"/>
+                        </Grid>
+                    </DockPanel>
+
+                </Grid>
+
+                <Grid Grid.Column="1" Margin="20,25,0,25">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Seller Date Of Birth-->
+                    <DockPanel Grid.Row="0">
+                        <TextBlock DockPanel.Dock="Top" Text="Date Of Birth" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Border CornerRadius="10" Background="#ffffff" Padding="10,5" Margin="0,9,0,11">
+                            <DatePicker BorderThickness="0" Foreground="#5c5c5c"/>
+                        </Border>
+                    </DockPanel>
+
+                    <!--Seller Indeidentity Document Number-->
+                    <DockPanel Grid.Row="1">
+                        <TextBlock DockPanel.Dock="Top" Text="Indeidentity Document Number" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Indeidentity Document Number" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput6, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBox x:Name="txtInput6" Style="{StaticResource textBoxEditor}" Text="{Binding SellerSurname}"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <!--Seller Working Rate-->
+                    <DockPanel Grid.Row="2">
+                        <TextBlock DockPanel.Dock="Top" Text="Working Rate" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                               Panel.ZIndex="1" Text="Select a Working Rate" FontSize="12" FontWeight="Normal"
+                               Visibility="{Binding ElementName=comboInput, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <ComboBox Grid.Row="1" x:Name="comboInput" IsEditable="True" ItemsSource="{x:Null}" 
+                              Style="{DynamicResource editorComboBox}" ItemContainerStyle="{DynamicResource editorComboBoxItem}" 
+                              SelectedItem="{x:Null}"
+                              Text=""/>
+                        </Grid>
+                    </DockPanel>
+                </Grid>
+            </Grid>
+        </DockPanel>
+
+    </Border>
 </Window>

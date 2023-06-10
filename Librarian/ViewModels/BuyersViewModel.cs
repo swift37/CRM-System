@@ -30,6 +30,15 @@ namespace Librarian.ViewModels
         public ICollectionView BuyersView => _buyersViewSource.View;
         #endregion
 
+        #region BuyersCount
+        private int _BuyersCount;
+
+        /// <summary>
+        /// Buyers count
+        /// </summary>
+        public int BuyersCount { get => _BuyersCount; set => Set(ref _BuyersCount, value); }
+        #endregion
+
         #region BuyersFilter
         private string? _BuyersFilter;
 
@@ -76,6 +85,8 @@ namespace Librarian.ViewModels
 
         #endregion
 
+        #region Commands
+
         #region LoadDataCommand
         private ICommand? _LoadDataCommand;
 
@@ -91,6 +102,8 @@ namespace Librarian.ViewModels
             if (_buyersRepository.Entities is null) return;
 
             Buyers = (await _buyersRepository.Entities.ToArrayAsync()).ToObservableCollection();
+
+            BuyersCount = await _buyersRepository.Entities.CountAsync();
         }
         #endregion
 
@@ -145,6 +158,8 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #endregion
+
         public BuyersViewModel() : this(new DebugBuyersRepository(), new UserDialogService())
         {
             if (!App.IsDesignMode)
@@ -160,10 +175,10 @@ namespace Librarian.ViewModels
 
             _buyersViewSource = new CollectionViewSource
             {
-                SortDescriptions =
-                {
-                    new SortDescription(nameof(Buyer.Name), ListSortDirection.Ascending)
-                }
+                //SortDescriptions =
+                //{
+                //    new SortDescription(nameof(Buyer.Name), ListSortDirection.Ascending)
+                //}
             };
 
             _buyersViewSource.Filter += OnBuyersFilter;

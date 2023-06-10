@@ -6,7 +6,10 @@ using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Librarian.ViewModels
@@ -14,8 +17,51 @@ namespace Librarian.ViewModels
     public class BookEditorViewModel : ViewModel
     {
         private readonly IRepository<Category> _categoriesRepository;
+        private CollectionViewSource _categoriesViewSource;
 
         #region Properties
+
+        #region CategoriesView
+        /// <summary>
+        /// Categories collection view.
+        /// </summary>
+        public ICollectionView CategoriesView => _categoriesViewSource.View;
+        #endregion
+
+        #region CategoriesNameFilter
+        private string? _CategoriesNameFilter;
+
+        /// <summary>
+        /// Filter categories by name
+        /// </summary>
+        public string? CategoriesNameFilter
+        {
+            get => _CategoriesNameFilter;
+            set
+            {
+                if (Set(ref _CategoriesNameFilter, value))
+                    _categoriesViewSource.View.Refresh();
+            }
+        }
+        #endregion
+
+        #region Categories
+        private ObservableCollection<Category>? _Categories;
+
+        /// <summary>
+        /// Categories collection
+        /// </summary>
+        public ObservableCollection<Category>? Categories
+        {
+            get => _Categories;
+            set
+            {
+                if (Set(ref _Categories, value))
+                    _categoriesViewSource.Source = value;
+                OnPropertyChanged(nameof(CategoriesView));
+            }
+        }
+        #endregion
 
         #region Tilte
         private string? _Title = "Book Editor";
@@ -60,16 +106,6 @@ namespace Librarian.ViewModels
         public decimal BookPrice { get => _BookPrice; set => Set(ref _BookPrice, value); }
         #endregion
 
-        #region Categories
-
-        private IEnumerable<Category>? _Categories;
-
-        /// <summary>
-        /// Categories collection
-        /// </summary>
-        public IEnumerable<Category>? Categories { get => _Categories; set => Set(ref _Categories, value); }
-        #endregion 
-
         #endregion
 
         #region LoadCategoriesCommand
@@ -86,7 +122,7 @@ namespace Librarian.ViewModels
         {
             if (_categoriesRepository.Entities is null) throw new ArgumentNullException("Category list is empty or failed to load");
 
-            Categories = await _categoriesRepository.Entities.ToArrayAsync();
+            Categories = (await _categoriesRepository.Entities.ToArrayAsync()).ToObservableCollection();
         }
         #endregion
 
@@ -102,10 +138,22 @@ namespace Librarian.ViewModels
         {
             _categoriesRepository = categoriesRepository;
 
+            _categoriesViewSource = new CollectionViewSource();
+
             BookId = book.Id;
             BookTitle = book.Name;
             BookCategory = book.Category;
             BookPrice = book.Price;
+
+            _categoriesViewSource.Filter += OnCategoriesNameFilter;
+        }
+
+        private void OnCategoriesNameFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Category category) || string.IsNullOrWhiteSpace(CategoriesNameFilter)) return;
+
+            if (category.Name is null || !category.Name.Contains(CategoriesNameFilter))
+                e.Accepted = false;
         }
     }
 }

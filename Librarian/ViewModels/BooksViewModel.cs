@@ -4,6 +4,7 @@ using Librarian.Interfaces;
 using Librarian.Models;
 using Librarian.Services;
 using Librarian.Services.Interfaces;
+using Librarian.Views;
 using Microsoft.EntityFrameworkCore;
 using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
@@ -31,22 +32,31 @@ namespace Librarian.ViewModels
 
         #region Properties
 
-        #region CategoryView
-        public ICollectionView BooksView => _booksViewSource.View; 
+        #region BooksView
+        public ICollectionView BooksView => _booksViewSource.View;
         #endregion
 
-        #region BooksNameFilter
-        private string? _BooksNameFilter;
+        #region BooksCount
+        private int _BooksCount;
 
         /// <summary>
-        /// Filter _booksRepository by name
+        /// Books count
         /// </summary>
-        public string? BooksNameFilter
+        public int BooksCount { get => _BooksCount; set => Set(ref _BooksCount, value); }
+        #endregion
+
+        #region BooksFilter
+        private string? _BooksFilter;
+
+        /// <summary>
+        /// Filter books by name and category
+        /// </summary>
+        public string? BooksFilter
         {
-            get => _BooksNameFilter;
+            get => _BooksFilter;
             set
             {
-                if (Set(ref _BooksNameFilter, value))
+                if (Set(ref _BooksFilter, value))
                     _booksViewSource.View.Refresh();
             }
         }
@@ -96,8 +106,10 @@ namespace Librarian.ViewModels
         private async Task OnLoadDataCommandExecuted()
         {
             if (_booksRepository.Entities is null) return;
-            
+
             Books = (await _booksRepository.Entities.ToArrayAsync()).ToObservableCollection();
+
+            BooksCount = await _booksRepository.Entities.CountAsync();
         }
         #endregion
 
@@ -176,6 +188,11 @@ namespace Librarian.ViewModels
             //todo: Перенести всё связанное с сортировкой и фильтрами в разметку окна
             _booksViewSource = new CollectionViewSource
             {
+                GroupDescriptions =
+                {
+                    new PropertyGroupDescription(nameof(Book.Category))
+                }
+
                 //SortDescriptions =
                 //{
                 //    new SortDescription(nameof(Book.Name), ListSortDirection.Ascending)
@@ -187,9 +204,10 @@ namespace Librarian.ViewModels
 
         private void OnBooksNameFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Book book) || string.IsNullOrWhiteSpace(BooksNameFilter)) return;
+            if (!(e.Item is Book book) || string.IsNullOrWhiteSpace(BooksFilter)) return;
 
-            if (book.Name is null || !book.Name.Contains(BooksNameFilter))
+            if ((book.Name is null || !book.Name.Contains(BooksFilter)) && 
+                (book.Category is null || book.Category.Name is null || !book.Category.Name.Contains(BooksFilter)))
                 e.Accepted = false;
         }
     }

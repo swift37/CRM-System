@@ -37,6 +37,15 @@ namespace Librarian.ViewModels
         public ICollectionView TransactionsView => _transactionsViewSource.View;
         #endregion
 
+        #region TransactionsCount
+        private int _TransactionsCount;
+
+        /// <summary>
+        /// Transactions count
+        /// </summary>
+        public int TransactionsCount { get => _TransactionsCount; set => Set(ref _TransactionsCount, value); }
+        #endregion
+
         #region TransactionsFilter
         private string? _TransactionsFilter;
 
@@ -98,6 +107,8 @@ namespace Librarian.ViewModels
             if (_transactionsRepository.Entities is null) return;
 
             Transactions = (await _transactionsRepository.Entities.ToArrayAsync()).ToObservableCollection();
+
+            TransactionsCount = await _transactionsRepository.Entities.CountAsync();
         }
         #endregion
 

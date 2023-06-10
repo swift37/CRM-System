@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:vm="clr-namespace:Librarian.ViewModels"
              xmlns:local="clr-namespace:Librarian.Views"
              d:DataContext="{d:DesignInstance {x:Type vm:TransactionsViewModel}, IsDesignTimeCreatable=True}"
@@ -13,33 +14,159 @@
             <br:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
         </br:EventTrigger>
     </br:Interaction.Triggers>
-    <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Text="Transactions" 
-                   FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10"/>
-        <TextBox DockPanel.Dock="Top" Height="25" Margin="175,0" VerticalContentAlignment="Center" FontSize="14"
-                 Text="{Binding TransactionsFilter, UpdateSourceTrigger=PropertyChanged}"/>
-        <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right" Margin="0,0,35,10">
-            <Button Content="Remove" Padding="35,1" Margin="0,0,10,0" Command="{Binding RemoveTransactionCommand}"
-                    CommandParameter="{Binding SelectedTransaction}"/>
-            <Button Content="Add" Padding="35,1" Margin="10,0,0,0" Command="{Binding AddTransactionCommand}"/>
-        </UniformGrid>
-        <DataGrid Margin="25,10" ItemsSource="{Binding TransactionsView}" SelectedItem="{Binding SelectedTransaction}"
-                  VirtualizingPanel.IsContainerVirtualizable="True"
-                  VirtualizingPanel.IsVirtualizing="True"
-                  VirtualizingPanel.VirtualizationMode="Recycling">
-            <DataGrid.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel/>
-                </ItemsPanelTemplate>
-            </DataGrid.ItemsPanel>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Transaction Date" Binding="{Binding TransactionDate}"/>
-                <DataGridTextColumn Header="Book" Width="*" Binding="{Binding Book.Name}"/>
-                <DataGridTextColumn Header="Amount" Width="Auto" MinWidth="75" Binding="{Binding Amount}"/>
-                <DataGridTextColumn Header="Discount" Width="Auto" MinWidth="75" Binding="{Binding Discount}"/>
-                <DataGridTextColumn Header="Seller" Width="Auto" MinWidth="150" Binding="{Binding Seller.Name}"/>
-                <DataGridTextColumn Header="Buyer" Width="Auto" MinWidth="150" Binding="{Binding Buyer.ContactNumber}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
+
+    <Grid Margin="30,20,20,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--Main Section-->
+        <TextBlock Grid.Row="1" Text="Transactions" FontSize="32" FontWeight="SemiBold" Margin="0,20,0,0" HorizontalAlignment="Left"
+                   Foreground="#ffffff"/>
+
+        <!--Add Button-->
+        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddTransactionCommand}">
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
+                <TextBlock Text="Add New Transactions"/>
+            </StackPanel>
+        </Button>
+
+        <!--Separator-->
+        <Separator Grid.Row="2" Height="1" Background="#46558a" Margin="0,54,0,10"/>
+
+        <!--Tab Contol-->
+        <TabControl Style="{DynamicResource TabControlCustomStyle}" Grid.Row="3" Margin="0,-55,0,0">
+
+            <!--Actual Transactions-->
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Actual">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="{Binding TransactionsCount}" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,7,0"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="Transactions" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="0" Text="Filter by" FontSize="13" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,215,0" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                    <!--Filter TextBox-->
+                    <Grid Grid.Row="0" Width="200" HorizontalAlignment="Right">
+                        <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Search in Transactions ..." FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtSearch, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtSearch" Style="{StaticResource textBoxFilter}" Text="{Binding TransactionsFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <!--Actual Books DataGrid-->
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                              ItemsSource="{Binding TransactionsView}" SelectedItem="{Binding SelectedTransaction}"
+                              VirtualizingPanel.IsVirtualizing="True"  VirtualizingPanel.ScrollUnit ="Pixel" VirtualizingPanel.VirtualizationMode="Recycling">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" ElementStyle="{StaticResource CheckBoxCustomStyle}">
+                                <DataGridCheckBoxColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Style="{StaticResource CheckBoxCustomStyle}"/>
+                                    </DataTemplate>
+                                </DataGridCheckBoxColumn.HeaderTemplate>
+                            </DataGridCheckBoxColumn>
+
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Id}"/>
+
+                            <DataGridTextColumn Header="Transaction Date" IsReadOnly="True" CanUserResize="False" Width="170"
+                                    Binding="{Binding TransactionDate}"/>
+                            <DataGridTextColumn Header="Book" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Book.Name}"/>
+                            <DataGridTextColumn Header="Amount" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Amount, StringFormat=C}"/>
+                            <DataGridTextColumn Header="Discount" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Discount, StringFormat=C}"/>
+                            <DataGridTextColumn Header="Seller" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Seller.Surname}"/>
+                            <DataGridTextColumn Header="Buyer" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Buyer.ContactNumber}"/>
+
+                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.AddTransactionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                <fa:IconImage Icon="Edit" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
+                                                    Command="{Binding DataContext.RemoveTransactionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                                    CommandParameter="{Binding SelectedTransaction}">
+                                                <fa:IconImage Icon="Trash" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!--Archived Categories-->
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Archived">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="52"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="Archived" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+        <!--Pagination Section-->
+        <Border Grid.Row="4" HorizontalAlignment="Right" CornerRadius="5" Padding="5" Background="#243771" Margin="0,10,10,10">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource pagingButton}">
+                    <fa:IconImage Icon="ChevronLeft" Style="{StaticResource pagingButtonIcon}"/>
+                </Button>
+
+                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
+
+                <Button Style="{StaticResource pagingButton}" Content="1"/>
+                <Button Style="{StaticResource pagingButton}" Content="2" Background="#5b60c4" Foreground="#ffffff"/>
+                <Button Style="{StaticResource pagingButton}" Content="3"/>
+
+                <TextBlock Text="..." Foreground="#9eabe2" VerticalAlignment="Center" FontSize="15" Margin="10,0"/>
+
+                <Button Style="{StaticResource pagingButton}" Content="7"/>
+                <Button Style="{StaticResource pagingButton}" Content="8"/>
+                <Button Style="{StaticResource pagingButton}" Content="9"/>
+
+                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
+
+                <Button Style="{StaticResource pagingButton}">
+                    <fa:IconImage Icon="ChevronRight" Style="{StaticResource pagingButtonIcon}"/>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+
 </UserControl>

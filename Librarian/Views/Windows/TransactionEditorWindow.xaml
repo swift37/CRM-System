@@ -4,85 +4,163 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:b="clr-namespace:Librarian.Infrastructure.Behaviors" 
         xmlns:vm="clr-namespace:Librarian.ViewModels"
         xmlns:local="clr-namespace:Librarian.Views.Windows"
         d:DataContext="{d:DesignInstance {x:Type vm:TransactionEditorViewModel}, IsDesignTimeCreatable=True}"
-        Title="{Binding Title}" 
-        Width="300" Height="410" MinWidth="190" MinHeight="410">
+        Width="640" Height="350" MinWidth="640" MinHeight="350" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">
             <br:InvokeCommandAction Command="{Binding LoadRepositoriesCommand}"/>
         </br:EventTrigger>
     </br:Interaction.Triggers>
-    <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding TransactionId, StringFormat=Transaction (Id: {0})}"
-                   FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,5,0,15"/>
-        <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="5" HorizontalAlignment="Right">
-            <Button Content="Cancel" IsCancel="True" Margin="0,0,3,0" Padding="25,1"
+
+    <Border CornerRadius="15">
+        <br:Interaction.Behaviors>
+            <b:WindowTitleBarBehavior/>
+        </br:Interaction.Behaviors>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#382c7e" Offset="0"/>
+                <GradientStop Color="#44468c" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <DockPanel Margin="20,20,20,15">
+
+            <!--Title-->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <fa:IconImage Icon="Circle" Style="{StaticResource titleIcon}"/>
+                <TextBlock Text="{Binding TransactionId, StringFormat=Transaction  ( Id: {0} )}" Style="{StaticResource titleText}"/>
+            </StackPanel>
+
+            <!--Buttons-->
+            <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right">
+                <Button Content="Cancel" IsCancel="True" Padding="25,1" Style="{StaticResource dialogButton}"
                         Command="{StaticResource DialogResultCommand}"
                         CommandParameter="False"/>
-            <Button Content="Ok" IsDefault="True" Margin="3,0,0,0" Padding="25,1"
+                <Button Content="Ok" IsDefault="True" Margin="7,0,0,0" Padding="25,1" Style="{StaticResource dialogButton}"
                         Command="{StaticResource DialogResultCommand}"
                         CommandParameter="True"/>
-        </UniformGrid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+            </UniformGrid>
 
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Date: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
-                       Margin="5,0,0,0"/>
-            <DatePicker Grid.Column="1" Grid.Row="0" Margin="7,0,5,0" VerticalContentAlignment="Center" 
-                     Height="23" SelectedDate="{Binding TransactionDate}" FirstDayOfWeek="Monday" SelectedDateFormat="Long"/>
+            <!--Fields-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Amount: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
-                       Margin="5,15,0,0"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Margin="7,15,5,0" VerticalContentAlignment="Center" IsReadOnly="True"
-                     Height="23" Text="{Binding TransactionAmount}"/>
+                <Grid Grid.Column="0" Margin="0,25,20,25">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="2" Text="Discount: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
-                       Margin="5,15,0,0"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Margin="7,15,5,0" VerticalContentAlignment="Center" 
-                     Height="23" Text="{Binding TransactionDiscount, UpdateSourceTrigger=PropertyChanged}"/>
- 
-            <TextBlock Grid.Column="0" Grid.Row="3" Text="Book: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
-                       Margin="5,15,0,0"/>
-            <TextBox Grid.Column="1" Grid.Row="3" Margin="7,15,5,0" VerticalContentAlignment="Center"
-                     Height="23" Text="{Binding BooksFilter, UpdateSourceTrigger=PropertyChanged}"/>
-            <ComboBox Grid.Column="1" Grid.Row="4" Margin="7,15,5,0" VerticalContentAlignment="Center"
-                      Height="23" ItemsSource="{Binding BooksView}" SelectedItem="{Binding Book}"/>
+                    <!--Transaction DateTime-->
+                    <DockPanel Grid.Row="0">
+                        <TextBlock DockPanel.Dock="Top" Text="Date Of Birth" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-            <TextBlock Grid.Column="0" Grid.Row="5" Text="Seller: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
-                       Margin="5,15,0,0"/>
-            <ComboBox Grid.Column="1" Grid.Row="5" Margin="7,15,5,0" VerticalContentAlignment="Center" 
-                      Height="23" ItemsSource="{Binding Sellers}" SelectedItem="{Binding Seller}" SelectedIndex="0"/>
+                        <Border CornerRadius="10" Background="#ffffff" Padding="10,5" Margin="0,9,0,11">
+                            <DatePicker BorderThickness="0" Foreground="#5c5c5c"/>
+                        </Border>
+                    </DockPanel>
 
-            <TextBlock Grid.Column="0" Grid.Row="6" Text="Buyer: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
-                       Margin="5,15,0,0"/>
-            <TextBox Grid.Column="1" Grid.Row="6" Margin="7,15,5,0" VerticalContentAlignment="Center"
-                     Height="23" Text="{Binding BuyersFilter, UpdateSourceTrigger=PropertyChanged}"/>
-            <ComboBox Grid.Column="1" Grid.Row="7" Margin="7,15,5,0" VerticalContentAlignment="Center"
-                      Height="23" ItemsSource="{Binding BuyersView}" SelectedItem="{Binding Buyer}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name}"/>
-                            <TextBlock Text="{Binding ContactNumber, StringFormat=({0})}" Margin="15, 0"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </Grid>
-    </DockPanel>
+                    <!--Transaction Seller-->
+                    <DockPanel Grid.Row="1">
+                        <TextBlock DockPanel.Dock="Top" Text="Seller" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                               Panel.ZIndex="1" Text="Select a Seller" FontSize="12" FontWeight="Normal"
+                               Visibility="{Binding ElementName=comboInput, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <ComboBox Grid.Row="1" x:Name="comboInput" IsEditable="True" ItemsSource="{Binding Sellers}" 
+                              Style="{DynamicResource editorComboBox}" ItemContainerStyle="{DynamicResource editorComboBoxItem}" 
+                              SelectedItem="{Binding Seller}"
+                              Text="{Binding Seller}"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <!--Transaction Buyer-->
+                    <DockPanel Grid.Row="2">
+                        <TextBlock DockPanel.Dock="Top" Text="Buyer" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                               Panel.ZIndex="1" Text="Select a Buyer" FontSize="12" FontWeight="Normal"
+                               Visibility="{Binding ElementName=comboInput2, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <ComboBox Grid.Row="1" x:Name="comboInput2" IsEditable="True" ItemsSource="{Binding BuyersView}" 
+                              Style="{DynamicResource editorComboBox}" ItemContainerStyle="{DynamicResource editorComboBoxItem}" 
+                              SelectedItem="{Binding Buyer}"
+                              Text="{Binding BuyersFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </DockPanel>
+
+                </Grid>
+
+                <Grid Grid.Column="1" Margin="20,25,0,25">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Transaction Amount-->
+                    <DockPanel Grid.Row="0">
+                        <TextBlock DockPanel.Dock="Top" Text="Amount" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Amount" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBox x:Name="txtInput" Style="{StaticResource textBoxEditor}" Text="{Binding TransactionAmount}"
+                                         IsReadOnly="True"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <!--Transaction Discount-->
+                    <DockPanel Grid.Row="1">
+                        <TextBlock DockPanel.Dock="Top" Text="Discount" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Discount" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput2, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBox x:Name="txtInput2" Style="{StaticResource textBoxEditor}" Text="{Binding TransactionDiscount, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <!--Transaction Book-->
+                    <DockPanel Grid.Row="2">
+                        <TextBlock DockPanel.Dock="Top" Text="Book" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                               Panel.ZIndex="1" Text="Select a Book" FontSize="12" FontWeight="Normal"
+                               Visibility="{Binding ElementName=comboInput3, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <ComboBox Grid.Row="1" x:Name="comboInput3" IsEditable="True" ItemsSource="{Binding BooksView}" 
+                              Style="{DynamicResource editorComboBox}" ItemContainerStyle="{DynamicResource editorComboBoxItem}" 
+                              SelectedItem="{Binding Book}"
+                              Text="{Binding BooksFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </DockPanel>
+                </Grid>
+            </Grid>
+        </DockPanel>
+
+    </Border>
 </Window>

@@ -47,7 +47,7 @@ namespace Librarian.Data
             _logger.LogInformation($"Initialize database comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _categoriesCount = 15;
+        private const int _categoriesCount = 25;
 
         private Category[]? _categories;
 
@@ -66,7 +66,7 @@ namespace Librarian.Data
             _logger.LogInformation($"Initialize categories comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _booksCount = 100;
+        private const int _booksCount = 1000;
 
         private Book[]? _books;
 

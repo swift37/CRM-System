@@ -8,11 +8,21 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Infrastructure/Commands/AppCommands.xaml"/>
-                <ResourceDictionary Source="Styles/Main.xaml"/>
                 <ResourceDictionary Source="Styles/DataGrid.xaml"/>
+                <ResourceDictionary Source="Styles/TabControlsTabItems.xaml"/>
+                <ResourceDictionary Source="Styles/Buttons.xaml"/>
+                <ResourceDictionary Source="Styles/TextBoxes.xaml"/>
+                <ResourceDictionary Source="Styles/TextBlocks.xaml"/>
+                <ResourceDictionary Source="Styles/FontAwesomeIconImages.xaml"/>
+                <ResourceDictionary Source="Styles/ComboBoxes.xaml"/>
+                <ResourceDictionary Source="Styles/CheckBoxes.xaml"/>
+                
                 <ResourceDictionary Source="Templates/MainModelViews.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
             <vm:ViewModelLocator x:Key="Locator"/>
+
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

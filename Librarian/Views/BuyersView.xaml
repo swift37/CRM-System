@@ -74,7 +74,7 @@
         
         <!--Clients DataGrid-->
         <DataGrid Grid.Row="5" x:Name="usersDataGrid" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
-                  ItemsSource="{Binding BuyersView}" SelectedItem="{Binding SelectedBuyer}">
+                  ItemsSource="{Binding BuyersView}" SelectedItem="{Binding SelectedBuyer}" VirtualizingPanel.ScrollUnit ="Pixel">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" ElementStyle="{StaticResource CheckBoxCustomStyle}">
                     <DataGridCheckBoxColumn.HeaderTemplate>

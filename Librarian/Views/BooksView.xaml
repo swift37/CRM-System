@@ -120,7 +120,7 @@
                             <DataGridTextColumn Header="Category" IsReadOnly="True" CanUserResize="False" Width="225"
                                                 Binding="{Binding Category.Name}"/>
                             <DataGridTextColumn Header="Price" IsReadOnly="True" CanUserResize="False" Width="175" 
-                                                Binding="{Binding Price, StringFormat=#.## $}"/>
+                                                Binding="{Binding Price, StringFormat=C}"/>
 
                             <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>

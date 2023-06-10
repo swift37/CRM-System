@@ -92,9 +92,9 @@
                             <DataGridTextColumn Header="Book" IsReadOnly="True" CanUserResize="False" Width="*"
                                     Binding="{Binding Book.Name}"/>
                             <DataGridTextColumn Header="Amount" IsReadOnly="True" CanUserResize="False" Width="*"
-                                    Binding="{Binding Amount}"/>
+                                    Binding="{Binding Amount, StringFormat=C}"/>
                             <DataGridTextColumn Header="Discount" IsReadOnly="True" CanUserResize="False" Width="*"
-                                    Binding="{Binding Discount}"/>
+                                    Binding="{Binding Discount, StringFormat=C}"/>
                             <DataGridTextColumn Header="Seller" IsReadOnly="True" CanUserResize="False" Width="*"
                                     Binding="{Binding Seller.Surname}"/>
                             <DataGridTextColumn Header="Buyer" IsReadOnly="True" CanUserResize="False" Width="*"

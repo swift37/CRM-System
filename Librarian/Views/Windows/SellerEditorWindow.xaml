@@ -47,7 +47,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Grid Grid.Column="0" Margin="0,25,20,25">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -121,7 +121,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!--Seller Name-->
+                    <!--Seller Date Of Birth-->
                     <DockPanel Grid.Row="0">
                         <TextBlock DockPanel.Dock="Top" Text="Date Of Birth" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -131,7 +131,7 @@
                         </Border>
                     </DockPanel>
 
-                    <!--Seller Surname-->
+                    <!--Seller Indeidentity Document Number-->
                     <DockPanel Grid.Row="1">
                         <TextBlock DockPanel.Dock="Top" Text="Indeidentity Document Number" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -145,7 +145,7 @@
                         </Grid>
                     </DockPanel>
 
-                    <!--Seller Phone Number-->
+                    <!--Seller Working Rate-->
                     <DockPanel Grid.Row="2">
                         <TextBlock DockPanel.Dock="Top" Text="Working Rate" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -166,37 +166,4 @@
         </DockPanel>
 
     </Border>
-
-    <!--<DockPanel>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding SellerId, StringFormat=Seller (Id: {0})}"
-                   FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,5,0,15"/>
-        <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="5" HorizontalAlignment="Right">
-            <Button Content="Cancel" IsCancel="True" Margin="0,0,3,0" Padding="25,1"
-                        Command="{StaticResource DialogResultCommand}"
-                        CommandParameter="False"/>
-            <Button Content="Ok" IsDefault="True" Margin="3,0,0,0" Padding="25,1"
-                        Command="{StaticResource DialogResultCommand}"
-                        CommandParameter="True"/>
-        </UniformGrid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Name: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
-                       Margin="5,0,0,0"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Margin="7,0,5,0" VerticalContentAlignment="Center" 
-                     Text="{Binding SellerName}"/>
-
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Surname: " FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center" 
-                       Margin="5,15,0,0"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Margin="7,15,5,0" VerticalContentAlignment="Center" 
-                     Text="{Binding SellerSurname}"/>
-        </Grid>
-    </DockPanel>-->
 </Window>

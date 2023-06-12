@@ -26,7 +26,11 @@
 
             <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
                 <TextBlock Text="{Binding Path=Title,ElementName=Order}" FontSize="14" Foreground="#7c8dc3"/>
-                <TextBlock Text="{Binding Path=Desc,ElementName=Order}" FontSize="11" Foreground="#7c8dc3" Margin="0,3,0,0"/>
+                <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                    <TextBlock Text="{Binding Path=Desc_1,ElementName=Order}" FontSize="11" Foreground="#7c8dc3"/>
+                    <TextBlock Text="-" Margin="5,0,5,0" FontSize="11" Foreground="#7c8dc3"/>
+                    <TextBlock Text="{Binding Path=Desc_2,ElementName=Order}" FontSize="11" Foreground="#7c8dc3"/>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </Border>

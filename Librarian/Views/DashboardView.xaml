@@ -4,12 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:lc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:v="clr-namespace:Librarian.Views"
              xmlns:vm="clr-namespace:Librarian.ViewModels"
              xmlns:local="clr-namespace:Librarian.Views"
              d:DataContext="{d:DesignInstance {x:Type vm:DashboardViewModel}, IsDesignTimeCreatable=True}"
              d:DesignWidth="1030" d:DesignHeight="740">
+    <br:Interaction.Triggers>
+        <br:EventTrigger EventName="Loaded">
+            <br:InvokeCommandAction Command="{Binding LoadLastTransactionsCommand}"/>
+        </br:EventTrigger>
+    </br:Interaction.Triggers>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -72,14 +79,14 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
-                                        Margin="0,0,0,25">
-                                    <TextBlock Text="70000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                    <TextBlock Text="60000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                    <TextBlock Text="50000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                    <TextBlock Text="40000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                    <TextBlock Text="30000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                    <TextBlock Text="20000" Foreground="#717eb2" Margin="0,0,0,25"/>
-                                    <TextBlock Text="10000" Foreground="#717eb2" Margin="0,0,0,25"/>
+                                        Margin="0,-1,0,25">
+                                    <TextBlock Text="70000" Foreground="#717eb2" Margin="0,0,0,30"/>
+                                    <TextBlock Text="60000" Foreground="#717eb2" Margin="0,0,0,30"/>
+                                    <TextBlock Text="50000" Foreground="#717eb2" Margin="0,0,0,30"/>
+                                    <TextBlock Text="40000" Foreground="#717eb2" Margin="0,0,0,30"/>
+                                    <TextBlock Text="30000" Foreground="#717eb2" Margin="0,0,0,30"/>
+                                    <TextBlock Text="20000" Foreground="#717eb2" Margin="0,0,0,30"/>
+                                    <TextBlock Text="10000" Foreground="#717eb2" Margin="0,0,0,30"/>
                                     <TextBlock Text="0" Foreground="#717eb2" HorizontalAlignment="Right"/>
                                 </StackPanel>
 
@@ -159,11 +166,27 @@
 
                                 <!--Orders-->
                                 <StackPanel Grid.Row="1">
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 10:30" Icon="Bolt"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 11:15" Icon="Hamburger"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:00" Icon="StaffSnake"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:45" Icon="SackDollar"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:57" Icon="Deezer"/>
+                                    <v:OrderView Title="{Binding LastTransactions[0].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[0].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[0].TransactionDate, StringFormat=hh:mm}" Icon="BookAtlas"/>
+                                    <v:OrderView Title="{Binding LastTransactions[1].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[1].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[1].TransactionDate, StringFormat=hh:mm}" Icon="BookDead"/>
+                                    <v:OrderView Title="{Binding LastTransactions[2].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[2].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[2].TransactionDate, StringFormat=hh:mm}" Icon="BookJournalWhills"/>
+                                    <v:OrderView Title="{Binding LastTransactions[3].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[3].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[3].TransactionDate, StringFormat=hh:mm}" Icon="BookBookmark"/>
+                                    <v:OrderView Title="{Binding LastTransactions[4].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[4].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[4].TransactionDate, StringFormat=hh:mm}" Icon="BookJournalWhills"/>
+                                    <v:OrderView Title="{Binding LastTransactions[5].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[5].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[5].TransactionDate, StringFormat=hh:mm}" Icon="BookMedical"/>
+                                    <v:OrderView Title="{Binding LastTransactions[6].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[6].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[6].TransactionDate, StringFormat=hh:mm}" Icon="BookAtlas"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -307,11 +330,27 @@
 
                                 <!--Orders-->
                                 <StackPanel Grid.Row="1">
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 10:30" Icon="Bolt"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 11:15" Icon="Hamburger"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:00" Icon="StaffSnake"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:45" Icon="SackDollar"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:57" Icon="Deezer"/>
+                                    <v:OrderView Title="{Binding LastTransactions[0].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[0].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[0].TransactionDate, StringFormat=hh:mm}" Icon="BookAtlas"/>
+                                    <v:OrderView Title="{Binding LastTransactions[1].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[1].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[1].TransactionDate, StringFormat=hh:mm}" Icon="BookDead"/>
+                                    <v:OrderView Title="{Binding LastTransactions[2].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[2].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[2].TransactionDate, StringFormat=hh:mm}" Icon="BookJournalWhills"/>
+                                    <v:OrderView Title="{Binding LastTransactions[3].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[3].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[3].TransactionDate, StringFormat=hh:mm}" Icon="BookBookmark"/>
+                                    <v:OrderView Title="{Binding LastTransactions[4].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[4].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[4].TransactionDate, StringFormat=hh:mm}" Icon="BookJournalWhills"/>
+                                    <v:OrderView Title="{Binding LastTransactions[5].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[5].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[5].TransactionDate, StringFormat=hh:mm}" Icon="BookMedical"/>
+                                    <v:OrderView Title="{Binding LastTransactions[6].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[6].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[6].TransactionDate, StringFormat=hh:mm}" Icon="BookAtlas"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -455,11 +494,27 @@
 
                                 <!--Orders-->
                                 <StackPanel Grid.Row="1">
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 10:30" Icon="Bolt"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 11:15" Icon="Hamburger"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:00" Icon="StaffSnake"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:45" Icon="SackDollar"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:57" Icon="Deezer"/>
+                                    <v:OrderView Title="{Binding LastTransactions[0].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[0].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[0].TransactionDate, StringFormat=hh:mm}" Icon="BookAtlas"/>
+                                    <v:OrderView Title="{Binding LastTransactions[1].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[1].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[1].TransactionDate, StringFormat=hh:mm}" Icon="BookDead"/>
+                                    <v:OrderView Title="{Binding LastTransactions[2].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[2].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[2].TransactionDate, StringFormat=hh:mm}" Icon="BookJournalWhills"/>
+                                    <v:OrderView Title="{Binding LastTransactions[3].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[3].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[3].TransactionDate, StringFormat=hh:mm}" Icon="BookBookmark"/>
+                                    <v:OrderView Title="{Binding LastTransactions[4].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[4].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[4].TransactionDate, StringFormat=hh:mm}" Icon="BookJournalWhills"/>
+                                    <v:OrderView Title="{Binding LastTransactions[5].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[5].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[5].TransactionDate, StringFormat=hh:mm}" Icon="BookMedical"/>
+                                    <v:OrderView Title="{Binding LastTransactions[6].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[6].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[6].TransactionDate, StringFormat=hh:mm}" Icon="BookAtlas"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -603,11 +658,27 @@
 
                                 <!--Orders-->
                                 <StackPanel Grid.Row="1">
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 10:30" Icon="Bolt"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 11:15" Icon="Hamburger"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:00" Icon="StaffSnake"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:45" Icon="SackDollar"/>
-                                    <v:OrderView Title="Test order" Desc="Test Seller - 12:57" Icon="Deezer"/>
+                                    <v:OrderView Title="{Binding LastTransactions[0].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[0].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[0].TransactionDate, StringFormat=hh:mm}" Icon="BookAtlas"/>
+                                    <v:OrderView Title="{Binding LastTransactions[1].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[1].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[1].TransactionDate, StringFormat=hh:mm}" Icon="BookDead"/>
+                                    <v:OrderView Title="{Binding LastTransactions[2].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[2].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[2].TransactionDate, StringFormat=hh:mm}" Icon="BookJournalWhills"/>
+                                    <v:OrderView Title="{Binding LastTransactions[3].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[3].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[3].TransactionDate, StringFormat=hh:mm}" Icon="BookBookmark"/>
+                                    <v:OrderView Title="{Binding LastTransactions[4].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[4].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[4].TransactionDate, StringFormat=hh:mm}" Icon="BookJournalWhills"/>
+                                    <v:OrderView Title="{Binding LastTransactions[5].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[5].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[5].TransactionDate, StringFormat=hh:mm}" Icon="BookMedical"/>
+                                    <v:OrderView Title="{Binding LastTransactions[6].Book.Name}" 
+                                                 Desc_1="{Binding LastTransactions[6].Seller}" 
+                                                 Desc_2="{Binding LastTransactions[6].TransactionDate, StringFormat=hh:mm}" Icon="BookAtlas"/>
                                 </StackPanel>
                             </Grid>
                         </Border>

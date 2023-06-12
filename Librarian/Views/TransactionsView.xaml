@@ -104,7 +104,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.AddTransactionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditTransactionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                                 <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 

@@ -136,6 +136,29 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #region EditTransactionCommand
+        private ICommand? _EditTransactionCommand;
+
+        /// <summary>
+        /// Edit book command 
+        /// </summary>
+        public ICommand? EditTransactionCommand => _EditTransactionCommand ??= new LambdaCommand<Transaction>(OnEditTransactionCommandExecuted, CanEditTransactionCommandnExecute);
+
+        private bool CanEditTransactionCommandnExecute(Transaction? transaction) => transaction != null || SelectedTransaction != null;
+
+        private void OnEditTransactionCommandExecuted(Transaction? transaction)
+        {
+            var editableTransaction = transaction ?? SelectedTransaction;
+            if (editableTransaction is null) return;
+
+            if (!_dialogService.EditTransaction(editableTransaction, _booksRepository, _sellersRepository, _buyersRepository))
+                return;
+
+            _transactionsRepository.Update(editableTransaction);
+            _transactionsViewSource.View.Refresh();
+        }
+        #endregion
+
         #region RemoveTransactionCommand
         private ICommand? _RemoveTransactionCommand;
 
@@ -182,13 +205,13 @@ namespace Librarian.ViewModels
         }
 
         public TransactionsViewModel(
-            IRepository<Transaction> transactionRepository,
+            IRepository<Transaction> transactionsRepository,
             IRepository<Book> books,
             IRepository<Seller> sellers,
             IRepository<Buyer> buyers,
             IUserDialogService dialogService)
         {
-            _transactionsRepository = transactionRepository;
+            _transactionsRepository = transactionsRepository;
             _booksRepository = books;
             _sellersRepository = sellers;
             _buyersRepository = buyers;

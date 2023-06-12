@@ -133,6 +133,29 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #region EditSellerCommand
+        private ICommand? _EditSellerCommand;
+
+        /// <summary>
+        /// Edit seller command 
+        /// </summary>
+        public ICommand? EditSellerCommand => _EditSellerCommand ??= new LambdaCommand<Seller>(OnEditSellerCommandExecuted, CanEditSellerCommandnExecute);
+
+        private bool CanEditSellerCommandnExecute(Seller? seller) => seller != null || SelectedSeller != null;
+
+        private void OnEditSellerCommandExecuted(Seller? seller)
+        {
+            var editableSeller = seller ?? SelectedSeller;
+            if (editableSeller is null) return;
+
+            if (!_dialogService.EditSeller(editableSeller))
+                return;
+
+            _sellersRepository.Update(editableSeller);
+            _sellersViewSource.View.Refresh();
+        }
+        #endregion
+
         #region RemoveSellerCommand
         private ICommand? _RemoveSellerCommand;
 

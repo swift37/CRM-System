@@ -126,7 +126,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.AddBookCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditBookCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                                 <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
@@ -207,7 +207,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.AddCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                                 <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 

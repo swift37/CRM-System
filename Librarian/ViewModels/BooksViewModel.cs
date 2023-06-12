@@ -205,6 +205,29 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #region EditBookCommand
+        private ICommand? _EditBookCommand;
+
+        /// <summary>
+        /// Edit book command 
+        /// </summary>
+        public ICommand? EditBookCommand => _EditBookCommand ??= new LambdaCommand<Book>(OnEditBookCommandExecuted, CanEditBookCommandnExecute);
+
+        private bool CanEditBookCommandnExecute(Book? book) => book != null || SelectedBook != null;
+
+        private void OnEditBookCommandExecuted(Book? book)
+        {
+            var editableBook = book ?? SelectedBook;
+            if (editableBook is null) return;
+
+            if (!_dialogService.EditBook(editableBook, _categoriesRepository))
+                return;
+
+            _booksRepository.Update(editableBook);
+            _booksViewSource.View.Refresh();
+        }
+        #endregion
+
         #region RemoveBookCommand
         private ICommand? _RemoveBookCommand;
 
@@ -256,6 +279,29 @@ namespace Librarian.ViewModels
             Categories?.Add(category);
 
             SelectedCategory = category;
+        }
+        #endregion
+
+        #region EditCategoryCommand
+        private ICommand? _EditCategoryCommand;
+
+        /// <summary>
+        /// Edit category command 
+        /// </summary>
+        public ICommand? EditCategoryCommand => _EditCategoryCommand ??= new LambdaCommand<Category>(OnEditCategoryCommandExecuted, CanEditCategoryCommandnExecute);
+
+        private bool CanEditCategoryCommandnExecute(Category? category) => category != null || SelectedCategory != null;
+
+        private void OnEditCategoryCommandExecuted(Category? category)
+        {
+            var editableCategory = category ?? SelectedCategory;
+            if (editableCategory is null) return;
+
+            if (!_dialogService.EditCategory(editableCategory))
+                return;
+
+            _categoriesRepository.Update(editableCategory);
+            _categoriesViewSource.View.Refresh();
         }
         #endregion
 

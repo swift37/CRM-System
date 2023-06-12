@@ -8,9 +8,6 @@
     <DataTemplate DataType="{x:Type vm:BooksViewModel}">
         <v:BooksView DataContext="{Binding}"/>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:CategoriesViewModel}">
-        <v:CategoriesView DataContext="{Binding}"/>
-    </DataTemplate>
     <DataTemplate DataType="{x:Type vm:SellersViewModel}">
         <v:SellersView DataContext="{Binding}"/>
     </DataTemplate>

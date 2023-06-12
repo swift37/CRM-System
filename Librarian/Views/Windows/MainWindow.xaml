@@ -69,13 +69,6 @@
                     </StackPanel>
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowCategoriesViewCommand}"> 
-                    <StackPanel Orientation="Horizontal">
-                        <fa:IconImage Icon="TableList" Style="{StaticResource menuRadioButtonIcon}"/>
-                        <TextBlock Text="Categories" Style="{StaticResource menuRadioButtonText}"/>
-                    </StackPanel>
-                </RadioButton>
-
                 <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowBuyersViewCommand}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="UsersViewfinder " Style="{StaticResource menuRadioButtonIcon}"/>

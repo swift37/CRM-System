@@ -29,6 +29,7 @@ namespace Librarian.ViewModels
         private readonly IUserDialogService _dialogService;
 
         private CollectionViewSource _booksViewSource;
+        private CollectionViewSource _categoriesViewSource;
 
         #region Properties
 
@@ -89,6 +90,68 @@ namespace Librarian.ViewModels
         public Book? SelectedBook { get => _SelectedBook; set => Set(ref _SelectedBook, value); }
         #endregion
 
+
+
+        #region CategoriesView
+        /// <summary>
+        /// Categories collection view.
+        /// </summary>
+        public ICollectionView CategoriesView => _categoriesViewSource.View;
+        #endregion
+
+        #region CategoriesCount
+        private int _CategoriesCount;
+
+        /// <summary>
+        /// Categories count
+        /// </summary>
+        public int CategoriesCount { get => _CategoriesCount; set => Set(ref _CategoriesCount, value); }
+        #endregion
+
+        #region CategoriesNameFilter
+        private string? _CategoriesNameFilter;
+
+        /// <summary>
+        /// Filter categories by name
+        /// </summary>
+        public string? CategoriesNameFilter
+        {
+            get => _CategoriesNameFilter;
+            set
+            {
+                if (Set(ref _CategoriesNameFilter, value))
+                    _categoriesViewSource.View.Refresh();
+            }
+        }
+        #endregion
+
+        #region Categories
+        private ObservableCollection<Category>? _Categories;
+
+        /// <summary>
+        /// Categories collection
+        /// </summary>
+        public ObservableCollection<Category>? Categories
+        {
+            get => _Categories;
+            set
+            {
+                if (Set(ref _Categories, value))
+                    _categoriesViewSource.Source = value;
+                OnPropertyChanged(nameof(CategoriesView));
+            }
+        }
+        #endregion
+
+        #region SelectedCategory
+        private Category? _SelectedCategory;
+
+        /// <summary>
+        /// Selected category
+        /// </summary>
+        public Category? SelectedCategory { get => _SelectedCategory; set => Set(ref _SelectedCategory, value); }
+        #endregion
+
         #endregion
 
         #region Commands
@@ -105,11 +168,15 @@ namespace Librarian.ViewModels
 
         private async Task OnLoadDataCommandExecuted()
         {
-            if (_booksRepository.Entities is null) return;
+            if (_booksRepository.Entities is null || _categoriesRepository.Entities is null) return;
 
             Books = (await _booksRepository.Entities.ToArrayAsync()).ToObservableCollection();
 
             BooksCount = await _booksRepository.Entities.CountAsync();
+
+            Categories = (await _categoriesRepository.Entities.ToArrayAsync()).ToObservableCollection();
+
+            CategoriesCount = await _categoriesRepository.Entities.CountAsync();
         }
         #endregion
 
@@ -169,6 +236,61 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #region AddCategoryCommand
+        private ICommand? _AddCategoryCommand;
+
+        /// <summary>
+        /// AddCategory command
+        /// </summary>
+        public ICommand? AddCategoryCommand => _AddCategoryCommand ??= new LambdaCommand(OnAddCategoryCommandExecuted, CanAddCategoryCommandExecute);
+
+        private bool CanAddCategoryCommandExecute() => true;
+
+        private void OnAddCategoryCommandExecuted()
+        {
+            var category = new Category();
+
+            if (!_dialogService.EditCategory(category)) return;
+
+            _categoriesRepository.Add(category);
+            Categories?.Add(category);
+
+            SelectedCategory = category;
+        }
+        #endregion
+
+        #region RemoveCategoryCommand
+        private ICommand? _RemoveCategoryCommand;
+
+        /// <summary>
+        /// RemoveCategory command
+        /// </summary>
+        public ICommand? RemoveCategoryCommand => _RemoveCategoryCommand
+            ??= new LambdaCommand<Category>(OnRemoveCategoryCommandExecuted, CanRemoveCategoryCommandExecute);
+
+        private bool CanRemoveCategoryCommandExecute(Category? category) => category != null || SelectedCategory != null;
+
+        private void OnRemoveCategoryCommandExecuted(Category? category)
+        {
+            var removableCategory = category ?? SelectedCategory;
+            if (removableCategory is null) return;
+
+            //todo: Переделать диалог с подтверждением удаления
+            if (!_dialogService.Confirmation(
+                $"Do you confirm the permanent deletion of the category \"{removableCategory.Name}\"?",
+                "Category deleting")) return;
+
+            if (_categoriesRepository.Entities != null
+                && _categoriesRepository.Entities.Any(c => c == category || c == SelectedCategory))
+                _categoriesRepository.Remove(removableCategory.Id);
+
+
+            Categories?.Remove(removableCategory);
+            if (ReferenceEquals(SelectedCategory, removableCategory))
+                SelectedCategory = null;
+        }
+        #endregion
+
         #endregion
 
         public BooksViewModel() : this(new DebugBooksRepository(), new DebugCategoriesRepository(), new UserDialogService())
@@ -199,7 +321,10 @@ namespace Librarian.ViewModels
                 //}
             };
 
+            _categoriesViewSource = new CollectionViewSource();
+
             _booksViewSource.Filter += OnBooksNameFilter;
+            _categoriesViewSource.Filter += OnCategoriesNameFilter;
         }
 
         private void OnBooksNameFilter(object sender, FilterEventArgs e)
@@ -208,6 +333,14 @@ namespace Librarian.ViewModels
 
             if ((book.Name is null || !book.Name.Contains(BooksFilter)) && 
                 (book.Category is null || book.Category.Name is null || !book.Category.Name.Contains(BooksFilter)))
+                e.Accepted = false;
+        }
+
+        private void OnCategoriesNameFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Category category) || string.IsNullOrWhiteSpace(CategoriesNameFilter)) return;
+
+            if (category.Name is null || !category.Name.Contains(CategoriesNameFilter))
                 e.Accepted = false;
         }
     }

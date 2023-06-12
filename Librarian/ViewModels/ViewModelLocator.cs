@@ -8,8 +8,6 @@ namespace Librarian.ViewModels
 
         public BooksViewModel? BooksViewModel => App.Services?.GetRequiredService<BooksViewModel>();
 
-        public CategoriesViewModel? CategoriesViewModel => App.Services?.GetRequiredService<CategoriesViewModel>();
-
         public SellersViewModel? SellersViewModel => App.Services?.GetRequiredService<SellersViewModel>();
 
         public BuyersViewModel? BuyersViewModel => App.Services?.GetRequiredService<BuyersViewModel>();

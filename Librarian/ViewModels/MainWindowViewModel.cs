@@ -78,22 +78,6 @@ namespace Librarian.ViewModels
         }
         #endregion
 
-        #region ShowCategoriesViewCommand
-        private ICommand? _ShowCategoriesViewCommand;
-
-        /// <summary>
-        /// Show CategoriesView
-        /// </summary>
-        public ICommand? ShowCategoriesViewCommand => _ShowCategoriesViewCommand ??= new LambdaCommand(OnShowCategoriesViewCommandExecuted, CanShowCategoriesViewCommandnExecute);
-
-        private bool CanShowCategoriesViewCommandnExecute() => true;
-
-        private void OnShowCategoriesViewCommandExecuted()
-        {
-            CurrentViewModel = new CategoriesViewModel(_categoriesRepository, _dialogService);
-        }
-        #endregion
-
         #region ShowSellersViewCommand
         private ICommand? _ShowSellersViewCommand;
 

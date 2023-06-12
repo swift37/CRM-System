@@ -37,7 +37,7 @@
             </StackPanel>
         </Button>
         
-        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddBookCommand}" Margin="0,0,0,-100" Panel.ZIndex="10000">
+        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddCategoryCommand}" Margin="0,0,0,-100" Panel.ZIndex="10000">
             <StackPanel Orientation="Horizontal">
                 <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
                 <TextBlock Text="Add New Category"/>
@@ -158,6 +158,70 @@
                         <TextBlock Text="Archived" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
                                    HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </StackPanel>
+                </Grid>
+            </TabItem>
+            
+            <!--Categories-->
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Categories">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="{Binding CategoriesCount}" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,7,0"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="Categories" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="0" Text="Filter by" FontSize="13" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,215,0" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                    <!--Filter TextBox-->
+                    <Grid Grid.Row="0" Width="200" HorizontalAlignment="Right">
+                        <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Search in Categories ..." FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtSearch2, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtSearch2" Style="{StaticResource textBoxFilter}" Text="{Binding CategoriesNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <!--Actual Categories DataGrid-->
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                              ItemsSource="{Binding CategoriesView}" SelectedItem="{Binding SelectedCategory}">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Id}"/>
+
+                            <DataGridTextColumn Header="Category" IsReadOnly="True" CanUserResize="False" Width="*"
+                                                Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Books Count" IsReadOnly="True" CanUserResize="False" Width="175" 
+                                                Binding="{Binding Books.Count}"/>
+
+                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.AddCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
+                                                    Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                                    CommandParameter="{Binding SelectedCategory}">
+                                                <fa:IconImage Icon="Trash" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
 

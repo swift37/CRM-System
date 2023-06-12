@@ -76,6 +76,11 @@ namespace Librarian.Services
 
             seller.Name = sellerEditorModel.SellerName;
             seller.Surname = sellerEditorModel.SellerSurname;
+            seller.DeteOfBirth = sellerEditorModel.SellerDateOfBirth;
+            seller.ContactNumber = sellerEditorModel.SellerContactNumber;
+            seller.ContactMail = sellerEditorModel.SellerMail;
+            seller.IndeidentityDocumentNumber = sellerEditorModel.SellerIdentityDocumentNumber;
+            seller.WorkingRate = sellerEditorModel.SellerWorkingRate;
 
             return true;
         }

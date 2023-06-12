@@ -94,7 +94,7 @@
                                    Panel.ZIndex="1" Text="Enter Phone Number" FontSize="12" FontWeight="Normal"
                                    Visibility="{Binding ElementName=txtInput3, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
-                            <TextBox x:Name="txtInput3" Style="{StaticResource textBoxEditor}" Text="{Binding BookTitle}"/>
+                            <TextBox x:Name="txtInput3" Style="{StaticResource textBoxEditor}" Text="{Binding SellerContactNumber}"/>
                         </Grid>
                     </DockPanel>
 
@@ -108,7 +108,7 @@
                                    Panel.ZIndex="1" Text="Enter Mail" FontSize="12" FontWeight="Normal"
                                    Visibility="{Binding ElementName=txtInput4, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
-                            <TextBox x:Name="txtInput4" Style="{StaticResource textBoxEditor}" Text="{Binding BookPrice}"/>
+                            <TextBox x:Name="txtInput4" Style="{StaticResource textBoxEditor}" Text="{Binding SellerMail}"/>
                         </Grid>
                     </DockPanel>
 
@@ -127,21 +127,21 @@
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                         <Border CornerRadius="10" Background="#ffffff" Padding="10,5" Margin="0,9,0,11">
-                            <DatePicker BorderThickness="0" Foreground="#5c5c5c"/>
+                            <DatePicker SelectedDate="{Binding SellerDateOfBirth}" BorderThickness="0" Foreground="#5c5c5c"/>
                         </Border>
                     </DockPanel>
 
-                    <!--Seller Indeidentity Document Number-->
+                    <!--Seller Ideidentity Document Number-->
                     <DockPanel Grid.Row="1">
-                        <TextBlock DockPanel.Dock="Top" Text="Indeidentity Document Number" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                        <TextBlock DockPanel.Dock="Top" Text="Ideidentity Document Number" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                         <Grid>
                             <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
-                                   Panel.ZIndex="1" Text="Enter Indeidentity Document Number" FontSize="12" FontWeight="Normal"
+                                   Panel.ZIndex="1" Text="Enter Ideidentity Document Number" FontSize="12" FontWeight="Normal"
                                    Visibility="{Binding ElementName=txtInput6, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
-                            <TextBox x:Name="txtInput6" Style="{StaticResource textBoxEditor}" Text="{Binding SellerSurname}"/>
+                            <TextBox x:Name="txtInput6" Style="{StaticResource textBoxEditor}" Text="{Binding SellerIdentityDocumentNumber}"/>
                         </Grid>
                     </DockPanel>
 
@@ -157,7 +157,7 @@
 
                             <ComboBox Grid.Row="1" x:Name="comboInput" IsEditable="True" ItemsSource="{x:Null}" 
                               Style="{DynamicResource editorComboBox}" ItemContainerStyle="{DynamicResource editorComboBoxItem}" 
-                              SelectedItem="{x:Null}"
+                              SelectedItem="{Binding SellerWorkingRate}"
                               Text=""/>
                         </Grid>
                     </DockPanel>

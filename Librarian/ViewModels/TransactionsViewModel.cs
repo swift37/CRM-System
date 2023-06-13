@@ -127,7 +127,7 @@ namespace Librarian.ViewModels
         {
             var transaction = new Order();
 
-            if (!_dialogService.EditTransaction(transaction, _booksRepository, _sellersRepository, _buyersRepository)) return;
+            if (!_dialogService.EditOrder(transaction, _booksRepository, _sellersRepository, _buyersRepository)) return;
 
             _transactionsRepository.Add(transaction);
             Transactions?.Add(transaction);
@@ -151,7 +151,7 @@ namespace Librarian.ViewModels
             var editableTransaction = transaction ?? SelectedTransaction;
             if (editableTransaction is null) return;
 
-            if (!_dialogService.EditTransaction(editableTransaction, _booksRepository, _sellersRepository, _buyersRepository))
+            if (!_dialogService.EditOrder(editableTransaction, _booksRepository, _sellersRepository, _buyersRepository))
                 return;
 
             _transactionsRepository.Update(editableTransaction);
@@ -192,10 +192,10 @@ namespace Librarian.ViewModels
         #endregion
         
         public TransactionsViewModel() : this(
-            new DebugTransactionsRepository(),
-            new DebugBooksRepository(),
-            new DebugSellersRepository(),
-            new DebugBuyersRepository(),
+            new DebugOrdersRepository(),
+            new DebugProductsRepository(),
+            new DebugEmployeesRepository(),
+            new DebugCustomersRepository(),
             new UserDialogService())
         {
             if (!App.IsDesignMode)
@@ -224,16 +224,16 @@ namespace Librarian.ViewModels
 
         private void OnTransactionsFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Order transaction) || string.IsNullOrWhiteSpace(TransactionsFilter)) return;
+            if (!(e.Item is Order order) || string.IsNullOrWhiteSpace(TransactionsFilter)) return;
 
-            var transactionDate = transaction.TransactionDate.ToString();
+            var transactionDate = order.OrderDate.ToString();
 
             if ((transactionDate is null || !transactionDate.Contains(TransactionsFilter)) &&
-                (transaction.Book is null || transaction.Book.Name is null || !transaction.Book.Name.Contains(TransactionsFilter)) &&
-                !transaction.Amount.ToString().Contains(TransactionsFilter) &&
-                (transaction.Buyer is null || transaction.Buyer.ContactNumber is null || !transaction.Buyer.ContactNumber.Contains(TransactionsFilter)) &&
-                (transaction.Seller is null || transaction.Seller.Name is null || transaction.Seller.Surname is null || 
-                (!transaction.Seller.Name.Contains(TransactionsFilter) && !transaction.Seller.Surname.Contains(TransactionsFilter))))
+                (order.OrderDetails is null || order.OrderDetails.Product is null || order.OrderDetails.Product.Name is null || !order.OrderDetails.Product.Name.Contains(TransactionsFilter)) &&
+                !order.OrderDetails.Amount.ToString().Contains(TransactionsFilter) &&
+                (order.Customer is null || order.Customer.ContactNumber is null || !order.Customer.ContactNumber.Contains(TransactionsFilter)) &&
+                (order.Employee is null || order.Employee.Name is null || order.Employee.Surname is null || 
+                (!order.Employee.Name.Contains(TransactionsFilter) && !order.Employee.Surname.Contains(TransactionsFilter))))
                     e.Accepted = false;
         }
     }

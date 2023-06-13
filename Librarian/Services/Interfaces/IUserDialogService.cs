@@ -5,13 +5,13 @@ namespace Librarian.Services.Interfaces
 {
     public interface IUserDialogService
     {
-        bool EditBook(Product book, IRepository<Category> categoriesRepository);
+        bool EditProduct(Product book, IRepository<Category> categoriesRepository);
 
         bool EditCategory(Category category);
 
-        bool EditBuyer(Customer buyer);
+        bool EditCustomer(Customer buyer);
 
-        bool EditTransaction(
+        bool EditOrder(
             Order transaction, 
             IRepository<Product> books, 
             IRepository<Employee> sellers, 
@@ -22,6 +22,6 @@ namespace Librarian.Services.Interfaces
         void Warning(string message, string caption);
 
         void Error(string message, string caption);
-        bool EditSeller(Employee seller);
+        bool EditEmployee(Employee seller);
     }
 }

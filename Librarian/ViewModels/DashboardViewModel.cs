@@ -17,17 +17,17 @@ namespace Librarian.ViewModels
 {
     public class DashboardViewModel : ViewModel
     {
-        private readonly IRepository<Order> _transactionsRepository;
+        private readonly IRepository<Order> _ordersRepository;
 
         #region Properties
 
-        #region LastTransactions
-        private ObservableCollection<Order>? _LastTransactions;
+        #region LastOrders
+        private ObservableCollection<Order>? _LastOrders;
 
         /// <summary>
-        /// Last Transactions
+        /// Last Orders
         /// </summary>
-        public ObservableCollection<Order>? LastTransactions { get => _LastTransactions; set => Set(ref _LastTransactions, value); } 
+        public ObservableCollection<Order>? LastOrders { get => _LastOrders; set => Set(ref _LastOrders, value); } 
         #endregion
 
         #endregion
@@ -46,15 +46,15 @@ namespace Librarian.ViewModels
 
         private async Task OnLoadLastTransactionsCommandExecuted()
         {
-            if (_transactionsRepository.Entities is null) return;
+            if (_ordersRepository.Entities is null) return;
 
-            LastTransactions = (await _transactionsRepository.Entities.OrderByDescending(t => t.TransactionDate).Take(7).ToArrayAsync()).ToObservableCollection();
+            LastOrders = (await _ordersRepository.Entities.OrderByDescending(t => t.OrderDate).Take(7).ToArrayAsync()).ToObservableCollection();
         }
         #endregion
 
         #endregion
 
-        public DashboardViewModel() : this(new DebugTransactionsRepository())
+        public DashboardViewModel() : this(new DebugOrdersRepository())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
@@ -64,7 +64,7 @@ namespace Librarian.ViewModels
 
         public DashboardViewModel(IRepository<Order> transactionsRepository) 
         {
-            _transactionsRepository = transactionsRepository;
+            _ordersRepository = transactionsRepository;
         }
     }
 }

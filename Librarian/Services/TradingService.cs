@@ -33,10 +33,10 @@ namespace Librarian.Services
 
             var transaction = new Order
             {
-                Book = book,
-                Seller = seller,
-                Buyer = buyer,
-                Amount = transactionАmount
+                //Book = book,
+                //Seller = seller,
+                //Buyer = buyer,
+                //Amount = transactionАmount
             };
 
             return await _transactions.AddAsync(transaction);

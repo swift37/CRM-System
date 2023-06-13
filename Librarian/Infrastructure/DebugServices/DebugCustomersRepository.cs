@@ -1,29 +1,29 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Librarian.Infrastructure.DebugServices
 {
-    class DebugBuyersRepository : IRepository<Customer>
+    class DebugCustomersRepository : IRepository<Customer>
     {
-        public DebugBuyersRepository()
+        public DebugCustomersRepository()
         {
             var random = new Random();
 
             Entities = Enumerable.Range(1, 30)
                 .Select(i => new Customer
                 {
-                    Id = i,
-                    Name = $"Test buyer #{i}",
-                    Surname = $"Test surname #{i}", 
+                    Name = $"Customer {i}",
+                    Surname = "Surnm",
+                    ContactName = $"Tester",
+                    ContactTitle = $"Manager",
+                    Address = $"USA, New York, Test st.",
                     ContactNumber = random.Next(100000000, 999999999).ToString(),
-                    ContactMail = $"buyer{i}@gmail.com",
-                    CashbackBalance = random.Next(10, 50)
+                    ContactMail = $"customer{i}@gmail.com",
+                    CashbackBalance = (decimal)(random.NextDouble() * 100)
                 }).AsQueryable();
         }
 

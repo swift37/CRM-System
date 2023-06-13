@@ -43,12 +43,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region TransactionDate
-        private DateTime? _TransactionDate;
+        private DateTime _TransactionDate;
 
         /// <summary>
         /// Transaction date
         /// </summary>
-        public DateTime? TransactionDate { get => _TransactionDate; set => Set(ref _TransactionDate, value); }
+        public DateTime TransactionDate { get => _TransactionDate; set => Set(ref _TransactionDate, value); }
         #endregion
 
         #region TransactionAmount
@@ -71,7 +71,7 @@ namespace Librarian.ViewModels
             set
             {
                 if (Set(ref _TransactionDiscount, value))
-                    if (Book != null) TransactionAmount = Book.Price - value;
+                    if (Book != null) TransactionAmount = Book.UnitPrice - value;
             }
         }
         #endregion
@@ -87,7 +87,7 @@ namespace Librarian.ViewModels
             set
             {
                 if (Set(ref _Book, value)) 
-                    if (Book != null) TransactionAmount = Book.Price - TransactionDiscount;
+                    if (Book != null) TransactionAmount = Book.UnitPrice - TransactionDiscount;
             } 
         }
         #endregion
@@ -231,10 +231,10 @@ namespace Librarian.ViewModels
         #endregion
 
         public TransactionEditorViewModel() : this(
-            new Order { Id = 1, TransactionDate = DateTime.Now, Amount = 300, Discount = 20 },
-            new DebugBooksRepository(),
-            new DebugSellersRepository(),
-            new DebugBuyersRepository())
+            new Order { Id = 1, OrderDate = DateTime.Now },
+            new DebugProductsRepository(),
+            new DebugEmployeesRepository(),
+            new DebugCustomersRepository())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
@@ -257,12 +257,12 @@ namespace Librarian.ViewModels
             _buyersViewSource.Filter += OnBuyersFilter;
 
             TransactionId = transaction.Id;
-            TransactionDate = transaction.TransactionDate;
-            TransactionAmount = transaction.Amount;
-            TransactionDiscount = transaction.Discount;
-            Book = transaction.Book;
-            Seller = transaction.Seller;
-            Buyer = transaction.Buyer;
+            TransactionDate = transaction.OrderDate;
+            //TransactionAmount = transaction.Amount;
+            //TransactionDiscount = transaction.Discount;
+            //Book = transaction.Product;
+            Seller = transaction.Employee;
+            Buyer = transaction.Customer;
         }
 
         private void OnBooksFilter(object sender, FilterEventArgs e)

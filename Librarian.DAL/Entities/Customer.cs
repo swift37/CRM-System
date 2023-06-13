@@ -14,7 +14,6 @@ namespace Librarian.DAL.Entities
 
         public string? ContactMail { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
         public decimal CashbackBalance { get; set; }
 
         public string? Address { get; set; }

@@ -124,7 +124,7 @@ namespace Librarian.ViewModels
         {
             var seller = new Employee();
 
-            if (!_dialogService.EditSeller(seller)) return;
+            if (!_dialogService.EditEmployee(seller)) return;
 
             _sellersRepository.Add(seller);
             Sellers?.Add(seller);
@@ -148,7 +148,7 @@ namespace Librarian.ViewModels
             var editableSeller = seller ?? SelectedSeller;
             if (editableSeller is null) return;
 
-            if (!_dialogService.EditSeller(editableSeller))
+            if (!_dialogService.EditEmployee(editableSeller))
                 return;
 
             _sellersRepository.Update(editableSeller);
@@ -190,7 +190,7 @@ namespace Librarian.ViewModels
 
         #endregion
 
-        public SellersViewModel() : this(new DebugSellersRepository(), new UserDialogService())
+        public SellersViewModel() : this(new DebugEmployeesRepository(), new UserDialogService())
         {
             if(!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));

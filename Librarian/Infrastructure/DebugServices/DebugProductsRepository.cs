@@ -7,18 +7,32 @@ using System.Threading.Tasks;
 
 namespace Librarian.Infrastructure.DebugServices
 {
-    class DebugBooksRepository : IRepository<Product>
+    class DebugProductsRepository : IRepository<Product>
     {
-        public DebugBooksRepository()
+        public DebugProductsRepository()
         {
             var random = new Random();
 
-            var books = Enumerable.Range(1, 100)
+            var suppliers = Enumerable.Range(1, 10)
+                .Select(i => new Supplier
+                {
+                    Name = $"Company {i}",
+                    ContactName = $"Supplier {i}",
+                    ContactTitle = "Manager",
+                    ContactMail = $"company{i}@gmail.com",
+                    ContactNumber = random.Next(100000000, 999999999).ToString(),
+                    Address = $"USA, New York, Test st."
+                })
+                .ToArray();
+
+            var products = Enumerable.Range(1, 100)
                 .Select(i => new Product
                 {
-                    Id = i,
-                    Name = $"Test book #{i}",
-                    Price = (decimal)(random.NextDouble() * 300 + 50)
+                    Name = $"Product {i}",
+                    UnitsInEnterprise = random.Next(100),
+                    UnitsInStock = random.Next(1000),
+                    UnitPrice = (decimal)(random.NextDouble() * 300 + 50),
+                    Supplier = random.NextItem(suppliers)
                 })
                 .ToArray();
 
@@ -26,18 +40,18 @@ namespace Librarian.Infrastructure.DebugServices
                 .Select(i => new Category
                 {
                     Id = i,
-                    Name = $"Test category #{i}"
+                    Name = $"Category #{i}"
                 })
                 .ToArray();
 
-            foreach (var book in books)
+            foreach (var product in products)
             {
-                var category = categories[book.Id % categories.Length];
-                category.Books?.Add(book);
-                book.Category = category;
+                var category = categories[product.Id % categories.Length];
+                category.Products?.Add(product);
+                product.Category = category;
             }
 
-            Entities = books.AsQueryable();
+            Entities = products.AsQueryable();
         }
 
         public IQueryable<Product>? Entities { get; }

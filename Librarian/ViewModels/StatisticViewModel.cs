@@ -126,8 +126,8 @@ namespace Librarian.ViewModels
             if (transactions is null) return;
             if (_booksRepository.Entities is null) return;
 
-            var topBooksQuery = transactions.GroupBy(transaction => transaction.Book.Id)
-                .Select(bookStatistic => new { BookId = bookStatistic.Key, TransactionsCount = bookStatistic.Count(), TransactionsAmount = bookStatistic.Sum(t => t.Amount) })
+            var topBooksQuery = transactions.GroupBy(transaction => transaction.OrderDetails.Product.Id)
+                .Select(bookStatistic => new { BookId = bookStatistic.Key, TransactionsCount = bookStatistic.Count(), TransactionsAmount = bookStatistic.Sum(t => t.OrderDetails.Amount) })
                 .OrderByDescending(book => book.TransactionsCount)
                 .Take(50)
                 .Join(_booksRepository.Entities,
@@ -140,19 +140,19 @@ namespace Librarian.ViewModels
 
         private async Task CollectCategoriesTransactionsStatisticAsync()
         {
-            var transactions = _transactionsRepository.Entities;
+            var orders = _transactionsRepository.Entities;
 
-            if (transactions is null) return;
+            if (orders is null) return;
             if (_categoriesRepository.Entities is null) return;
 
-            var topCategoriesQuery = transactions.GroupBy(transaction => transaction.Book.Category.Id)
-                .Select(categoryStatistic => new { CategoryId = categoryStatistic.Key, TransactionsCount = categoryStatistic.Count(), TransactionsAmount = categoryStatistic.Sum(t => t.Amount) })
+            var topCategoriesQuery = orders.GroupBy(order => order.OrderDetails.Product.Category.Id)
+                .Select(categoryStatistic => new { CategoryId = categoryStatistic.Key, TransactionsCount = categoryStatistic.Count(), TransactionsAmount = categoryStatistic.Sum(t => t.OrderDetails.Amount) })
                 .OrderByDescending(category => category.TransactionsCount)
                 .Take(15)
                 .Join(_categoriesRepository.Entities,
-                    transactions => transactions.CategoryId,
+                    orders => orders.CategoryId,
                     category => category.Id,
-                    (transactions, category) => new TopCategoryInfo { Category = category, TransactionsCount = transactions.TransactionsCount, TransactionsAmount = transactions.TransactionsAmount });
+                    (orders, category) => new TopCategoryInfo { Category = category, TransactionsCount = orders.TransactionsCount, TransactionsAmount = orders.TransactionsAmount });
 
             TopCategories.ClearAdd(await topCategoriesQuery.ToArrayAsync());
         }
@@ -164,8 +164,8 @@ namespace Librarian.ViewModels
             if (transactions is null) return;
             if (_sellersRepository.Entities is null) return;
 
-            var topSellersQuery = transactions.GroupBy(transaction => transaction.Seller.Id)
-                .Select(sellerStatistic => new { SellerId = sellerStatistic.Key, DealsCount = sellerStatistic.Count(), DealsAmount = sellerStatistic.Sum(d => d.Amount) })
+            var topSellersQuery = transactions.GroupBy(transaction => transaction.Employee.Id)
+                .Select(sellerStatistic => new { SellerId = sellerStatistic.Key, DealsCount = sellerStatistic.Count(), DealsAmount = sellerStatistic.Sum(d => d.OrderDetails.Amount) })
                 .OrderByDescending(seller => seller.DealsCount)
                 .Join(_sellersRepository.Entities,
                     deal => deal.SellerId,

@@ -66,5 +66,9 @@ namespace Librarian.DAL.Context
                .Property(e => e.Amount)
                .HasColumnType("decimal(18,2)");
         }
+
+        public LibrarianDb(DbContextOptions<LibrarianDb> options) : base(options)
+        {
+        }
     }
 }

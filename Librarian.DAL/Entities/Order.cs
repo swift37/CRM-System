@@ -14,8 +14,6 @@ namespace Librarian.DAL.Entities
 
         public OrderDetails? OrderDetails { get; set; }
 
-        public virtual Product? Product { get; set; }
-
         public virtual Employee? Employee { get; set; }
 
         public virtual Customer? Customer { get; set; }
@@ -31,6 +29,6 @@ namespace Librarian.DAL.Entities
         public bool IsActual { get; set; }
 
         public override string ToString() =>
-            $"[{OrderDate}]: Transaction for the sale of the {Product?.Category} {Product}: {Employee}, {Customer}";
+            $"[{OrderDate}]: Transaction for the sale of the {OrderDetails?.Product?.Name}: {Employee}, {Customer}";
     }
 }

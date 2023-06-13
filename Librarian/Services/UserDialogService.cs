@@ -3,30 +3,25 @@ using Librarian.Interfaces;
 using Librarian.Services.Interfaces;
 using Librarian.ViewModels;
 using Librarian.Views.Windows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Librarian.Services
 {
     public class UserDialogService : IUserDialogService
     {
-        public bool EditBook(Product book, IRepository<Category> categoriesRepository)
+        public bool EditProduct(Product product, IRepository<Category> categoriesRepository)
         {
-            var bookEditorModel = new BookEditorViewModel(book, categoriesRepository);
-            var bookEditorWindow = new BookEditorWindow
+            var productEditorModel = new BookEditorViewModel(product, categoriesRepository);
+            var productEditorWindow = new BookEditorWindow
             {
-                DataContext = bookEditorModel,
+                DataContext = productEditorModel,
             };
 
-            if (bookEditorWindow.ShowDialog() != true) return false;
+            if (productEditorWindow.ShowDialog() != true) return false;
 
-            book.Name = bookEditorModel.BookTitle;
-            book.Category = bookEditorModel.BookCategory;
-            book.Price = bookEditorModel.BookPrice;
+            product.Name = productEditorModel.BookTitle;
+            product.Category = productEditorModel.BookCategory;
+            product.UnitPrice = productEditorModel.BookPrice;
 
             return true;
         }
@@ -46,9 +41,9 @@ namespace Librarian.Services
             return true;
         }
 
-        public bool EditBuyer(Customer buyer)
+        public bool EditCustomer(Customer customer)
         {
-            var buyerEditorModel = new BuyerEditorViewModel(buyer);
+            var buyerEditorModel = new BuyerEditorViewModel(customer);
             var buyerEditWindow = new BuyerEditorWindow
             {
                 DataContext = buyerEditorModel,
@@ -56,17 +51,17 @@ namespace Librarian.Services
 
             if(buyerEditWindow.ShowDialog() != true) return false;
 
-            buyer.Name = buyerEditorModel.BuyerName;
-            buyer.Surname = buyerEditorModel.BuyerSurname;
-            buyer.ContactNumber = buyerEditorModel.BuyerNumber;
-            buyer.ContactMail = buyerEditorModel.BuyerMail;
+            customer.Name = buyerEditorModel.BuyerName;
+            customer.Surname = buyerEditorModel.BuyerSurname;
+            customer.ContactNumber = buyerEditorModel.BuyerNumber;
+            customer.ContactMail = buyerEditorModel.BuyerMail;
 
             return true;
         }
 
-        public bool EditSeller(Employee seller)
+        public bool EditEmployee(Employee employee)
         {
-            var sellerEditorModel = new SellerEditorViewModel(seller);
+            var sellerEditorModel = new SellerEditorViewModel(employee);
             var sellerEditorWindow = new SellerEditorWindow
             {
                 DataContext = sellerEditorModel
@@ -74,20 +69,20 @@ namespace Librarian.Services
 
             if (sellerEditorWindow.ShowDialog() != true) return false;
 
-            seller.Name = sellerEditorModel.SellerName;
-            seller.Surname = sellerEditorModel.SellerSurname;
-            seller.DeteOfBirth = sellerEditorModel.SellerDateOfBirth;
-            seller.ContactNumber = sellerEditorModel.SellerContactNumber;
-            seller.ContactMail = sellerEditorModel.SellerMail;
-            seller.IndeidentityDocumentNumber = sellerEditorModel.SellerIdentityDocumentNumber;
-            seller.WorkingRate = sellerEditorModel.SellerWorkingRate;
+            employee.Name = sellerEditorModel.SellerName;
+            employee.Surname = sellerEditorModel.SellerSurname;
+            employee.DateOfBirth = sellerEditorModel.SellerDateOfBirth;
+            employee.ContactNumber = sellerEditorModel.SellerContactNumber;
+            employee.ContactMail = sellerEditorModel.SellerMail;
+            employee.IdentityDocumentNumber = sellerEditorModel.SellerIdentityDocumentNumber;
+            employee.WorkingRate = sellerEditorModel.SellerWorkingRate;
 
             return true;
         }
 
-        public bool EditTransaction(Order transaction, IRepository<Product> books, IRepository<Employee> sellers, IRepository<Customer> buyers)
+        public bool EditOrder(Order order, IRepository<Product> products, IRepository<Employee> employees, IRepository<Customer> customers)
         {
-            var transactionEditorModel = new TransactionEditorViewModel(transaction, books, sellers, buyers);
+            var transactionEditorModel = new TransactionEditorViewModel(order, products, employees, customers);
             var transactionEditorWindow = new TransactionEditorWindow
             {
                 DataContext = transactionEditorModel
@@ -95,12 +90,12 @@ namespace Librarian.Services
 
             if (transactionEditorWindow.ShowDialog() != true) return false;
 
-            transaction.TransactionDate = transactionEditorModel.TransactionDate;
-            transaction.Amount = transactionEditorModel.TransactionAmount;
-            transaction.Discount = transactionEditorModel.TransactionDiscount;
-            transaction.Book = transactionEditorModel.Book;
-            transaction.Seller = transactionEditorModel.Seller;
-            transaction.Buyer = transactionEditorModel.Buyer;
+            order.OrderDate = transactionEditorModel.TransactionDate;
+            //order.Amount = transactionEditorModel.TransactionAmount;
+            //order.Discount = transactionEditorModel.TransactionDiscount;
+            //order.Product = transactionEditorModel.Book;
+            order.Employee = transactionEditorModel.Seller;
+            order.Customer = transactionEditorModel.Buyer;
 
             return true;
         }

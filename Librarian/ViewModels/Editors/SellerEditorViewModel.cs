@@ -82,12 +82,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region SellerWorkingRate
-        private string? _SellerWorkingRate;
+        private WorkingRate? _SellerWorkingRate;
 
         /// <summary>
         /// Seller working rate
         /// </summary>
-        public string? SellerWorkingRate { get => _SellerWorkingRate; set => Set(ref _SellerWorkingRate, value); }
+        public WorkingRate? SellerWorkingRate { get => _SellerWorkingRate; set => Set(ref _SellerWorkingRate, value); }
         #endregion
 
         public SellerEditorViewModel() : this(new Employee { Id = 1, Name = "John", Surname = "Winston" })
@@ -103,8 +103,8 @@ namespace Librarian.ViewModels
             SellerSurname = seller.Surname;
             SellerMail = seller.ContactMail;
             SellerContactNumber = seller.ContactNumber;
-            SellerIdentityDocumentNumber = seller.IndeidentityDocumentNumber;
-            SellerDateOfBirth = seller.DeteOfBirth;
+            SellerIdentityDocumentNumber = seller.IdentityDocumentNumber;
+            SellerDateOfBirth = seller.DateOfBirth;
         }
     }
 }

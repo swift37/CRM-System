@@ -158,9 +158,6 @@ namespace Librarian.DAL.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("RequiredDate")
                         .HasColumnType("datetime2");
 
@@ -184,8 +181,6 @@ namespace Librarian.DAL.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("EmployeeId");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("ShipViaId");
 
@@ -363,10 +358,6 @@ namespace Librarian.DAL.Migrations
                     b.HasOne("Librarian.DAL.Entities.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId");
-
-                    b.HasOne("Librarian.DAL.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
 
                     b.HasOne("Librarian.DAL.Entities.Shipper", "ShipVia")
                         .WithMany()

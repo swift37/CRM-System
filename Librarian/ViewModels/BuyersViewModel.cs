@@ -121,7 +121,7 @@ namespace Librarian.ViewModels
         {
             var buyer = new Customer();
 
-            if (!_dialogService.EditBuyer(buyer)) return;
+            if (!_dialogService.EditCustomer(buyer)) return;
 
             _buyersRepository.Add(buyer);
             Buyers?.Add(buyer);
@@ -145,7 +145,7 @@ namespace Librarian.ViewModels
             var editableBuyer = buyer ?? SelectedBuyer;
             if (editableBuyer is null) return;
 
-            if (!_dialogService.EditBuyer(editableBuyer))
+            if (!_dialogService.EditCustomer(editableBuyer))
                 return;
 
             _buyersRepository.Update(editableBuyer);
@@ -183,7 +183,7 @@ namespace Librarian.ViewModels
 
         #endregion
 
-        public BuyersViewModel() : this(new DebugBuyersRepository(), new UserDialogService())
+        public BuyersViewModel() : this(new DebugCustomersRepository(), new UserDialogService())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));

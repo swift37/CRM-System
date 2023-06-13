@@ -9,28 +9,31 @@ using System.Threading.Tasks;
 
 namespace Librarian.Infrastructure.DebugServices
 {
-    public class DebugTransactionsRepository : IRepository<Order>
+    public class DebugOrdersRepository : IRepository<Order>
     {
-        public DebugTransactionsRepository()
+        public DebugOrdersRepository()
         {
-            var booksRepository = new DebugBooksRepository();
-            var buyersRepository = new DebugBuyersRepository();
-            var sellersRepository = new DebugSellersRepository();
+            var customersRepository = new DebugCustomersRepository();
+            var employeesRepository = new DebugEmployeesRepository();
 
-            if (booksRepository.Entities is null || buyersRepository.Entities is null || sellersRepository.Entities is null) 
+            if (customersRepository.Entities is null || employeesRepository.Entities is null) 
                 throw new ArgumentNullException("Error defining entity collection in one of the debug repositories");
 
             var random = new Random();
 
+            var dates = Enumerable.Range(1, 100).Select(d => DateTime.UtcNow.AddDays(-random.Next(175))).ToArray();
+
             Entities = Enumerable.Range(1, 100)
                 .Select(i => new Order
                 {
-                    TransactionDate = DateTime.Now,
-                    Book = random.NextItem(booksRepository.Entities.ToArray()),
-                    Seller = random.NextItem(sellersRepository.Entities.ToArray()),
-                    Buyer = random.NextItem(buyersRepository.Entities.ToArray()),
-                    Discount = random.Next(50),
-                    Amount = (decimal)(random.NextDouble() * 300 + 50)
+                    OrderDate = dates[i],
+                    ShippedDate = dates[i].AddDays(random.Next(5)),
+                    RequiredDate = dates[i].AddDays(random.Next(5, 5)),
+                    Employee = random.NextItem(employeesRepository.Entities.ToArray()),
+                    Customer = random.NextItem(customersRepository.Entities.ToArray()),
+                    ShipName = $"Name {i}",
+                    ShipAddress = $"USA, New York, Test st.",
+                    ShippingCost = (decimal)(random.NextDouble() * 300 + 50),
                 }).AsQueryable();
         }
 

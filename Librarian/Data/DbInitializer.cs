@@ -28,9 +28,9 @@ namespace Librarian.Data
             var timer = Stopwatch.StartNew();
             _logger.LogInformation("Initialize database...");
 
-            //_logger.LogInformation("Deleting an existing database...");
-            //await _dbContext.Database.EnsureDeletedAsync().ConfigureAwait(false);
-            //_logger.LogInformation($"Deleting an existing database comleted in {timer.ElapsedMilliseconds} ms");
+            _logger.LogInformation("Deleting an existing database...");
+            await _dbContext.Database.EnsureDeletedAsync().ConfigureAwait(false);
+            _logger.LogInformation($"Deleting an existing database comleted in {timer.ElapsedMilliseconds} ms");
 
             _logger.LogInformation("Migration database...");
             await _dbContext.Database.MigrateAsync().ConfigureAwait(false);
@@ -39,10 +39,14 @@ namespace Librarian.Data
             if (await _dbContext.Products.AnyAsync()) return;
 
             await InitializeCategories();
-            await InitializeBooks();
-            await InitializeSellers();
-            await InitializeBuyers();
-            await InitializeTransactions();
+            await InitializeSuppliers();
+            await InitializeProducts();
+            await InitializeWorkingRates();
+            await InitializeEmployees();
+            await InitializeCustomers();
+            await InitializeShippers();
+            await InitializeOrders();
+            await InitializeOrdersDetails();
 
             _logger.LogInformation($"Initialize database comleted in {timer.Elapsed.TotalSeconds} s");
         }
@@ -66,111 +70,233 @@ namespace Librarian.Data
             _logger.LogInformation($"Initialize categories comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _booksCount = 1000;
+        private const int _suppliersCount = 10;
 
-        private Product[]? _books;
+        private Supplier[]? _suppliers;
 
-        private async Task InitializeBooks()
+        private async Task InitializeSuppliers()
         {
             var timer = Stopwatch.StartNew();
-            _logger.LogInformation("Initialize _booksRepository...");
+            _logger.LogInformation("Initialize _suppliersRepository...");
+
+            var random = new Random();
+            _suppliers = Enumerable.Range(1, _suppliersCount)
+                .Select(i => new Supplier
+                {
+                    Name = $"Company {i}",
+                    ContactName = $"Supplier {i}",
+                    ContactTitle = "Manager",
+                    ContactMail = $"company{i}@gmail.com",
+                    ContactNumber = random.Next(100000000, 999999999).ToString(),
+                    Address = $"USA, New York, Test st."
+                }).ToArray();
+
+            await _dbContext.Suppliers.AddRangeAsync(_suppliers);
+            await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Initialize _suppliersRepository comleted in {timer.Elapsed.TotalSeconds} s");
+        }
+
+        private const int _productsCount = 1500;
+
+        private Product[]? _products;
+
+        private async Task InitializeProducts()
+        {
+            var timer = Stopwatch.StartNew();
+            _logger.LogInformation("Initialize _productsRepository...");
 
             if (_categories is null) throw new ArgumentNullException(nameof(_categories));
+            if (_suppliers is null) throw new ArgumentNullException(nameof(_suppliers));
             var random = new Random();
-            _books = Enumerable.Range(1, _booksCount)
+            _products = Enumerable.Range(1, _productsCount)
                 .Select(i => new Product
                 {
-                    Name = $"Book {i}",
-                    Price = (decimal)(random.NextDouble() * 300 + 50),
+                    Name = $"Product {i}",
+                    UnitsInEnterprise = random.Next(100),
+                    UnitsInStock = random.Next(1000),
+                    Supplier = random.NextItem(_suppliers),
+                    UnitPrice = (decimal)(random.NextDouble() * 300 + 50),
                     Category = random.NextItem(_categories)
                 }).ToArray();
 
-            await _dbContext.Products.AddRangeAsync(_books);
+            await _dbContext.Products.AddRangeAsync(_products);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation($"Initialize _booksRepository comleted in {timer.Elapsed.TotalSeconds} s");
+            _logger.LogInformation($"Initialize _productsRepository comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _buyersCount = 100;
+        private const int _customersCount = 500;
 
-        private Customer[]? _buyers;
+        private Customer[]? _customers;
 
-        private async Task InitializeBuyers()
+        private async Task InitializeCustomers()
         {
             var timer = Stopwatch.StartNew();
-            _logger.LogInformation("Initialize _buyersRepository...");
+            _logger.LogInformation("Initialize _customersRepository...");
 
             var random = new Random();
-            _buyers = Enumerable.Range(1, _buyersCount)
+            _customers = Enumerable.Range(1, _customersCount)
                 .Select(i => new Customer
                 {
-                    Name = $"Buyer {i}",
-                    ContactNumber = random.Next(100000000,999999999).ToString(),
-                    ContactMail = $"buyer{i}@gmail.com",
+                    Name = $"Customer {i}",
+                    Surname = "Surnm",
+                    ContactName = $"Tester",
+                    ContactTitle = $"Manager",
+                    Address = $"USA, New York, Test st.",
+                    ContactNumber = random.Next(100000000, 999999999).ToString(),
+                    ContactMail = $"customer{i}@gmail.com",
                     CashbackBalance = (decimal)(random.NextDouble() * 100)
                 }).ToArray();
 
-            await _dbContext.Customers.AddRangeAsync(_buyers);
+            await _dbContext.Customers.AddRangeAsync(_customers);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation($"Initialize _buyersRepository comleted in {timer.Elapsed.TotalSeconds} s");
+            _logger.LogInformation($"Initialize _customersRepository comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _sellersCount = 15;
+        private WorkingRate[]? _workingRates;
 
-        private Employee[]? _sellers;
-
-        private async Task InitializeSellers()
+        private async Task InitializeWorkingRates()
         {
             var timer = Stopwatch.StartNew();
-            _logger.LogInformation("Initialize _sellersRepository...");
+            _logger.LogInformation("Initialize _workingRatesRepository...");
 
             var random = new Random();
-            _sellers = Enumerable.Range(1, _sellersCount)
-                .Select(i => new Employee
+            _workingRates = Enumerable.Range(1, 4)
+                .Select(i => new WorkingRate
                 {
-                    Name = $"Seller Name: {i}",
-                    Surname = $"Seller Surname: {i}",
-                    Patronymic = $"Seller Patronymic {i}",
-                    DeteOfBirth = DateTime.Now,
-                    ContactNumber = random.Next(100000000, 999999999).ToString(),
-                    ContactMail = $"seller{i}@gmail.com",
-                    IndeidentityDocumentNumber = Guid.NewGuid().ToString(),
-                    WorkingRate = "1/2"
+                    Name = $"{i}/4",
+                    HoursPerMonth = i * 42,
+                    Description = "Test Desc"
                 }).ToArray();
 
-            await _dbContext.Employees.AddRangeAsync(_sellers);
+            await _dbContext.WorkingRates.AddRangeAsync(_workingRates);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation($"Initialize _sellersRepository comleted in {timer.Elapsed.TotalSeconds} s");
+            _logger.LogInformation($"Initialize _workingRatesRepository comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _transactionsCount = 3500;
+        private const int _employeesCount = 25;
 
-        public async Task InitializeTransactions()
+        private Employee[]? _employees;
+
+        private async Task InitializeEmployees()
         {
             var timer = Stopwatch.StartNew();
-            _logger.LogInformation("Initialize transactions...");
+            _logger.LogInformation("Initialize _employeesRepository...");
 
-            if (_books is null || _sellers is null || _buyers is null) throw new ArgumentNullException("Field _booksRepository, _sellersRepository or _buyersRepository can`t be empty");
+            if (_workingRates is null) throw new ArgumentNullException(nameof(_workingRates));
+            var random = new Random();
+            _employees = Enumerable.Range(1, _employeesCount)
+                .Select(i => new Employee
+                {
+                    Name = $"Employee {i}",
+                    Surname = $"Surnm",
+                    DateOfBirth = DateTime.Now.AddYears(-random.Next(18, 45)),
+                    HireDate = DateTime.Now.AddYears(-random.Next(1, 10)),
+                    Title = "Tester",
+                    Extension = DateTime.Now.AddYears(random.Next(3, 15)),
+                    ContactNumber = random.Next(100000000, 999999999).ToString(),
+                    ContactMail = $"seller{i}@gmail.com",
+                    IdentityDocumentNumber = Guid.NewGuid().ToString(),
+                    WorkingRate = random.NextItem(_workingRates),
+                    Address = $"USA, New York, Test st."
+                }).ToArray();
+
+            await _dbContext.Employees.AddRangeAsync(_employees);
+            await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Initialize _employeesRepository comleted in {timer.Elapsed.TotalSeconds} s");
+        }
+
+        private const int _shippersCount = 7;
+
+        private Shipper[]? _shippers;
+
+        private async Task InitializeShippers()
+        {
+            var timer = Stopwatch.StartNew();
+            _logger.LogInformation("Initialize _shippersRepository...");
+
+            var random = new Random();
+            _shippers = Enumerable.Range(1, _shippersCount)
+                .Select(i => new Shipper
+                {
+                    Name = $"Shipper {i}",
+                    ContactNumber = random.Next(100000000, 999999999).ToString()
+                }).ToArray();
+
+            await _dbContext.Shippers.AddRangeAsync(_shippers);
+            await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Initialize _shippersRepository comleted in {timer.Elapsed.TotalSeconds} s");
+        }
+
+        private const int _ordersCount = 5000;
+
+        private Order[]? _orders;
+
+        public async Task InitializeOrders()
+        {
+            var timer = Stopwatch.StartNew();
+            _logger.LogInformation("Initialize orders...");
+
+            if (_products is null || _employees is null || _customers is null) throw new ArgumentNullException("Field _productsRepository, _employeesRepository or _customersRepository can`t be empty");
+
+            if (_shippers is null) throw new ArgumentNullException(nameof(_shippers));
+            var random = new Random();
+
+            var dates = Enumerable.Range(1, _ordersCount).Select(d => DateTime.UtcNow.AddDays(-random.Next(175))).ToArray();
+
+            _orders = Enumerable.Range(1, _ordersCount)
+                .Select(i => new Order
+                {
+                    OrderDate = dates[i - 1],
+                    ShippedDate = dates[i - 1].AddDays(random.Next(5)),
+                    RequiredDate = dates[i - 1].AddDays(random.Next(5, 5)),
+                    Employee = random.NextItem(_employees),
+                    Customer = random.NextItem(_customers),
+                    ShipName = $"Name {i}",
+                    ShipAddress = $"USA, New York, Test st.",
+                    ShippingCost = (decimal)(random.NextDouble() * 300 + 50),
+                    ShipVia = random.NextItem(_shippers),
+                }).ToArray();
+
+            await _dbContext.Orders.AddRangeAsync(_orders);
+            await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Initialize orders comleted in {timer.Elapsed.TotalSeconds} s");
+        }
+
+        private const int _ordersDeatailsCount = _ordersCount;
+
+        public async Task InitializeOrdersDetails()
+        {
+            var timer = Stopwatch.StartNew();
+            _logger.LogInformation("Initialize ordersDeatails...");
+
+            if (_orders is null || _products is null || _employees is null || _customers is null) throw new ArgumentNullException("Field _ordersRepository, _productsRepository, _employeesRepository or _customersRepository can`t be empty");
 
             var random = new Random();
 
-            var transactions = Enumerable.Range(1, _transactionsCount)
-                .Select(d => new Order
+            var products = Enumerable.Range(1, _ordersCount).Select(d => random.NextItem(_products)).ToArray();
+
+            var ordersDeatails = Enumerable.Range(1, _ordersDeatailsCount)
+                .Select(i => new OrderDetails
                 {
-                    TransactionDate = DateTime.UtcNow,
-                    Book = random.NextItem(_books),
-                    Seller = random.NextItem(_sellers),
-                    Buyer = random.NextItem(_buyers),
+                    Quantity = random.Next(10),
+                    UnitPrice = products[i - 1].UnitPrice,
+                    Product = products[i - 1],
+                    Order = _orders[i - 1],
                     Discount = random.Next(50),
                     Amount = (decimal)(random.NextDouble() * 300 + 50)
                 });
 
-            await _dbContext.Orders.AddRangeAsync(transactions);
+            await _dbContext.OrdersDetails.AddRangeAsync(ordersDeatails);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation($"Initialize transactions comleted in {timer.Elapsed.TotalSeconds} s");
+            _logger.LogInformation($"Initialize ordersDeatails comleted in {timer.Elapsed.TotalSeconds} s");
         }
     }
 }

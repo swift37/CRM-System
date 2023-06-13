@@ -143,7 +143,7 @@ namespace Librarian.ViewModels
             BookId = book.Id;
             BookTitle = book.Name;
             BookCategory = book.Category;
-            BookPrice = book.Price;
+            BookPrice = book.UnitPrice;
 
             _categoriesViewSource.Filter += OnCategoriesNameFilter;
         }

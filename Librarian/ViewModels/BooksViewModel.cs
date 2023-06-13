@@ -194,7 +194,7 @@ namespace Librarian.ViewModels
         {
             var newBook = new Product();
 
-            if (!_dialogService.EditBook(newBook, _categoriesRepository)) 
+            if (!_dialogService.EditProduct(newBook, _categoriesRepository)) 
                 return;
 
             var book = _booksRepository.Add(newBook);
@@ -220,7 +220,7 @@ namespace Librarian.ViewModels
             var editableBook = book ?? SelectedBook;
             if (editableBook is null) return;
 
-            if (!_dialogService.EditBook(editableBook, _categoriesRepository))
+            if (!_dialogService.EditProduct(editableBook, _categoriesRepository))
                 return;
 
             _booksRepository.Update(editableBook);
@@ -339,7 +339,7 @@ namespace Librarian.ViewModels
 
         #endregion
 
-        public BooksViewModel() : this(new DebugBooksRepository(), new DebugCategoriesRepository(), new UserDialogService())
+        public BooksViewModel() : this(new DebugProductsRepository(), new DebugCategoriesRepository(), new UserDialogService())
         {
             if(!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));

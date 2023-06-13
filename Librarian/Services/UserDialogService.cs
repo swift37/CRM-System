@@ -14,7 +14,7 @@ namespace Librarian.Services
 {
     public class UserDialogService : IUserDialogService
     {
-        public bool EditBook(Book book, IRepository<Category> categoriesRepository)
+        public bool EditBook(Product book, IRepository<Category> categoriesRepository)
         {
             var bookEditorModel = new BookEditorViewModel(book, categoriesRepository);
             var bookEditorWindow = new BookEditorWindow
@@ -46,7 +46,7 @@ namespace Librarian.Services
             return true;
         }
 
-        public bool EditBuyer(Buyer buyer)
+        public bool EditBuyer(Customer buyer)
         {
             var buyerEditorModel = new BuyerEditorViewModel(buyer);
             var buyerEditWindow = new BuyerEditorWindow
@@ -64,7 +64,7 @@ namespace Librarian.Services
             return true;
         }
 
-        public bool EditSeller(Seller seller)
+        public bool EditSeller(Employee seller)
         {
             var sellerEditorModel = new SellerEditorViewModel(seller);
             var sellerEditorWindow = new SellerEditorWindow
@@ -85,7 +85,7 @@ namespace Librarian.Services
             return true;
         }
 
-        public bool EditTransaction(Transaction transaction, IRepository<Book> books, IRepository<Seller> sellers, IRepository<Buyer> buyers)
+        public bool EditTransaction(Order transaction, IRepository<Product> books, IRepository<Employee> sellers, IRepository<Customer> buyers)
         {
             var transactionEditorModel = new TransactionEditorViewModel(transaction, books, sellers, buyers);
             var transactionEditorWindow = new TransactionEditorWindow

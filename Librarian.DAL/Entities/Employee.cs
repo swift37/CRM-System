@@ -1,0 +1,31 @@
+﻿using Librarian.DAL.Entities.Base;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Librarian.DAL.Entities
+{
+    public class Employee : Person
+    {
+        public DateTime DateOfBirth { get; set; }
+
+        public DateTime HireDate { get; set; }
+
+        public string? Title { get; set; }
+
+        public string? ContactNumber { get; set; }
+
+        public string? ContactMail { get; set; }
+
+        public string? Address { get; set; }
+
+        public string? IdentityDocumentNumber { get; set; }
+
+        public DateTime Extension { get; set; }
+
+        public WorkingRate? WorkingRate { get; set; }
+
+        public bool IsActual { get; set; }
+
+        public override string ToString() => $"{Name} {Surname}";
+    }
+}

@@ -4,7 +4,7 @@ namespace Librarian.DAL.Entities
 {
     public class Category : NamedEntity
     {
-        public virtual ICollection<Book?>? Books { get; set; } = new HashSet<Book?>();
+        public virtual ICollection<Product?>? Products { get; set; } = new HashSet<Product?>();
 
         public override string ToString() => $"{Name}";
     }

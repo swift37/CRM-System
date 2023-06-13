@@ -36,7 +36,7 @@ namespace Librarian.Data
             await _dbContext.Database.MigrateAsync().ConfigureAwait(false);
             _logger.LogInformation($"Migration database comleted in {timer.ElapsedMilliseconds} ms");
 
-            if (await _dbContext.Books.AnyAsync()) return;
+            if (await _dbContext.Products.AnyAsync()) return;
 
             await InitializeCategories();
             await InitializeBooks();
@@ -68,7 +68,7 @@ namespace Librarian.Data
 
         private const int _booksCount = 1000;
 
-        private Book[]? _books;
+        private Product[]? _books;
 
         private async Task InitializeBooks()
         {
@@ -78,14 +78,14 @@ namespace Librarian.Data
             if (_categories is null) throw new ArgumentNullException(nameof(_categories));
             var random = new Random();
             _books = Enumerable.Range(1, _booksCount)
-                .Select(i => new Book
+                .Select(i => new Product
                 {
                     Name = $"Book {i}",
                     Price = (decimal)(random.NextDouble() * 300 + 50),
                     Category = random.NextItem(_categories)
                 }).ToArray();
 
-            await _dbContext.Books.AddRangeAsync(_books);
+            await _dbContext.Products.AddRangeAsync(_books);
             await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"Initialize _booksRepository comleted in {timer.Elapsed.TotalSeconds} s");
@@ -93,7 +93,7 @@ namespace Librarian.Data
 
         private const int _buyersCount = 100;
 
-        private Buyer[]? _buyers;
+        private Customer[]? _buyers;
 
         private async Task InitializeBuyers()
         {
@@ -102,7 +102,7 @@ namespace Librarian.Data
 
             var random = new Random();
             _buyers = Enumerable.Range(1, _buyersCount)
-                .Select(i => new Buyer
+                .Select(i => new Customer
                 {
                     Name = $"Buyer {i}",
                     ContactNumber = random.Next(100000000,999999999).ToString(),
@@ -110,7 +110,7 @@ namespace Librarian.Data
                     CashbackBalance = (decimal)(random.NextDouble() * 100)
                 }).ToArray();
 
-            await _dbContext.Buyers.AddRangeAsync(_buyers);
+            await _dbContext.Customers.AddRangeAsync(_buyers);
             await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"Initialize _buyersRepository comleted in {timer.Elapsed.TotalSeconds} s");
@@ -118,7 +118,7 @@ namespace Librarian.Data
 
         private const int _sellersCount = 15;
 
-        private Seller[]? _sellers;
+        private Employee[]? _sellers;
 
         private async Task InitializeSellers()
         {
@@ -127,7 +127,7 @@ namespace Librarian.Data
 
             var random = new Random();
             _sellers = Enumerable.Range(1, _sellersCount)
-                .Select(i => new Seller
+                .Select(i => new Employee
                 {
                     Name = $"Seller Name: {i}",
                     Surname = $"Seller Surname: {i}",
@@ -139,7 +139,7 @@ namespace Librarian.Data
                     WorkingRate = "1/2"
                 }).ToArray();
 
-            await _dbContext.Sellers.AddRangeAsync(_sellers);
+            await _dbContext.Employees.AddRangeAsync(_sellers);
             await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"Initialize _sellersRepository comleted in {timer.Elapsed.TotalSeconds} s");
@@ -157,7 +157,7 @@ namespace Librarian.Data
             var random = new Random();
 
             var transactions = Enumerable.Range(1, _transactionsCount)
-                .Select(d => new Transaction
+                .Select(d => new Order
                 {
                     TransactionDate = DateTime.UtcNow,
                     Book = random.NextItem(_books),
@@ -167,7 +167,7 @@ namespace Librarian.Data
                     Amount = (decimal)(random.NextDouble() * 300 + 50)
                 });
 
-            await _dbContext.Transactions.AddRangeAsync(transactions);
+            await _dbContext.Orders.AddRangeAsync(transactions);
             await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"Initialize transactions comleted in {timer.Elapsed.TotalSeconds} s");

@@ -8,10 +8,10 @@ namespace Librarian.DAL
     {
         public static IServiceCollection AddRepositoriesDb(this IServiceCollection services) => services
             .AddTransient<IRepository<Category>, DbRepository<Category>>()
-            .AddTransient<IRepository<Book>, BooksRepository>()
-            .AddTransient<IRepository<Seller>, DbRepository<Seller>>()
-            .AddTransient<IRepository<Buyer>, DbRepository<Buyer>>()
-            .AddTransient<IRepository<Transaction>, TransactionsRepository>()
+            .AddTransient<IRepository<Product>, BooksRepository>()
+            .AddTransient<IRepository<Employee>, DbRepository<Employee>>()
+            .AddTransient<IRepository<Customer>, DbRepository<Customer>>()
+            .AddTransient<IRepository<Order>, TransactionsRepository>()
             ;
     }
 }

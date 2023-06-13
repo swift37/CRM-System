@@ -13,25 +13,25 @@ namespace Librarian.Services
 {
     public class TradingService : ITradingService
     {
-        private readonly IRepository<Book> _books;
-        private readonly IRepository<Transaction> _transactions;
+        private readonly IRepository<Product> _books;
+        private readonly IRepository<Order> _transactions;
 
-        public IEnumerable<Transaction>? Transactions => _transactions.Entities;
+        public IEnumerable<Order>? Transactions => _transactions.Entities;
 
-        public TradingService(IRepository<Book> books, IRepository<Transaction> transactions)
+        public TradingService(IRepository<Product> books, IRepository<Order> transactions)
         {
             _books = books;
             _transactions = transactions;
         }
 
-        public async Task<Transaction?> CrateTransactionAsync(string bookName, Seller seller, Buyer buyer, decimal transactionАmount)
+        public async Task<Order?> CrateTransactionAsync(string bookName, Employee seller, Customer buyer, decimal transactionАmount)
         {
             if (_books.Entities is null) throw new ArgumentNullException(nameof(_books.Entities));
  
             var book = await _books.Entities.FirstOrDefaultAsync(book => book.Name == bookName).ConfigureAwait(false);
             if (book is null) return null;
 
-            var transaction = new Transaction
+            var transaction = new Order
             {
                 Book = book,
                 Seller = seller,

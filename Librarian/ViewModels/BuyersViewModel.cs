@@ -20,7 +20,7 @@ namespace Librarian.ViewModels
 {
     public class BuyersViewModel : ViewModel
     {
-        private readonly IRepository<Buyer> _buyersRepository;
+        private readonly IRepository<Customer> _buyersRepository;
         private readonly IUserDialogService _dialogService;
         private CollectionViewSource _buyersViewSource;
 
@@ -57,12 +57,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region Buyers
-        private ObservableCollection<Buyer>? _Buyers;
+        private ObservableCollection<Customer>? _Buyers;
 
         /// <summary>
         /// Buyers collection
         /// </summary>
-        public ObservableCollection<Buyer>? Buyers
+        public ObservableCollection<Customer>? Buyers
         {
             get => _Buyers;
             set
@@ -75,12 +75,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region SelectedBuyer
-        private Buyer? _SelectedBuyer;
+        private Customer? _SelectedBuyer;
 
         /// <summary>
         /// Selected buyer
         /// </summary>
-        public Buyer? SelectedBuyer { get => _SelectedBuyer; set => Set(ref _SelectedBuyer, value); }
+        public Customer? SelectedBuyer { get => _SelectedBuyer; set => Set(ref _SelectedBuyer, value); }
         #endregion
 
         #endregion
@@ -119,7 +119,7 @@ namespace Librarian.ViewModels
 
         private void OnAddBuyerCommandExecuted()
         {
-            var buyer = new Buyer();
+            var buyer = new Customer();
 
             if (!_dialogService.EditBuyer(buyer)) return;
 
@@ -136,11 +136,11 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Edit buyer command 
         /// </summary>
-        public ICommand? EditBuyerCommand => _EditBuyerCommand ??= new LambdaCommand<Buyer>(OnEditBuyerCommandExecuted, CanEditBuyerCommandnExecute);
+        public ICommand? EditBuyerCommand => _EditBuyerCommand ??= new LambdaCommand<Customer>(OnEditBuyerCommandExecuted, CanEditBuyerCommandnExecute);
 
-        private bool CanEditBuyerCommandnExecute(Buyer? buyer) => buyer != null || SelectedBuyer != null;
+        private bool CanEditBuyerCommandnExecute(Customer? buyer) => buyer != null || SelectedBuyer != null;
 
-        private void OnEditBuyerCommandExecuted(Buyer? buyer)
+        private void OnEditBuyerCommandExecuted(Customer? buyer)
         {
             var editableBuyer = buyer ?? SelectedBuyer;
             if (editableBuyer is null) return;
@@ -159,11 +159,11 @@ namespace Librarian.ViewModels
         /// <summary>
         /// RemoveBuyer command
         /// </summary>
-        public ICommand? RemoveBuyerCommand => _RemoveBuyerCommand ??= new LambdaCommand<Buyer>(OnRemoveBuyerCommandExecuted, CanRemoveBuyerCommandExecute);
+        public ICommand? RemoveBuyerCommand => _RemoveBuyerCommand ??= new LambdaCommand<Customer>(OnRemoveBuyerCommandExecuted, CanRemoveBuyerCommandExecute);
 
-        private bool CanRemoveBuyerCommandExecute(Buyer? buyer) => buyer != null || SelectedBuyer != null;
+        private bool CanRemoveBuyerCommandExecute(Customer? buyer) => buyer != null || SelectedBuyer != null;
 
-        private void OnRemoveBuyerCommandExecuted(Buyer? buyer)
+        private void OnRemoveBuyerCommandExecuted(Customer? buyer)
         {
             var removableBuyer = buyer ?? SelectedBuyer;
             if (removableBuyer is null) return;
@@ -191,7 +191,7 @@ namespace Librarian.ViewModels
             _ = OnLoadDataCommandExecuted();
         }
 
-        public BuyersViewModel(IRepository<Buyer> buyersRepository, IUserDialogService dialogService)
+        public BuyersViewModel(IRepository<Customer> buyersRepository, IUserDialogService dialogService)
         {
             _buyersRepository = buyersRepository;
             _dialogService = dialogService;
@@ -209,7 +209,7 @@ namespace Librarian.ViewModels
 
         private void OnBuyersFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Buyer buyer) || string.IsNullOrWhiteSpace(BuyersFilter)) return;
+            if (!(e.Item is Customer buyer) || string.IsNullOrWhiteSpace(BuyersFilter)) return;
 
             if ((!buyer.Name?.Contains(BuyersFilter) ?? false) 
                 && (!buyer.ContactNumber?.Contains(BuyersFilter) ?? false) 

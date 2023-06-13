@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Librarian.Infrastructure.DebugServices
 {
-    class DebugBooksRepository : IRepository<Book>
+    class DebugBooksRepository : IRepository<Product>
     {
         public DebugBooksRepository()
         {
             var random = new Random();
 
             var books = Enumerable.Range(1, 100)
-                .Select(i => new Book
+                .Select(i => new Product
                 {
                     Id = i,
                     Name = $"Test book #{i}",
@@ -40,24 +40,24 @@ namespace Librarian.Infrastructure.DebugServices
             Entities = books.AsQueryable();
         }
 
-        public IQueryable<Book>? Entities { get; }
+        public IQueryable<Product>? Entities { get; }
 
-        public Book? Add(Book entity)
+        public Product? Add(Product entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Book?>? AddAsync(Book entity, CancellationToken cancellation = default)
+        public Task<Product?>? AddAsync(Product entity, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }
 
-        public Book? Get(int id)
+        public Product? Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Book?>? GetAsync(int id, CancellationToken cancellation = default)
+        public Task<Product?>? GetAsync(int id, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }
@@ -72,12 +72,12 @@ namespace Librarian.Infrastructure.DebugServices
             throw new NotImplementedException();
         }
 
-        public void Update(Book entity)
+        public void Update(Product entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Book entity, CancellationToken cancellation = default)
+        public Task UpdateAsync(Product entity, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }

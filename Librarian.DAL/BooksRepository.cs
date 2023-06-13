@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Librarian.DAL
 {
-    internal class BooksRepository : DbRepository<Book>
+    internal class BooksRepository : DbRepository<Product>
     {
-        public override IQueryable<Book>? Entities => base.Entities?.Include(entity => entity.Category);
+        public override IQueryable<Product>? Entities => base.Entities?.Include(entity => entity.Category);
 
         public BooksRepository(LibrarianDb context) : base(context) { }
     }

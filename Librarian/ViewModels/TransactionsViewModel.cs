@@ -20,10 +20,10 @@ namespace Librarian.ViewModels
 {
     public class TransactionsViewModel : ViewModel
     {
-        private readonly IRepository<Transaction> _transactionsRepository;
-        private readonly IRepository<Book> _booksRepository;
-        private readonly IRepository<Seller> _sellersRepository;
-        private readonly IRepository<Buyer> _buyersRepository;
+        private readonly IRepository<Order> _transactionsRepository;
+        private readonly IRepository<Product> _booksRepository;
+        private readonly IRepository<Employee> _sellersRepository;
+        private readonly IRepository<Customer> _buyersRepository;
         private readonly IUserDialogService _dialogService;
 
         private CollectionViewSource _transactionsViewSource;
@@ -64,12 +64,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region Transactions
-        private ObservableCollection<Transaction>? _Transactions;
+        private ObservableCollection<Order>? _Transactions;
 
         /// <summary>
         /// Transactions collection.
         /// </summary>
-        public ObservableCollection<Transaction>? Transactions
+        public ObservableCollection<Order>? Transactions
         {
             get => _Transactions;
             set
@@ -82,12 +82,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region SelectedTransaction
-        private Transaction? _SelectedTransaction;
+        private Order? _SelectedTransaction;
 
         /// <summary>
         /// Selected transaction.
         /// </summary>
-        public Transaction? SelectedTransaction { get => _SelectedTransaction; set => Set(ref _SelectedTransaction, value); }
+        public Order? SelectedTransaction { get => _SelectedTransaction; set => Set(ref _SelectedTransaction, value); }
         #endregion
 
         #endregion
@@ -125,7 +125,7 @@ namespace Librarian.ViewModels
 
         private void OnAddTransactionCommandExecuted()
         {
-            var transaction = new Transaction();
+            var transaction = new Order();
 
             if (!_dialogService.EditTransaction(transaction, _booksRepository, _sellersRepository, _buyersRepository)) return;
 
@@ -142,11 +142,11 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Edit book command 
         /// </summary>
-        public ICommand? EditTransactionCommand => _EditTransactionCommand ??= new LambdaCommand<Transaction>(OnEditTransactionCommandExecuted, CanEditTransactionCommandnExecute);
+        public ICommand? EditTransactionCommand => _EditTransactionCommand ??= new LambdaCommand<Order>(OnEditTransactionCommandExecuted, CanEditTransactionCommandnExecute);
 
-        private bool CanEditTransactionCommandnExecute(Transaction? transaction) => transaction != null || SelectedTransaction != null;
+        private bool CanEditTransactionCommandnExecute(Order? transaction) => transaction != null || SelectedTransaction != null;
 
-        private void OnEditTransactionCommandExecuted(Transaction? transaction)
+        private void OnEditTransactionCommandExecuted(Order? transaction)
         {
             var editableTransaction = transaction ?? SelectedTransaction;
             if (editableTransaction is null) return;
@@ -166,11 +166,11 @@ namespace Librarian.ViewModels
         /// Remove transaction command
         /// </summary>
         public ICommand? RemoveTransactionCommand => _RemoveTransactionCommand
-            ??= new LambdaCommand<Transaction>(OnRemoveTransactionCommandExecuted, CanRemoveTransactionCommandExecute);
+            ??= new LambdaCommand<Order>(OnRemoveTransactionCommandExecuted, CanRemoveTransactionCommandExecute);
 
-        private bool CanRemoveTransactionCommandExecute(Transaction? transaction) => transaction != null || SelectedTransaction != null;
+        private bool CanRemoveTransactionCommandExecute(Order? transaction) => transaction != null || SelectedTransaction != null;
 
-        private void OnRemoveTransactionCommandExecuted(Transaction? transaction)
+        private void OnRemoveTransactionCommandExecuted(Order? transaction)
         {
             var removableTransaction = transaction ?? SelectedTransaction;
             if (removableTransaction is null) return;
@@ -205,10 +205,10 @@ namespace Librarian.ViewModels
         }
 
         public TransactionsViewModel(
-            IRepository<Transaction> transactionsRepository,
-            IRepository<Book> books,
-            IRepository<Seller> sellers,
-            IRepository<Buyer> buyers,
+            IRepository<Order> transactionsRepository,
+            IRepository<Product> books,
+            IRepository<Employee> sellers,
+            IRepository<Customer> buyers,
             IUserDialogService dialogService)
         {
             _transactionsRepository = transactionsRepository;
@@ -224,7 +224,7 @@ namespace Librarian.ViewModels
 
         private void OnTransactionsFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Transaction transaction) || string.IsNullOrWhiteSpace(TransactionsFilter)) return;
+            if (!(e.Item is Order transaction) || string.IsNullOrWhiteSpace(TransactionsFilter)) return;
 
             var transactionDate = transaction.TransactionDate.ToString();
 

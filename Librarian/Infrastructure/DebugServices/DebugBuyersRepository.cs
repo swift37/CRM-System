@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Librarian.Infrastructure.DebugServices
 {
-    class DebugBuyersRepository : IRepository<Buyer>
+    class DebugBuyersRepository : IRepository<Customer>
     {
         public DebugBuyersRepository()
         {
             var random = new Random();
 
             Entities = Enumerable.Range(1, 30)
-                .Select(i => new Buyer
+                .Select(i => new Customer
                 {
                     Id = i,
                     Name = $"Test buyer #{i}",
@@ -27,24 +27,24 @@ namespace Librarian.Infrastructure.DebugServices
                 }).AsQueryable();
         }
 
-        public IQueryable<Buyer>? Entities { get; }
+        public IQueryable<Customer>? Entities { get; }
 
-        public Buyer? Add(Buyer entity)
+        public Customer? Add(Customer entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Buyer?>? AddAsync(Buyer entity, CancellationToken cancellation = default)
+        public Task<Customer?>? AddAsync(Customer entity, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }
 
-        public Buyer? Get(int id)
+        public Customer? Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Buyer?>? GetAsync(int id, CancellationToken cancellation = default)
+        public Task<Customer?>? GetAsync(int id, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }
@@ -59,12 +59,12 @@ namespace Librarian.Infrastructure.DebugServices
             throw new NotImplementedException();
         }
 
-        public void Update(Buyer entity)
+        public void Update(Customer entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Buyer entity, CancellationToken cancellation = default)
+        public Task UpdateAsync(Customer entity, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }

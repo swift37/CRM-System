@@ -17,9 +17,9 @@ namespace Librarian.ViewModels
 {
     public class TransactionEditorViewModel : ViewModel
     {
-        private readonly IRepository<Book> _booksRepository;
-        private readonly IRepository<Seller> _sellersRepository;
-        private readonly IRepository<Buyer> _buyersRepository;
+        private readonly IRepository<Product> _booksRepository;
+        private readonly IRepository<Employee> _sellersRepository;
+        private readonly IRepository<Customer> _buyersRepository;
 
         private CollectionViewSource _booksViewSource;
         private CollectionViewSource _buyersViewSource;
@@ -77,12 +77,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region Book
-        private Book? _Book;
+        private Product? _Book;
 
         /// <summary>
         /// Book
         /// </summary>
-        public Book? Book { 
+        public Product? Book { 
             get => _Book; 
             set
             {
@@ -93,21 +93,21 @@ namespace Librarian.ViewModels
         #endregion
 
         #region Seller
-        private Seller? _Seller;
+        private Employee? _Seller;
 
         /// <summary>
         /// Seller
         /// </summary>
-        public Seller? Seller { get => _Seller; set => Set(ref _Seller, value); }
+        public Employee? Seller { get => _Seller; set => Set(ref _Seller, value); }
         #endregion
 
         #region Buyer
-        private Buyer? _Buyer;
+        private Customer? _Buyer;
 
         /// <summary>
         /// Buyer
         /// </summary>
-        public Buyer? Buyer { get => _Buyer; set => Set(ref _Buyer, value); }
+        public Customer? Buyer { get => _Buyer; set => Set(ref _Buyer, value); }
         #endregion
 
         #region BooksView
@@ -118,12 +118,12 @@ namespace Librarian.ViewModels
         #endregion 
 
         #region Books
-        private IEnumerable<Book>? _Books;
+        private IEnumerable<Product>? _Books;
 
         /// <summary>
         /// Books collection
         /// </summary>
-        public IEnumerable<Book>? Books 
+        public IEnumerable<Product>? Books 
         { 
             get => _Books;
             set 
@@ -153,12 +153,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region Sellers
-        private IEnumerable<Seller>? _Sellers;
+        private IEnumerable<Employee>? _Sellers;
 
         /// <summary>
         /// Sellers collection
         /// </summary>
-        public IEnumerable<Seller>? Sellers { get => _Sellers; set => Set(ref _Sellers, value); }
+        public IEnumerable<Employee>? Sellers { get => _Sellers; set => Set(ref _Sellers, value); }
         #endregion 
 
         #region BuyersView
@@ -169,12 +169,12 @@ namespace Librarian.ViewModels
         #endregion 
 
         #region Buyers
-        private IEnumerable<Buyer>? _Buyers;
+        private IEnumerable<Customer>? _Buyers;
 
         /// <summary>
         /// Buyers collection
         /// </summary>
-        public IEnumerable<Buyer>? Buyers 
+        public IEnumerable<Customer>? Buyers 
         { 
             get => _Buyers;
             set 
@@ -231,7 +231,7 @@ namespace Librarian.ViewModels
         #endregion
 
         public TransactionEditorViewModel() : this(
-            new Transaction { Id = 1, TransactionDate = DateTime.Now, Amount = 300, Discount = 20 },
+            new Order { Id = 1, TransactionDate = DateTime.Now, Amount = 300, Discount = 20 },
             new DebugBooksRepository(),
             new DebugSellersRepository(),
             new DebugBuyersRepository())
@@ -241,10 +241,10 @@ namespace Librarian.ViewModels
         }
 
         public TransactionEditorViewModel(
-            Transaction transaction, 
-            IRepository<Book> books, 
-            IRepository<Seller> sellers, 
-            IRepository<Buyer> buyers)
+            Order transaction, 
+            IRepository<Product> books, 
+            IRepository<Employee> sellers, 
+            IRepository<Customer> buyers)
         {
             _booksRepository = books;
             _sellersRepository = sellers;
@@ -267,7 +267,7 @@ namespace Librarian.ViewModels
 
         private void OnBooksFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Book book) || string.IsNullOrWhiteSpace(BooksFilter)) return;
+            if (!(e.Item is Product book) || string.IsNullOrWhiteSpace(BooksFilter)) return;
 
             if (book.Name is null || !book.Name.Contains(BooksFilter))
                 e.Accepted = false;
@@ -275,7 +275,7 @@ namespace Librarian.ViewModels
 
         private void OnBuyersFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Buyer buyer) || string.IsNullOrWhiteSpace(BuyersFilter)) return;
+            if (!(e.Item is Customer buyer) || string.IsNullOrWhiteSpace(BuyersFilter)) return;
 
             if (!buyer.ToString().Contains(BuyersFilter) &&
                 (buyer.Name is null || !buyer.Name.Contains(BuyersFilter)) &&

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Librarian.Infrastructure.DebugServices
 {
-    public class DebugTransactionsRepository : IRepository<Transaction>
+    public class DebugTransactionsRepository : IRepository<Order>
     {
         public DebugTransactionsRepository()
         {
@@ -23,7 +23,7 @@ namespace Librarian.Infrastructure.DebugServices
             var random = new Random();
 
             Entities = Enumerable.Range(1, 100)
-                .Select(i => new Transaction
+                .Select(i => new Order
                 {
                     TransactionDate = DateTime.Now,
                     Book = random.NextItem(booksRepository.Entities.ToArray()),
@@ -34,24 +34,24 @@ namespace Librarian.Infrastructure.DebugServices
                 }).AsQueryable();
         }
 
-        public IQueryable<Transaction>? Entities { get; }
+        public IQueryable<Order>? Entities { get; }
 
-        public Transaction? Add(Transaction entity)
+        public Order? Add(Order entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Transaction?>? AddAsync(Transaction entity, CancellationToken cancellation = default)
+        public Task<Order?>? AddAsync(Order entity, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }
 
-        public Transaction? Get(int id)
+        public Order? Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Transaction?>? GetAsync(int id, CancellationToken cancellation = default)
+        public Task<Order?>? GetAsync(int id, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }
@@ -66,12 +66,12 @@ namespace Librarian.Infrastructure.DebugServices
             throw new NotImplementedException();
         }
 
-        public void Update(Transaction entity)
+        public void Update(Order entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Transaction entity, CancellationToken cancellation = default)
+        public Task UpdateAsync(Order entity, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }

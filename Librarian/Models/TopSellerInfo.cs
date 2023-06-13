@@ -9,7 +9,7 @@ namespace Librarian.Models
 {
     public class TopSellerInfo
     {
-        public Seller? Seller { get; set; }
+        public Employee? Seller { get; set; }
 
         public int DealsCount { get; set; }
 

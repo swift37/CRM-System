@@ -4,7 +4,7 @@ namespace Librarian.Models
 {
     public class TopBookInfo
     {
-        public Book? Book { get; set; }
+        public Product? Book { get; set; }
 
         public int TransactionsCount { get; set; }
 

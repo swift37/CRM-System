@@ -16,11 +16,11 @@ namespace Librarian.ViewModels
     {
         private readonly ITradingService _tradingService;
         private readonly IUserDialogService _dialogService;
-        private readonly IRepository<Book> _booksRepository;
+        private readonly IRepository<Product> _booksRepository;
         private readonly IRepository<Category> _categoriesRepository;
-        private readonly IRepository<Seller> _sellersRepository;
-        private readonly IRepository<Buyer> _buyersRepository;
-        private readonly IRepository<Transaction> _transactionsRepository;
+        private readonly IRepository<Employee> _sellersRepository;
+        private readonly IRepository<Customer> _buyersRepository;
+        private readonly IRepository<Order> _transactionsRepository;
 
         #region Properties
 
@@ -150,11 +150,11 @@ namespace Librarian.ViewModels
         #endregion
 
         public MainWindowViewModel(
-            IRepository<Book> booksRepository, 
+            IRepository<Product> booksRepository, 
             IRepository<Category> categoriesRepository,
-            IRepository<Seller> sellersRepository, 
-            IRepository<Buyer> buyersRepository,
-            IRepository<Transaction> transactionsRepository,
+            IRepository<Employee> sellersRepository, 
+            IRepository<Customer> buyersRepository,
+            IRepository<Order> transactionsRepository,
             ITradingService tradingService,
             IUserDialogService dialogService)
         {

@@ -6,8 +6,8 @@ namespace Librarian.Services.Interfaces
 {
     public interface ITradingService
     {
-        public IEnumerable<Transaction>? Transactions { get; }
+        public IEnumerable<Order>? Transactions { get; }
 
-        Task<Transaction?> CrateTransactionAsync(string bookName, Seller seller, Buyer buyer, decimal transactionАmount);
+        Task<Order?> CrateTransactionAsync(string bookName, Employee seller, Customer buyer, decimal transactionАmount);
     }
 }

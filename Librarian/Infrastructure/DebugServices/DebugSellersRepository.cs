@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Librarian.Infrastructure.DebugServices
 {
-    class DebugSellersRepository : IRepository<Seller>
+    class DebugSellersRepository : IRepository<Employee>
     {
         public DebugSellersRepository()
         {
             Entities = Enumerable.Range(1,15)
-                .Select(i => new Seller
+                .Select(i => new Employee
                 {
                     Id = i,
                     Name = $"TS Name #{i}",
@@ -23,24 +23,24 @@ namespace Librarian.Infrastructure.DebugServices
                 }).AsQueryable();
         }
 
-        public IQueryable<Seller>? Entities { get; }
+        public IQueryable<Employee>? Entities { get; }
 
-        public Seller? Add(Seller entity)
+        public Employee? Add(Employee entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Seller?>? AddAsync(Seller entity, CancellationToken cancellation = default)
+        public Task<Employee?>? AddAsync(Employee entity, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }
 
-        public Seller? Get(int id)
+        public Employee? Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Seller?>? GetAsync(int id, CancellationToken cancellation = default)
+        public Task<Employee?>? GetAsync(int id, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }
@@ -55,12 +55,12 @@ namespace Librarian.Infrastructure.DebugServices
             throw new NotImplementedException();
         }
 
-        public void Update(Seller entity)
+        public void Update(Employee entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Seller entity, CancellationToken cancellation = default)
+        public Task UpdateAsync(Employee entity, CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }

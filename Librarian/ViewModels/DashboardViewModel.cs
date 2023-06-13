@@ -17,17 +17,17 @@ namespace Librarian.ViewModels
 {
     public class DashboardViewModel : ViewModel
     {
-        private readonly IRepository<Transaction> _transactionsRepository;
+        private readonly IRepository<Order> _transactionsRepository;
 
         #region Properties
 
         #region LastTransactions
-        private ObservableCollection<Transaction>? _LastTransactions;
+        private ObservableCollection<Order>? _LastTransactions;
 
         /// <summary>
         /// Last Transactions
         /// </summary>
-        public ObservableCollection<Transaction>? LastTransactions { get => _LastTransactions; set => Set(ref _LastTransactions, value); } 
+        public ObservableCollection<Order>? LastTransactions { get => _LastTransactions; set => Set(ref _LastTransactions, value); } 
         #endregion
 
         #endregion
@@ -62,7 +62,7 @@ namespace Librarian.ViewModels
             _ = OnLoadLastTransactionsCommandExecuted();
         }
 
-        public DashboardViewModel(IRepository<Transaction> transactionsRepository) 
+        public DashboardViewModel(IRepository<Order> transactionsRepository) 
         {
             _transactionsRepository = transactionsRepository;
         }

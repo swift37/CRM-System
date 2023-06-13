@@ -24,7 +24,7 @@ namespace Librarian.ViewModels
 {
     public class BooksViewModel : ViewModel
     {
-        private readonly IRepository<Book> _booksRepository;
+        private readonly IRepository<Product> _booksRepository;
         private readonly IRepository<Category> _categoriesRepository;
         private readonly IUserDialogService _dialogService;
 
@@ -64,12 +64,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region Books
-        private ObservableCollection<Book>? _Books;
+        private ObservableCollection<Product>? _Books;
 
         /// <summary>
         /// Books collection
         /// </summary>
-        public ObservableCollection<Book>? Books 
+        public ObservableCollection<Product>? Books 
         { 
             get => _Books;
             set 
@@ -82,12 +82,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region SelectedBook
-        private Book? _SelectedBook;
+        private Product? _SelectedBook;
 
         /// <summary>
         /// Selected book
         /// </summary>
-        public Book? SelectedBook { get => _SelectedBook; set => Set(ref _SelectedBook, value); }
+        public Product? SelectedBook { get => _SelectedBook; set => Set(ref _SelectedBook, value); }
         #endregion
 
 
@@ -192,7 +192,7 @@ namespace Librarian.ViewModels
 
         private void OnAddBookCommandExecuted()
         {
-            var newBook = new Book();
+            var newBook = new Product();
 
             if (!_dialogService.EditBook(newBook, _categoriesRepository)) 
                 return;
@@ -211,11 +211,11 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Edit book command 
         /// </summary>
-        public ICommand? EditBookCommand => _EditBookCommand ??= new LambdaCommand<Book>(OnEditBookCommandExecuted, CanEditBookCommandnExecute);
+        public ICommand? EditBookCommand => _EditBookCommand ??= new LambdaCommand<Product>(OnEditBookCommandExecuted, CanEditBookCommandnExecute);
 
-        private bool CanEditBookCommandnExecute(Book? book) => book != null || SelectedBook != null;
+        private bool CanEditBookCommandnExecute(Product? book) => book != null || SelectedBook != null;
 
-        private void OnEditBookCommandExecuted(Book? book)
+        private void OnEditBookCommandExecuted(Product? book)
         {
             var editableBook = book ?? SelectedBook;
             if (editableBook is null) return;
@@ -235,11 +235,11 @@ namespace Librarian.ViewModels
         /// Remove selected book command 
         /// </summary>
         public ICommand? RemoveBookCommand => _RemoveBookCommand 
-            ??= new LambdaCommand<Book>(OnRemoveBookCommandExecuted, CanRemoveBookCommandnExecute);
+            ??= new LambdaCommand<Product>(OnRemoveBookCommandExecuted, CanRemoveBookCommandnExecute);
 
-        private bool CanRemoveBookCommandnExecute(Book? book) => book != null || SelectedBook != null;
+        private bool CanRemoveBookCommandnExecute(Product? book) => book != null || SelectedBook != null;
 
-        private void OnRemoveBookCommandExecuted(Book? book)
+        private void OnRemoveBookCommandExecuted(Product? book)
         {
             var removableBook = book ?? SelectedBook;
             if (removableBook is null) return;
@@ -347,7 +347,7 @@ namespace Librarian.ViewModels
             _ = OnLoadDataCommandExecuted();
         }
 
-        public BooksViewModel(IRepository<Book> booksRepository, IRepository<Category> categoriesRepository, IUserDialogService dialogService)
+        public BooksViewModel(IRepository<Product> booksRepository, IRepository<Category> categoriesRepository, IUserDialogService dialogService)
         {
             _booksRepository = booksRepository;
             _categoriesRepository = categoriesRepository;
@@ -358,7 +358,7 @@ namespace Librarian.ViewModels
             {
                 GroupDescriptions =
                 {
-                    new PropertyGroupDescription(nameof(Book.Category))
+                    new PropertyGroupDescription(nameof(Product.Category))
                 }
 
                 //SortDescriptions =
@@ -375,7 +375,7 @@ namespace Librarian.ViewModels
 
         private void OnBooksNameFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Book book) || string.IsNullOrWhiteSpace(BooksFilter)) return;
+            if (!(e.Item is Product book) || string.IsNullOrWhiteSpace(BooksFilter)) return;
 
             if ((book.Name is null || !book.Name.Contains(BooksFilter)) && 
                 (book.Category is null || book.Category.Name is null || !book.Category.Name.Contains(BooksFilter)))

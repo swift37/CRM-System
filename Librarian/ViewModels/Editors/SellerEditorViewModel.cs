@@ -90,13 +90,13 @@ namespace Librarian.ViewModels
         public string? SellerWorkingRate { get => _SellerWorkingRate; set => Set(ref _SellerWorkingRate, value); }
         #endregion
 
-        public SellerEditorViewModel() : this(new Seller { Id = 1, Name = "John", Surname = "Winston" })
+        public SellerEditorViewModel() : this(new Employee { Id = 1, Name = "John", Surname = "Winston" })
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
         }
 
-        public SellerEditorViewModel(Seller seller)
+        public SellerEditorViewModel(Employee seller)
         {
             SellerId = seller.Id;
             SellerName = seller.Name;

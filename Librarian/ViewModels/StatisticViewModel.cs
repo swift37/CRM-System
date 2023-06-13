@@ -19,11 +19,11 @@ namespace Librarian.ViewModels
 {
     public class StatisticViewModel : ViewModel
     {
-        private readonly IRepository<Book> _booksRepository;
+        private readonly IRepository<Product> _booksRepository;
         private readonly IRepository<Category> _categoriesRepository;
-        private readonly IRepository<Seller> _sellersRepository;
-        private readonly IRepository<Buyer> _buyersRepository;
-        private readonly IRepository<Transaction> _transactionsRepository;
+        private readonly IRepository<Employee> _sellersRepository;
+        private readonly IRepository<Customer> _buyersRepository;
+        private readonly IRepository<Order> _transactionsRepository;
         public double[] testval1 = new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
         public double[] testval2 = new double[] { 1, 2, 3, 4, 5, 6, 7 };
         private CollectionViewSource _topBooksViewSource;
@@ -179,11 +179,11 @@ namespace Librarian.ViewModels
         #endregion
 
         public StatisticViewModel(
-            IRepository<Book> booksRepository,
+            IRepository<Product> booksRepository,
             IRepository<Category> categoriesRepository,
-            IRepository<Seller> sellersRepository, 
-            IRepository<Buyer> buyersRepository, 
-            IRepository<Transaction> transactionsRepository)
+            IRepository<Employee> sellersRepository, 
+            IRepository<Customer> buyersRepository, 
+            IRepository<Order> transactionsRepository)
         {
             _booksRepository = booksRepository;
             _categoriesRepository = categoriesRepository;

@@ -22,7 +22,7 @@ namespace Librarian.ViewModels
 {
     public class SellersViewModel : ViewModel
     {
-        private readonly IRepository<Seller> _sellersRepository;
+        private readonly IRepository<Employee> _sellersRepository;
         private readonly IUserDialogService _dialogService;
         private CollectionViewSource _sellersViewSource;
 
@@ -42,12 +42,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region Sellers
-        private ObservableCollection<Seller>? _Sellers;
+        private ObservableCollection<Employee>? _Sellers;
 
         /// <summary>
         /// Sellers collection
         /// </summary>
-        public ObservableCollection<Seller>? Sellers
+        public ObservableCollection<Employee>? Sellers
         {
             get => _Sellers;
             set
@@ -78,12 +78,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region SelectedSeller
-        private Seller? _SelectedSeller;
+        private Employee? _SelectedSeller;
 
         /// <summary>
         /// Selected seller
         /// </summary>
-        public Seller? SelectedSeller { get => _SelectedSeller; set => Set(ref _SelectedSeller, value); }
+        public Employee? SelectedSeller { get => _SelectedSeller; set => Set(ref _SelectedSeller, value); }
         #endregion
 
         #endregion
@@ -122,7 +122,7 @@ namespace Librarian.ViewModels
 
         private void OnAddSellerCommandExecuted()
         {
-            var seller = new Seller();
+            var seller = new Employee();
 
             if (!_dialogService.EditSeller(seller)) return;
 
@@ -139,11 +139,11 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Edit seller command 
         /// </summary>
-        public ICommand? EditSellerCommand => _EditSellerCommand ??= new LambdaCommand<Seller>(OnEditSellerCommandExecuted, CanEditSellerCommandnExecute);
+        public ICommand? EditSellerCommand => _EditSellerCommand ??= new LambdaCommand<Employee>(OnEditSellerCommandExecuted, CanEditSellerCommandnExecute);
 
-        private bool CanEditSellerCommandnExecute(Seller? seller) => seller != null || SelectedSeller != null;
+        private bool CanEditSellerCommandnExecute(Employee? seller) => seller != null || SelectedSeller != null;
 
-        private void OnEditSellerCommandExecuted(Seller? seller)
+        private void OnEditSellerCommandExecuted(Employee? seller)
         {
             var editableSeller = seller ?? SelectedSeller;
             if (editableSeller is null) return;
@@ -163,11 +163,11 @@ namespace Librarian.ViewModels
         /// Remove seller command
         /// </summary>
         public ICommand? RemoveSellerCommand => _RemoveSellerCommand
-            ??= new LambdaCommand<Seller>(OnRemoveSellerCommandExecuted, CanRemoveSellerCommandExecute);
+            ??= new LambdaCommand<Employee>(OnRemoveSellerCommandExecuted, CanRemoveSellerCommandExecute);
 
-        private bool CanRemoveSellerCommandExecute(Seller? seller) => seller != null || SelectedSeller != null;
+        private bool CanRemoveSellerCommandExecute(Employee? seller) => seller != null || SelectedSeller != null;
 
-        private void OnRemoveSellerCommandExecuted(Seller? seller)
+        private void OnRemoveSellerCommandExecuted(Employee? seller)
         {
             var removableSeller = seller ?? SelectedSeller;
             if (removableSeller is null) return;
@@ -198,7 +198,7 @@ namespace Librarian.ViewModels
             _ = OnLoadDataCommandExecuted();
         }
 
-        public SellersViewModel(IRepository<Seller> sellersRepository, IUserDialogService dialogService)
+        public SellersViewModel(IRepository<Employee> sellersRepository, IUserDialogService dialogService)
         {
             _sellersRepository = sellersRepository;
             _dialogService = dialogService;
@@ -216,7 +216,7 @@ namespace Librarian.ViewModels
 
         private void OnSellersFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Seller seller) || string.IsNullOrWhiteSpace(SellersFilter)) return;
+            if (!(e.Item is Employee seller) || string.IsNullOrWhiteSpace(SellersFilter)) return;
 
             if ((seller.Name is null || !seller.Name.Contains(SellersFilter)) && (seller.Surname is null || !seller.Surname.Contains(SellersFilter)))
                 e.Accepted = false;

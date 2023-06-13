@@ -62,13 +62,13 @@ namespace Librarian.ViewModels
         public string? BuyerMail { get => _BuyerMail; set => Set(ref _BuyerMail, value); }
         #endregion
 
-        public BuyerEditorViewModel() : this(new Buyer { Id = 1, Name = "John", Surname = "Winston", ContactNumber = "557345635", ContactMail = "john.winston@gmail.com" })
+        public BuyerEditorViewModel() : this(new Customer { Id = 1, Name = "John", Surname = "Winston", ContactNumber = "557345635", ContactMail = "john.winston@gmail.com" })
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
         }
 
-        public BuyerEditorViewModel(Buyer buyer)
+        public BuyerEditorViewModel(Customer buyer)
         {
             BuyerId = buyer.Id;
             BuyerName = buyer.Name;

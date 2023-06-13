@@ -126,7 +126,7 @@ namespace Librarian.ViewModels
         }
         #endregion
 
-        public BookEditorViewModel() : this (new Book { Id = 1, Name = "Sherlock Holmes" }, new DebugCategoriesRepository())
+        public BookEditorViewModel() : this (new Product { Id = 1, Name = "Sherlock Holmes" }, new DebugCategoriesRepository())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
@@ -134,7 +134,7 @@ namespace Librarian.ViewModels
             _ = OnLoadCategoriesCommandExecuted();
         }
 
-        public BookEditorViewModel(Book book, IRepository<Category> categoriesRepository)
+        public BookEditorViewModel(Product book, IRepository<Category> categoriesRepository)
         {
             _categoriesRepository = categoriesRepository;
 

@@ -14,10 +14,10 @@
     <DataTemplate DataType="{x:Type vm:CustomersViewModel}">
         <v:BuyersView DataContext="{Binding}"/>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:TransactionsViewModel}">
+    <DataTemplate DataType="{x:Type vm:OrdersViewModel}">
         <v:TransactionsView DataContext="{Binding}"/>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:StatisticViewModel}">
+    <DataTemplate DataType="{x:Type vm:StatisticsViewModel}">
         <v:StatisticView DataContext="{Binding}"/>
     </DataTemplate>
 </ResourceDictionary>

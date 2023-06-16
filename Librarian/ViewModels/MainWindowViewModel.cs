@@ -3,11 +3,6 @@ using Librarian.Interfaces;
 using Librarian.Services.Interfaces;
 using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Librarian.ViewModels
@@ -21,6 +16,7 @@ namespace Librarian.ViewModels
         private readonly IRepository<Employee> _employeesRepository;
         private readonly IRepository<Customer> _customersRepository;
         private readonly IRepository<Order> _ordersRepository;
+        private readonly IRepository<OrderDetails> _ordersDetailsRepository;
         private readonly IRepository<WorkingRate> _workingRatesRepository;
         private readonly IRepository<Supplier> _suppliersRepository;
         private readonly IRepository<Shipper> _shippersRepository;
@@ -125,8 +121,9 @@ namespace Librarian.ViewModels
 
         private void OnShowOrdersViewCommandExecuted()
         {
-            CurrentViewModel = new TransactionsViewModel(
+            CurrentViewModel = new OrdersViewModel(
                 _ordersRepository, 
+                _ordersDetailsRepository,
                 _productsRepository, 
                 _employeesRepository, 
                 _customersRepository, 
@@ -146,7 +143,7 @@ namespace Librarian.ViewModels
 
         private void OnShowStatisticsViewCommandExecuted()
         {
-            CurrentViewModel = new StatisticViewModel(_productsRepository, _categoriesRepository, _employeesRepository, _customersRepository, _ordersRepository);
+            CurrentViewModel = new StatisticsViewModel(_productsRepository, _categoriesRepository, _employeesRepository, _ordersRepository, _ordersDetailsRepository);
         }
         #endregion
 
@@ -158,6 +155,7 @@ namespace Librarian.ViewModels
             IRepository<Employee> employeesRepository, 
             IRepository<Customer> customersRepository,
             IRepository<Order> ordersRepository,
+            IRepository<OrderDetails> ordersDetailsRepository,
             IRepository<WorkingRate> workingRatesRepository,
             IRepository<Supplier> suppliersRepository,
             IRepository<Shipper> shippersRepository,
@@ -169,6 +167,7 @@ namespace Librarian.ViewModels
             _employeesRepository = employeesRepository;
             _customersRepository = customersRepository;
             _ordersRepository = ordersRepository;
+            _ordersDetailsRepository = ordersDetailsRepository;
             _workingRatesRepository = workingRatesRepository;
             _suppliersRepository = suppliersRepository;
             _shippersRepository = shippersRepository;

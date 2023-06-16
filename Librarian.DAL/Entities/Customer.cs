@@ -16,7 +16,7 @@ namespace Librarian.DAL.Entities
 
         public string? Address { get; set; }
 
-        public bool IsActual { get; set; }
+        public bool IsActual { get; set; } = true;
 
         public override string ToString() => $"{Name} {Surname}";
     }

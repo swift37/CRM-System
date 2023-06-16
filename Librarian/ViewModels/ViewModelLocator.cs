@@ -6,15 +6,17 @@ namespace Librarian.ViewModels
     {
         public MainWindowViewModel? MainWindowModel => App.Services?.GetRequiredService<MainWindowViewModel>();
 
+        public DashboardViewModel? DashboardViewModel => App.Services?.GetRequiredService<DashboardViewModel>();
+
         public ProductsViewModel? ProductsViewModel => App.Services?.GetRequiredService<ProductsViewModel>();
 
         public EmployeesViewModel? EmployeeViewModel => App.Services?.GetRequiredService<EmployeesViewModel>();
 
         public CustomersViewModel? CustomersViewModel => App.Services?.GetRequiredService<CustomersViewModel>();
 
-        public TransactionsViewModel? TransactionsViewModel => App.Services?.GetRequiredService<TransactionsViewModel>();
+        public OrdersViewModel? OrdersViewModel => App.Services?.GetRequiredService<OrdersViewModel>();
 
-        public StatisticViewModel? StatisticViewModel => App.Services?.GetRequiredService<StatisticViewModel>();
+        public StatisticsViewModel? StatisticsViewModel => App.Services?.GetRequiredService<StatisticsViewModel>();
 
         public ProductEditorViewModel? ProductEditorViewModel => App.Services?.GetRequiredService<ProductEditorViewModel>();
 
@@ -25,8 +27,6 @@ namespace Librarian.ViewModels
         public EmployeeEditorViewModel? EmployeeEditorViewModel => App.Services?.GetRequiredService<EmployeeEditorViewModel>();
 
         public TransactionEditorViewModel? TransactionEditorViewModel => App.Services?.GetRequiredService<TransactionEditorViewModel>();
-
-        public DashboardViewModel? DashboardViewModel => App.Services?.GetRequiredService<DashboardViewModel>();
 
     }
 }

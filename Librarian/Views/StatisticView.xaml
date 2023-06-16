@@ -8,7 +8,7 @@
              xmlns:v="clr-namespace:Librarian.Views"
              xmlns:vm="clr-namespace:Librarian.ViewModels"
              xmlns:local="clr-namespace:Librarian.Views"
-             d:DataContext="{d:DesignInstance {x:Type vm:StatisticViewModel}}" 
+             d:DataContext="{d:DesignInstance {x:Type vm:StatisticsViewModel}}" 
              d:DesignHeight="525" d:DesignWidth="900">
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">

@@ -7,7 +7,7 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:vm="clr-namespace:Librarian.ViewModels"
              xmlns:local="clr-namespace:Librarian.Views"
-             d:DataContext="{d:DesignInstance {x:Type vm:TransactionsViewModel}, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance {x:Type vm:OrdersViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="525" d:DesignWidth="900">
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">

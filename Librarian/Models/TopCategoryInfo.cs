@@ -6,8 +6,8 @@ namespace Librarian.Models
     {
         public Category? Category { get; set; }
 
-        public int OrdersCount { get; set; }
+        public int SalesCount { get; set; }
 
-        public decimal OrdersAmount { get; set; }
+        public decimal SalesAmount { get; set; }
     }
 }

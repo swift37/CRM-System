@@ -1,6 +1,4 @@
 ﻿using Librarian.DAL.Entities.Base;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Librarian.DAL.Entities
 {
@@ -12,11 +10,13 @@ namespace Librarian.DAL.Entities
 
         public DateTime? ShippedDate { get; set; }
 
-        public OrderDetails? OrderDetails { get; set; }
-
         public virtual Employee? Employee { get; set; }
 
         public virtual Customer? Customer { get; set; }
+
+        public virtual IEnumerable<OrderDetails>? OrderDetails { get; set; }
+
+        public decimal Amount { get; set; }
 
         public Shipper? ShipVia { get; set; }
 
@@ -26,9 +26,9 @@ namespace Librarian.DAL.Entities
 
         public string? ShipAddress { get; set; }
 
-        public bool IsActual { get; set; }
+        public bool IsActual { get; set; } = true;
 
         public override string ToString() =>
-            $"[{OrderDate}]: Transaction for the sale of the {OrderDetails?.Product?.Name}: {Employee}, {Customer}";
+            $"[{OrderDate}]: Transaction for the sale of the product: {Employee} - {Customer}, {ShipAddress}";
     }
 }

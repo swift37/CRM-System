@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Librarian.DAL.Migrations
 {
     [DbContext(typeof(LibrarianDb))]
-    [Migration("20230613163413_Initial")]
+    [Migration("20230616160830_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -75,9 +75,6 @@ namespace Librarian.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Patronymic")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
@@ -106,7 +103,7 @@ namespace Librarian.DAL.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("Extension")
+                    b.Property<DateTime?>("Extension")
                         .HasColumnType("date");
 
                     b.Property<DateTime>("HireDate")
@@ -120,9 +117,6 @@ namespace Librarian.DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Patronymic")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
@@ -161,9 +155,6 @@ namespace Librarian.DAL.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("RequiredDate")
                         .HasColumnType("datetime2");
 
@@ -188,8 +179,6 @@ namespace Librarian.DAL.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("ShipViaId");
 
                     b.ToTable("Orders");
@@ -197,7 +186,10 @@ namespace Librarian.DAL.Migrations
 
             modelBuilder.Entity("Librarian.DAL.Entities.OrderDetails", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Amount")
@@ -209,16 +201,16 @@ namespace Librarian.DAL.Migrations
                     b.Property<bool>("IsActual")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("UnitsOnOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId", "ProductId");
 
                     b.HasIndex("ProductId");
 
@@ -253,9 +245,6 @@ namespace Librarian.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("UnitsInStock")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnitsOnOrder")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -367,10 +356,6 @@ namespace Librarian.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("EmployeeId");
 
-                    b.HasOne("Librarian.DAL.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
                     b.HasOne("Librarian.DAL.Entities.Shipper", "ShipVia")
                         .WithMany()
                         .HasForeignKey("ShipViaId");
@@ -379,22 +364,20 @@ namespace Librarian.DAL.Migrations
 
                     b.Navigation("Employee");
 
-                    b.Navigation("Product");
-
                     b.Navigation("ShipVia");
                 });
 
             modelBuilder.Entity("Librarian.DAL.Entities.OrderDetails", b =>
                 {
                     b.HasOne("Librarian.DAL.Entities.Order", "Order")
-                        .WithOne("OrderDetails")
-                        .HasForeignKey("Librarian.DAL.Entities.OrderDetails", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
                         .IsRequired();
 
                     b.HasOne("Librarian.DAL.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductId")
+                        .IsRequired();
 
                     b.Navigation("Order");
 
@@ -422,6 +405,11 @@ namespace Librarian.DAL.Migrations
                 });
 
             modelBuilder.Entity("Librarian.DAL.Entities.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("Librarian.DAL.Entities.Product", b =>
                 {
                     b.Navigation("OrderDetails");
                 });

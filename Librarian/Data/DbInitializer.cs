@@ -289,8 +289,7 @@ namespace Librarian.Data
                     UnitPrice = products[i - 1].UnitPrice,
                     Product = products[i - 1],
                     Order = _orders[i - 1],
-                    Discount = random.Next(50),
-                    Amount = (decimal)(random.NextDouble() * 300 + 50)
+                    Discount = random.Next(50)
                 });
 
             await _dbContext.OrdersDetails.AddRangeAsync(ordersDeatails);

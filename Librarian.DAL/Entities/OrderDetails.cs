@@ -1,18 +1,15 @@
 ﻿using Librarian.DAL.Entities.Base;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Librarian.DAL.Entities
 {
     public class OrderDetails : Entity
     {
-        public virtual Order? Order { get; set; }
+        public int OrderId { get; set; }
         
+        public virtual Order? Order { get; set; }
+
+        public int ProductId { get; set; }
+
         public virtual Product? Product { get; set; }
 
         public decimal UnitPrice { get; set; }
@@ -21,8 +18,6 @@ namespace Librarian.DAL.Entities
 
         public decimal Discount { get; set; }
 
-        public decimal Amount { get; set; }
-
-        public bool IsActual { get; set; }
+        public bool IsActual { get; set; } = true;
     }
 }

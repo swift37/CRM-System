@@ -386,7 +386,7 @@ namespace Librarian.ViewModels
         {
             if (!(e.Item is Category category) || string.IsNullOrWhiteSpace(CategoriesNameFilter)) return;
 
-            if (category.Name is null || !category.Name.Contains(CategoriesNameFilter))
+            if (!category.Name?.Contains(CategoriesNameFilter) ?? true)
                 e.Accepted = false;
         }
     }

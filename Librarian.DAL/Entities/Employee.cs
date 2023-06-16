@@ -1,6 +1,4 @@
 ﻿using Librarian.DAL.Entities.Base;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Librarian.DAL.Entities
 {
@@ -20,11 +18,11 @@ namespace Librarian.DAL.Entities
 
         public string? IdentityDocumentNumber { get; set; }
 
-        public DateTime Extension { get; set; }
+        public DateTime? Extension { get; set; }
 
         public WorkingRate? WorkingRate { get; set; }
 
-        public bool IsActual { get; set; }
+        public bool IsActual { get; set; } = true;
 
         public override string ToString() => $"{Name} {Surname}";
     }

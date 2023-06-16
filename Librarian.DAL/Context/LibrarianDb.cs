@@ -33,38 +33,46 @@ namespace Librarian.DAL.Context
                 .Property(c => c.CashbackBalance)
                 .HasColumnType("decimal(18,2)");
 
-            modelBuilder.Entity<Employee>()
-                .Property(e => e.DateOfBirth)
+            modelBuilder.Entity<Employee>(entity =>
+            {
+                entity.Property(e => e.DateOfBirth)
                 .HasColumnType("date");
 
-            modelBuilder.Entity<Employee>()
-                .Property(e => e.HireDate)
+                entity.Property(e => e.HireDate)
                 .HasColumnType("date");
 
-            modelBuilder.Entity<Employee>()
-               .Property(e => e.Extension)
-               .HasColumnType("date");
-
-            modelBuilder.Entity<Order>()
-                .HasOne(d => d.OrderDetails)
-                .WithOne(o => o.Order)
-                .HasForeignKey<OrderDetails>(d => d.Id);
+                entity.Property(e => e.Extension)
+                .HasColumnType("date");
+            });
 
             modelBuilder.Entity<Order>()
                .Property(e => e.ShippingCost)
                .HasColumnType("decimal(18,2)");
 
-            modelBuilder.Entity<OrderDetails>()
-               .Property(e => e.UnitPrice)
-               .HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<OrderDetails>(entity =>
+            {
+                entity.HasKey(e => new { e.OrderId, e.ProductId });
 
-            modelBuilder.Entity<OrderDetails>()
-               .Property(e => e.Discount)
-               .HasColumnType("decimal(18,2)");
+                entity.HasOne(o => o.Order)
+                .WithMany(d => d.OrderDetails)
+                .HasForeignKey(o => o.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<OrderDetails>()
-               .Property(e => e.Amount)
-               .HasColumnType("decimal(18,2)");
+                entity.HasOne(o => o.Product)
+                .WithMany(d => d.OrderDetails)
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.Property(e => e.UnitPrice)
+                .HasColumnType("decimal(18,2)");
+
+                entity.Property(e => e.Discount)
+                .HasColumnType("decimal(18,2)");
+
+                entity
+                .Property(e => e.Amount)
+                .HasColumnType("decimal(18,2)");
+            });
         }
 
         public LibrarianDb(DbContextOptions<LibrarianDb> options) : base(options)

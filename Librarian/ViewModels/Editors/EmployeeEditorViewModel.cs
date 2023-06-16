@@ -110,12 +110,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region EmployeeExtension
-        private DateTime _EmployeeExtension;
+        private DateTime? _EmployeeExtension;
 
         /// <summary>
         /// Employee hire date
         /// </summary>
-        public DateTime EmployeeExtension { get => _EmployeeExtension; set => Set(ref _EmployeeExtension, value); }
+        public DateTime? EmployeeExtension { get => _EmployeeExtension; set => Set(ref _EmployeeExtension, value); }
         #endregion
 
         #region EmployeeTitle

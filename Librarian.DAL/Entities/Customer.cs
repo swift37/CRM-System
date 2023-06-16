@@ -1,6 +1,4 @@
 ﻿using Librarian.DAL.Entities.Base;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Librarian.DAL.Entities
 {

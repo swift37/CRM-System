@@ -31,12 +31,12 @@ namespace Librarian.ViewModels
         #region Properties
 
         #region TopBooks
-        private ObservableCollection<TopBookInfo>? _TopBooks = new ObservableCollection<TopBookInfo>();
+        private ObservableCollection<TopProductsInfo>? _TopBooks = new ObservableCollection<TopProductsInfo>();
 
         /// <summary>
         /// Top _booksRepository collection.
         /// </summary>
-        public ObservableCollection<TopBookInfo>? TopBooks
+        public ObservableCollection<TopProductsInfo>? TopBooks
         {
             get => _TopBooks;
             set
@@ -83,7 +83,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Top _sellersRepository collection view.
         /// </summary>
-        public ObservableCollection<TopSellerInfo> TopSellers { get; set; } = new ObservableCollection<TopSellerInfo>();
+        public ObservableCollection<TopEmployeeInfo> TopSellers { get; set; } = new ObservableCollection<TopEmployeeInfo>();
         #endregion
 
         #region BooksCount
@@ -133,7 +133,7 @@ namespace Librarian.ViewModels
                 .Join(_booksRepository.Entities,
                     transactions => transactions.BookId,
                     book => book.Id,
-                    (transactions, book) => new TopBookInfo { Book = book, TransactionsCount = transactions.TransactionsCount, TransactionsAmount = transactions.TransactionsAmount });
+                    (transactions, book) => new TopProductsInfo { Product = book, OrdersCount = transactions.TransactionsCount, OrdersAmount = transactions.TransactionsAmount });
 
             TopBooks = (await topBooksQuery.ToArrayAsync()).ToObservableCollection();    
         }
@@ -152,7 +152,7 @@ namespace Librarian.ViewModels
                 .Join(_categoriesRepository.Entities,
                     orders => orders.CategoryId,
                     category => category.Id,
-                    (orders, category) => new TopCategoryInfo { Category = category, TransactionsCount = orders.TransactionsCount, TransactionsAmount = orders.TransactionsAmount });
+                    (orders, category) => new TopCategoryInfo { Category = category, OrdersCount = orders.TransactionsCount, OrdersAmount = orders.TransactionsAmount });
 
             TopCategories.ClearAdd(await topCategoriesQuery.ToArrayAsync());
         }
@@ -170,7 +170,7 @@ namespace Librarian.ViewModels
                 .Join(_sellersRepository.Entities,
                     deal => deal.SellerId,
                     seller => seller.Id,
-                    (deal, seller) => new TopSellerInfo { Seller = seller, DealsCount = deal.DealsCount, DealsAmount = deal.DealsAmount });
+                    (deal, seller) => new TopEmployeeInfo { Employee = seller, OrdersCount = deal.DealsCount, OrdersAmount = deal.DealsAmount });
 
             TopSellers.ClearAdd(await topSellersQuery.ToArrayAsync());
         }
@@ -197,9 +197,9 @@ namespace Librarian.ViewModels
 
         private void OnBookNameFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is TopBookInfo topbook) || string.IsNullOrWhiteSpace(BooksNameFilter)) return;
+            if (!(e.Item is TopProductsInfo topbook) || string.IsNullOrWhiteSpace(BooksNameFilter)) return;
 
-            if (topbook.Book is null || topbook.Book.Name is null || !topbook.Book.Name.Contains(BooksNameFilter)) 
+            if (topbook.Product is null || topbook.Product.Name is null || !topbook.Product.Name.Contains(BooksNameFilter)) 
                 e.Accepted = false;
         }
     }

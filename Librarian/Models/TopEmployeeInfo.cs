@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Librarian.Models
 {
-    public class TopSellerInfo
+    public class TopEmployeeInfo
     {
-        public Employee? Seller { get; set; }
+        public Employee? Employee { get; set; }
 
-        public int DealsCount { get; set; }
+        public int OrdersCount { get; set; }
 
-        public decimal DealsAmount { get; set; }
+        public decimal OrdersAmount { get; set; }
     }
 }

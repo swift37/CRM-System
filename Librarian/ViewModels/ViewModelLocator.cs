@@ -6,23 +6,23 @@ namespace Librarian.ViewModels
     {
         public MainWindowViewModel? MainWindowModel => App.Services?.GetRequiredService<MainWindowViewModel>();
 
-        public BooksViewModel? BooksViewModel => App.Services?.GetRequiredService<BooksViewModel>();
+        public ProductsViewModel? ProductsViewModel => App.Services?.GetRequiredService<ProductsViewModel>();
 
-        public SellersViewModel? SellersViewModel => App.Services?.GetRequiredService<SellersViewModel>();
+        public EmployeesViewModel? EmployeeViewModel => App.Services?.GetRequiredService<EmployeesViewModel>();
 
-        public BuyersViewModel? BuyersViewModel => App.Services?.GetRequiredService<BuyersViewModel>();
+        public CustomersViewModel? CustomersViewModel => App.Services?.GetRequiredService<CustomersViewModel>();
 
         public TransactionsViewModel? TransactionsViewModel => App.Services?.GetRequiredService<TransactionsViewModel>();
 
         public StatisticViewModel? StatisticViewModel => App.Services?.GetRequiredService<StatisticViewModel>();
 
-        public BookEditorViewModel? BookEditorViewModel => App.Services?.GetRequiredService<BookEditorViewModel>();
+        public ProductEditorViewModel? ProductEditorViewModel => App.Services?.GetRequiredService<ProductEditorViewModel>();
 
         public CategoryEditorViewModel? CategoryEditorViewModel => App.Services?.GetRequiredService<CategoryEditorViewModel>();
 
-        public BuyerEditorViewModel? BuyerEditorViewModel => App.Services?.GetRequiredService<BuyerEditorViewModel>();
+        public CustomerEditorViewModel? CustomersEditorViewModel => App.Services?.GetRequiredService<CustomerEditorViewModel>();
 
-        public SellerEditorViewModel? SellerEditorViewModel => App.Services?.GetRequiredService<SellerEditorViewModel>();
+        public EmployeeEditorViewModel? EmployeeEditorViewModel => App.Services?.GetRequiredService<EmployeeEditorViewModel>();
 
         public TransactionEditorViewModel? TransactionEditorViewModel => App.Services?.GetRequiredService<TransactionEditorViewModel>();
 

@@ -16,11 +16,14 @@ namespace Librarian.ViewModels
     {
         private readonly ITradingService _tradingService;
         private readonly IUserDialogService _dialogService;
-        private readonly IRepository<Product> _booksRepository;
+        private readonly IRepository<Product> _productsRepository;
         private readonly IRepository<Category> _categoriesRepository;
-        private readonly IRepository<Employee> _sellersRepository;
-        private readonly IRepository<Customer> _buyersRepository;
-        private readonly IRepository<Order> _transactionsRepository;
+        private readonly IRepository<Employee> _employeesRepository;
+        private readonly IRepository<Customer> _customersRepository;
+        private readonly IRepository<Order> _ordersRepository;
+        private readonly IRepository<WorkingRate> _workingRatesRepository;
+        private readonly IRepository<Supplier> _suppliersRepository;
+        private readonly IRepository<Shipper> _shippersRepository;
 
         #region Properties
 
@@ -58,111 +61,117 @@ namespace Librarian.ViewModels
 
         private void OnShowDashboardViewCommandExecuted()
         {
-            CurrentViewModel = new DashboardViewModel(_transactionsRepository);
+            CurrentViewModel = new DashboardViewModel(_ordersRepository);
         }
         #endregion
 
-        #region ShowBooksViewCommand
-        private ICommand? _ShowBooksViewCommand;
+        #region ShowProductsViewCommand
+        private ICommand? _ShowProductsViewCommand;
 
         /// <summary>
-        /// Show BooksView
+        /// Show ProductsView
         /// </summary>
-        public ICommand? ShowBooksViewCommand => _ShowBooksViewCommand ??= new LambdaCommand(OnShowBooksViewCommandExecuted, CanShowBooksViewCommandnExecute);
+        public ICommand? ShowProductsViewCommand => _ShowProductsViewCommand ??= new LambdaCommand(OnShowProductsViewCommandExecuted, CanShowProductsViewCommandnExecute);
 
-        private bool CanShowBooksViewCommandnExecute() => true;
+        private bool CanShowProductsViewCommandnExecute() => true;
 
-        private void OnShowBooksViewCommandExecuted()
+        private void OnShowProductsViewCommandExecuted()
         {
-            CurrentViewModel = new BooksViewModel(_booksRepository, _categoriesRepository, _dialogService);
+            CurrentViewModel = new ProductsViewModel(_productsRepository, _categoriesRepository, _suppliersRepository, _dialogService);
         }
         #endregion
 
-        #region ShowSellersViewCommand
-        private ICommand? _ShowSellersViewCommand;
+        #region ShowEmployeesViewCommand
+        private ICommand? _ShowEmployeesViewCommand;
 
         /// <summary>
-        /// Show SellersView
+        /// Show EmployeesView
         /// </summary>
-        public ICommand? ShowSellersViewCommand => _ShowSellersViewCommand ??= new LambdaCommand(OnShowSellersViewCommandExecuted, CanShowSellersViewCommandnExecute);
+        public ICommand? ShowEmployeesViewCommand => _ShowEmployeesViewCommand ??= new LambdaCommand(OnShowEmployeesViewCommandExecuted, CanShowEmployeesViewCommandnExecute);
 
-        private bool CanShowSellersViewCommandnExecute() => true;
+        private bool CanShowEmployeesViewCommandnExecute() => true;
 
-        private void OnShowSellersViewCommandExecuted()
+        private void OnShowEmployeesViewCommandExecuted()
         {
-            CurrentViewModel = new SellersViewModel(_sellersRepository, _dialogService);
+            CurrentViewModel = new EmployeesViewModel(_employeesRepository, _workingRatesRepository, _dialogService);
         }
         #endregion
 
-        #region ShowBuyersViewCommand
-        private ICommand? _ShowBuyersViewCommand;
+        #region ShowCustomersViewCommand
+        private ICommand? _ShowCustomersViewCommand;
 
         /// <summary>
-        /// Show BuyersView
+        /// Show CustomersView
         /// </summary>
-        public ICommand? ShowBuyersViewCommand => _ShowBuyersViewCommand ??= new LambdaCommand(OnShowBuyersViewCommandExecuted, CanShowBuyersViewCommandnExecute);
+        public ICommand? ShowCustomersViewCommand => _ShowCustomersViewCommand ??= new LambdaCommand(OnShowCustomersViewCommandExecuted, CanShowCustomersViewCommandnExecute);
 
-        private bool CanShowBuyersViewCommandnExecute() => true;
+        private bool CanShowCustomersViewCommandnExecute() => true;
 
-        private void OnShowBuyersViewCommandExecuted()
+        private void OnShowCustomersViewCommandExecuted()
         {
-            CurrentViewModel = new BuyersViewModel(_buyersRepository, _dialogService);
+            CurrentViewModel = new CustomersViewModel(_customersRepository, _dialogService);
         }
         #endregion
 
-        #region ShowTransactionsViewCommand
-        private ICommand? _ShowTransactionsViewCommand;
+        #region ShowOrdersViewCommand
+        private ICommand? _ShowOrdersViewCommand;
 
         /// <summary>
-        /// Show TransactionsView
+        /// Show OrdersView
         /// </summary>
-        public ICommand? ShowTransactionsViewCommand => _ShowTransactionsViewCommand ??= new LambdaCommand(OnShowTransactionsViewCommandExecuted, CanShowTransactionsViewCommandnExecute);
+        public ICommand? ShowOrdersViewCommand => _ShowOrdersViewCommand ??= new LambdaCommand(OnShowOrdersViewCommandExecuted, CanShowOrdersViewCommandnExecute);
 
-        private bool CanShowTransactionsViewCommandnExecute() => true;
+        private bool CanShowOrdersViewCommandnExecute() => true;
 
-        private void OnShowTransactionsViewCommandExecuted()
+        private void OnShowOrdersViewCommandExecuted()
         {
             CurrentViewModel = new TransactionsViewModel(
-                _transactionsRepository, 
-                _booksRepository, 
-                _sellersRepository, 
-                _buyersRepository, 
+                _ordersRepository, 
+                _productsRepository, 
+                _employeesRepository, 
+                _customersRepository, 
                 _dialogService);
         }
         #endregion
 
-        #region ShowStatisticViewCommand
-        private ICommand? _ShowStatisticViewCommand;
+        #region ShowStatisticsViewCommand
+        private ICommand? _ShowStatisticsViewCommand;
 
         /// <summary>
         /// Show StatisticView
         /// </summary>
-        public ICommand? ShowStatisticViewCommand => _ShowStatisticViewCommand ??= new LambdaCommand(OnShowStatisticViewCommandExecuted, CanShowStatisticViewCommandnExecute);
+        public ICommand? ShowStatisticsViewCommand => _ShowStatisticsViewCommand ??= new LambdaCommand(OnShowStatisticsViewCommandExecuted, CanShowStatisticsViewCommandnExecute);
 
-        private bool CanShowStatisticViewCommandnExecute() => true;
+        private bool CanShowStatisticsViewCommandnExecute() => true;
 
-        private void OnShowStatisticViewCommandExecuted()
+        private void OnShowStatisticsViewCommandExecuted()
         {
-            CurrentViewModel = new StatisticViewModel(_booksRepository, _categoriesRepository, _sellersRepository, _buyersRepository, _transactionsRepository);
+            CurrentViewModel = new StatisticViewModel(_productsRepository, _categoriesRepository, _employeesRepository, _customersRepository, _ordersRepository);
         }
         #endregion
 
         #endregion
 
         public MainWindowViewModel(
-            IRepository<Product> booksRepository, 
+            IRepository<Product> productsRepository, 
             IRepository<Category> categoriesRepository,
-            IRepository<Employee> sellersRepository, 
-            IRepository<Customer> buyersRepository,
-            IRepository<Order> transactionsRepository,
+            IRepository<Employee> employeesRepository, 
+            IRepository<Customer> customersRepository,
+            IRepository<Order> ordersRepository,
+            IRepository<WorkingRate> workingRatesRepository,
+            IRepository<Supplier> suppliersRepository,
+            IRepository<Shipper> shippersRepository,
             ITradingService tradingService,
             IUserDialogService dialogService)
         {
-            _booksRepository = booksRepository;
+            _productsRepository = productsRepository;
             _categoriesRepository = categoriesRepository;
-            _sellersRepository = sellersRepository;
-            _buyersRepository = buyersRepository;
-            _transactionsRepository = transactionsRepository;
+            _employeesRepository = employeesRepository;
+            _customersRepository = customersRepository;
+            _ordersRepository = ordersRepository;
+            _workingRatesRepository = workingRatesRepository;
+            _suppliersRepository = suppliersRepository;
+            _shippersRepository = shippersRepository;
             _tradingService = tradingService;
             _dialogService = dialogService;
         }

@@ -8,7 +8,7 @@
         xmlns:b="clr-namespace:Librarian.Infrastructure.Behaviors"      
         xmlns:vm="clr-namespace:Librarian.ViewModels"
         xmlns:local="clr-namespace:Librarian.Views.Windows"
-        d:DataContext="{d:DesignInstance {x:Type vm:SellerEditorViewModel}, IsDesignTimeCreatable=True}"
+        d:DataContext="{d:DesignInstance {x:Type vm:EmployeeEditorViewModel}, IsDesignTimeCreatable=True}"
         Width="640" Height="425" MinWidth="640" MinHeight="425" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
 

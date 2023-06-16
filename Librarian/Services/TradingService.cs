@@ -13,25 +13,25 @@ namespace Librarian.Services
 {
     public class TradingService : ITradingService
     {
-        private readonly IRepository<Product> _books;
-        private readonly IRepository<Order> _transactions;
+        private readonly IRepository<Product> _products;
+        private readonly IRepository<Order> _orders;
 
-        public IEnumerable<Order>? Transactions => _transactions.Entities;
+        public IEnumerable<Order>? Orders => _orders.Entities;
 
-        public TradingService(IRepository<Product> books, IRepository<Order> transactions)
+        public TradingService(IRepository<Product> products, IRepository<Order> orders)
         {
-            _books = books;
-            _transactions = transactions;
+            _products = products;
+            _orders = orders;
         }
 
-        public async Task<Order?> CrateTransactionAsync(string bookName, Employee seller, Customer buyer, decimal transactionАmount)
+        public async Task<Order?> CrateOrderAsync(string productName, Employee employee, Customer customer, decimal orderАmount)
         {
-            if (_books.Entities is null) throw new ArgumentNullException(nameof(_books.Entities));
+            if (_products.Entities is null) throw new ArgumentNullException(nameof(_products.Entities));
  
-            var book = await _books.Entities.FirstOrDefaultAsync(book => book.Name == bookName).ConfigureAwait(false);
-            if (book is null) return null;
+            var product = await _products.Entities.FirstOrDefaultAsync(product => product.Name == productName).ConfigureAwait(false);
+            if (product is null) return null;
 
-            var transaction = new Order
+            var order = new Order
             {
                 //Book = book,
                 //Seller = seller,
@@ -39,7 +39,7 @@ namespace Librarian.Services
                 //Amount = transactionАmount
             };
 
-            return await _transactions.AddAsync(transaction);
+            return await _orders.AddAsync(order);
         }
     }
 }

@@ -34,13 +34,13 @@ namespace Librarian.ViewModels
 
         #region Commands
 
-        #region LoadLastTransactionsCommand
-        private ICommand? _LoadLastTransactionsCommand;
+        #region LoadLastOrdersCommand
+        private ICommand? _LoadLastOrdersCommand;
 
         /// <summary>
         /// Load data command
         /// </summary>
-        public ICommand? LoadLastTransactionsCommand => _LoadLastTransactionsCommand ??= new LambdaCommandAsync(OnLoadLastTransactionsCommandExecuted, CanLoadLastTransactionsCommandExecute);
+        public ICommand? LoadLastOrdersCommand => _LoadLastOrdersCommand ??= new LambdaCommandAsync(OnLoadLastTransactionsCommandExecuted, CanLoadLastTransactionsCommandExecute);
 
         private bool CanLoadLastTransactionsCommandExecute() => true;
 
@@ -48,7 +48,7 @@ namespace Librarian.ViewModels
         {
             if (_ordersRepository.Entities is null) return;
 
-            LastOrders = (await _ordersRepository.Entities.OrderByDescending(t => t.OrderDate).Take(7).ToArrayAsync()).ToObservableCollection();
+            LastOrders = (await _ordersRepository.Entities.OrderByDescending(o => o.OrderDate).Take(7).ToArrayAsync()).ToObservableCollection();
         }
         #endregion
 

@@ -2,9 +2,9 @@
 
 namespace Librarian.Models
 {
-    public class TopCategoryInfo
+    public class TopProductsInfo
     {
-        public Category? Category { get; set; }
+        public Product? Product { get; set; }
 
         public int OrdersCount { get; set; }
 

@@ -8,7 +8,7 @@
              xmlns:vm="clr-namespace:Librarian.ViewModels"
              xmlns:local="clr-namespace:Librarian.Views"
              xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-             d:DataContext="{d:DesignInstance {x:Type vm:BooksViewModel}, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance {x:Type vm:ProductsViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="525" d:DesignWidth="900">
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">

@@ -9,9 +9,12 @@ namespace Librarian.Services
 {
     public class UserDialogService : IUserDialogService
     {
-        public bool EditProduct(Product product, IRepository<Category> categoriesRepository)
+        public bool EditProduct(
+            Product product, 
+            IRepository<Category> categoriesRepository,
+            IRepository<Supplier> suppliersRepository)
         {
-            var productEditorModel = new BookEditorViewModel(product, categoriesRepository);
+            var productEditorModel = new ProductEditorViewModel(product, categoriesRepository, suppliersRepository);
             var productEditorWindow = new BookEditorWindow
             {
                 DataContext = productEditorModel,
@@ -19,9 +22,12 @@ namespace Librarian.Services
 
             if (productEditorWindow.ShowDialog() != true) return false;
 
-            product.Name = productEditorModel.BookTitle;
-            product.Category = productEditorModel.BookCategory;
-            product.UnitPrice = productEditorModel.BookPrice;
+            product.Name = productEditorModel.ProductName;
+            product.Category = productEditorModel.ProductCategory;
+            product.Supplier = productEditorModel.ProductSupplier;
+            product.UnitPrice = productEditorModel.ProductUnitPrice;
+            product.UnitsInStock = productEditorModel.ProductUnitsInStock;
+            product.UnitsInEnterprise = productEditorModel.ProductUnitsInEnterprise;
 
             return true;
         }
@@ -43,39 +49,46 @@ namespace Librarian.Services
 
         public bool EditCustomer(Customer customer)
         {
-            var buyerEditorModel = new BuyerEditorViewModel(customer);
-            var buyerEditWindow = new BuyerEditorWindow
+            var customerEditorModel = new CustomerEditorViewModel(customer);
+            var customerEditWindow = new BuyerEditorWindow
             {
-                DataContext = buyerEditorModel,
+                DataContext = customerEditorModel,
             };
 
-            if(buyerEditWindow.ShowDialog() != true) return false;
+            if(customerEditWindow.ShowDialog() != true) return false;
 
-            customer.Name = buyerEditorModel.BuyerName;
-            customer.Surname = buyerEditorModel.BuyerSurname;
-            customer.ContactNumber = buyerEditorModel.BuyerNumber;
-            customer.ContactMail = buyerEditorModel.BuyerMail;
+            customer.Name = customerEditorModel.CustomerName;
+            customer.Surname = customerEditorModel.CustomerSurname;
+            customer.ContactName = customerEditorModel.CustomerContactName;
+            customer.ContactTitle = customerEditorModel.CustomerContactTitle;
+            customer.ContactNumber = customerEditorModel.CustomerContactNumber;
+            customer.ContactMail = customerEditorModel.CustomerContactMail;
+            customer.Address = customerEditorModel.CustomerAddress;
 
             return true;
         }
 
-        public bool EditEmployee(Employee employee)
+        public bool EditEmployee(Employee employee, IRepository<WorkingRate> workingRatesRepository)
         {
-            var sellerEditorModel = new SellerEditorViewModel(employee);
-            var sellerEditorWindow = new SellerEditorWindow
+            var employeeEditorModel = new EmployeeEditorViewModel(employee, workingRatesRepository);
+            var employeeEditorWindow = new SellerEditorWindow
             {
-                DataContext = sellerEditorModel
+                DataContext = employeeEditorModel
             };
 
-            if (sellerEditorWindow.ShowDialog() != true) return false;
+            if (employeeEditorWindow.ShowDialog() != true) return false;
 
-            employee.Name = sellerEditorModel.SellerName;
-            employee.Surname = sellerEditorModel.SellerSurname;
-            employee.DateOfBirth = sellerEditorModel.SellerDateOfBirth;
-            employee.ContactNumber = sellerEditorModel.SellerContactNumber;
-            employee.ContactMail = sellerEditorModel.SellerMail;
-            employee.IdentityDocumentNumber = sellerEditorModel.SellerIdentityDocumentNumber;
-            employee.WorkingRate = sellerEditorModel.SellerWorkingRate;
+            employee.Name = employeeEditorModel.EmployeeName;
+            employee.Surname = employeeEditorModel.EmployeeSurname;
+            employee.DateOfBirth = employeeEditorModel.EmployeeDateOfBirth;
+            employee.HireDate = employeeEditorModel.EmployeeHireDate;
+            employee.Extension = employeeEditorModel.EmployeeExtension;
+            employee.Title = employeeEditorModel.EmployeeTitle;
+            employee.ContactNumber = employeeEditorModel.EmployeeContactNumber;
+            employee.ContactMail = employeeEditorModel.EmployeeMail;
+            employee.IdentityDocumentNumber = employeeEditorModel.EmployeeIdentityDocumentNumber;
+            employee.WorkingRate = employeeEditorModel.EmployeeWorkingRate;
+            employee.Address = employeeEditorModel.EmployeeAddress;
 
             return true;
         }

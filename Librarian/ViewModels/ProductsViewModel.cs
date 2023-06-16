@@ -1,10 +1,8 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Infrastructure.DebugServices;
 using Librarian.Interfaces;
-using Librarian.Models;
 using Librarian.Services;
 using Librarian.Services.Interfaces;
-using Librarian.Views;
 using Microsoft.EntityFrameworkCore;
 using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
@@ -13,81 +11,79 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Librarian.ViewModels
 {
-    public class BooksViewModel : ViewModel
+    public class ProductsViewModel : ViewModel
     {
-        private readonly IRepository<Product> _booksRepository;
+        private readonly IRepository<Product> _productsRepository;
         private readonly IRepository<Category> _categoriesRepository;
+        private readonly IRepository<Supplier> _suppliersRepository;
         private readonly IUserDialogService _dialogService;
 
-        private CollectionViewSource _booksViewSource;
+        private CollectionViewSource _productsViewSource;
         private CollectionViewSource _categoriesViewSource;
 
         #region Properties
 
-        #region BooksView
-        public ICollectionView BooksView => _booksViewSource.View;
+        #region ProductsView
+        public ICollectionView ProductsView => _productsViewSource.View;
         #endregion
 
-        #region BooksCount
-        private int _BooksCount;
+        #region ProductsCount
+        private int _ProductsCount;
 
         /// <summary>
-        /// Books count
+        /// Products count
         /// </summary>
-        public int BooksCount { get => _BooksCount; set => Set(ref _BooksCount, value); }
+        public int ProductsCount { get => _ProductsCount; set => Set(ref _ProductsCount, value); }
         #endregion
 
-        #region BooksFilter
-        private string? _BooksFilter;
+        #region ProductsFilter
+        private string? _ProductsFilter;
 
         /// <summary>
-        /// Filter books by name and category
+        /// Filter products by name and category
         /// </summary>
-        public string? BooksFilter
+        public string? ProductsFilter
         {
-            get => _BooksFilter;
+            get => _ProductsFilter;
             set
             {
-                if (Set(ref _BooksFilter, value))
-                    _booksViewSource.View.Refresh();
+                if (Set(ref _ProductsFilter, value))
+                    _productsViewSource.View.Refresh();
             }
         }
         #endregion
 
-        #region Books
-        private ObservableCollection<Product>? _Books;
+        #region Products
+        private ObservableCollection<Product>? _Products;
 
         /// <summary>
-        /// Books collection
+        /// Products collection
         /// </summary>
-        public ObservableCollection<Product>? Books 
+        public ObservableCollection<Product>? Products 
         { 
-            get => _Books;
+            get => _Products;
             set 
             {
-                if(Set(ref _Books, value))
-                    _booksViewSource.Source = value;
-                OnPropertyChanged(nameof(BooksView));
+                if(Set(ref _Products, value))
+                    _productsViewSource.Source = value;
+                OnPropertyChanged(nameof(ProductsView));
             }
         }
         #endregion
 
-        #region SelectedBook
-        private Product? _SelectedBook;
+        #region SelectedProduct
+        private Product? _SelectedProduct;
 
         /// <summary>
-        /// Selected book
+        /// Selected product
         /// </summary>
-        public Product? SelectedBook { get => _SelectedBook; set => Set(ref _SelectedBook, value); }
+        public Product? SelectedProduct { get => _SelectedProduct; set => Set(ref _SelectedProduct, value); }
         #endregion
 
 
@@ -168,11 +164,11 @@ namespace Librarian.ViewModels
 
         private async Task OnLoadDataCommandExecuted()
         {
-            if (_booksRepository.Entities is null || _categoriesRepository.Entities is null) return;
+            if (_productsRepository.Entities is null || _categoriesRepository.Entities is null) return;
 
-            Books = (await _booksRepository.Entities.ToArrayAsync()).ToObservableCollection();
+            Products = (await _productsRepository.Entities.ToArrayAsync()).ToObservableCollection();
 
-            BooksCount = await _booksRepository.Entities.CountAsync();
+            ProductsCount = await _productsRepository.Entities.CountAsync();
 
             Categories = (await _categoriesRepository.Entities.ToArrayAsync()).ToObservableCollection();
 
@@ -180,82 +176,82 @@ namespace Librarian.ViewModels
         }
         #endregion
 
-        #region AddBookCommand
-        private ICommand? _AddBookCommand;
+        #region AddProductCommand
+        private ICommand? _AddProductCommand;
 
         /// <summary>
-        /// Add new book command 
+        /// Add new product command 
         /// </summary>
-        public ICommand? AddBookCommand => _AddBookCommand ??= new LambdaCommand(OnAddBookCommandExecuted, CanAddBookCommandnExecute);
+        public ICommand? AddProductCommand => _AddProductCommand ??= new LambdaCommand(OnAddProductCommandExecuted, CanAddProductCommandnExecute);
 
-        private bool CanAddBookCommandnExecute() => true;
+        private bool CanAddProductCommandnExecute() => true;
 
-        private void OnAddBookCommandExecuted()
+        private void OnAddProductCommandExecuted()
         {
-            var newBook = new Product();
+            var newProduct = new Product();
 
-            if (!_dialogService.EditProduct(newBook, _categoriesRepository)) 
+            if (!_dialogService.EditProduct(newProduct, _categoriesRepository, _suppliersRepository)) 
                 return;
 
-            var book = _booksRepository.Add(newBook);
-            if (book is null) throw new ArgumentNullException(nameof(book));
-            _Books?.Add(book);
+            var product = _productsRepository.Add(newProduct);
+            if (product is null) throw new ArgumentNullException(nameof(product));
+            _Products?.Add(product);
 
-            SelectedBook = book;
+            SelectedProduct = product;
         }
         #endregion
 
-        #region EditBookCommand
-        private ICommand? _EditBookCommand;
+        #region EditProductCommand
+        private ICommand? _EditProductCommand;
 
         /// <summary>
-        /// Edit book command 
+        /// Edit product command 
         /// </summary>
-        public ICommand? EditBookCommand => _EditBookCommand ??= new LambdaCommand<Product>(OnEditBookCommandExecuted, CanEditBookCommandnExecute);
+        public ICommand? EditProductCommand => _EditProductCommand ??= new LambdaCommand<Product>(OnEditProductCommandExecuted, CanEditProductCommandnExecute);
 
-        private bool CanEditBookCommandnExecute(Product? book) => book != null || SelectedBook != null;
+        private bool CanEditProductCommandnExecute(Product? product) => product != null || SelectedProduct != null;
 
-        private void OnEditBookCommandExecuted(Product? book)
+        private void OnEditProductCommandExecuted(Product? product)
         {
-            var editableBook = book ?? SelectedBook;
-            if (editableBook is null) return;
+            var editableProduct = product ?? SelectedProduct;
+            if (editableProduct is null) return;
 
-            if (!_dialogService.EditProduct(editableBook, _categoriesRepository))
+            if (!_dialogService.EditProduct(editableProduct, _categoriesRepository, _suppliersRepository))
                 return;
 
-            _booksRepository.Update(editableBook);
-            _booksViewSource.View.Refresh();
+            _productsRepository.Update(editableProduct);
+            _productsViewSource.View.Refresh();
         }
         #endregion
 
-        #region RemoveBookCommand
-        private ICommand? _RemoveBookCommand;
+        #region RemoveProductCommand
+        private ICommand? _RemoveProductCommand;
 
         /// <summary>
-        /// Remove selected book command 
+        /// Remove selected product command 
         /// </summary>
-        public ICommand? RemoveBookCommand => _RemoveBookCommand 
-            ??= new LambdaCommand<Product>(OnRemoveBookCommandExecuted, CanRemoveBookCommandnExecute);
+        public ICommand? RemoveProductCommand => _RemoveProductCommand 
+            ??= new LambdaCommand<Product>(OnRemoveProductCommandExecuted, CanRemoveProductCommandnExecute);
 
-        private bool CanRemoveBookCommandnExecute(Product? book) => book != null || SelectedBook != null;
+        private bool CanRemoveProductCommandnExecute(Product? product) => product != null || SelectedProduct != null;
 
-        private void OnRemoveBookCommandExecuted(Product? book)
+        private void OnRemoveProductCommandExecuted(Product? product)
         {
-            var removableBook = book ?? SelectedBook;
-            if (removableBook is null) return;
+            var removableProduct = product ?? SelectedProduct;
+            if (removableProduct is null) return;
 
             //todo: Переделать диалог с подтверждением удаления
             if (!_dialogService.Confirmation(
-                $"Do you confirm the permanent deletion of the book {removableBook.Name}?",
-                "Book deleting")) return;
+                $"Do you confirm the permanent deletion of the product {removableProduct.Name}?",
+                "Product deleting")) return;
 
-            if (_booksRepository.Entities != null && _booksRepository.Entities.Any(b => b == book || b == SelectedBook))
-            _booksRepository.Remove(removableBook.Id);
+            if (_productsRepository.Entities != null && _productsRepository.Entities.Any(p => p == product || p == SelectedProduct))
+            _productsRepository.Remove(removableProduct.Id);
 
 
-            Books?.Remove(removableBook);
-            if (ReferenceEquals(SelectedBook, removableBook)) 
-                SelectedBook = null;
+            Products?.Remove(removableProduct);
+            if (ReferenceEquals(SelectedProduct, removableProduct)) 
+                SelectedProduct = null;
         }
         #endregion
 
@@ -339,7 +335,11 @@ namespace Librarian.ViewModels
 
         #endregion
 
-        public BooksViewModel() : this(new DebugProductsRepository(), new DebugCategoriesRepository(), new UserDialogService())
+        public ProductsViewModel() : this(
+            new DebugProductsRepository(), 
+            new DebugCategoriesRepository(), 
+            new DebugSuppliersRepository(), 
+            new UserDialogService())
         {
             if(!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
@@ -347,42 +347,42 @@ namespace Librarian.ViewModels
             _ = OnLoadDataCommandExecuted();
         }
 
-        public BooksViewModel(IRepository<Product> booksRepository, IRepository<Category> categoriesRepository, IUserDialogService dialogService)
+        public ProductsViewModel(
+            IRepository<Product> productsRepository, 
+            IRepository<Category> categoriesRepository, 
+            IRepository<Supplier> suppliersRepository,
+            IUserDialogService dialogService)
         {
-            _booksRepository = booksRepository;
+            _productsRepository = productsRepository;
             _categoriesRepository = categoriesRepository;
+            _suppliersRepository = suppliersRepository;
             _dialogService = dialogService;
 
-            //todo: Перенести всё связанное с сортировкой и фильтрами в разметку окна
-            _booksViewSource = new CollectionViewSource
+            _productsViewSource = new CollectionViewSource
             {
                 GroupDescriptions =
                 {
                     new PropertyGroupDescription(nameof(Product.Category))
                 }
-
-                //SortDescriptions =
-                //{
-                //    new SortDescription(nameof(Book.Name), ListSortDirection.Ascending)
-                //}
             };
 
             _categoriesViewSource = new CollectionViewSource();
 
-            _booksViewSource.Filter += OnBooksNameFilter;
-            _categoriesViewSource.Filter += OnCategoriesNameFilter;
+            _productsViewSource.Filter += OnProductsFilter;
+            _categoriesViewSource.Filter += OnCategoriesFilter;
         }
 
-        private void OnBooksNameFilter(object sender, FilterEventArgs e)
+        private void OnProductsFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Product book) || string.IsNullOrWhiteSpace(BooksFilter)) return;
+            if (!(e.Item is Product product) || string.IsNullOrWhiteSpace(ProductsFilter)) return;
 
-            if ((book.Name is null || !book.Name.Contains(BooksFilter)) && 
-                (book.Category is null || book.Category.Name is null || !book.Category.Name.Contains(BooksFilter)))
+            if ((!product.Name?.Contains(ProductsFilter) ?? true) && 
+                (!product.Category?.Name?.Contains(ProductsFilter) ?? true) &&
+                (!product.Supplier?.Name?.Contains(ProductsFilter) ?? true))
                 e.Accepted = false;
         }
 
-        private void OnCategoriesNameFilter(object sender, FilterEventArgs e)
+        private void OnCategoriesFilter(object sender, FilterEventArgs e)
         {
             if (!(e.Item is Category category) || string.IsNullOrWhiteSpace(CategoriesNameFilter)) return;
 

@@ -126,7 +126,8 @@ namespace Librarian.ViewModels
                 _ordersDetailsRepository,
                 _productsRepository, 
                 _employeesRepository, 
-                _customersRepository, 
+                _customersRepository,
+                _shippersRepository,
                 _dialogService);
         }
         #endregion

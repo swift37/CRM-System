@@ -45,9 +45,16 @@ namespace Librarian.DAL.Context
                 .HasColumnType("date");
             });
 
-            modelBuilder.Entity<Order>()
-               .Property(e => e.ShippingCost)
-               .HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<Order>(entity => 
+            {
+                entity
+                .Property(e => e.ShippingCost)
+                .HasColumnType("decimal(18,2)");
+
+                entity
+                .Property(e => e.Amount)
+                .HasColumnType("decimal(18,2)");
+            });
 
             modelBuilder.Entity<OrderDetails>(entity =>
             {
@@ -69,9 +76,7 @@ namespace Librarian.DAL.Context
                 entity.Property(e => e.Discount)
                 .HasColumnType("decimal(18,2)");
 
-                entity
-                .Property(e => e.Amount)
-                .HasColumnType("decimal(18,2)");
+                entity.Ignore(e => e.Id);
             });
         }
 

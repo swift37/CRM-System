@@ -3,6 +3,7 @@ using Librarian.Interfaces;
 using Librarian.Services.Interfaces;
 using Librarian.ViewModels;
 using Librarian.Views.Windows;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace Librarian.Services
@@ -93,22 +94,33 @@ namespace Librarian.Services
             return true;
         }
 
-        public bool EditOrder(Order order, IRepository<Product> products, IRepository<Employee> employees, IRepository<Customer> customers)
+        public bool EditOrder(
+            Order order, 
+            ICollection<OrderDetails>? orderDetails,
+            IRepository<Product> products, 
+            IRepository<Employee> employees, 
+            IRepository<Customer> customers,
+            IRepository<Shipper> shippers)
         {
-            var transactionEditorModel = new TransactionEditorViewModel(order, products, employees, customers);
-            var transactionEditorWindow = new TransactionEditorWindow
+            var orderEditorModel = new OrderEditorViewModel(order, orderDetails, products, employees, customers, shippers);
+            var orderEditorWindow = new TransactionEditorWindow
             {
-                DataContext = transactionEditorModel
+                DataContext = orderEditorModel
             };
 
-            if (transactionEditorWindow.ShowDialog() != true) return false;
+            if (orderEditorWindow.ShowDialog() != true) return false;
 
-            order.OrderDate = transactionEditorModel.TransactionDate;
-            //order.Amount = transactionEditorModel.TransactionAmount;
-            //order.Discount = transactionEditorModel.TransactionDiscount;
-            //order.Product = transactionEditorModel.Book;
-            order.Employee = transactionEditorModel.Seller;
-            order.Customer = transactionEditorModel.Buyer;
+            order.OrderDate = orderEditorModel.OrderDate;
+            order.RequiredDate = orderEditorModel.RequiredDate;
+            order.ShippedDate = orderEditorModel.ShippedDate;
+            order.Amount = orderEditorModel.OrderAmount;
+            order.Employee = orderEditorModel.OrderEmployee;
+            order.Customer = orderEditorModel.OrderCustomer;
+            order.ShipVia = orderEditorModel.OrderShipVia;
+            order.ShippingCost = orderEditorModel.OrderShippingCost;
+            order.ShipName = orderEditorModel.OrderShipName;
+            order.ShipAddress = orderEditorModel.OrderShipAddress;
+            order.OrderDetails = orderEditorModel.OrderDetails;
 
             return true;
         }

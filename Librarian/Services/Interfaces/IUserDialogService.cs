@@ -1,5 +1,6 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Interfaces;
+using System.Collections.Generic;
 
 namespace Librarian.Services.Interfaces
 {
@@ -18,9 +19,11 @@ namespace Librarian.Services.Interfaces
 
         bool EditOrder(
             Order order, 
+            ICollection<OrderDetails>? orderDetails,
             IRepository<Product> products, 
             IRepository<Employee> employees, 
-            IRepository<Customer> customers);
+            IRepository<Customer> customers,
+            IRepository<Shipper> shippers);
 
         bool Confirmation(string message, string caption);
 

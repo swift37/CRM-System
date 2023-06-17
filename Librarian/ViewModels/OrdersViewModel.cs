@@ -24,6 +24,7 @@ namespace Librarian.ViewModels
         private readonly IRepository<Product> _productsRepository;
         private readonly IRepository<Employee> _employeesRepository;
         private readonly IRepository<Customer> _customersRepository;
+        private readonly IRepository<Shipper> _shippersRepository;
         private readonly IUserDialogService _dialogService;
 
         private CollectionViewSource _ordersViewSource;
@@ -126,38 +127,47 @@ namespace Librarian.ViewModels
         private void OnAddOrderCommandExecuted()
         {
             var order = new Order();
+            
+            var orderDetails = new HashSet<OrderDetails>();
+            order.OrderDetails = new HashSet<OrderDetails>();
 
-            if (!_dialogService.EditOrder(order, _productsRepository, _employeesRepository, _customersRepository)) return;
+            if (!_dialogService.EditOrder(order, orderDetails, _productsRepository, _employeesRepository, _customersRepository, _shippersRepository)) return;
 
             _ordersRepository.Add(order);
+
+            //foreach (var item in orderDetails)
+            //{
+            //    _ordersDetailsRepository.Add(item);
+            //}
+
             Orders?.Add(order);
 
             SelectedOrder = order;
         }
         #endregion
 
-        #region EditOrderCommand
-        private ICommand? _EditOrderCommand;
+        //#region EditOrderCommand
+        //private ICommand? _EditOrderCommand;
 
-        /// <summary>
-        /// Edit order command 
-        /// </summary>
-        public ICommand? EditOrderCommand => _EditOrderCommand ??= new LambdaCommand<Order>(OnEditOrderCommandExecuted, CanEditOrderCommandnExecute);
+        ///// <summary>
+        ///// Edit order command 
+        ///// </summary>
+        //public ICommand? EditOrderCommand => _EditOrderCommand ??= new LambdaCommand<Order>(OnEditOrderCommandExecuted, CanEditOrderCommandnExecute);
 
-        private bool CanEditOrderCommandnExecute(Order? order) => order != null || SelectedOrder != null;
+        //private bool CanEditOrderCommandnExecute(Order? order) => order != null || SelectedOrder != null;
 
-        private void OnEditOrderCommandExecuted(Order? order)
-        {
-            var editableOrder = order ?? SelectedOrder;
-            if (editableOrder is null) return;
+        //private void OnEditOrderCommandExecuted(Order? order)
+        //{
+        //    var editableOrder = order ?? SelectedOrder;
+        //    if (editableOrder is null) return;
 
-            if (!_dialogService.EditOrder(editableOrder, _productsRepository, _employeesRepository, _customersRepository))
-                return;
+        //    if (!_dialogService.EditOrder(editableOrder, _productsRepository, _employeesRepository, _customersRepository, _shippersRepository))
+        //        return;
 
-            _ordersRepository.Update(editableOrder);
-            _ordersViewSource.View.Refresh();
-        }
-        #endregion
+        //    _ordersRepository.Update(editableOrder);
+        //    _ordersViewSource.View.Refresh();
+        //}
+        //#endregion
 
         #region RemoveOrderCommand
         private ICommand? _RemoveOrderCommand;
@@ -197,6 +207,7 @@ namespace Librarian.ViewModels
             new DebugProductsRepository(),
             new DebugEmployeesRepository(),
             new DebugCustomersRepository(),
+            new DebugShippersRepository(),
             new UserDialogService())
         {
             if (!App.IsDesignMode)
@@ -211,6 +222,7 @@ namespace Librarian.ViewModels
             IRepository<Product> products,
             IRepository<Employee> employees,
             IRepository<Customer> customers,
+            IRepository<Shipper> shippers,
             IUserDialogService dialogService)
         {
             _ordersRepository = ordersRepository;
@@ -218,6 +230,7 @@ namespace Librarian.ViewModels
             _productsRepository = products;
             _employeesRepository = employees;
             _customersRepository = customers;
+            _shippersRepository = shippers;
             _dialogService = dialogService;
 
             _ordersViewSource = new CollectionViewSource();

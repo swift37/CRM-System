@@ -8,7 +8,7 @@
         xmlns:b="clr-namespace:Librarian.Infrastructure.Behaviors" 
         xmlns:vm="clr-namespace:Librarian.ViewModels"
         xmlns:local="clr-namespace:Librarian.Views.Windows"
-        d:DataContext="{d:DesignInstance {x:Type vm:TransactionEditorViewModel}, IsDesignTimeCreatable=True}"
+        d:DataContext="{d:DesignInstance {x:Type vm:OrderEditorViewModel}, IsDesignTimeCreatable=True}"
         Width="640" Height="350" MinWidth="640" MinHeight="350" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
     <br:Interaction.Triggers>

@@ -26,7 +26,7 @@ namespace Librarian.ViewModels
 
         public EmployeeEditorViewModel? EmployeeEditorViewModel => App.Services?.GetRequiredService<EmployeeEditorViewModel>();
 
-        public TransactionEditorViewModel? TransactionEditorViewModel => App.Services?.GetRequiredService<TransactionEditorViewModel>();
+        public OrderEditorViewModel? OrderEditorViewModel => App.Services?.GetRequiredService<OrderEditorViewModel>();
 
     }
 }

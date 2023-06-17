@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Librarian.DAL
 {
-    internal class DbRepository<T> : IRepository<T> where T : Entity, new()
+    internal class DbRepository<T> : IRepository<T> where T : Entity, IArchivable, new()
     {
         private readonly LibrarianDb _dbContext;
         private readonly DbSet<T> _dbSet;
@@ -50,12 +50,24 @@ namespace Librarian.DAL
             return entity;
         }
 
+        public void Archive(T entity)
+        {
+            entity.IsActual = false;
+
+            this.Update(entity);
+            if (AutoSaveChanges)
+                _dbContext.SaveChanges();
+        }
+
+        public async Task ArchiveAsync(T entity)
+        {
+            entity.IsActual = false;
+
+            await UpdateAsync(entity);
+        }
+
         public void Remove(int id)
         {
-            //var entity = Get(id);
-            //if(entity is null) return;
-            //_dbContext.Entry(entity);
-
             var entity = _dbSet.Local.FirstOrDefault(entity => entity.Id == id) ?? new T { Id = id };
 
             _dbContext.Remove(entity);

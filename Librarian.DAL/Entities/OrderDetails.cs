@@ -1,8 +1,9 @@
 ﻿using Librarian.DAL.Entities.Base;
+using Librarian.Interfaces;
 
 namespace Librarian.DAL.Entities
 {
-    public class OrderDetails : Entity
+    public class OrderDetails : Entity, IArchivable
     {
         public int OrderId { get; set; }
         

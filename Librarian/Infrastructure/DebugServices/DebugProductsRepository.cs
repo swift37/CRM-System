@@ -66,6 +66,16 @@ namespace Librarian.Infrastructure.DebugServices
             throw new NotImplementedException();
         }
 
+        public void Archive(Product entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ArchiveAsync(Product entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public Product? Get(int id)
         {
             throw new NotImplementedException();

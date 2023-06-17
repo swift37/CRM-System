@@ -30,6 +30,9 @@ namespace Librarian.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -321,6 +324,9 @@ namespace Librarian.DAL.Migrations
 
                     b.Property<int>("HoursPerMonth")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

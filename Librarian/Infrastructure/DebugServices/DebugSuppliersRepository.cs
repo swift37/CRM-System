@@ -1,9 +1,7 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,6 +31,16 @@ namespace Librarian.Infrastructure.DebugServices
         }
 
         public Task<Supplier?>? AddAsync(Supplier entity, CancellationToken cancellation = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Archive(Supplier entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ArchiveAsync(Supplier entity)
         {
             throw new NotImplementedException();
         }

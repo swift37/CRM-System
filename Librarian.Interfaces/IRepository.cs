@@ -1,6 +1,6 @@
 ﻿namespace Librarian.Interfaces
 {
-    public interface IRepository<T> where  T : class, IEntity, new()
+    public interface IRepository<T> where  T : class, IEntity, IArchivable, new()
     {
         IQueryable<T>? Entities { get; }
 
@@ -15,6 +15,10 @@
         void Update(T entity);
 
         Task UpdateAsync(T entity, CancellationToken cancellation = default);
+
+        void Archive(T entity);
+
+        Task ArchiveAsync(T entity);
 
         void Remove(int id);
 

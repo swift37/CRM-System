@@ -1,8 +1,9 @@
 ﻿using Librarian.DAL.Entities.Base;
+using Librarian.Interfaces;
 
 namespace Librarian.DAL.Entities
 {
-    public class Customer : Person
+    public class Customer : Person, IArchivable
     {
         public string? ContactName { get; set; }
 

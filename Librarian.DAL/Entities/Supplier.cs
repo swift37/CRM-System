@@ -1,8 +1,9 @@
 ﻿using Librarian.DAL.Entities.Base;
+using Librarian.Interfaces;
 
 namespace Librarian.DAL.Entities
 {
-    public class Supplier : NamedEntity
+    public class Supplier : NamedEntity, IArchivable
     {
         public string? ContactName { get; set; }
 
@@ -15,5 +16,7 @@ namespace Librarian.DAL.Entities
         public string? Address { get; set; }
 
         public bool IsActual { get; set; } = true;
+
+        public override string ToString() => $"{Name}";
     }
 }

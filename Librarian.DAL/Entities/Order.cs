@@ -1,8 +1,9 @@
 ﻿using Librarian.DAL.Entities.Base;
+using Librarian.Interfaces;
 
 namespace Librarian.DAL.Entities
 {
-    public class Order : Entity
+    public class Order : Entity, IArchivable
     {
         public DateTime OrderDate { get; set; }
 
@@ -10,13 +11,19 @@ namespace Librarian.DAL.Entities
 
         public DateTime? ShippedDate { get; set; }
 
+        public int EmployeeId { get; set; }
+
         public virtual Employee? Employee { get; set; }
+
+        public int CustomerId { get; set; }
 
         public virtual Customer? Customer { get; set; }
 
         public virtual IEnumerable<OrderDetails>? OrderDetails { get; set; }
 
         public decimal Amount { get; set; }
+
+        public int ShipViaId { get; set; }
 
         public Shipper? ShipVia { get; set; }
 

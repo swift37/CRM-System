@@ -1,10 +1,15 @@
 ﻿using Librarian.DAL.Entities.Base;
+using Librarian.Interfaces;
 
 namespace Librarian.DAL.Entities
 {
-    public class Product : NamedEntity
+    public class Product : NamedEntity, IArchivable
     {
+        public int CategoryId { get; set; }
+
         public virtual Category? Category { get; set; }
+
+        public int SupplierId { get; set; }
 
         public virtual Supplier? Supplier { get; set; }
 

@@ -28,9 +28,9 @@ namespace Librarian.Data
             var timer = Stopwatch.StartNew();
             _logger.LogInformation("Initialize database...");
 
-            _logger.LogInformation("Deleting an existing database...");
-            await _dbContext.Database.EnsureDeletedAsync().ConfigureAwait(false);
-            _logger.LogInformation($"Deleting an existing database comleted in {timer.ElapsedMilliseconds} ms");
+            //_logger.LogInformation("Deleting an existing database...");
+            //await _dbContext.Database.EnsureDeletedAsync().ConfigureAwait(false);
+            //_logger.LogInformation($"Deleting an existing database comleted in {timer.ElapsedMilliseconds} ms");
 
             _logger.LogInformation("Migration database...");
             await _dbContext.Database.MigrateAsync().ConfigureAwait(false);

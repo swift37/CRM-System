@@ -1,8 +1,9 @@
 ﻿using Librarian.DAL.Entities.Base;
+using Librarian.Interfaces;
 
 namespace Librarian.DAL.Entities
 {
-    public class Employee : Person
+    public class Employee : Person, IArchivable
     {
         public DateTime DateOfBirth { get; set; }
 

@@ -31,6 +31,16 @@ namespace Librarian.Infrastructure.DebugServices
             throw new NotImplementedException();
         }
 
+        public void Archive(Category entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ArchiveAsync(Category entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public Category? Get(int id)
         {
             throw new NotImplementedException();

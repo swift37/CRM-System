@@ -79,6 +79,16 @@ namespace Librarian.Infrastructure.DebugServices
             throw new NotImplementedException();
         }
 
+        public void UnArchive(Employee entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UnArchiveAsync(Employee entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Employee entity)
         {
             throw new NotImplementedException();

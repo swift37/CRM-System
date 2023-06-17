@@ -54,7 +54,7 @@ namespace Librarian.DAL
         {
             entity.IsActual = false;
 
-            this.Update(entity);
+            Update(entity);
             if (AutoSaveChanges)
                 _dbContext.SaveChanges();
         }
@@ -62,6 +62,22 @@ namespace Librarian.DAL
         public async Task ArchiveAsync(T entity)
         {
             entity.IsActual = false;
+
+            await UpdateAsync(entity);
+        }
+
+        public void UnArchive(T entity)
+        {
+            entity.IsActual = true;
+
+            Update(entity);
+            if (AutoSaveChanges)
+                _dbContext.SaveChanges();
+        }
+
+        public async Task UnArchiveAsync(T entity)
+        {
+            entity.IsActual = true;
 
             await UpdateAsync(entity);
         }

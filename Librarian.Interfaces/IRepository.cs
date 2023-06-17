@@ -20,6 +20,10 @@
 
         Task ArchiveAsync(T entity);
 
+        void UnArchive(T entity);
+
+        Task UnArchiveAsync(T entity);
+
         void Remove(int id);
 
         Task RemoveAsync(int id, CancellationToken cancellation = default);

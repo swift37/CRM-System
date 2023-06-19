@@ -176,7 +176,7 @@
                     <!--Filter TextBox-->
                     <Grid Grid.Row="0" Width="200" HorizontalAlignment="Right">
                         <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
-                                   Panel.ZIndex="1" Text="Search in Products ..." FontSize="12" FontWeight="Normal"
+                                   Panel.ZIndex="1" Text="Search in Archived Products ..." FontSize="12" FontWeight="Normal"
                                    Visibility="{Binding ElementName=txtSearch2, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
                         <TextBox x:Name="txtSearch2" Style="{StaticResource textBoxFilter}" Text="{Binding ArchivedProductsFilter, UpdateSourceTrigger=PropertyChanged}"/>

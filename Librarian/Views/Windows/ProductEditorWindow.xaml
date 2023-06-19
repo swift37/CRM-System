@@ -33,7 +33,7 @@
             <!--Title-->
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <fa:IconImage Icon="Circle" Style="{StaticResource titleIcon}"/>
-                <TextBlock Text="New Product" Style="{StaticResource titleText}"/>
+                <TextBlock Text="Product Editor" Style="{StaticResource titleText}"/>
             </StackPanel>
 
             <!--Buttons-->

@@ -28,7 +28,7 @@
             <!--Title-->
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <fa:IconImage Icon="Circle" Style="{StaticResource titleIcon}"/>
-                <TextBlock Text="New Customer" Style="{StaticResource titleText}"/>
+                <TextBlock Text="Customer Editor" Style="{StaticResource titleText}"/>
             </StackPanel>
 
             <!--Buttons-->

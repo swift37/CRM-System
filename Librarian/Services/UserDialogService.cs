@@ -72,7 +72,7 @@ namespace Librarian.Services
         public bool EditEmployee(Employee employee, IRepository<WorkingRate> workingRatesRepository)
         {
             var employeeEditorModel = new EmployeeEditorViewModel(employee, workingRatesRepository);
-            var employeeEditorWindow = new SellerEditorWindow
+            var employeeEditorWindow = new EmployeeEditorWindow
             {
                 DataContext = employeeEditorModel
             };

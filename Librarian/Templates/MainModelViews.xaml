@@ -9,7 +9,7 @@
         <v:ProductsView DataContext="{Binding}"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:EmployeesViewModel}">
-        <v:SellersView DataContext="{Binding}"/>
+        <v:EmployeesView DataContext="{Binding}"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:CustomersViewModel}">
         <v:CustomersView DataContext="{Binding}"/>

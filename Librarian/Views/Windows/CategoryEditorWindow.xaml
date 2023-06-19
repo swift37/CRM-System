@@ -29,7 +29,7 @@
             <!--Title-->
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <fa:IconImage Icon="Circle" Style="{StaticResource titleIcon}"/>
-                <TextBlock Text="New Category" Style="{StaticResource titleText}"/>
+                <TextBlock Text="Category Editor" Style="{StaticResource titleText}"/>
             </StackPanel>
 
             <!--Buttons-->

@@ -143,6 +143,9 @@ namespace Librarian.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
@@ -157,9 +160,6 @@ namespace Librarian.DAL.Migrations
 
                     b.Property<DateTime?>("RequiredDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ShipAddress")
                         .HasColumnType("nvarchar(max)");
@@ -195,17 +195,17 @@ namespace Librarian.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsActual")
                         .HasColumnType("bit");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -349,7 +349,8 @@ namespace Librarian.DAL.Migrations
                 {
                     b.HasOne("Librarian.DAL.Entities.WorkingRate", "WorkingRate")
                         .WithMany()
-                        .HasForeignKey("WorkingRateId");
+                        .HasForeignKey("WorkingRateId")
+                        .OnDelete(DeleteBehavior.ClientSetNull);
 
                     b.Navigation("WorkingRate");
                 });
@@ -358,15 +359,18 @@ namespace Librarian.DAL.Migrations
                 {
                     b.HasOne("Librarian.DAL.Entities.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.ClientSetNull);
 
                     b.HasOne("Librarian.DAL.Entities.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.ClientSetNull);
 
                     b.HasOne("Librarian.DAL.Entities.Shipper", "ShipVia")
                         .WithMany()
-                        .HasForeignKey("ShipViaId");
+                        .HasForeignKey("ShipViaId")
+                        .OnDelete(DeleteBehavior.ClientSetNull);
 
                     b.Navigation("Customer");
 
@@ -396,11 +400,13 @@ namespace Librarian.DAL.Migrations
                 {
                     b.HasOne("Librarian.DAL.Entities.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.ClientSetNull);
 
                     b.HasOne("Librarian.DAL.Entities.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierId");
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.ClientSetNull);
 
                     b.Navigation("Category");
 

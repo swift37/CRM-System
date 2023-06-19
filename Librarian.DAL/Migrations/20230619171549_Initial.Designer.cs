@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Librarian.DAL.Migrations
 {
     [DbContext(typeof(LibrarianDb))]
-    [Migration("20230616160830_Initial")]
+    [Migration("20230619171549_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -32,6 +32,9 @@ namespace Librarian.DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -143,6 +146,9 @@ namespace Librarian.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
@@ -186,14 +192,11 @@ namespace Librarian.DAL.Migrations
 
             modelBuilder.Entity("Librarian.DAL.Entities.OrderDetails", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18,2)");
@@ -201,16 +204,21 @@ namespace Librarian.DAL.Migrations
                     b.Property<bool>("IsActual")
                         .HasColumnType("bit");
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UnitsOnOrder")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.HasKey("OrderId", "ProductId");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
@@ -328,6 +336,9 @@ namespace Librarian.DAL.Migrations
                     b.Property<int>("HoursPerMonth")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -372,6 +383,7 @@ namespace Librarian.DAL.Migrations
                     b.HasOne("Librarian.DAL.Entities.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("Librarian.DAL.Entities.Product", "Product")

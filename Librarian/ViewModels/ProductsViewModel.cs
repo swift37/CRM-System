@@ -332,7 +332,7 @@ namespace Librarian.ViewModels
             _productsRepository.Remove(removableProduct.Id);
 
 
-            Products?.Remove(removableProduct);
+            ArchivedProducts?.Remove(removableProduct);
             if (ReferenceEquals(SelectedProduct, removableProduct)) 
                 SelectedProduct = null;
         }

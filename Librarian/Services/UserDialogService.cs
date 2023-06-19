@@ -51,7 +51,7 @@ namespace Librarian.Services
         public bool EditCustomer(Customer customer)
         {
             var customerEditorModel = new CustomerEditorViewModel(customer);
-            var customerEditWindow = new BuyerEditorWindow
+            var customerEditWindow = new CustomerEditorWindow
             {
                 DataContext = customerEditorModel,
             };

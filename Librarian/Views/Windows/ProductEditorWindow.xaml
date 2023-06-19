@@ -9,7 +9,7 @@
         xmlns:vm="clr-namespace:Librarian.ViewModels"
         xmlns:local="clr-namespace:Librarian.Views.Windows"
         d:DataContext="{d:DesignInstance {x:Type vm:ProductEditorViewModel}, IsDesignTimeCreatable=True}"
-        Width="640" Height="350" MinWidth="640" MinHeight="350"     WindowStartupLocation="CenterScreen"
+        Width="640" Height="350" MinWidth="640" MinHeight="350" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">
@@ -70,8 +70,7 @@
                                        Panel.ZIndex="1" Text="Enter Name" FontSize="12" FontWeight="Normal"
                                        Visibility="{Binding ElementName=txtInput, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
-                            <TextBox x:Name="txtInput" Style="{StaticResource textBoxEditor}" Text="{Binding ProductName}"
-                                     IsReadOnly="True"/>
+                            <TextBox x:Name="txtInput" Style="{StaticResource textBoxEditor}" Text="{Binding ProductName}"/>
                         </Grid>
                     </DockPanel>
 
@@ -165,4 +164,5 @@
         </DockPanel>
 
     </Border>
+    
 </Window>

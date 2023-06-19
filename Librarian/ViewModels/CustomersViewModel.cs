@@ -29,15 +29,6 @@ namespace Librarian.ViewModels
         public ICollectionView CustomersView => _customersViewSource.View;
         #endregion
 
-        #region CustomersCount
-        private int _CustomersCount;
-
-        /// <summary>
-        /// Customers count
-        /// </summary>
-        public int CustomersCount { get => _CustomersCount; set => Set(ref _CustomersCount, value); }
-        #endregion
-
         #region CustomersFilter
         private string? _CustomersFilter;
 
@@ -101,8 +92,6 @@ namespace Librarian.ViewModels
             if (_customersRepository.Entities is null) return;
 
             Customers = (await _customersRepository.Entities.ToArrayAsync()).ToObservableCollection();
-
-            CustomersCount = await _customersRepository.Entities.CountAsync();
         }
         #endregion
 

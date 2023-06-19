@@ -58,12 +58,10 @@ namespace Librarian.DAL.Context
 
             modelBuilder.Entity<OrderDetails>(entity =>
             {
-                entity.HasKey(e => new { e.OrderId, e.ProductId });
-
                 entity.HasOne(o => o.Order)
                 .WithMany(d => d.OrderDetails)
                 .HasForeignKey(o => o.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
                 entity.HasOne(o => o.Product)
                 .WithMany(d => d.OrderDetails)
@@ -75,8 +73,6 @@ namespace Librarian.DAL.Context
 
                 entity.Property(e => e.Discount)
                 .HasColumnType("decimal(18,2)");
-
-                entity.Ignore(e => e.Id);
             });
         }
 

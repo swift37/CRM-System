@@ -2,9 +2,9 @@
 
 namespace Librarian.Views
 {
-    public partial class BooksView : UserControl
+    public partial class ProductsView : UserControl
     {
-        public BooksView()
+        public ProductsView()
         {
             InitializeComponent();
         }

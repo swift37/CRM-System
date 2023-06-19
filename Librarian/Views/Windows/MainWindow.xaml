@@ -62,38 +62,38 @@
                     </StackPanel>
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowBooksViewCommand}">
+                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowProductsViewCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <fa:IconImage Icon="Book" Style="{StaticResource menuRadioButtonIcon}"/>
-                        <TextBlock Text="Books" Style="{StaticResource menuRadioButtonText}"/>
+                        <fa:IconImage Icon="BoxArchive" Style="{StaticResource menuRadioButtonIcon}"/>
+                        <TextBlock Text="Products" Style="{StaticResource menuRadioButtonText}"/>
                     </StackPanel>
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowBuyersViewCommand}">
-                    <StackPanel Orientation="Horizontal">
-                        <fa:IconImage Icon="UsersViewfinder " Style="{StaticResource menuRadioButtonIcon}"/>
-                        <TextBlock Text="Clients" Style="{StaticResource menuRadioButtonText}"/>
-                    </StackPanel>
-                </RadioButton>
-
-                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowSellersViewCommand}">
+                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowCustomersViewCommand}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Users" Style="{StaticResource menuRadioButtonIcon}"/>
-                        <TextBlock Text="Sellers" Style="{StaticResource menuRadioButtonText}"/>
+                        <TextBlock Text="Customers" Style="{StaticResource menuRadioButtonText}"/>
                     </StackPanel>
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowTransactionsViewCommand}">
+                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowEmployeesViewCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Headset" Style="{StaticResource menuRadioButtonIcon}"/>
+                        <TextBlock Text="Employees" Style="{StaticResource menuRadioButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+
+                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowOrdersViewCommand}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Coins" Style="{StaticResource menuRadioButtonIcon}"/>
-                        <TextBlock Text="Transactions" Style="{StaticResource menuRadioButtonText}"/>
+                        <TextBlock Text="Orders" Style="{StaticResource menuRadioButtonText}"/>
                     </StackPanel>
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowStatisticViewCommand}">
+                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowStatisticsViewCommand}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="ChartArea" Style="{StaticResource menuRadioButtonIcon}"/>
-                        <TextBlock Text="Statistic" Style="{StaticResource menuRadioButtonText}"/>
+                        <TextBlock Text="Statistics" Style="{StaticResource menuRadioButtonText}"/>
                     </StackPanel>
                 </RadioButton>
                 

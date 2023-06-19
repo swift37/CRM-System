@@ -196,8 +196,10 @@ namespace Librarian.DAL.Migrations
                 name: "OrdersDetails",
                 columns: table => new
                 {
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: true),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -205,7 +207,7 @@ namespace Librarian.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrdersDetails", x => new { x.OrderId, x.ProductId });
+                    table.PrimaryKey("PK_OrdersDetails", x => x.Id);
                     table.ForeignKey(
                         name: "FK_OrdersDetails_Orders_OrderId",
                         column: x => x.OrderId,
@@ -237,6 +239,11 @@ namespace Librarian.DAL.Migrations
                 name: "IX_Orders_ShipViaId",
                 table: "Orders",
                 column: "ShipViaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrdersDetails_OrderId",
+                table: "OrdersDetails",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrdersDetails_ProductId",

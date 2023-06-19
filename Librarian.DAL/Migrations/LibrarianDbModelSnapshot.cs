@@ -189,6 +189,12 @@ namespace Librarian.DAL.Migrations
 
             modelBuilder.Entity("Librarian.DAL.Entities.OrderDetails", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
@@ -207,7 +213,9 @@ namespace Librarian.DAL.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("OrderId", "ProductId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
@@ -372,12 +380,12 @@ namespace Librarian.DAL.Migrations
                     b.HasOne("Librarian.DAL.Entities.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("Librarian.DAL.Entities.Product", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.ClientSetNull);
 
                     b.Navigation("Order");
 

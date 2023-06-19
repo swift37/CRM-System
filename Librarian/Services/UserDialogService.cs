@@ -16,7 +16,7 @@ namespace Librarian.Services
             IRepository<Supplier> suppliersRepository)
         {
             var productEditorModel = new ProductEditorViewModel(product, categoriesRepository, suppliersRepository);
-            var productEditorWindow = new BookEditorWindow
+            var productEditorWindow = new ProductEditorWindow
             {
                 DataContext = productEditorModel,
             };

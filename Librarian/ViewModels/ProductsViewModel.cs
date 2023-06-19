@@ -25,21 +25,13 @@ namespace Librarian.ViewModels
         private readonly IUserDialogService _dialogService;
 
         private CollectionViewSource _productsViewSource;
+        private CollectionViewSource _archivedProductsViewSource;
         private CollectionViewSource _categoriesViewSource;
 
         #region Properties
 
         #region ProductsView
         public ICollectionView ProductsView => _productsViewSource.View;
-        #endregion
-
-        #region ProductsCount
-        private int _ProductsCount;
-
-        /// <summary>
-        /// Products count
-        /// </summary>
-        public int ProductsCount { get => _ProductsCount; set => Set(ref _ProductsCount, value); }
         #endregion
 
         #region ProductsFilter
@@ -87,21 +79,51 @@ namespace Librarian.ViewModels
         #endregion
 
 
+        #region ArchivedProductsView
+        public ICollectionView ArchivedProductsView => _archivedProductsViewSource.View;
+        #endregion
+
+        #region ArchivedProducts
+        private ObservableCollection<Product>? _ArchivedProducts;
+
+        /// <summary>
+        /// Archived Products collection
+        /// </summary>
+        public ObservableCollection<Product>? ArchivedProducts
+        {
+            get => _ArchivedProducts;
+            set
+            {
+                if (Set(ref _ArchivedProducts, value))
+                    _archivedProductsViewSource.Source = value;
+                OnPropertyChanged(nameof(ArchivedProductsView));
+            }
+        }
+        #endregion
+
+        #region ArchivedProductsFilter
+        private string? _ArchivedProductsFilter;
+
+        /// <summary>
+        /// Filter archived products by name and category
+        /// </summary>
+        public string? ArchivedProductsFilter
+        {
+            get => _ArchivedProductsFilter;
+            set
+            {
+                if (Set(ref _ArchivedProductsFilter, value))
+                    _archivedProductsViewSource.View.Refresh();
+            }
+        }
+        #endregion
+
 
         #region CategoriesView
         /// <summary>
         /// Categories collection view.
         /// </summary>
         public ICollectionView CategoriesView => _categoriesViewSource.View;
-        #endregion
-
-        #region CategoriesCount
-        private int _CategoriesCount;
-
-        /// <summary>
-        /// Categories count
-        /// </summary>
-        public int CategoriesCount { get => _CategoriesCount; set => Set(ref _CategoriesCount, value); }
         #endregion
 
         #region CategoriesNameFilter
@@ -166,13 +188,11 @@ namespace Librarian.ViewModels
         {
             if (_productsRepository.Entities is null || _categoriesRepository.Entities is null) return;
 
-            Products = (await _productsRepository.Entities.ToArrayAsync()).ToObservableCollection();
+            Products = (await _productsRepository.Entities.Where(p => p.IsActual).ToArrayAsync()).ToObservableCollection();
 
-            ProductsCount = await _productsRepository.Entities.CountAsync();
+            ArchivedProducts = (await _productsRepository.Entities.Where(p => !p.IsActual).ToArrayAsync()).ToObservableCollection();
 
             Categories = (await _categoriesRepository.Entities.ToArrayAsync()).ToObservableCollection();
-
-            CategoriesCount = await _categoriesRepository.Entities.CountAsync();
         }
         #endregion
 
@@ -182,13 +202,14 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Add new product command 
         /// </summary>
-        public ICommand? AddProductCommand => _AddProductCommand ??= new LambdaCommand(OnAddProductCommandExecuted, CanAddProductCommandnExecute);
+        public ICommand? AddProductCommand => _AddProductCommand ??= new LambdaCommand<Category>(OnAddProductCommandExecuted, CanAddProductCommandnExecute);
 
-        private bool CanAddProductCommandnExecute() => true;
+        private bool CanAddProductCommandnExecute(Category? category = null) => true;
 
-        private void OnAddProductCommandExecuted()
+        private void OnAddProductCommandExecuted(Category? category = null)
         {
             var newProduct = new Product();
+            newProduct.Category = category;
 
             if (!_dialogService.EditProduct(newProduct, _categoriesRepository, _suppliersRepository)) 
                 return;
@@ -221,6 +242,68 @@ namespace Librarian.ViewModels
 
             _productsRepository.Update(editableProduct);
             _productsViewSource.View.Refresh();
+        }
+        #endregion
+
+        #region ArchiveProductCommand
+        private ICommand? _ArchiveProductCommand;
+
+        /// <summary>
+        /// Archive selected product command 
+        /// </summary>
+        public ICommand? ArchiveProductCommand => _ArchiveProductCommand
+            ??= new LambdaCommand<Product>(OnArchiveProductCommandExecuted, CanArchiveProductCommandnExecute);
+
+        private bool CanArchiveProductCommandnExecute(Product? product) => product != null || SelectedProduct != null;
+
+        private void OnArchiveProductCommandExecuted(Product? product)
+        {
+            var archivableProduct = product ?? SelectedProduct;
+            if (archivableProduct is null) return;
+
+            if (!_dialogService.Confirmation(
+                $"Are you sure you want to archive {archivableProduct.Name} product?",
+                "Product archiving")) return;
+
+            if (_productsRepository.Entities != null && _productsRepository.Entities.Any(p => p == product || p == SelectedProduct))
+                _productsRepository.Archive(archivableProduct);
+
+            Products?.Remove(archivableProduct);
+            ArchivedProducts?.Add(archivableProduct);
+
+            if (ReferenceEquals(SelectedProduct, archivableProduct))
+                SelectedProduct = null;
+        }
+        #endregion
+
+        #region UnArchiveProductCommand
+        private ICommand? _UnArchiveProductCommand;
+
+        /// <summary>
+        /// Unarchive selected product command 
+        /// </summary>
+        public ICommand? UnArchiveProductCommand => _UnArchiveProductCommand
+            ??= new LambdaCommand<Product>(OnUnArchiveProductCommandExecuted, CanUnArchiveProductCommandnExecute);
+
+        private bool CanUnArchiveProductCommandnExecute(Product? product) => product != null || SelectedProduct != null;
+
+        private void OnUnArchiveProductCommandExecuted(Product? product)
+        {
+            var archivableProduct = product ?? SelectedProduct;
+            if (archivableProduct is null) return;
+
+            if (!_dialogService.Confirmation(
+                $"Are you sure you want to unarchive {archivableProduct.Name} product?",
+                "Product unarchiving")) return;
+
+            if (_productsRepository.Entities != null && _productsRepository.Entities.Any(p => p == product || p == SelectedProduct))
+                _productsRepository.UnArchive(archivableProduct);
+
+            ArchivedProducts?.Remove(archivableProduct);
+            Products?.Add(archivableProduct);
+
+            if (ReferenceEquals(SelectedProduct, archivableProduct))
+                SelectedProduct = null;
         }
         #endregion
 
@@ -366,9 +449,18 @@ namespace Librarian.ViewModels
                 }
             };
 
+            _archivedProductsViewSource = new CollectionViewSource
+            {
+                GroupDescriptions =
+                {
+                    new PropertyGroupDescription(nameof(Product.Category))
+                }
+            };
+
             _categoriesViewSource = new CollectionViewSource();
 
             _productsViewSource.Filter += OnProductsFilter;
+            _archivedProductsViewSource.Filter += OnArchivedProductsFilter;
             _categoriesViewSource.Filter += OnCategoriesFilter;
         }
 
@@ -379,6 +471,16 @@ namespace Librarian.ViewModels
             if ((!product.Name?.Contains(ProductsFilter) ?? true) && 
                 (!product.Category?.Name?.Contains(ProductsFilter) ?? true) &&
                 (!product.Supplier?.Name?.Contains(ProductsFilter) ?? true))
+                e.Accepted = false;
+        }
+
+        private void OnArchivedProductsFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Product product) || string.IsNullOrWhiteSpace(ArchivedProductsFilter)) return;
+
+            if ((!product.Name?.Contains(ArchivedProductsFilter) ?? true) &&
+                (!product.Category?.Name?.Contains(ArchivedProductsFilter) ?? true) &&
+                (!product.Supplier?.Name?.Contains(ArchivedProductsFilter) ?? true))
                 e.Accepted = false;
         }
 

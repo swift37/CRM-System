@@ -6,7 +6,7 @@
         <v:DashboardView DataContext="{Binding}"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:ProductsViewModel}">
-        <v:BooksView DataContext="{Binding}"/>
+        <v:ProductsView DataContext="{Binding}"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:EmployeesViewModel}">
         <v:SellersView DataContext="{Binding}"/>

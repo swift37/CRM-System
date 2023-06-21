@@ -143,6 +143,22 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="orderDetailsEditorButton" TargetType="Button" BasedOn="{StaticResource addButton}">
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="Margin" Value="0,7,0,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="dialogButton" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="#9eabe2"/>
@@ -213,6 +229,28 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#673ab7"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="gridArchiveButton" TargetType="Button" BasedOn="{StaticResource gridEditButton}">
+        <Setter Property="Background" Value="#d32f2f"/>
+        <Setter Property="BorderBrush" Value="#b71c1c"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#f44336"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="gridUnarchiveButton" TargetType="Button" BasedOn="{StaticResource gridEditButton}">
+        <Setter Property="Background" Value="#d32f2f"/>
+        <Setter Property="BorderBrush" Value="#b71c1c"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#f44336"/>
             </Trigger>
         </Style.Triggers>
     </Style>

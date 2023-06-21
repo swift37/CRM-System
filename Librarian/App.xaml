@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="Styles/FontAwesomeIconImages.xaml"/>
                 <ResourceDictionary Source="Styles/ComboBoxes.xaml"/>
                 <ResourceDictionary Source="Styles/CheckBoxes.xaml"/>
+                <ResourceDictionary Source="Styles/ListBoxes.xaml"/>
                 
                 <ResourceDictionary Source="Templates/MainModelViews.xaml"/>
             </ResourceDictionary.MergedDictionaries>

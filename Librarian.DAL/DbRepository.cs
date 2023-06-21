@@ -117,5 +117,15 @@ namespace Librarian.DAL
             if (AutoSaveChanges)
                 await _dbContext.SaveChangesAsync(cancellation).ConfigureAwait(false);
         }
+
+        public int SaveChanges()
+        {
+            return _dbContext.SaveChanges();
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Infrastructure.DebugServices;
 using Librarian.Interfaces;
+using Librarian.Services;
+using Librarian.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
@@ -10,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -21,8 +24,8 @@ namespace Librarian.ViewModels
         private readonly IRepository<Employee> _employeesRepository;
         private readonly IRepository<Customer> _customersRepository;
         private readonly IRepository<Shipper> _shippersRepository;
+        private readonly IUserDialogService _dialogService;
 
-        private CollectionViewSource _productsViewSource;
         private CollectionViewSource _customersViewSource;
         private CollectionViewSource _shippersViewSource;
 
@@ -44,6 +47,15 @@ namespace Librarian.ViewModels
         /// Current Order
         /// </summary>
         public Order? CurrentOrder { get => _CurrentOrder; set => Set(ref _CurrentOrder, value); }
+        #endregion
+
+        #region SelectedOrderDetails
+        private OrderDetails? _SelectedOrderDetails;
+
+        /// <summary>
+        /// Selected order details
+        /// </summary>
+        public OrderDetails? SelectedOrderDetails { get => _SelectedOrderDetails; set => Set(ref _SelectedOrderDetails, value); }
         #endregion
 
         #region OrderId
@@ -143,8 +155,6 @@ namespace Librarian.ViewModels
         public string? OrderShipAddress { get => _OrderShipAddress; set => Set(ref _OrderShipAddress, value); }
         #endregion
 
-
-
         #region OrderDetails
         private ObservableCollection<OrderDetails>? _OrderDetails;
 
@@ -153,87 +163,6 @@ namespace Librarian.ViewModels
         /// </summary>
         public ObservableCollection<OrderDetails>? OrderDetails { get => _OrderDetails; set => Set(ref _OrderDetails, value); }
         #endregion
-
-        #region OrderDetailsProduct
-        private Product? _OrderDetailsProduct;
-
-        /// <summary>
-        /// Product
-        /// </summary>
-        public Product? OrderDetailsProduct { get => _OrderDetailsProduct; set => Set(ref _OrderDetailsProduct, value); }
-        #endregion
-
-        #region OrderDetailsUnitPrice
-        private decimal _OrderDetailsUnitPrice;
-
-        /// <summary>
-        /// Unit price
-        /// </summary>
-        public decimal OrderDetailsUnitPrice { get => _OrderDetailsUnitPrice; set => Set(ref _OrderDetailsUnitPrice, value); }
-        #endregion
-
-        #region OrderDetailsQuantity
-        private int _OrderDetailsQuantity;
-
-        /// <summary>
-        /// Units quantity
-        /// </summary>
-        public int OrderDetailsQuantity { get => _OrderDetailsQuantity; set => Set(ref _OrderDetailsQuantity, value); }
-        #endregion
-
-        #region OrderDetailsDiscount
-        private decimal _OrderDetailsDiscount;
-
-        /// <summary>
-        /// Discount
-        /// </summary>
-        public decimal OrderDetailsDiscount { get => _OrderDetailsDiscount; set => Set(ref _OrderDetailsDiscount, value); }
-        #endregion
-
-
-
-        #region ProductsView
-        /// <summary>
-        /// Products collection view.
-        /// </summary>
-        public ICollectionView ProductsView => _productsViewSource.View;
-        #endregion 
-
-        #region Products
-        private IEnumerable<Product>? _Products;
-
-        /// <summary>
-        /// Products collection
-        /// </summary>
-        public IEnumerable<Product>? Products 
-        { 
-            get => _Products;
-            set 
-            {
-                if (Set(ref _Products, value))
-                    _productsViewSource.Source = value;
-                OnPropertyChanged(nameof(ProductsView));
-            } 
-        }
-        #endregion 
-
-        #region ProductsFilter
-        private string? _ProductsFilter;
-
-        /// <summary>
-        /// Filter products by name
-        /// </summary>
-        public string? ProductsFilter
-        {
-            get => _ProductsFilter;
-            set
-            {
-                if (Set(ref _ProductsFilter, value))
-                    _productsViewSource.View.Refresh();
-            }
-        }
-        #endregion
-
 
 
         #region Employees
@@ -244,7 +173,6 @@ namespace Librarian.ViewModels
         /// </summary>
         public IEnumerable<Employee>? Employees { get => _Employees; set => Set(ref _Employees, value); }
         #endregion 
-
 
 
         #region CustomersView
@@ -288,7 +216,6 @@ namespace Librarian.ViewModels
             }
         }
         #endregion
-
 
 
         #region ShippersView
@@ -347,19 +274,19 @@ namespace Librarian.ViewModels
 
         private async Task OnLoadRepositoriesCommandExecuted()
         {
-            if (_productsRepository.Entities is null) 
-                throw new ArgumentNullException("Products list is empty or failed to load", nameof(_productsRepository.Entities));
             if (_employeesRepository.Entities is null)
                 throw new ArgumentNullException("Employees list is empty or failed to load", nameof(_employeesRepository.Entities));
             if (_customersRepository.Entities is null)
                 throw new ArgumentNullException("Customers list is empty or failed to load", nameof(_customersRepository.Entities));
             if (_shippersRepository.Entities is null)
                 throw new ArgumentNullException("Shippers list is empty or failed to load", nameof(_shippersRepository.Entities));
+            if (_productsRepository.Entities is null)
+                throw new ArgumentNullException("Products list is empty or failed to load", nameof(_productsRepository.Entities));
 
-            Products = await _productsRepository.Entities.ToArrayAsync();
             Employees = await _employeesRepository.Entities.ToArrayAsync();
             Customers = await _customersRepository.Entities.ToArrayAsync();
             Shippers = await _shippersRepository.Entities.ToArrayAsync();
+            _ = await _productsRepository.Entities.ToArrayAsync();
         }
         #endregion
 
@@ -377,47 +304,67 @@ namespace Librarian.ViewModels
         private void OnAddOrderDetailsCommandExecuted()
         {
             var orderDetails = new OrderDetails();
-
             orderDetails.Order = CurrentOrder;
-            orderDetails.Product = OrderDetailsProduct;
-            orderDetails.UnitPrice = OrderDetailsUnitPrice;
-            orderDetails.Quantity = OrderDetailsQuantity;
-            orderDetails.Discount = OrderDetailsDiscount;
+
+            if (!_dialogService.EditOrderDetails(orderDetails, _productsRepository)) return;
 
             OrderDetails?.Add(orderDetails);
         }
         #endregion
 
+        #region RemoveOrderDetailsCommand
+        private ICommand? _RemoveOrderDetailsCommand;
+
+        /// <summary>
+        /// Remove order details command
+        /// </summary>
+        public ICommand? RemoveOrderDetailsCommand => _RemoveOrderDetailsCommand
+            ??= new LambdaCommand<OrderDetails>(OnRemoveOrderDetailsCommandExecuted, CanRemoveOrderDetailsCommandExecute);
+
+        private bool CanRemoveOrderDetailsCommandExecute(OrderDetails? orderDetails) => true;
+
+        private void OnRemoveOrderDetailsCommandExecuted(OrderDetails? orderDetails)
+        {
+            var removableOrderDetails = orderDetails ?? SelectedOrderDetails;
+            if (removableOrderDetails is null) return;
+
+            if (OrderDetails != null && OrderDetails.Any(d => d == removableOrderDetails))
+                OrderDetails.Remove(removableOrderDetails);
+
+            if (ReferenceEquals(SelectedOrderDetails, removableOrderDetails))
+                SelectedOrderDetails = null;
+        }
+        #endregion
+
         public OrderEditorViewModel() : this(
             new Order { Id = 1, OrderDate = DateTime.Now },
-            new HashSet<OrderDetails>(),
             new DebugProductsRepository(),
             new DebugEmployeesRepository(),
             new DebugCustomersRepository(),
-            new DebugShippersRepository())
+            new DebugShippersRepository(),
+            new UserDialogService())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
         }
 
         public OrderEditorViewModel(
-            Order order, 
-            ICollection<OrderDetails>? orderDetails,
+            Order order,
             IRepository<Product> products, 
             IRepository<Employee> employees, 
             IRepository<Customer> customers,
-            IRepository<Shipper> shippers)
+            IRepository<Shipper> shippers,
+            IUserDialogService userDialogService)
         {
             _productsRepository = products;
             _employeesRepository = employees;
             _customersRepository = customers;
             _shippersRepository = shippers;
+            _dialogService = userDialogService;
 
-            _productsViewSource = new CollectionViewSource();
             _customersViewSource = new CollectionViewSource();
             _shippersViewSource = new CollectionViewSource();
 
-            _productsViewSource.Filter += OnProductsFilter;
             _customersViewSource.Filter += OnCustomersFilter;
             _shippersViewSource.Filter += OnShippersFilter;
 
@@ -436,14 +383,6 @@ namespace Librarian.ViewModels
             OrderDetails = order.OrderDetails?.ToObservableCollection();
         }
 
-        private void OnProductsFilter(object sender, FilterEventArgs e)
-        {
-            if (!(e.Item is Product product) || string.IsNullOrWhiteSpace(ProductsFilter)) return;
-
-            if (!product.Name?.Contains(ProductsFilter) ?? true)
-                e.Accepted = false;
-        }
-
         private void OnCustomersFilter(object sender, FilterEventArgs e)
         {
             if (!(e.Item is Customer customer) || string.IsNullOrWhiteSpace(CustomersFilter)) return;
@@ -458,9 +397,9 @@ namespace Librarian.ViewModels
 
         private void OnShippersFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is Shipper shipper) || string.IsNullOrWhiteSpace(ProductsFilter)) return;
+            if (!(e.Item is Shipper shipper) || string.IsNullOrWhiteSpace(ShippersFilter)) return;
 
-            if (!shipper.Name?.Contains(ProductsFilter) ?? true)
+            if (!shipper.Name?.Contains(ShippersFilter) ?? true)
                 e.Accepted = false;
         }
     }

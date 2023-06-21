@@ -182,7 +182,7 @@ namespace Librarian.ViewModels
                     employee => employee.Id,
                     (empStat, employee) => new TopEmployeeInfo { Employee = employee, SalesCount = empStat.SalesCount, SalesAmount = empStat.SalesAmount });
 
-            TopEmployees.ClearAdd(await topEmployeesQuery.ToArrayAsync());
+            //TopEmployees.ClearAdd(await topEmployeesQuery.ToArrayAsync());
         }
         #endregion
 

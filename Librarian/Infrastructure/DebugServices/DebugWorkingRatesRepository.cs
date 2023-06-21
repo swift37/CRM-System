@@ -21,6 +21,7 @@ namespace Librarian.Infrastructure.DebugServices
         }
 
         public IQueryable<WorkingRate>? Entities { get; set; }
+        public bool AutoSaveChanges { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public WorkingRate? Add(WorkingRate entity)
         {
@@ -58,6 +59,16 @@ namespace Librarian.Infrastructure.DebugServices
         }
 
         public Task RemoveAsync(int id, CancellationToken cancellation = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> SaveChangesAsync()
         {
             throw new NotImplementedException();
         }

@@ -36,6 +36,7 @@ namespace Librarian.Infrastructure.DebugServices
         }
 
         public IQueryable<Order>? Entities { get; }
+        public bool AutoSaveChanges { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Order? Add(Order entity)
         {
@@ -73,6 +74,16 @@ namespace Librarian.Infrastructure.DebugServices
         }
 
         public Task RemoveAsync(int id, CancellationToken cancellation = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> SaveChangesAsync()
         {
             throw new NotImplementedException();
         }

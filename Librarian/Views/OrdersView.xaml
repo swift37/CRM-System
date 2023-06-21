@@ -1,0 +1,235 @@
+﻿<UserControl x:Class="Librarian.Views.OrdersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:vm="clr-namespace:Librarian.ViewModels"
+             xmlns:local="clr-namespace:Librarian.Views"
+             d:DataContext="{d:DesignInstance {x:Type vm:OrdersViewModel}, IsDesignTimeCreatable=True}"
+             d:DesignHeight="525" d:DesignWidth="900">
+    <br:Interaction.Triggers>
+        <br:EventTrigger EventName="Loaded">
+            <br:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </br:EventTrigger>
+    </br:Interaction.Triggers>
+
+    <Grid Margin="30,20,20,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--Main Section-->
+        <TextBlock Grid.Row="1" Text="Orders" FontSize="32" FontWeight="SemiBold" Margin="0,20,0,0" HorizontalAlignment="Left"
+                   Foreground="#ffffff"/>
+
+        <!--Add Button-->
+        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddOrderCommand}">
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
+                <TextBlock Text="Add Order"/>
+            </StackPanel>
+        </Button>
+
+        <!--Separator-->
+        <Separator Grid.Row="2" Height="1" Background="#46558a" Margin="0,54,0,10"/>
+
+        <!--Tab Contol-->
+        <TabControl Style="{DynamicResource TabControlCustomStyle}" Grid.Row="3" Margin="0,-55,0,0">
+
+            <!--Actual Orders-->
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Actual">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="{Binding Orders.Count}" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,7,0"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="Orders" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="0" Text="Filter by" FontSize="13" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,215,0" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                    <!--Filter TextBox-->
+                    <Grid Grid.Row="0" Width="200" HorizontalAlignment="Right">
+                        <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Search in Orders ..." FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtSearch, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtSearch" Style="{StaticResource textBoxFilter}" Text="{Binding OrdersFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <!--Actual Orders DataGrid-->
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                              ItemsSource="{Binding OrdersView}" SelectedItem="{Binding SelectedOrder}"
+                              VirtualizingPanel.IsVirtualizing="True"  VirtualizingPanel.ScrollUnit ="Pixel" VirtualizingPanel.VirtualizationMode="Recycling">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" ElementStyle="{StaticResource CheckBoxCustomStyle}">
+                                <DataGridCheckBoxColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Style="{StaticResource CheckBoxCustomStyle}"/>
+                                    </DataTemplate>
+                                </DataGridCheckBoxColumn.HeaderTemplate>
+                            </DataGridCheckBoxColumn>
+
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="70" Binding="{Binding Id}"/>
+
+                            <DataGridTextColumn Header="Order Date" IsReadOnly="True" CanUserResize="False" Width="170"
+                                    Binding="{Binding OrderDate}"/>
+                            <DataGridTextColumn Header="Product types" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding OrderDetails.Count}"/>
+                            <DataGridTextColumn Header="Amount" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Amount, StringFormat=C}"/>
+                            <DataGridTextColumn Header="Employee" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Employee.Surname}"/>
+                            <DataGridTextColumn Header="Customer" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Customer.ContactNumber}"/>
+                            <DataGridTextColumn Header="Ship Via" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding ShipVia.Name}"/>
+
+                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
+                                                    Command="{Binding DataContext.ArchiveOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                                    CommandParameter="{Binding SelectedOrder}">
+                                                <fa:IconImage Icon="Archive" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!--Archived Order-->
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Archived">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="{Binding ArchivedOrders.Count}" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,7,0"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="Archived Orders" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="0" Text="Filter by" FontSize="13" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,215,0" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                    <!--Filter TextBox-->
+                    <Grid Grid.Row="0" Width="200" HorizontalAlignment="Right">
+                        <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Search in Orders ..." FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtSearch2, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtSearch2" Style="{StaticResource textBoxFilter}" Text="{Binding ArchivedOrdersFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <!--Archived Orders DataGrid-->
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                              ItemsSource="{Binding ArchivedOrdersView}" SelectedItem="{Binding SelectedOrder}"
+                              VirtualizingPanel.IsVirtualizing="True"  VirtualizingPanel.ScrollUnit ="Pixel" VirtualizingPanel.VirtualizationMode="Recycling">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" ElementStyle="{StaticResource CheckBoxCustomStyle}">
+                                <DataGridCheckBoxColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Style="{StaticResource CheckBoxCustomStyle}"/>
+                                    </DataTemplate>
+                                </DataGridCheckBoxColumn.HeaderTemplate>
+                            </DataGridCheckBoxColumn>
+
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="70" Binding="{Binding Id}"/>
+
+                            <DataGridTextColumn Header="Order Date" IsReadOnly="True" CanUserResize="False" Width="170"
+                                    Binding="{Binding OrderDate}"/>
+                            <DataGridTextColumn Header="Product types" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding OrderDetails.Count}"/>
+                            <DataGridTextColumn Header="Amount" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Amount, StringFormat=C}"/>
+                            <DataGridTextColumn Header="Employee" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Employee.Surname}"/>
+                            <DataGridTextColumn Header="Customer" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding Customer.ContactNumber}"/>
+                            <DataGridTextColumn Header="Ship Via" IsReadOnly="True" CanUserResize="False" Width="*"
+                                    Binding="{Binding ShipVia.Name}"/>
+
+                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.UnArchiveOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                <fa:IconImage Icon="Undo" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
+                                                    Command="{Binding DataContext.RemoveOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                                    CommandParameter="{Binding SelectedOrder}">
+                                                <fa:IconImage Icon="Trash" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+        <!--Pagination Section-->
+        <Border Grid.Row="4" HorizontalAlignment="Right" CornerRadius="5" Padding="5" Background="#243771" Margin="0,10,10,10">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource pagingButton}">
+                    <fa:IconImage Icon="ChevronLeft" Style="{StaticResource pagingButtonIcon}"/>
+                </Button>
+
+                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
+
+                <Button Style="{StaticResource pagingButton}" Content="1"/>
+                <Button Style="{StaticResource pagingButton}" Content="2" Background="#5b60c4" Foreground="#ffffff"/>
+                <Button Style="{StaticResource pagingButton}" Content="3"/>
+
+                <TextBlock Text="..." Foreground="#9eabe2" VerticalAlignment="Center" FontSize="15" Margin="10,0"/>
+
+                <Button Style="{StaticResource pagingButton}" Content="7"/>
+                <Button Style="{StaticResource pagingButton}" Content="8"/>
+                <Button Style="{StaticResource pagingButton}" Content="9"/>
+
+                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
+
+                <Button Style="{StaticResource pagingButton}">
+                    <fa:IconImage Icon="ChevronRight" Style="{StaticResource pagingButtonIcon}"/>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+
+</UserControl>

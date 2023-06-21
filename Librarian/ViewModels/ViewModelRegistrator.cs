@@ -6,6 +6,7 @@ namespace Librarian.ViewModels
     {
         public static IServiceCollection AddViewModels(this IServiceCollection services) => services
             .AddSingleton<MainWindowViewModel>()
+            .AddSingleton<DashboardViewModel>()
             .AddSingleton<ProductsViewModel>()
             .AddSingleton<EmployeesViewModel>()
             .AddSingleton<CustomersViewModel>()
@@ -16,7 +17,7 @@ namespace Librarian.ViewModels
             .AddSingleton<CustomerEditorViewModel>()
             .AddSingleton<EmployeeEditorViewModel>()
             .AddSingleton<OrderEditorViewModel>()
-            .AddSingleton<DashboardViewModel>()
+            .AddSingleton<OrderDetailsEditorViewModel>()
             ;
     }
 }

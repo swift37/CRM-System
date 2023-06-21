@@ -95,15 +95,14 @@ namespace Librarian.Services
         }
 
         public bool EditOrder(
-            Order order, 
-            ICollection<OrderDetails>? orderDetails,
+            Order order,
             IRepository<Product> products, 
             IRepository<Employee> employees, 
             IRepository<Customer> customers,
             IRepository<Shipper> shippers)
         {
-            var orderEditorModel = new OrderEditorViewModel(order, orderDetails, products, employees, customers, shippers);
-            var orderEditorWindow = new TransactionEditorWindow
+            var orderEditorModel = new OrderEditorViewModel(order, products, employees, customers, shippers, this);
+            var orderEditorWindow = new OrderEditorWindow
             {
                 DataContext = orderEditorModel
             };
@@ -121,6 +120,24 @@ namespace Librarian.Services
             order.ShipName = orderEditorModel.OrderShipName;
             order.ShipAddress = orderEditorModel.OrderShipAddress;
             order.OrderDetails = orderEditorModel.OrderDetails;
+
+            return true;
+        }
+
+        public bool EditOrderDetails(OrderDetails orderDetails, IRepository<Product> products)
+        {
+            var orderDetailsEditorModel = new OrderDetailsEditorViewModel(orderDetails, products);
+            var orderDetailsEditorWindow = new OrderDetailsEditorWindow
+            {
+                DataContext = orderDetailsEditorModel
+            };
+
+            if (orderDetailsEditorWindow.ShowDialog() != true) return false;
+
+            orderDetails.Product = orderDetailsEditorModel.OrderDetailsProduct;
+            orderDetails.Quantity = orderDetailsEditorModel.OrderDetailsQuantity;
+            orderDetails.UnitPrice = orderDetailsEditorModel.OrderDetailsUnitPrice;
+            orderDetails.Discount = orderDetailsEditorModel.OrderDetailsDiscount;
 
             return true;
         }

@@ -18,12 +18,13 @@ namespace Librarian.Services.Interfaces
         bool EditEmployee(Employee employee, IRepository<WorkingRate> workingRatesRepository);
 
         bool EditOrder(
-            Order order, 
-            ICollection<OrderDetails>? orderDetails,
+            Order order,
             IRepository<Product> products, 
             IRepository<Employee> employees, 
             IRepository<Customer> customers,
             IRepository<Shipper> shippers);
+
+        bool EditOrderDetails(OrderDetails orderDetails, IRepository<Product> products);
 
         bool Confirmation(string message, string caption);
 

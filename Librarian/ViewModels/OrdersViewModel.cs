@@ -28,6 +28,7 @@ namespace Librarian.ViewModels
         private readonly IUserDialogService _dialogService;
 
         private CollectionViewSource _ordersViewSource;
+        private CollectionViewSource _archivedOrdersViewSource;
 
         #region Properties
 
@@ -36,15 +37,6 @@ namespace Librarian.ViewModels
         /// Orders collection view.
         /// </summary>
         public ICollectionView OrdersView => _ordersViewSource.View;
-        #endregion
-
-        #region OrdersCount
-        private int _OrdersCount;
-
-        /// <summary>
-        /// Orders count
-        /// </summary>
-        public int OrdersCount { get => _OrdersCount; set => Set(ref _OrdersCount, value); }
         #endregion
 
         #region OrdersFilter
@@ -91,6 +83,46 @@ namespace Librarian.ViewModels
         public Order? SelectedOrder { get => _SelectedOrder; set => Set(ref _SelectedOrder, value); }
         #endregion
 
+
+        #region ArchivedOrdersView
+        public ICollectionView ArchivedOrdersView => _archivedOrdersViewSource.View;
+        #endregion
+
+        #region ArchivedOrders
+        private ObservableCollection<Order>? _ArchivedOrders;
+
+        /// <summary>
+        /// Archived Orders collection
+        /// </summary>
+        public ObservableCollection<Order>? ArchivedOrders
+        {
+            get => _ArchivedOrders;
+            set
+            {
+                if (Set(ref _ArchivedOrders, value))
+                    _archivedOrdersViewSource.Source = value;
+                OnPropertyChanged(nameof(ArchivedOrdersView));
+            }
+        }
+        #endregion
+
+        #region ArchivedOrdersFilter
+        private string? _ArchivedOrdersFilter;
+
+        /// <summary>
+        /// Filter archived orders by name and category
+        /// </summary>
+        public string? ArchivedOrdersFilter
+        {
+            get => _ArchivedOrdersFilter;
+            set
+            {
+                if (Set(ref _ArchivedOrdersFilter, value))
+                    _archivedOrdersViewSource.View.Refresh();
+            }
+        }
+        #endregion
+
         #endregion
 
         #region LoadDataCommand
@@ -107,9 +139,9 @@ namespace Librarian.ViewModels
         {
             if (_ordersRepository.Entities is null) return;
 
-            Orders = (await _ordersRepository.Entities.ToArrayAsync()).ToObservableCollection();
-
-            OrdersCount = await _ordersRepository.Entities.CountAsync();
+            Orders = (await _ordersRepository.Entities.Where(o => o.IsActual).ToArrayAsync()).ToObservableCollection();
+            
+            ArchivedOrders = (await _ordersRepository.Entities.Where(o => !o.IsActual).ToArrayAsync()).ToObservableCollection();
         }
         #endregion
 
@@ -127,47 +159,118 @@ namespace Librarian.ViewModels
         private void OnAddOrderCommandExecuted()
         {
             var order = new Order();
-            
-            var orderDetails = new HashSet<OrderDetails>();
+            order.OrderDate = DateTime.Now;
             order.OrderDetails = new HashSet<OrderDetails>();
 
-            if (!_dialogService.EditOrder(order, orderDetails, _productsRepository, _employeesRepository, _customersRepository, _shippersRepository)) return;
+            if (!_dialogService.EditOrder(order, _productsRepository, _employeesRepository, _customersRepository, _shippersRepository)) return;
+
 
             _ordersRepository.Add(order);
 
-            //foreach (var item in orderDetails)
-            //{
-            //    _ordersDetailsRepository.Add(item);
-            //}
+            if (order.OrderDetails != null)
+            {
+                _ordersDetailsRepository.AutoSaveChanges = false;
 
+                foreach (var item in order.OrderDetails)
+                    _ordersDetailsRepository.Add(item);
+
+                _ordersDetailsRepository.SaveChanges();
+                _ordersDetailsRepository.AutoSaveChanges = true;
+            }
+            
             Orders?.Add(order);
 
             SelectedOrder = order;
         }
         #endregion
 
-        //#region EditOrderCommand
-        //private ICommand? _EditOrderCommand;
+        #region EditOrderCommand
+        private ICommand? _EditOrderCommand;
 
-        ///// <summary>
-        ///// Edit order command 
-        ///// </summary>
-        //public ICommand? EditOrderCommand => _EditOrderCommand ??= new LambdaCommand<Order>(OnEditOrderCommandExecuted, CanEditOrderCommandnExecute);
+        /// <summary>
+        /// Edit order command 
+        /// </summary>
+        public ICommand? EditOrderCommand => _EditOrderCommand ??= new LambdaCommand<Order>(OnEditOrderCommandExecuted, CanEditOrderCommandnExecute);
 
-        //private bool CanEditOrderCommandnExecute(Order? order) => order != null || SelectedOrder != null;
+        private bool CanEditOrderCommandnExecute(Order? order) => order != null || SelectedOrder != null;
 
-        //private void OnEditOrderCommandExecuted(Order? order)
-        //{
-        //    var editableOrder = order ?? SelectedOrder;
-        //    if (editableOrder is null) return;
+        private void OnEditOrderCommandExecuted(Order? order)
+        {
+            var editableOrder = order ?? SelectedOrder;
+            if (editableOrder is null) return;
 
-        //    if (!_dialogService.EditOrder(editableOrder, _productsRepository, _employeesRepository, _customersRepository, _shippersRepository))
-        //        return;
+            var unchangedOrderDetails = editableOrder.OrderDetails;
 
-        //    _ordersRepository.Update(editableOrder);
-        //    _ordersViewSource.View.Refresh();
-        //}
-        //#endregion
+            if (!_dialogService.EditOrder(editableOrder, _productsRepository, _employeesRepository, _customersRepository, _shippersRepository))
+                return;
+
+            _ordersRepository.Update(editableOrder);
+
+            _ordersViewSource.View.Refresh();
+        }
+        #endregion
+
+        #region ArchiveOrderCommand
+        private ICommand? _ArchiveOrderCommand;
+
+        /// <summary>
+        /// Archive selected order command 
+        /// </summary>
+        public ICommand? ArchiveOrderCommand => _ArchiveOrderCommand
+            ??= new LambdaCommand<Order>(OnArchiveOrderCommandExecuted, CanArchiveOrderCommandnExecute);
+
+        private bool CanArchiveOrderCommandnExecute(Order? order) => order != null || SelectedOrder != null;
+
+        private void OnArchiveOrderCommandExecuted(Order? order)
+        {
+            var archivableOrder = order ?? SelectedOrder;
+            if (archivableOrder is null) return;
+
+            if (!_dialogService.Confirmation(
+                $"Are you sure you want to archive the order for {archivableOrder.OrderDate} ?",
+                "Order archiving")) return;
+
+            if (_ordersRepository.Entities != null && _ordersRepository.Entities.Any(o => o == order || o == SelectedOrder))
+                _ordersRepository.Archive(archivableOrder);
+
+            Orders?.Remove(archivableOrder);
+            ArchivedOrders?.Add(archivableOrder);
+
+            if (ReferenceEquals(SelectedOrder, archivableOrder))
+                SelectedOrder = null;
+        }
+        #endregion
+
+        #region UnArchiveOrderCommand
+        private ICommand? _UnArchiveOrderCommand;
+
+        /// <summary>
+        /// Unarchive selected ordr command 
+        /// </summary>
+        public ICommand? UnArchiveOrderCommand => _UnArchiveOrderCommand
+            ??= new LambdaCommand<Order>(OnUnArchiveOrderCommandExecuted, CanUnArchiveOrderCommandnExecute);
+
+        private bool CanUnArchiveOrderCommandnExecute(Order? order) => order != null || SelectedOrder != null;
+
+        private void OnUnArchiveOrderCommandExecuted(Order? order)
+        {
+            var archivableOrder = order ?? SelectedOrder;
+            if (archivableOrder is null) return;
+
+            if (!_dialogService.Confirmation(
+                $"Are you sure you want to unarchive the order for {archivableOrder.OrderDate} ?",
+                "Order unarchiving")) return;
+
+            if (_ordersRepository.Entities != null && _ordersRepository.Entities.Any(o => o == order || o == SelectedOrder))
+                _ordersRepository.UnArchive(archivableOrder);
+
+            ArchivedOrders?.Remove(archivableOrder);
+            Orders?.Add(archivableOrder);
+
+            if (ReferenceEquals(SelectedOrder, archivableOrder))
+                SelectedOrder = null;
+        }
+        #endregion
 
         #region RemoveOrderCommand
         private ICommand? _RemoveOrderCommand;
@@ -195,7 +298,7 @@ namespace Librarian.ViewModels
                 _ordersRepository.Remove(removableOrder.Id);
 
 
-            Orders?.Remove(removableOrder);
+            ArchivedOrders?.Remove(removableOrder);
             if (ReferenceEquals(SelectedOrder, removableOrder))
                 SelectedOrder = null;
         }
@@ -234,8 +337,10 @@ namespace Librarian.ViewModels
             _dialogService = dialogService;
 
             _ordersViewSource = new CollectionViewSource();
+            _archivedOrdersViewSource = new CollectionViewSource();
 
             _ordersViewSource.Filter += OnOrdersFilter;
+            _archivedOrdersViewSource.Filter += OnArchivedOrdersFilter;
         }
 
         private void OnOrdersFilter(object sender, FilterEventArgs e)
@@ -252,6 +357,22 @@ namespace Librarian.ViewModels
                 (!order.Employee?.Surname?.Contains(OrdersFilter) ?? true) && 
                 (!order.ShipVia?.Name?.Contains(OrdersFilter) ?? true))
                     e.Accepted = false;
+        }
+
+        private void OnArchivedOrdersFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Order order) || string.IsNullOrWhiteSpace(ArchivedOrdersFilter)) return;
+
+            var orderDate = order.OrderDate.ToString();
+
+            if ((!orderDate.Contains(ArchivedOrdersFilter)) &&
+                (!order.OrderDetails?.Any(d => d.Product?.Name?.Contains(ArchivedOrdersFilter) ?? false) ?? true) &&
+                !order.Amount.ToString().Contains(ArchivedOrdersFilter) &&
+                (!order.Customer?.ContactNumber?.Contains(ArchivedOrdersFilter) ?? true) &&
+                (!order.Employee?.Name?.Contains(ArchivedOrdersFilter) ?? true) &&
+                (!order.Employee?.Surname?.Contains(ArchivedOrdersFilter) ?? true) &&
+                (!order.ShipVia?.Name?.Contains(ArchivedOrdersFilter) ?? true))
+                e.Accepted = false;
         }
     }
 }

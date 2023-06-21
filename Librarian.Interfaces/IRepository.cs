@@ -2,6 +2,8 @@
 {
     public interface IRepository<T> where  T : class, IEntity, IArchivable, new()
     {
+        bool AutoSaveChanges { get; set; }
+
         IQueryable<T>? Entities { get; }
 
         T? Get(int id);
@@ -27,5 +29,9 @@
         void Remove(int id);
 
         Task RemoveAsync(int id, CancellationToken cancellation = default);
+
+        int SaveChanges();
+
+        Task<int> SaveChangesAsync();
     }
 }

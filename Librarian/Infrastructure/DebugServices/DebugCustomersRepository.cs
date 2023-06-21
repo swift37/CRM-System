@@ -28,6 +28,7 @@ namespace Librarian.Infrastructure.DebugServices
         }
 
         public IQueryable<Customer>? Entities { get; }
+        public bool AutoSaveChanges { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Customer? Add(Customer entity)
         {
@@ -65,6 +66,16 @@ namespace Librarian.Infrastructure.DebugServices
         }
 
         public Task RemoveAsync(int id, CancellationToken cancellation = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> SaveChangesAsync()
         {
             throw new NotImplementedException();
         }

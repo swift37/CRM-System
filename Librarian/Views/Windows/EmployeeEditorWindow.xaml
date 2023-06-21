@@ -9,7 +9,7 @@
         xmlns:vm="clr-namespace:Librarian.ViewModels"
         xmlns:local="clr-namespace:Librarian.Views.Windows"
         d:DataContext="{d:DesignInstance {x:Type vm:EmployeeEditorViewModel}, IsDesignTimeCreatable=True}"
-        Width="980" Height="425" MinWidth="980" MinHeight="425" WindowStartupLocation="CenterScreen"
+        Width="960" Height="425" MinWidth="960" MinHeight="425" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
 
     <Border CornerRadius="15">
@@ -49,7 +49,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" Margin="0,25,20,25">
+                <Grid Grid.Column="0" Margin="0,25,30,25">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -115,7 +115,7 @@
 
                 </Grid>
 
-                <Grid Grid.Column="1" Margin="20,25,20,25">
+                <Grid Grid.Column="1" Margin="10,25,10,25">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -175,7 +175,7 @@
                     </DockPanel>
                 </Grid>
 
-                <Grid Grid.Column="2" Margin="20,25,0,25">
+                <Grid Grid.Column="2" Margin="30,25,0,25">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>

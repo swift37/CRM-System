@@ -5,23 +5,54 @@ using Librarian.Services.Interfaces;
 using LiveCharts.Helpers;
 using System;
 using System.Linq;
+using static Librarian.Services.Interfaces.IStatisticsCollectionService;
 
 namespace Librarian.Services
 {
     public class StatisticsCollectionService : IStatisticsCollectionService
     {
+        public GlobalStatistics CollectGlobalStatistics(
+            IRepository<Order> ordersRepository, 
+            TimePeriod period)
+        {
+            if (ordersRepository.Entities is null)
+                throw new ArgumentNullException(nameof(ordersRepository.Entities));
+
+            var orders = ordersRepository.Entities;
+            var glStats = new GlobalStatistics();
+            double daysCount = (double)period;
+
+            var yearSalesStatistics = Enumerable.Range(1, 12).Select(i => new DataPoint
+            {
+                Date = DateTime.Now.AddDays(-daysCount / 12 * i - daysCount / 12),
+                Value = orders.Where(o =>
+                o.OrderDate < DateTime.Now.AddDays(-daysCount / 12 * i - daysCount / 12) && 
+                o.OrderDate > DateTime.Now.AddDays(-daysCount / 12 * i))
+                .Sum(o => o.ProductsQuantity)
+            });
+
+            var timePeriodOrders = orders.Where(o =>
+                o.OrderDate < DateTime.Now && o.OrderDate > DateTime.Now.AddDays(daysCount));
+
+            glStats.Income = timePeriodOrders.Sum(o => o.Amount);
+            glStats.AverageOrderAmount = timePeriodOrders.Average(o => o.Amount);
+            glStats.OrdersCount = timePeriodOrders.Count();
+
+            return glStats;
+        }
+
         public StatisticsDetails CollectProductStatistics(
             Product? product, 
-            IRepository<OrderDetails> _orderDetailsRepository)
+            IRepository<OrderDetails> ordersDetailsRepository)
         {
             if (product is null) 
                 throw new ArgumentNullException(nameof(product));
-            if (_orderDetailsRepository.Entities is null) 
-                throw new ArgumentNullException(nameof(_orderDetailsRepository.Entities));
-
+            if (ordersDetailsRepository.Entities is null) 
+                throw new ArgumentNullException(nameof(ordersDetailsRepository.Entities));
+            
             var statisticsDetails = new StatisticsDetails();
 
-            var productOrderDetailsQuery = _orderDetailsRepository.Entities.Where(od => od.ProductId == product.Id);
+            var productOrderDetailsQuery = ordersDetailsRepository.Entities.Where(od => od.ProductId == product.Id);
 
             var yearSalesStatistics = Enumerable.Range(1, 12).Select(i => new DataPoint
             {
@@ -45,16 +76,16 @@ namespace Librarian.Services
 
         public StatisticsDetails CollectCategoryStatistics(
             Category? category,
-            IRepository<OrderDetails> _orderDetailsRepository)
+            IRepository<OrderDetails> ordersDetailsRepository)
         {
             if (category is null)
                 throw new ArgumentNullException(nameof(category));
-            if (_orderDetailsRepository.Entities is null)
-                throw new ArgumentNullException(nameof(_orderDetailsRepository.Entities));
+            if (ordersDetailsRepository.Entities is null)
+                throw new ArgumentNullException(nameof(ordersDetailsRepository.Entities));
 
             var statisticsDetails = new StatisticsDetails();
 
-            var categoryOrderDetailsQuery = _orderDetailsRepository.Entities
+            var categoryOrderDetailsQuery = ordersDetailsRepository.Entities
                 .Where(od => od.Product != null && od.Product.CategoryId == category.Id);
 
             var yearSalesStatistics = Enumerable.Range(1, 12).Select(i => new DataPoint
@@ -83,19 +114,19 @@ namespace Librarian.Services
 
             return statisticsDetails;
         }
-
+        
         public StatisticsDetails CollectEmployeeStatistics(
             Employee? employee,
-            IRepository<Order> _ordersRepository)
+            IRepository<Order> ordersRepository)
         {
             if (employee is null)
                 throw new ArgumentNullException(nameof(employee));
-            if (_ordersRepository.Entities is null)
-                throw new ArgumentNullException(nameof(_ordersRepository.Entities));
+            if (ordersRepository.Entities is null)
+                throw new ArgumentNullException(nameof(ordersRepository.Entities));
 
             var statisticsDetails = new StatisticsDetails();
 
-            var employeOrdersQuery = _ordersRepository.Entities.Where(o => o.EmployeeId == employee.Id);
+            var employeOrdersQuery = ordersRepository.Entities.Where(o => o.EmployeeId == employee.Id);
 
             var yearSalesStatistics = Enumerable.Range(1, 12).Select(i => new DataPoint
             {

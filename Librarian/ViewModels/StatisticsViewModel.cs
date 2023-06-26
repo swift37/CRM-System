@@ -1,17 +1,16 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Interfaces;
 using Librarian.Models;
-using Librarian.Services;
+using Librarian.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -24,74 +23,165 @@ namespace Librarian.ViewModels
         private readonly IRepository<Employee> _employeesRepository;
         private readonly IRepository<Order> _ordersRepository;
         private readonly IRepository<OrderDetails> _ordersDetailsRepository;
-        
-        private CollectionViewSource _topProductsViewSource;
+        private readonly IUserDialogService _dialogService;
+        private readonly IStatisticsCollectionService _statisticsService;
+        private CollectionViewSource _ProductsStatisticsViewSource;
+        private CollectionViewSource _CategoriesStatisticsViewSource;
+        private CollectionViewSource _EmployeesStatisticsViewSource;
 
         #region Properties
 
-        #region TopProducts
-        private ObservableCollection<TopProductsInfo>? _TopProducts = new ObservableCollection<TopProductsInfo>();
+        #region ProductsStatistics
+        private ObservableCollection<Statistics<Product>>? _ProductsStatistics = new ObservableCollection<Statistics<Product>>();
 
         /// <summary>
         /// Top Products collection.
         /// </summary>
-        public ObservableCollection<TopProductsInfo>? TopProducts
+        public ObservableCollection<Statistics<Product>>? ProductsStatistics
         {
-            get => _TopProducts;
+            get => _ProductsStatistics;
             set
             {
-                if (Set(ref _TopProducts, value))
-                    _topProductsViewSource.Source = value;
-                OnPropertyChanged(nameof(TopProductsView));
+                if (Set(ref _ProductsStatistics, value))
+                    _ProductsStatisticsViewSource.Source = value;
+                OnPropertyChanged(nameof(ProductsStatisticsView));
             }
         }
         #endregion
 
-        #region ProductsView
+        #region ProductsStatisticsView
         /// <summary>
         /// Top Products collection view.
         /// </summary>
-        public ICollectionView TopProductsView => _topProductsViewSource.View;
+        public ICollectionView ProductsStatisticsView => _ProductsStatisticsViewSource.View;
         #endregion
 
-        #region ProductsNameFilter
-        private string? _ProductsNameFilter;
+        #region ProductsFilter
+        private string? _ProductsFilter;
 
         /// <summary>
-        /// Products name filter.
+        /// Products filter.
         /// </summary>
-        public string? ProductsNameFilter 
-        { 
-            get => _ProductsNameFilter; 
+        public string? ProductsFilter
+        {
+            get => _ProductsFilter;
             set
             {
-                if (Set(ref _ProductsNameFilter, value))
-                    _topProductsViewSource.View.Refresh();
-            } 
+                if (Set(ref _ProductsFilter, value))
+                    _ProductsStatisticsViewSource.View.Refresh();
+            }
         }
         #endregion
 
-        #region TopCategories
+        #region SelectedProductStatistics
+        private Statistics<Product>? _SelectedProductStatistics;
+
         /// <summary>
-        /// Top categories collection view.
+        /// Selected product statistics
         /// </summary>
-        public ObservableCollection<TopCategoryInfo> TopCategories { get; set; } = new ObservableCollection<TopCategoryInfo>();
+        public Statistics<Product>? SelectedProductStatistics { get => _SelectedProductStatistics; set => Set(ref _SelectedProductStatistics, value); }
         #endregion
 
-        #region TopEmployees
+        #region CategoriesStatistics
+        private ObservableCollection<Statistics<Category>>? _CategoriesStatistics = new ObservableCollection<Statistics<Category>>();
+
+        /// <summary>
+        /// Top Categories collection.
+        /// </summary>
+        public ObservableCollection<Statistics<Category>>? CategoriessStatistics
+        {
+            get => _CategoriesStatistics;
+            set
+            {
+                if (Set(ref _CategoriesStatistics, value))
+                    _CategoriesStatisticsViewSource.Source = value;
+                OnPropertyChanged(nameof(CategoriesStatisticsView));
+            }
+        }
+        #endregion
+
+        #region CategoriesStatisticsView
+        /// <summary>
+        /// Top Categories collection view.
+        /// </summary>
+        public ICollectionView CategoriesStatisticsView => _CategoriesStatisticsViewSource.View;
+        #endregion
+
+        #region CategoriesFilter
+        private string? _CategoriesFilter;
+
+        /// <summary>
+        /// Categories filter.
+        /// </summary>
+        public string? CategoriesFilter
+        {
+            get => _CategoriesFilter;
+            set
+            {
+                if (Set(ref _CategoriesFilter, value))
+                    _CategoriesStatisticsViewSource.View.Refresh();
+            }
+        }
+        #endregion
+
+        #region SelectedCategoryStatistics
+        private Statistics<Category>? _SelectedCategoryStatistics;
+
+        /// <summary>
+        /// Selected category statistics
+        /// </summary>
+        public Statistics<Category>? SelectedCategoryStatistics { get => _SelectedCategoryStatistics; set => Set(ref _SelectedCategoryStatistics, value); }
+        #endregion
+
+        #region EmployeesStatistics
+        private ObservableCollection<Statistics<Employee>>? _EmployeesStatistics = new ObservableCollection<Statistics<Employee>>();
+
+        /// <summary>
+        /// Top Employees collection.
+        /// </summary>
+        public ObservableCollection<Statistics<Employee>>? EmployeesStatistics
+        {
+            get => _EmployeesStatistics;
+            set
+            {
+                if (Set(ref _EmployeesStatistics, value))
+                    _EmployeesStatisticsViewSource.Source = value;
+                OnPropertyChanged(nameof(EmployeesStatisticsView));
+            }
+        }
+        #endregion
+
+        #region EmployeesStatisticsView
         /// <summary>
         /// Top Employees collection view.
         /// </summary>
-        public ObservableCollection<TopEmployeeInfo> TopEmployees { get; set; } = new ObservableCollection<TopEmployeeInfo>();
+        public ICollectionView EmployeesStatisticsView => _EmployeesStatisticsViewSource.View;
         #endregion
 
-        #region ProductsCount
-        private int _ProductsCount;
+        #region EmployeesFilter
+        private string? _EmployeesFilter;
 
         /// <summary>
-        /// Products count.
+        /// Employees filter.
         /// </summary>
-        public int ProductsCount { get => _ProductsCount; set => Set(ref _ProductsCount, value); }
+        public string? EmployeesFilter
+        {
+            get => _EmployeesFilter;
+            set
+            {
+                if (Set(ref _EmployeesFilter, value))
+                    _EmployeesStatisticsViewSource.View.Refresh();
+            }
+        }
+        #endregion
+
+        #region SelectedEmployeeStatistics
+        private Statistics<Employee>? _SelectedEmployeeStatistics;
+
+        /// <summary>
+        /// Selected employee statistics
+        /// </summary>
+        public Statistics<Employee>? SelectedEmployeeStatistics { get => _SelectedEmployeeStatistics; set => Set(ref _SelectedEmployeeStatistics, value); }
         #endregion
 
         #endregion
@@ -110,9 +200,6 @@ namespace Librarian.ViewModels
 
         private async void OnCollectStatisticsCommandExecuted()
         {
-            if (_productsRepository.Entities is null) return;
-            ProductsCount = await _productsRepository.Entities.CountAsync();
-
             await CollectProductsOrdersStatisticAsync();
             await CollectCategoriesTransactionsStatisticAsync();
             await CollectEmployeesDealsStatisticAsync();
@@ -120,46 +207,42 @@ namespace Librarian.ViewModels
 
         private async Task CollectProductsOrdersStatisticAsync()
         {
-            var ordersDetails = _ordersDetailsRepository.Entities;
+            var orders = _ordersRepository.Entities;
+            var products = _productsRepository.Entities;
 
-            if (ordersDetails is null) return;
-            if (_productsRepository.Entities is null) return;
+            if (orders is null || products is null) return;
 
-            var topProductsQuery = ordersDetails.GroupBy(od => od.ProductId)
-                .Select(prodStat => new { 
-                    ProductId = prodStat.Key, 
-                    SalesCount = prodStat.Sum(d => d.Quantity), 
-                    SalesAmount = prodStat.Sum(o => o.UnitPrice * o.Quantity) })
-                .OrderByDescending(product => product.SalesCount)
-                .Take(50)
-                .Join(_productsRepository.Entities,
-                    prodStat => prodStat.ProductId,
-                    product => product.Id,
-                    (prodStat, product) => new TopProductsInfo { Product = product, SalesCount = prodStat.SalesCount, SalesAmount = prodStat.SalesAmount });
+            var topProductsQuery = products.Select(p => new Statistics<Product>
+            {
+                Entity = p,
+                Popularity = (double)p.OrderDetails.Select(d => d.OrderId).Distinct().Count() / orders.Count(),
+                TotalSales = p.OrderDetails.Sum(d => d.Quantity),
+                TotalIncome = p.OrderDetails.Sum(d => d.UnitPrice * d.Quantity)
+            })
+                .OrderByDescending(p => p.TotalSales)
+                .Take(100);
 
-            TopProducts = (await topProductsQuery.ToArrayAsync()).ToObservableCollection();    
+            ProductsStatistics?.ClearAdd(await topProductsQuery.ToArrayAsync());
         }
 
         private async Task CollectCategoriesTransactionsStatisticAsync()
         {
             var ordersDetails = _ordersDetailsRepository.Entities;
+            var orders = _ordersRepository.Entities;
 
-            if (ordersDetails is null) return;
-            if (_categoriesRepository.Entities is null) return;
+            if (ordersDetails is null || orders is null) return;
 
-            var topCategoriesQuery = ordersDetails.GroupBy(od => od.Product.Category.Id)
-                .Select(catStat => new { 
-                    CategoryId = catStat.Key, 
-                    SalesCount = catStat.Sum(o => o.Quantity), 
-                    SalesAmount = catStat.Sum(o => o.UnitPrice * o.Quantity) })
-                .OrderByDescending(category => category.SalesCount)
-                .Take(15)
-                .Join(_categoriesRepository.Entities,
-                    catStat => catStat.CategoryId,
-                    category => category.Id,
-                    (catStat, category) => new TopCategoryInfo { Category = category, SalesCount = catStat.SalesCount, SalesAmount = catStat.SalesAmount });
+            var topCategoriesQuery = ordersDetails.GroupBy(od => od.Product.Category)
+                .Select(od => new Statistics<Category>
+                { 
+                    Entity = od.Key, 
+                    Popularity = (double)od.Select(d => d.OrderId).Distinct().Count() / orders.Count(),
+                    TotalSales = od.Sum(o => o.Quantity), 
+                    TotalIncome = od.Sum(o => o.UnitPrice * o.Quantity) 
+                })
+                .OrderByDescending(category => category.TotalSales);
 
-            TopCategories.ClearAdd(await topCategoriesQuery.ToArrayAsync());
+            CategoriesStatistics?.ClearAdd(await topCategoriesQuery.ToArrayAsync());
         }
 
         private async Task CollectEmployeesDealsStatisticAsync()
@@ -167,22 +250,81 @@ namespace Librarian.ViewModels
             var orders = _ordersRepository.Entities;
 
             if (orders is null) return;
-            if (_employeesRepository.Entities is null) return;
 
-            var topEmployeesQuery = orders.GroupBy(o => o.Employee.Id)
-                .Select(empStat => new
+            var topEmployeesQuery = orders.GroupBy(o => o.Employee)
+                .Select(o => new Statistics<Employee>
                 {
-                    EmployeeId = empStat.Key,
-                    SalesCount = empStat.Sum(o => o.OrderDetails.Sum(d => d.Quantity)),
-                    SalesAmount = empStat.Sum(o => o.Amount)
+                    Entity = o.Key,
+                    Popularity = (double)o.Count() / orders.Count(),
+                    TotalSales = o.Sum(o => o.ProductsQuantity),
+                    TotalIncome = o.Sum(o => o.Amount)
                 })
-                .OrderByDescending(employee => employee.SalesCount)
-                .Join(_employeesRepository.Entities,
-                    empStat => empStat.EmployeeId,
-                    employee => employee.Id,
-                    (empStat, employee) => new TopEmployeeInfo { Employee = employee, SalesCount = empStat.SalesCount, SalesAmount = empStat.SalesAmount });
+                .OrderByDescending(employee => employee.TotalSales);
 
-            //TopEmployees.ClearAdd(await topEmployeesQuery.ToArrayAsync());
+            EmployeesStatistics?.ClearAdd(await topEmployeesQuery.ToArrayAsync());
+        }
+        #endregion
+
+        #region CollectProductStatisticsDetailsCommand
+        private ICommand? _CollectProductStatisticsDetailsCommand;
+
+        /// <summary>
+        /// Collect product statistics details command
+        /// </summary>
+        public ICommand? CollectProductStatisticsDetailsCommand => _CollectProductStatisticsDetailsCommand ??= new LambdaCommand<Product>(OnCollectProductStatisticsDetailsCommandExecuted, CanCollectProductStatisticsDetailsCommandExecute);
+
+        private bool CanCollectProductStatisticsDetailsCommandExecute(Product? product) => 
+            product != null || (SelectedProductStatistics != null && SelectedProductStatistics.Entity != null);
+
+        private void OnCollectProductStatisticsDetailsCommandExecuted(Product? product)
+        {
+            var selectedProduct = product ?? SelectedProductStatistics?.Entity;
+
+            var statisticsDetails = _statisticsService.CollectProductStatistics(selectedProduct, _ordersDetailsRepository);
+
+            _dialogService.ShowStatisticsDetails(statisticsDetails);
+        }
+        #endregion
+
+        #region CollectCategoryStatisticsDetailsCommand
+        private ICommand? _CollectCategoryStatisticsDetailsCommand;
+
+        /// <summary>
+        /// Collect category statistics details command
+        /// </summary>
+        public ICommand? CollectCategoryStatisticsDetailsCommand => _CollectCategoryStatisticsDetailsCommand ??= new LambdaCommand<Category>(OnCollectCategoryStatisticsDetailsCommandExecuted, CanCollectCategoryStatisticsDetailsCommandExecute);
+
+        private bool CanCollectCategoryStatisticsDetailsCommandExecute(Category? category) =>
+            category != null || (SelectedCategoryStatistics != null && SelectedCategoryStatistics.Entity != null);
+
+        private void OnCollectCategoryStatisticsDetailsCommandExecuted(Category? category)
+        {
+            var selectedCategory = category ?? SelectedCategoryStatistics?.Entity;
+
+            var statisticsDetails = _statisticsService.CollectCategoryStatistics(selectedCategory, _ordersDetailsRepository);
+
+            _dialogService.ShowStatisticsDetails(statisticsDetails);
+        }
+        #endregion
+
+        #region CollectEmployeeStatisticsDetailsCommand
+        private ICommand? _CollectEmployeeStatisticsDetailsCommand;
+
+        /// <summary>
+        /// Collect employee statistics details command
+        /// </summary>
+        public ICommand? CollectEmployeeStatisticsDetailsCommand => _CollectEmployeeStatisticsDetailsCommand ??= new LambdaCommand<Employee>(OnCollectEmployeeStatisticsDetailsCommandExecuted, CanCollectEmployeeStatisticsDetailsCommandExecute);
+
+        private bool CanCollectEmployeeStatisticsDetailsCommandExecute(Employee? employee) =>
+            employee != null || (SelectedEmployeeStatistics != null && SelectedEmployeeStatistics.Entity != null);
+
+        private void OnCollectEmployeeStatisticsDetailsCommandExecuted(Employee? employee)
+        {
+            var selectedEmployee = employee ?? SelectedEmployeeStatistics?.Entity;
+
+            var statisticsDetails = _statisticsService.CollectEmployeeStatistics(selectedEmployee, _ordersRepository);
+
+            _dialogService.ShowStatisticsDetails(statisticsDetails);
         }
         #endregion
 
@@ -193,23 +335,48 @@ namespace Librarian.ViewModels
             IRepository<Category> categoriesRepository,
             IRepository<Employee> employeesRepository, 
             IRepository<Order> ordersRepository,
-            IRepository<OrderDetails> ordersDetailsRepository)
+            IRepository<OrderDetails> ordersDetailsRepository,
+            IUserDialogService dialogService,
+            IStatisticsCollectionService statisticsService)
         {
             _productsRepository = productsRepository;
             _categoriesRepository = categoriesRepository;
             _employeesRepository = employeesRepository;
             _ordersRepository = ordersRepository;
             _ordersDetailsRepository = ordersDetailsRepository;
+            _dialogService = dialogService;
+            _statisticsService = statisticsService;
 
-            _topProductsViewSource = new CollectionViewSource();
-            _topProductsViewSource.Filter += OnProductNameFilter;
+            _ProductsStatisticsViewSource = new CollectionViewSource();
+            _CategoriesStatisticsViewSource = new CollectionViewSource();
+            _EmployeesStatisticsViewSource = new CollectionViewSource();
+
+            _ProductsStatisticsViewSource.Filter += OnProductFilter;
+            _CategoriesStatisticsViewSource.Filter += OnCategoryFilter;
+            _EmployeesStatisticsViewSource.Filter += OnEmployeeFilter;
         }
 
-        private void OnProductNameFilter(object sender, FilterEventArgs e)
+        private void OnProductFilter(object sender, FilterEventArgs e)
         {
-            if (!(e.Item is TopProductsInfo topProduct) || string.IsNullOrWhiteSpace(ProductsNameFilter)) return;
+            if (!(e.Item is Statistics<Product> productStatistics) || string.IsNullOrWhiteSpace(ProductsFilter)) return;
 
-            if (!topProduct.Product?.Name?.Contains(ProductsNameFilter) ?? true) 
+            if (!productStatistics.Entity?.Name?.Contains(ProductsFilter) ?? true) 
+                e.Accepted = false;
+        }
+
+        private void OnCategoryFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Statistics<Category> categoryStatistics) || string.IsNullOrWhiteSpace(CategoriesFilter)) return;
+
+            if (!categoryStatistics.Entity?.Name?.Contains(CategoriesFilter) ?? true)
+                e.Accepted = false;
+        }
+
+        private void OnEmployeeFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Statistics<Employee> employeeStatistics) || string.IsNullOrWhiteSpace(EmployeesFilter)) return;
+
+            if (!employeeStatistics.Entity?.Name?.Contains(EmployeesFilter) ?? true)
                 e.Accepted = false;
         }
     }

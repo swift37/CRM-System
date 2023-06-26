@@ -11,6 +11,7 @@ namespace Librarian.ViewModels
     {
         private readonly ITradingService _tradingService;
         private readonly IUserDialogService _dialogService;
+        private readonly IStatisticsCollectionService _statisticsService;
         private readonly IRepository<Product> _productsRepository;
         private readonly IRepository<Category> _categoriesRepository;
         private readonly IRepository<Employee> _employeesRepository;
@@ -144,7 +145,7 @@ namespace Librarian.ViewModels
 
         private void OnShowStatisticsViewCommandExecuted()
         {
-            CurrentViewModel = new StatisticsViewModel(_productsRepository, _categoriesRepository, _employeesRepository, _ordersRepository, _ordersDetailsRepository);
+            CurrentViewModel = new StatisticsViewModel(_productsRepository, _categoriesRepository, _employeesRepository, _ordersRepository, _ordersDetailsRepository, _dialogService, _statisticsService);
         }
         #endregion
 
@@ -161,7 +162,8 @@ namespace Librarian.ViewModels
             IRepository<Supplier> suppliersRepository,
             IRepository<Shipper> shippersRepository,
             ITradingService tradingService,
-            IUserDialogService dialogService)
+            IUserDialogService dialogService,
+            IStatisticsCollectionService statisticsService)
         {
             _productsRepository = productsRepository;
             _categoriesRepository = categoriesRepository;
@@ -174,6 +176,7 @@ namespace Librarian.ViewModels
             _shippersRepository = shippersRepository;
             _tradingService = tradingService;
             _dialogService = dialogService;
+            _statisticsService = statisticsService;
         }
 
         //public async void TestTransactionAsync()

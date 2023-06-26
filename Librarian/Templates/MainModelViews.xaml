@@ -18,6 +18,6 @@
         <v:OrdersView DataContext="{Binding}"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:StatisticsViewModel}">
-        <v:StatisticView DataContext="{Binding}"/>
+        <v:StatisticsView DataContext="{Binding}"/>
     </DataTemplate>
 </ResourceDictionary>

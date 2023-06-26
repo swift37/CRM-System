@@ -2,9 +2,9 @@
 
 namespace Librarian.Views
 {
-    public partial class StatisticView : UserControl
+    public partial class StatisticsView : UserControl
     {
-        public StatisticView()
+        public StatisticsView()
         {
             InitializeComponent();
         }

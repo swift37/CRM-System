@@ -88,7 +88,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Top Categories collection.
         /// </summary>
-        public ObservableCollection<Statistics<Category>>? CategoriessStatistics
+        public ObservableCollection<Statistics<Category>>? CategoriesStatistics
         {
             get => _CategoriesStatistics;
             set

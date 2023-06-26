@@ -101,6 +101,15 @@ namespace Librarian.ViewModels
         public decimal OrderAmount { get => _OrderAmount; set => Set(ref _OrderAmount, value); }
         #endregion
 
+        #region OrderProductsQuantity
+        private int _OrderProductsQuantity;
+
+        /// <summary>
+        /// Order amount
+        /// </summary>
+        public int OrderProductsQuantity { get => _OrderProductsQuantity; set => Set(ref _OrderProductsQuantity, value); }
+        #endregion
+
         #region OrderEmployee
         private Employee? _OrderEmployee;
 
@@ -309,6 +318,9 @@ namespace Librarian.ViewModels
             if (!_dialogService.EditOrderDetails(orderDetails, _productsRepository)) return;
 
             OrderDetails?.Add(orderDetails);
+
+            OrderAmount += (orderDetails.Quantity * orderDetails.UnitPrice) - orderDetails.Discount;
+            OrderProductsQuantity += orderDetails.Quantity;
         }
         #endregion
 
@@ -330,6 +342,9 @@ namespace Librarian.ViewModels
 
             if (OrderDetails != null && OrderDetails.Any(d => d == removableOrderDetails))
                 OrderDetails.Remove(removableOrderDetails);
+
+            OrderAmount -= (removableOrderDetails.Quantity * removableOrderDetails.UnitPrice) - removableOrderDetails.Discount;
+            OrderProductsQuantity -= removableOrderDetails.Quantity;
 
             if (ReferenceEquals(SelectedOrderDetails, removableOrderDetails))
                 SelectedOrderDetails = null;
@@ -374,6 +389,7 @@ namespace Librarian.ViewModels
             RequiredDate = order.RequiredDate;
             ShippedDate = order.ShippedDate;
             OrderAmount = order.Amount;
+            OrderProductsQuantity = order.ProductsQuantity;
             OrderEmployee = order.Employee;
             OrderCustomer = order.Customer;
             OrderShipVia = order.ShipVia;

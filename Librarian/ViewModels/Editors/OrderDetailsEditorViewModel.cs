@@ -29,7 +29,15 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Product
         /// </summary>
-        public Product? OrderDetailsProduct { get => _OrderDetailsProduct; set => Set(ref _OrderDetailsProduct, value); }
+        public Product? OrderDetailsProduct 
+        { 
+            get => _OrderDetailsProduct; 
+            set
+            {
+                if (Set(ref _OrderDetailsProduct, value) && value != null)
+                    OrderDetailsUnitPrice = value.UnitPrice;
+            }
+        }
         #endregion
 
         #region OrderDetailsUnitPrice

@@ -113,6 +113,7 @@ namespace Librarian.Services
             order.RequiredDate = orderEditorModel.RequiredDate;
             order.ShippedDate = orderEditorModel.ShippedDate;
             order.Amount = orderEditorModel.OrderAmount;
+            order.ProductsQuantity = orderEditorModel.OrderProductsQuantity;
             order.Employee = orderEditorModel.OrderEmployee;
             order.Customer = orderEditorModel.OrderCustomer;
             order.ShipVia = orderEditorModel.OrderShipVia;

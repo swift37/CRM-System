@@ -114,14 +114,12 @@
                         <TextBox Style="{StaticResource textBoxEditor}" Text="{Binding OrderAmount}" IsReadOnly="True"/>
                     </DockPanel>
 
-                    <!--Required DateTime-->
+                    <!--Order Amount-->
                     <DockPanel Grid.Row="4">
-                        <TextBlock DockPanel.Dock="Top" Text="Required Date" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                        <TextBlock DockPanel.Dock="Top" Text="Products Quantity" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                        <Border CornerRadius="10" Background="#ffffff" Padding="10,5" Margin="0,9,0,11">
-                            <DatePicker SelectedDate="{Binding RequiredDate}" BorderThickness="0" Foreground="#5c5c5c"/>
-                        </Border>
+                        <TextBox Style="{StaticResource textBoxEditor}" Text="{Binding OrderProductsQuantity}" IsReadOnly="True"/>
                     </DockPanel>
 
                 </Grid>
@@ -132,10 +130,21 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!--Order Shipper-->
+                    <!--Required DateTime-->
                     <DockPanel Grid.Row="0">
+                        <TextBlock DockPanel.Dock="Top" Text="Required Date" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Border CornerRadius="10" Background="#ffffff" Padding="10,5" Margin="0,9,0,11">
+                            <DatePicker SelectedDate="{Binding RequiredDate}" BorderThickness="0" Foreground="#5c5c5c"/>
+                        </Border>
+                    </DockPanel>
+
+                    <!--Order Shipper-->
+                    <DockPanel Grid.Row="1">
                         <TextBlock DockPanel.Dock="Top" Text="Shipping Via" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
@@ -152,7 +161,7 @@
                     </DockPanel>
 
                     <!--Order Shippping Name-->
-                    <DockPanel Grid.Row="1">
+                    <DockPanel Grid.Row="2">
                         <TextBlock DockPanel.Dock="Top" Text="Shipping Name" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
@@ -166,7 +175,7 @@
                     </DockPanel>
 
                     <!--Order Shippping Cost-->
-                    <DockPanel Grid.Row="2">
+                    <DockPanel Grid.Row="3">
                         <TextBlock DockPanel.Dock="Top" Text="Shipping Cost" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
@@ -180,7 +189,7 @@
                     </DockPanel>
 
                     <!--Order Shippping Address-->
-                    <DockPanel Grid.Row="3">
+                    <DockPanel Grid.Row="4">
                         <TextBlock DockPanel.Dock="Top" Text="Shipping Address" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
@@ -212,8 +221,8 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding Product.Name}"/>
-                                        <TextBlock Text="{Binding Quantity, StringFormat= - {0} pcs. }"/>
-                                        <TextBlock Text="{Binding UnitPrice, StringFormat=for {0:C}}" Margin="0,0,5,0"/>
+                                        <TextBlock Text="{Binding Quantity, StringFormat=' - {0} pcs.'}"/>
+                                        <TextBlock Text="{Binding UnitPrice, StringFormat=' for {0:C}'}" Margin="0,0,5,0"/>
                                         <TextBlock Text="{Binding Discount, StringFormat= | Disc: {0:C}}" Margin="0,0,5,0"/>
                                     </StackPanel>
                                 </DataTemplate>

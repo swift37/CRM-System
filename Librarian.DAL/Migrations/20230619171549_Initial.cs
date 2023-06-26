@@ -168,6 +168,7 @@ namespace Librarian.DAL.Migrations
                     ShippedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EmployeeId = table.Column<int>(type: "int", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: true),
+                    ProductsQuantity = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ShipViaId = table.Column<int>(type: "int", nullable: true),
                     ShippingCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),

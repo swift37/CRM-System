@@ -19,7 +19,7 @@ namespace Librarian.Infrastructure.DebugServices
 
             var random = new Random();
 
-            var dates = Enumerable.Range(1, 100).Select(d => DateTime.UtcNow.AddDays(-random.Next(175))).ToArray();
+            var dates = Enumerable.Range(1, 100).Select(d => DateTime.Now.AddDays(-random.Next(365))).ToArray();
 
             Entities = Enumerable.Range(1, 100)
                 .Select(i => new Order
@@ -29,9 +29,11 @@ namespace Librarian.Infrastructure.DebugServices
                     RequiredDate = dates[i].AddDays(random.Next(5, 5)),
                     Employee = random.NextItem(employeesRepository.Entities.ToArray()),
                     Customer = random.NextItem(customersRepository.Entities.ToArray()),
+                    ProductsQuantity = random.Next(10),
+                    Amount = (decimal)(random.NextDouble() * 500 + 50),
                     ShipName = $"Name {i}",
                     ShipAddress = $"USA, New York, Test st.",
-                    ShippingCost = (decimal)(random.NextDouble() * 300 + 50),
+                    ShippingCost = (decimal)(random.NextDouble() * 100 + 10),
                 }).AsQueryable();
         }
 

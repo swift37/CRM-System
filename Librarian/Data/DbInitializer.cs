@@ -247,7 +247,7 @@ namespace Librarian.Data
             if (_shippers is null) throw new ArgumentNullException(nameof(_shippers));
             var random = new Random();
 
-            var dates = Enumerable.Range(1, _ordersCount).Select(d => DateTime.UtcNow.AddDays(-random.Next(175))).ToArray();
+            var dates = Enumerable.Range(1, _ordersCount).Select(d => DateTime.Now.AddDays(-random.Next(365))).ToArray();
 
             _orders = Enumerable.Range(1, _ordersCount)
                 .Select(i => new Order
@@ -257,6 +257,8 @@ namespace Librarian.Data
                     RequiredDate = dates[i - 1].AddDays(random.Next(5, 5)),
                     Employee = random.NextItem(_employees),
                     Customer = random.NextItem(_customers),
+                    Amount = random.Next(5,1500),
+                    ProductsQuantity = random.Next(1,15),
                     ShipName = $"Name {i}",
                     ShipAddress = $"USA, New York, Test st.",
                     ShippingCost = (decimal)(random.NextDouble() * 300 + 50),

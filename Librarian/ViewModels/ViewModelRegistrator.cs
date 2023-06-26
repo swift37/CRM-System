@@ -18,6 +18,7 @@ namespace Librarian.ViewModels
             .AddSingleton<EmployeeEditorViewModel>()
             .AddSingleton<OrderEditorViewModel>()
             .AddSingleton<OrderDetailsEditorViewModel>()
+            .AddSingleton<StatisticsDetailsViewModel>()
             ;
     }
 }

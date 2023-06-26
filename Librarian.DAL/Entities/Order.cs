@@ -21,6 +21,8 @@ namespace Librarian.DAL.Entities
 
         public virtual IEnumerable<OrderDetails>? OrderDetails { get; set; }
 
+        public int ProductsQuantity { get; set; }
+
         public decimal Amount { get; set; }
 
         public int ShipViaId { get; set; }

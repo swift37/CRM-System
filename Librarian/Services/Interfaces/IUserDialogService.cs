@@ -1,5 +1,6 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Interfaces;
+using Librarian.Models;
 using System.Collections.Generic;
 
 namespace Librarian.Services.Interfaces
@@ -25,6 +26,8 @@ namespace Librarian.Services.Interfaces
             IRepository<Shipper> shippers);
 
         bool EditOrderDetails(OrderDetails orderDetails, IRepository<Product> products);
+
+        void ShowStatisticsDetails(StatisticsDetails statisticsDetails);
 
         bool Confirmation(string message, string caption);
 

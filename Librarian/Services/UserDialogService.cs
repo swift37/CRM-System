@@ -1,9 +1,9 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Interfaces;
+using Librarian.Models;
 using Librarian.Services.Interfaces;
 using Librarian.ViewModels;
 using Librarian.Views.Windows;
-using System.Collections.Generic;
 using System.Windows;
 
 namespace Librarian.Services
@@ -140,6 +140,17 @@ namespace Librarian.Services
             orderDetails.Discount = orderDetailsEditorModel.OrderDetailsDiscount;
 
             return true;
+        }
+
+        public void ShowStatisticsDetails(StatisticsDetails statisticsDetails)
+        {
+            var statisticsDetailsModel = new StatisticsDetailsViewModel(statisticsDetails);
+            var statisticsDetailsWindow = new StatisticsDetailsWindow
+            {
+                DataContext = statisticsDetailsModel
+            };
+
+            statisticsDetailsWindow.ShowDialog();
         }
 
         public bool Confirmation(string message, string caption) => 

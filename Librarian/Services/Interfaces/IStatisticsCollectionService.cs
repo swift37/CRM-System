@@ -1,13 +1,19 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Interfaces;
 using Librarian.Models;
+using System.Threading.Tasks;
 
 namespace Librarian.Services.Interfaces
 {
     public interface IStatisticsCollectionService
     {
         GlobalStatistics CollectGlobalStatistics(
-            IRepository<Order> ordersRepository, TimePeriod period);
+            IRepository<Order> ordersRepository, 
+            TimePeriod period);
+
+        public Task<GlobalStatistics> CollectGlobalStatisticsAsync(
+            IRepository<Order> ordersRepository,
+            TimePeriod period);
 
         StatisticsDetails CollectProductStatistics(
             Product? product, 
@@ -26,7 +32,7 @@ namespace Librarian.Services.Interfaces
             Today = 1,
             Week = 7, 
             Month = 30,
-            Yaer = 365
+            Year = 365
         }
 
     }

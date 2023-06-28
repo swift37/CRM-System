@@ -2,9 +2,13 @@
 using Librarian.Interfaces;
 using Librarian.Models;
 using Librarian.Services.Interfaces;
+using LiveCharts;
 using LiveCharts.Helpers;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static Librarian.Services.Interfaces.IStatisticsCollectionService;
 
 namespace Librarian.Services
@@ -20,25 +24,71 @@ namespace Librarian.Services
 
             var orders = ordersRepository.Entities;
             var glStats = new GlobalStatistics();
-            double daysCount = (double)period;
-
-            var yearSalesStatistics = Enumerable.Range(1, 12).Select(i => new DataPoint
+            double hoursCount = (double)period * 24;
+            
+            glStats.Values = Enumerable.Range(1, 12).Select(i => new DataPoint
             {
-                Date = DateTime.Now.AddDays(-daysCount / 12 * i - daysCount / 12),
+                Date = DateTime.Now.AddHours(-hoursCount / 12 * i + hoursCount / 12),
                 Value = orders.Where(o =>
-                o.OrderDate < DateTime.Now.AddDays(-daysCount / 12 * i - daysCount / 12) && 
-                o.OrderDate > DateTime.Now.AddDays(-daysCount / 12 * i))
+                o.OrderDate < DateTime.Now.AddHours(-hoursCount / 12 * i + hoursCount / 12) && 
+                o.OrderDate > DateTime.Now.AddHours(-hoursCount / 12 * i))
                 .Sum(o => o.ProductsQuantity)
-            });
+            }).AsChartValues();
 
             var timePeriodOrders = orders.Where(o =>
-                o.OrderDate < DateTime.Now && o.OrderDate > DateTime.Now.AddDays(daysCount));
-
+                o.OrderDate < DateTime.Now && o.OrderDate > DateTime.Now.AddHours(-hoursCount));
+ 
             glStats.Income = timePeriodOrders.Sum(o => o.Amount);
             glStats.AverageOrderAmount = timePeriodOrders.Average(o => o.Amount);
             glStats.OrdersCount = timePeriodOrders.Count();
 
             return glStats;
+        }
+
+        public async Task<GlobalStatistics> CollectGlobalStatisticsAsync(
+            IRepository<Order> ordersRepository,
+            TimePeriod period)
+        {
+            if (ordersRepository.Entities is null)
+                throw new ArgumentNullException(nameof(ordersRepository.Entities));
+
+            var glStats = new GlobalStatistics();
+            glStats.Values = new ChartValues<DataPoint>();
+            int hoursCount = (int)period * 24;
+
+            await foreach (var item in GetTimePeriodStatistic(ordersRepository, hoursCount))
+            {
+                glStats.Values.Add(item);
+            }
+
+            var timePeriodOrders = ordersRepository.Entities.Where(o =>
+                o.OrderDate < DateTime.Now && o.OrderDate > DateTime.Now.AddHours(-hoursCount));
+            
+            glStats.Income = await timePeriodOrders.SumAsync(o => o.Amount);
+            glStats.AverageOrderAmount = await timePeriodOrders.AverageAsync(o => o.Amount);
+            glStats.OrdersCount = await timePeriodOrders.CountAsync();
+
+            return glStats;
+        }
+
+        private async IAsyncEnumerable<DataPoint> GetTimePeriodStatistic(
+            IRepository<Order> ordersRepository,
+            int hoursCount)
+        {
+            if (ordersRepository.Entities is null)
+                throw new ArgumentNullException(nameof(ordersRepository.Entities));
+
+            for (int i = 0; i < 12; i++)
+            {
+                yield return new DataPoint
+                {
+                    Date = DateTime.Now.AddHours(-hoursCount / 12 * i),
+                    Value = await ordersRepository.Entities.Where(o =>
+                    o.OrderDate < DateTime.Now.AddHours(-hoursCount / 12 * i) &&
+                    o.OrderDate > DateTime.Now.AddHours(-hoursCount / 12 * i - hoursCount / 12))
+                .SumAsync(o => o.ProductsQuantity)
+                };
+            }
         }
 
         public StatisticsDetails CollectProductStatistics(

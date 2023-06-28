@@ -84,14 +84,14 @@
                     </DataGridCheckBoxColumn.HeaderTemplate>
                 </DataGridCheckBoxColumn>
 
-                <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="70" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Id}"/>
 
                 <DataGridTemplateColumn Header="Client" IsReadOnly="True" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Border Width="25" Height="25" CornerRadius="50" Margin="0,0,10,0" Background="PaleVioletRed">
-                                    <TextBlock Text="A" Foreground="#ffffff" Margin="0,0,0,1" 
+                                    <TextBlock Text="{Binding Name[0]}" Foreground="#ffffff" Margin="0,0,0,1" 
                                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Border>
 

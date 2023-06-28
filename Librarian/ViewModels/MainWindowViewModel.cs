@@ -58,7 +58,7 @@ namespace Librarian.ViewModels
 
         private void OnShowDashboardViewCommandExecuted()
         {
-            CurrentViewModel = new DashboardViewModel(_ordersRepository);
+            CurrentViewModel = new DashboardViewModel(_ordersRepository, _ordersDetailsRepository, _statisticsService);
         }
         #endregion
 

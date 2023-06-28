@@ -78,7 +78,7 @@
                     <lc:CartesianChart.AxisY>
                         <lc:Axis MinValue="-0.2" Foreground="#717eb2" FontSize="14" ShowLabels="True">
                             <lc:Axis.Separator>
-                                <lc:Separator StrokeThickness="0" Stroke="#717eb2"/>
+                                <lc:Separator StrokeThickness="0"/>
                             </lc:Axis.Separator>
                         </lc:Axis>
                     </lc:CartesianChart.AxisY>

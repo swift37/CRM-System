@@ -27,6 +27,8 @@ namespace Librarian.Services.Interfaces
 
         bool EditOrderDetails(OrderDetails orderDetails, IRepository<Product> products);
 
+        bool EditShipper(Shipper shipper);
+
         void ShowStatisticsDetails(StatisticsDetails statisticsDetails);
 
         bool Confirmation(string message, string caption);

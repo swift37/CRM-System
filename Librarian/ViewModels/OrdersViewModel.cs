@@ -29,6 +29,7 @@ namespace Librarian.ViewModels
 
         private CollectionViewSource _ordersViewSource;
         private CollectionViewSource _archivedOrdersViewSource;
+        private CollectionViewSource _shippersViewSource;
 
         #region Properties
 
@@ -123,6 +124,58 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+
+        #region ShippersView
+        /// <summary>
+        /// Shippers collection view.
+        /// </summary>
+        public ICollectionView ShippersView => _shippersViewSource.View;
+        #endregion
+
+        #region ShippersFilter
+        private string? _ShippersFilter;
+
+        /// <summary>
+        /// Shippers filter.
+        /// </summary>
+        public string? ShippersFilter
+        {
+            get => _ShippersFilter;
+            set
+            {
+                if (Set(ref _ShippersFilter, value))
+                    _shippersViewSource.View.Refresh();
+            }
+        }
+        #endregion
+
+        #region Shippers
+        private ObservableCollection<Shipper>? _Shippers;
+
+        /// <summary>
+        /// Shippers collection.
+        /// </summary>
+        public ObservableCollection<Shipper>? Shippers
+        {
+            get => _Shippers;
+            set
+            {
+                if (Set(ref _Shippers, value))
+                    _shippersViewSource.Source = value;
+                OnPropertyChanged(nameof(ShippersView));
+            }
+        }
+        #endregion
+
+        #region SelectedShipper
+        private Shipper? _SelectedShipper;
+
+        /// <summary>
+        /// Selected shipper.
+        /// </summary>
+        public Shipper? SelectedShipper { get => _SelectedShipper; set => Set(ref _SelectedShipper, value); }
+        #endregion
+
         #endregion
 
         #region LoadDataCommand
@@ -137,11 +190,13 @@ namespace Librarian.ViewModels
 
         private async Task OnLoadDataCommandExecuted()
         {
-            if (_ordersRepository.Entities is null) return;
+            if (_ordersRepository.Entities is null || _shippersRepository.Entities is null) return;
 
             Orders = (await _ordersRepository.Entities.Where(o => o.IsActual).ToArrayAsync()).ToObservableCollection();
             
             ArchivedOrders = (await _ordersRepository.Entities.Where(o => !o.IsActual).ToArrayAsync()).ToObservableCollection();
+
+            Shippers = (await _shippersRepository.Entities.Where(o => o.IsActual).ToArrayAsync()).ToObservableCollection();
         }
         #endregion
 
@@ -230,7 +285,7 @@ namespace Librarian.ViewModels
                 $"Are you sure you want to archive the order for {archivableOrder.OrderDate} ?",
                 "Order archiving")) return;
 
-            if (_ordersRepository.Entities != null && _ordersRepository.Entities.Any(o => o == order || o == SelectedOrder))
+            if (_ordersRepository.Entities != null && _ordersRepository.Entities.Any(o => o == archivableOrder))
                 _ordersRepository.Archive(archivableOrder);
 
             Orders?.Remove(archivableOrder);
@@ -261,7 +316,7 @@ namespace Librarian.ViewModels
                 $"Are you sure you want to unarchive the order for {archivableOrder.OrderDate} ?",
                 "Order unarchiving")) return;
 
-            if (_ordersRepository.Entities != null && _ordersRepository.Entities.Any(o => o == order || o == SelectedOrder))
+            if (_ordersRepository.Entities != null && _ordersRepository.Entities.Any(o => o == archivableOrder))
                 _ordersRepository.UnArchive(archivableOrder);
 
             ArchivedOrders?.Remove(archivableOrder);
@@ -294,7 +349,7 @@ namespace Librarian.ViewModels
                 "Order deleting")) return;
 
             if (_ordersRepository.Entities != null
-                && _ordersRepository.Entities.Any(c => c == order || c == SelectedOrder))
+                && _ordersRepository.Entities.Any(c => c == removableOrder))
                 _ordersRepository.Remove(removableOrder.Id);
 
 
@@ -303,7 +358,87 @@ namespace Librarian.ViewModels
                 SelectedOrder = null;
         }
         #endregion
-        
+
+
+        #region AddShipperCommand
+        private ICommand? _AddShipperCommand;
+
+        /// <summary>
+        /// Add order command
+        /// </summary>
+        public ICommand? AddShipperCommand => _AddShipperCommand
+            ??= new LambdaCommand(OnAddShipperCommandExecuted, CanAddShipperCommandExecute);
+
+        private bool CanAddShipperCommandExecute() => true;
+
+        private void OnAddShipperCommandExecuted()
+        {
+            var shipper = new Shipper();
+
+            if (!_dialogService.EditShipper(shipper)) return;
+
+            _shippersRepository.Add(shipper);
+
+            Shippers?.Add(shipper);
+
+            SelectedShipper = shipper;
+        }
+        #endregion
+
+        #region EditShipperCommand
+        private ICommand? _EditShipperCommand;
+
+        /// <summary>
+        /// Edit shipper command 
+        /// </summary>
+        public ICommand? EditShipperCommand => _EditShipperCommand ??= new LambdaCommand<Shipper>(OnEditShipperCommandExecuted, CanEditShipperCommandnExecute);
+
+        private bool CanEditShipperCommandnExecute(Shipper? shipper) => shipper != null || SelectedShipper != null;
+
+        private void OnEditShipperCommandExecuted(Shipper? shipper)
+        {
+            var editableShipper = shipper ?? SelectedShipper;
+            if (editableShipper is null) return;
+
+            if (!_dialogService.EditShipper(editableShipper))
+                return;
+
+            _shippersRepository.Update(editableShipper);
+
+            _shippersViewSource.View.Refresh();
+        }
+        #endregion
+
+        #region ArchiveShipperCommand
+        private ICommand? _ArchiveShipperCommand;
+
+        /// <summary>
+        /// Archive selected shipper command 
+        /// </summary>
+        public ICommand? ArchiveShipperCommand => _ArchiveShipperCommand
+            ??= new LambdaCommand<Shipper>(OnArchiveShipperCommandExecuted, CanArchiveShipperCommandnExecute);
+
+        private bool CanArchiveShipperCommandnExecute(Shipper? shipper) => shipper != null || SelectedShipper != null;
+
+        private void OnArchiveShipperCommandExecuted(Shipper? shipper)
+        {
+            var archivableShipper = shipper ?? SelectedShipper;
+            if (archivableShipper is null) return;
+
+            if (!_dialogService.Confirmation(
+                $"Do you confirm the permanent deletion of the shipper \"{archivableShipper.Name}\"?",
+                "Shipper deleting")) return;
+
+            if (_shippersRepository.Entities != null && _shippersRepository.Entities.Any(s => s == archivableShipper))
+                _shippersRepository.Archive(archivableShipper);
+
+            Shippers?.Remove(archivableShipper);
+
+            if (ReferenceEquals(SelectedShipper, archivableShipper))
+                SelectedShipper = null;
+        }
+        #endregion
+
         public OrdersViewModel() : this(
             new DebugOrdersRepository(),
             new DebugOrdersDetailsRepository(),
@@ -338,9 +473,11 @@ namespace Librarian.ViewModels
 
             _ordersViewSource = new CollectionViewSource();
             _archivedOrdersViewSource = new CollectionViewSource();
+            _shippersViewSource = new CollectionViewSource();
 
             _ordersViewSource.Filter += OnOrdersFilter;
             _archivedOrdersViewSource.Filter += OnArchivedOrdersFilter;
+            _shippersViewSource.Filter += OnShippersFilter;
         }
 
         private void OnOrdersFilter(object sender, FilterEventArgs e)
@@ -372,6 +509,15 @@ namespace Librarian.ViewModels
                 (!order.Employee?.Name?.Contains(ArchivedOrdersFilter) ?? true) &&
                 (!order.Employee?.Surname?.Contains(ArchivedOrdersFilter) ?? true) &&
                 (!order.ShipVia?.Name?.Contains(ArchivedOrdersFilter) ?? true))
+                e.Accepted = false;
+        }
+
+        private void OnShippersFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Shipper shipper) || string.IsNullOrWhiteSpace(ShippersFilter)) return;
+
+            if ((!shipper.Name?.Contains(ShippersFilter) ?? true) && 
+                (!shipper.ContactNumber?.Contains(ShippersFilter) ?? true))
                 e.Accepted = false;
         }
     }

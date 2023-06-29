@@ -65,7 +65,7 @@
 
                     <!--Products DataGrid-->
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
-                              ItemsSource="{Binding ProductsStatistics}" SelectedItem="{Binding SelectedProductStatistics}" 
+                              ItemsSource="{Binding ProductsStatisticsView}" SelectedItem="{Binding SelectedProductStatistics}" 
                               VirtualizingPanel.ScrollUnit="Pixel">
                         <DataGrid.Columns>
 
@@ -123,7 +123,7 @@
 
                     <!--Categories DataGrid-->
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
-                              ItemsSource="{Binding CategoriesStatistics}" SelectedItem="{Binding SelectedCategoryStatistics}" 
+                              ItemsSource="{Binding CategoriesStatisticsView}" SelectedItem="{Binding SelectedCategoryStatistics}" 
                               VirtualizingPanel.ScrollUnit="Pixel">
                         <DataGrid.Columns>
 
@@ -181,7 +181,7 @@
 
                     <!--Employees DataGrid-->
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
-                              ItemsSource="{Binding EmployeesStatistics}" SelectedItem="{Binding SelectedEmployeeStatistics}" 
+                              ItemsSource="{Binding EmployeesStatisticsView}" SelectedItem="{Binding SelectedEmployeeStatistics}" 
                               VirtualizingPanel.ScrollUnit="Pixel">
                         <DataGrid.Columns>
 

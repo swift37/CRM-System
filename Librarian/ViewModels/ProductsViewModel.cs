@@ -384,34 +384,33 @@ namespace Librarian.ViewModels
         }
         #endregion
 
-        #region RemoveCategoryCommand
-        private ICommand? _RemoveCategoryCommand;
+        #region ArchiveCategoryCommand
+        private ICommand? _ArchiveCategoryCommand;
 
         /// <summary>
-        /// RemoveCategory command
+        /// Archive category command
         /// </summary>
-        public ICommand? RemoveCategoryCommand => _RemoveCategoryCommand
-            ??= new LambdaCommand<Category>(OnRemoveCategoryCommandExecuted, CanRemoveCategoryCommandExecute);
+        public ICommand? ArchiveCategoryCommand => _ArchiveCategoryCommand
+            ??= new LambdaCommand<Category>(OnArchiveCategoryCommandExecuted, CanArchiveCategoryCommandExecute);
 
-        private bool CanRemoveCategoryCommandExecute(Category? category) => category != null || SelectedCategory != null;
+        private bool CanArchiveCategoryCommandExecute(Category? category) => category != null || SelectedCategory != null;
 
-        private void OnRemoveCategoryCommandExecuted(Category? category)
+        private void OnArchiveCategoryCommandExecuted(Category? category)
         {
-            var removableCategory = category ?? SelectedCategory;
-            if (removableCategory is null) return;
+            var archivableCategory = category ?? SelectedCategory;
+            if (archivableCategory is null) return;
 
             //todo: Переделать диалог с подтверждением удаления
             if (!_dialogService.Confirmation(
-                $"Do you confirm the permanent deletion of the category \"{removableCategory.Name}\"?",
+                $"Do you confirm the permanent deletion of the category \"{archivableCategory.Name}\"?",
                 "Category deleting")) return;
 
             if (_categoriesRepository.Entities != null
-                && _categoriesRepository.Entities.Any(c => c == category || c == SelectedCategory))
-                _categoriesRepository.Remove(removableCategory.Id);
+                && _categoriesRepository.Entities.Any(c => c == archivableCategory))
+                _categoriesRepository.Archive(archivableCategory);
 
-
-            Categories?.Remove(removableCategory);
-            if (ReferenceEquals(SelectedCategory, removableCategory))
+            Categories?.Remove(archivableCategory);
+            if (ReferenceEquals(SelectedCategory, archivableCategory))
                 SelectedCategory = null;
         }
         #endregion

@@ -222,7 +222,8 @@ namespace Librarian.ViewModels
                 .OrderByDescending(p => p.TotalSales)
                 .Take(100);
 
-            ProductsStatistics?.ClearAdd(await topProductsQuery.ToArrayAsync());
+            ProductsStatistics?.Clear();
+            ProductsStatistics = (await topProductsQuery.ToArrayAsync()).ToObservableCollection();
         }
 
         private async Task CollectCategoriesTransactionsStatisticAsync()
@@ -242,7 +243,8 @@ namespace Librarian.ViewModels
                 })
                 .OrderByDescending(category => category.TotalSales);
 
-            CategoriesStatistics?.ClearAdd(await topCategoriesQuery.ToArrayAsync());
+            CategoriesStatistics?.Clear();
+            CategoriesStatistics = (await topCategoriesQuery.ToArrayAsync()).ToObservableCollection();
         }
 
         private async Task CollectEmployeesDealsStatisticAsync()
@@ -261,7 +263,8 @@ namespace Librarian.ViewModels
                 })
                 .OrderByDescending(employee => employee.TotalSales);
 
-            EmployeesStatistics?.ClearAdd(await topEmployeesQuery.ToArrayAsync());
+            EmployeesStatistics?.Clear();
+            EmployeesStatistics = (await topEmployeesQuery.ToArrayAsync()).ToObservableCollection();
         }
         #endregion
 

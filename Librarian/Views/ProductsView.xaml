@@ -231,7 +231,7 @@
                                                 <fa:IconImage Icon="Undo" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
-                                                    Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                                    Command="{Binding DataContext.ArchiveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                                     CommandParameter="{Binding SelectedProduct}">
                                                 <fa:IconImage Icon="Trash" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>

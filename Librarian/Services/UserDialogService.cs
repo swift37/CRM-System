@@ -154,6 +154,22 @@ namespace Librarian.Services
             statisticsDetailsWindow.ShowDialog();
         }
 
+        public bool EditShipper(Shipper shipper)
+        {
+            var shipperEditorModel = new ShipperEditorViewModel(shipper);
+            var shipperEditorWindow = new ShipperEditorWindow
+            {
+                DataContext = shipperEditorModel
+            };
+
+            if (shipperEditorWindow.ShowDialog() != true) return false;
+
+            shipper.Name = shipperEditorModel.ShipperName;
+            shipper.ContactNumber = shipperEditorModel.ShipperContactNumber;
+
+            return true;
+        }
+
         public bool Confirmation(string message, string caption) => 
             MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
 

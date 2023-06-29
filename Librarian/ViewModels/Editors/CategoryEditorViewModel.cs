@@ -1,25 +1,11 @@
 ﻿using Librarian.DAL.Entities;
-using Librarian.Interfaces;
 using Swftx.Wpf.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Librarian.ViewModels
 {
     public class CategoryEditorViewModel : ViewModel
     {
-        #region Tilte
-        private string? _Title = "Category Editor";
-
-        /// <summary>
-        /// Window title
-        /// </summary>
-        public string? Title { get => _Title; set => Set(ref _Title, value); }
-        #endregion
-
         #region CategoryId
         /// <summary>
         /// Category id

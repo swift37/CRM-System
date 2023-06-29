@@ -30,6 +30,8 @@ namespace Librarian.ViewModels
         
         public OrderDetailsEditorViewModel? OrderDetailsEditorViewModel => App.Services?.GetRequiredService<OrderDetailsEditorViewModel>();
         
+        public ShipperEditorViewModel? ShipperEditorViewModel => App.Services?.GetRequiredService<ShipperEditorViewModel>();
+        
         public StatisticsDetailsViewModel? StatisticsDetailsViewModel => App.Services?.GetRequiredService<StatisticsDetailsViewModel>();
 
     }

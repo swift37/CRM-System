@@ -166,6 +166,45 @@ namespace Librarian.Services
             return true;
         }
 
+        public bool EditSupply(
+            Supply supply,
+            IRepository<Product> products,
+            IRepository<Supplier> suppliers)
+        {
+            var supplyEditorModel = new SupplyEditorViewModel(supply, products, suppliers, this);
+            var supplyEditorWindow = new SupplyEditorWindow
+            {
+                DataContext = supplyEditorModel
+            };
+
+            if (supplyEditorWindow.ShowDialog() != true) return false;
+
+            supply.SupplyDate = supplyEditorModel.SupplyDate;
+            supply.SupplyCost = supplyEditorModel.SupplyCost;
+            supply.ProductsQuantity = supplyEditorModel.SupplyProductsQuantity;
+            supply.Supplier = supplyEditorModel.SupplySupplier;
+            supply.SupplyDetails = supplyEditorModel.SupplyDetails;
+
+            return true;
+        }
+
+        public bool EditSupplyDetails(SupplyDetails supplyDetails, IRepository<Product> products)
+        {
+            var supplyDetailsEditorModel = new SupplyDetailsEditorViewModel(supplyDetails, products);
+            var supplyDetailsEditorWindow = new SupplyDetailsEditorWindow
+            {
+                DataContext = supplyDetailsEditorModel
+            };
+
+            if (supplyDetailsEditorWindow.ShowDialog() != true) return false;
+
+            supplyDetails.Product = supplyDetailsEditorModel.SupplyDetailsProduct;
+            supplyDetails.Quantity = supplyDetailsEditorModel.SupplyDetailsQuantity;
+            supplyDetails.UnitPrice = supplyDetailsEditorModel.SupplyDetailsUnitPrice;
+
+            return true;
+        }
+
         public void ShowFullOrderInfo(Order order)
         {
             var orderFullInfoDetailsModel = new OrderFullInfoViewModel(order);

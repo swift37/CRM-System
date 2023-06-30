@@ -16,6 +16,8 @@ namespace Librarian.ViewModels
 
         public OrdersViewModel? OrdersViewModel => App.Services?.GetRequiredService<OrdersViewModel>();
 
+        public SuppliesViewModel? SuppliesViewModel => App.Services?.GetRequiredService<SuppliesViewModel>();
+
         public StatisticsViewModel? StatisticsViewModel => App.Services?.GetRequiredService<StatisticsViewModel>();
 
         public ProductEditorViewModel? ProductEditorViewModel => App.Services?.GetRequiredService<ProductEditorViewModel>();
@@ -29,7 +31,11 @@ namespace Librarian.ViewModels
         public OrderEditorViewModel? OrderEditorViewModel => App.Services?.GetRequiredService<OrderEditorViewModel>();
         
         public OrderDetailsEditorViewModel? OrderDetailsEditorViewModel => App.Services?.GetRequiredService<OrderDetailsEditorViewModel>();
-        
+
+        public SupplyEditorViewModel? SupplyEditorViewModel => App.Services?.GetRequiredService<SupplyEditorViewModel>();
+
+        public SupplyDetailsEditorViewModel? SupplyDetailsEditorViewModel => App.Services?.GetRequiredService<SupplyDetailsEditorViewModel>();
+
         public ShipperEditorViewModel? ShipperEditorViewModel => App.Services?.GetRequiredService<ShipperEditorViewModel>();
         
         public StatisticsDetailsViewModel? StatisticsDetailsViewModel => App.Services?.GetRequiredService<StatisticsDetailsViewModel>();

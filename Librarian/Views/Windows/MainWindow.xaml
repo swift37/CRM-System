@@ -90,13 +90,20 @@
                     </StackPanel>
                 </RadioButton>
 
+                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowSuppliesViewCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="BoxesPacking" Style="{StaticResource menuRadioButtonIcon}"/>
+                        <TextBlock Text="Supplies" Style="{StaticResource menuRadioButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+
                 <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowStatisticsViewCommand}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="ChartArea" Style="{StaticResource menuRadioButtonIcon}"/>
                         <TextBlock Text="Statistics" Style="{StaticResource menuRadioButtonText}"/>
                     </StackPanel>
                 </RadioButton>
-                
+
                 <RadioButton Style="{StaticResource menuRadioButton}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Cog" Style="{StaticResource menuRadioButtonIcon}"/>

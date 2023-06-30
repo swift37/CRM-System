@@ -17,6 +17,9 @@
     <DataTemplate DataType="{x:Type vm:OrdersViewModel}">
         <v:OrdersView DataContext="{Binding}"/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SuppliesViewModel}">
+        <v:SuppliesView DataContext="{Binding}"/>
+    </DataTemplate>
     <DataTemplate DataType="{x:Type vm:StatisticsViewModel}">
         <v:StatisticsView DataContext="{Binding}"/>
     </DataTemplate>

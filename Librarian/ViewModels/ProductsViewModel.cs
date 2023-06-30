@@ -192,7 +192,7 @@ namespace Librarian.ViewModels
 
             ArchivedProducts = (await _productsRepository.Entities.Where(p => !p.IsActual).ToArrayAsync()).ToObservableCollection();
 
-            Categories = (await _categoriesRepository.Entities.ToArrayAsync()).ToObservableCollection();
+            Categories = (await _categoriesRepository.Entities.Where(c => c.IsActual).ToArrayAsync()).ToObservableCollection();
         }
         #endregion
 

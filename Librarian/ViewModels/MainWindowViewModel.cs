@@ -18,6 +18,8 @@ namespace Librarian.ViewModels
         private readonly IRepository<Customer> _customersRepository;
         private readonly IRepository<Order> _ordersRepository;
         private readonly IRepository<OrderDetails> _ordersDetailsRepository;
+        private readonly IRepository<Supply> _suppliesRepository;
+        private readonly IRepository<SupplyDetails> _suppliesDetailsRepository;
         private readonly IRepository<WorkingRate> _workingRatesRepository;
         private readonly IRepository<Supplier> _suppliersRepository;
         private readonly IRepository<Shipper> _shippersRepository;
@@ -133,6 +135,27 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #region ShowSuppliesViewCommand
+        private ICommand? _ShowSuppliesViewCommand;
+
+        /// <summary>
+        /// Show SuppliesView
+        /// </summary>
+        public ICommand? ShowSuppliesViewCommand => _ShowSuppliesViewCommand ??= new LambdaCommand(OnShowSuppliesViewCommandExecuted, CanShowSuppliesViewCommandnExecute);
+
+        private bool CanShowSuppliesViewCommandnExecute() => true;
+
+        private void OnShowSuppliesViewCommandExecuted()
+        {
+            CurrentViewModel = new SuppliesViewModel(
+                _suppliesRepository,
+                _suppliesDetailsRepository,
+                _productsRepository,
+                _suppliersRepository,
+                _dialogService);
+        }
+        #endregion
+
         #region ShowStatisticsViewCommand
         private ICommand? _ShowStatisticsViewCommand;
 
@@ -158,6 +181,8 @@ namespace Librarian.ViewModels
             IRepository<Customer> customersRepository,
             IRepository<Order> ordersRepository,
             IRepository<OrderDetails> ordersDetailsRepository,
+            IRepository<Supply> suppliesRepository,
+            IRepository<SupplyDetails> suppliesDetailsRepository,
             IRepository<WorkingRate> workingRatesRepository,
             IRepository<Supplier> suppliersRepository,
             IRepository<Shipper> shippersRepository,
@@ -171,6 +196,8 @@ namespace Librarian.ViewModels
             _customersRepository = customersRepository;
             _ordersRepository = ordersRepository;
             _ordersDetailsRepository = ordersDetailsRepository;
+            _suppliesRepository = suppliesRepository;
+            _suppliesDetailsRepository = suppliesDetailsRepository;
             _workingRatesRepository = workingRatesRepository;
             _suppliersRepository = suppliersRepository;
             _shippersRepository = shippersRepository;

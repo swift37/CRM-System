@@ -31,6 +31,13 @@ namespace Librarian.Services.Interfaces
 
         bool EditOrderDetails(OrderDetails orderDetails, IRepository<Product> products);
 
+        bool EditSupply(
+            Supply supply,
+            IRepository<Product> products,
+            IRepository<Supplier> suppliers);
+
+        bool EditSupplyDetails(SupplyDetails supplyDetails, IRepository<Product> products);
+
         void ShowFullOrderInfo(Order order);
 
         bool EditShipper(Shipper shipper);

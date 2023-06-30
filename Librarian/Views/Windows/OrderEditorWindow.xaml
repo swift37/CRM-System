@@ -114,7 +114,7 @@
                         <TextBox Style="{StaticResource textBoxEditor}" Text="{Binding OrderAmount}" IsReadOnly="True"/>
                     </DockPanel>
 
-                    <!--Order Amount-->
+                    <!--Order Products Quantity-->
                     <DockPanel Grid.Row="4">
                         <TextBlock DockPanel.Dock="Top" Text="Products Quantity" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>

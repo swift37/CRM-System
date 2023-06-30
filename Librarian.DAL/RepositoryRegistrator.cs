@@ -16,6 +16,8 @@ namespace Librarian.DAL
             .AddTransient<IRepository<Shipper>, DbRepository<Shipper>>()
             .AddTransient<IRepository<Order>, OrdersRepository>()
             .AddTransient<IRepository<OrderDetails>, OrdersDetailsRepository>()
+            .AddTransient<IRepository<Supply>, SuppliesRepository>()
+            .AddTransient<IRepository<SupplyDetails>, SuppliesDetailsRepository>()
             ;
     }
 }

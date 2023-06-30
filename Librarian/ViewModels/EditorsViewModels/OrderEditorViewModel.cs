@@ -31,15 +31,6 @@ namespace Librarian.ViewModels
 
         #region Properties
 
-        #region Tilte
-        private string? _Title = "Transaction Editor";
-
-        /// <summary>
-        /// Window title
-        /// </summary>
-        public string? Title { get => _Title; set => Set(ref _Title, value); }
-        #endregion
-
         #region CurrentOrder
         private Order? _CurrentOrder;
 

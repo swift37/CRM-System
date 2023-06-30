@@ -229,6 +229,58 @@ namespace Librarian.DAL.Migrations
                         onDelete: ReferentialAction.SetNull);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Supplies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SupplyDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SupplierId = table.Column<int>(type: "int", nullable: true),
+                    SupplyCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProductsQuantity = table.Column<int>(type: "int", nullable: false),
+                    IsActual = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Supplies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Supplies_Suppliers_SupplierId",
+                        column: x => x.SupplierId,
+                        principalTable: "Suppliers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SuppliesDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SupplyId = table.Column<int>(type: "int", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: true),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    IsActual = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SuppliesDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SuppliesDetails_Supplies_SupplyId",
+                        column: x => x.SupplyId,
+                        principalTable: "Supplies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SuppliesDetails_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_WorkingRateId",
                 table: "Employees",
@@ -268,6 +320,21 @@ namespace Librarian.DAL.Migrations
                 name: "IX_Products_SupplierId",
                 table: "Products",
                 column: "SupplierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Supplies_SupplierId",
+                table: "Supplies",
+                column: "SupplierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SuppliesDetails_SupplyId",
+                table: "SuppliesDetails",
+                column: "SupplyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SuppliesDetails_ProductId",
+                table: "SuppliesDetails",
+                column: "ProductId");
         }
 
         /// <inheritdoc />
@@ -296,6 +363,12 @@ namespace Librarian.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Suppliers");
+
+            migrationBuilder.DropTable(
+                name: "Supplies");
+
+            migrationBuilder.DropTable(
+                name: "SuppliesDetails");
 
             migrationBuilder.DropTable(
                 name: "WorkingRates");

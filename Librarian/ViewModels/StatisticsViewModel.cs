@@ -207,19 +207,20 @@ namespace Librarian.ViewModels
 
         private async Task CollectProductsOrdersStatisticAsync()
         {
+            var ordersDetails = _ordersDetailsRepository.Entities;
             var orders = _ordersRepository.Entities;
-            var products = _productsRepository.Entities;
 
-            if (orders is null || products is null) return;
+            if (ordersDetails is null || orders is null) return;
 
-            var topProductsQuery = products.Select(p => new Statistics<Product>
-            {
-                Entity = p,
-                Popularity = (double)p.OrderDetails.Select(d => d.OrderId).Distinct().Count() / orders.Count(),
-                TotalSales = p.OrderDetails.Sum(d => d.Quantity),
-                TotalIncome = p.OrderDetails.Sum(d => d.UnitPrice * d.Quantity)
-            })
-                .OrderByDescending(p => p.TotalSales)
+            var topProductsQuery = ordersDetails.GroupBy(od => od.Product)
+                .Select(od => new Statistics<Product>
+                {
+                    Entity = od.Key,
+                    Popularity = (double)od.Select(d => d.OrderId).Distinct().Count() / orders.Count(),
+                    TotalSales = od.Sum(o => o.Quantity),
+                    TotalIncome = od.Sum(o => o.UnitPrice * o.Quantity)
+                })
+                .OrderByDescending(product => product.TotalSales)
                 .Take(100);
 
             ProductsStatistics?.Clear();

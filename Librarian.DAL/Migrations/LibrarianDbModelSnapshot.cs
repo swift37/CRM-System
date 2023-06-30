@@ -322,6 +322,68 @@ namespace Librarian.DAL.Migrations
                     b.ToTable("Suppliers");
                 });
 
+            modelBuilder.Entity("Librarian.DAL.Entities.Supply", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<decimal>("ProductsQuantity")
+                    .HasColumnType("int");
+
+                b.Property<decimal>("SupplyCost")
+                    .HasColumnType("decimal(18,2)");
+
+                b.Property<int?>("SupplierId")
+                    .HasColumnType("int");
+
+                b.Property<bool>("IsActual")
+                    .HasColumnType("bit");
+
+                b.Property<DateTime>("SupplyDate")
+                    .HasColumnType("datetime2");
+
+                b.HasKey("Id");
+
+                b.HasIndex("SupplierId");
+
+                b.ToTable("Supplies");
+            });
+
+            modelBuilder.Entity("Librarian.DAL.Entities.SupplyDetails", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<bool>("IsActual")
+                    .HasColumnType("bit");
+
+                b.Property<int>("SupplyId")
+                    .HasColumnType("int");
+
+                b.Property<int>("ProductId")
+                    .HasColumnType("int");
+
+                b.Property<int>("Quantity")
+                    .HasColumnType("int");
+
+                b.Property<decimal>("UnitPrice")
+                    .HasColumnType("decimal(18,2)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("SupplyId");
+
+                b.HasIndex("ProductId");
+
+                b.ToTable("SuppliesDetails");
+            });
+
             modelBuilder.Entity("Librarian.DAL.Entities.WorkingRate", b =>
                 {
                     b.Property<int>("Id")
@@ -398,6 +460,33 @@ namespace Librarian.DAL.Migrations
 
                     b.Navigation("Product");
                 });
+
+            modelBuilder.Entity("Librarian.DAL.Entities.Supply", b =>
+            {
+                b.HasOne("Librarian.DAL.Entities.Supplier", "Supplier")
+                    .WithMany()
+                    .HasForeignKey("SupplierId")
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                b.Navigation("Supplier");
+            });
+
+            modelBuilder.Entity("Librarian.DAL.Entities.SupplyDetails", b =>
+            {
+                b.HasOne("Librarian.DAL.Entities.Supply", "Supply")
+                    .WithMany("SupplyDetails")
+                    .HasForeignKey("SupplyId")
+                    .OnDelete(DeleteBehavior.ClientCascade);
+
+                b.HasOne("Librarian.DAL.Entities.Product", "Product")
+                    .WithMany("SupplyDetails")
+                    .HasForeignKey("ProductId")
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                b.Navigation("Supply");
+
+                b.Navigation("Product");
+            });
 
             modelBuilder.Entity("Librarian.DAL.Entities.Product", b =>
                 {

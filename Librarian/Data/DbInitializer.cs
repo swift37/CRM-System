@@ -3,11 +3,8 @@ using Librarian.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Librarian.Data
@@ -47,6 +44,8 @@ namespace Librarian.Data
             await InitializeShippers();
             await InitializeOrders();
             await InitializeOrdersDetails();
+            await InitializeSupplies();
+            await InitializeSuppliesDetails();
 
             _logger.LogInformation($"Initialize database comleted in {timer.Elapsed.TotalSeconds} s");
         }
@@ -242,7 +241,7 @@ namespace Librarian.Data
             var timer = Stopwatch.StartNew();
             _logger.LogInformation("Initialize orders...");
 
-            if (_products is null || _employees is null || _customers is null) throw new ArgumentNullException("Field _productsRepository, _employeesRepository or _customersRepository can`t be empty");
+            if (_employees is null || _customers is null) throw new ArgumentNullException("Field _employeesRepository or _customersRepository can`t be empty");
 
             if (_shippers is null) throw new ArgumentNullException(nameof(_shippers));
             var random = new Random();
@@ -271,7 +270,7 @@ namespace Librarian.Data
             _logger.LogInformation($"Initialize orders comleted in {timer.Elapsed.TotalSeconds} s");
         }
 
-        private const int _ordersDeatailsCount = _ordersCount;
+        private const int _ordersDetailsCount = _ordersCount * 7;
 
         public async Task InitializeOrdersDetails()
         {
@@ -282,15 +281,15 @@ namespace Librarian.Data
 
             var random = new Random();
 
-            var products = Enumerable.Range(1, _ordersCount).Select(d => random.NextItem(_products)).ToArray();
+            var products = Enumerable.Range(1, _ordersDetailsCount).Select(d => random.NextItem(_products)).ToArray();
 
-            var ordersDeatails = Enumerable.Range(1, _ordersDeatailsCount)
+            var ordersDeatails = Enumerable.Range(1, _ordersDetailsCount)
                 .Select(i => new OrderDetails
                 {
                     Quantity = random.Next(10),
                     UnitPrice = products[i - 1].UnitPrice,
                     Product = products[i - 1],
-                    Order = _orders[i - 1],
+                    Order = random.NextItem(_orders),
                     Discount = random.Next(50)
                 });
 
@@ -298,6 +297,60 @@ namespace Librarian.Data
             await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"Initialize ordersDeatails comleted in {timer.Elapsed.TotalSeconds} s");
+        }
+
+        private const int _suppliesCount = 50;
+
+        private Supply[]? _supplies;
+
+        public async Task InitializeSupplies()
+        {
+            var timer = Stopwatch.StartNew();
+            _logger.LogInformation("Initialize supplies...");
+
+            if (_suppliers is null) throw new ArgumentNullException(nameof(_suppliers));
+
+            var random = new Random();
+
+            _supplies = Enumerable.Range(1, _suppliesCount)
+                .Select(i => new Supply
+                {
+                    SupplyDate = DateTime.Now.AddDays(-random.Next(365)),
+                    SupplyCost = random.Next(5, 1500),
+                    Supplier = random.NextItem(_suppliers),
+                    ProductsQuantity = random.Next(30, 150)
+                }).ToArray();
+
+            await _dbContext.Supplies.AddRangeAsync(_supplies);
+            await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Initialize supplies comleted in {timer.Elapsed.TotalSeconds} s");
+        }
+
+        private const int _suppliesDeatailsCount = _suppliesCount * 10;
+
+        public async Task InitializeSuppliesDetails()
+        {
+            var timer = Stopwatch.StartNew();
+            _logger.LogInformation("Initialize suppliesDeatails...");
+
+            if (_supplies is null || _products is null) throw new ArgumentNullException("Field _suppliesRepository or _productsRepository can`t be empty");
+
+            var random = new Random();
+
+            var suppliesDeatails = Enumerable.Range(1, _suppliesDeatailsCount)
+                .Select(i => new SupplyDetails
+                {
+                    Quantity = random.Next(30),
+                    UnitPrice = (decimal)(random.NextDouble() * 300 + 35),
+                    Product = random.NextItem(_products),
+                    Supply = random.NextItem(_supplies)
+                });
+
+            await _dbContext.SuppliesDetails.AddRangeAsync(suppliesDeatails);
+            await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Initialize suppliesDeatails comleted in {timer.Elapsed.TotalSeconds} s");
         }
     }
 }

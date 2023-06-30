@@ -23,6 +23,10 @@ namespace Librarian.DAL.Context
 
         public DbSet<Shipper> Shippers { get; set; }
 
+        public DbSet<Supply> Supplies { get; set; }
+
+        public DbSet<SupplyDetails> SuppliesDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
@@ -72,6 +76,26 @@ namespace Librarian.DAL.Context
                 .HasColumnType("decimal(18,2)");
 
                 entity.Property(e => e.Discount)
+                .HasColumnType("decimal(18,2)");
+            });
+
+            modelBuilder.Entity<Supply>()
+                .Property(e => e.SupplyCost)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<SupplyDetails>(entity =>
+            {
+                entity.HasOne(s => s.Supply)
+                .WithMany(d => d.SupplyDetails)
+                .HasForeignKey(s => s.SupplyId)
+                .OnDelete(DeleteBehavior.ClientCascade);
+
+                entity.HasOne(s => s.Product)
+                .WithMany(d => d.SupplyDetails)
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.Property(e => e.UnitPrice)
                 .HasColumnType("decimal(18,2)");
             });
         }

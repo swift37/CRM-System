@@ -15,6 +15,8 @@ namespace Librarian.DAL.Entities
 
         public virtual IEnumerable<OrderDetails>? OrderDetails { get; set; }
 
+        public virtual IEnumerable<SupplyDetails>? SupplyDetails { get; set; }
+
         public decimal UnitPrice { get; set; }
 
         public int UnitsInStock { get; set; }

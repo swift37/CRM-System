@@ -169,13 +169,13 @@ namespace Librarian.ViewModels
         public int ProductUnitsInStock { get => _ProductUnitsInStock; set => Set(ref _ProductUnitsInStock, value); }
         #endregion
 
-        #region ProductUnitsInEnterprise
-        private int _ProductUnitsInEnterprise;
+        #region ProductUnitsOnOrder
+        private int _ProductUnitsOnOrder;
 
         /// <summary>
-        /// Product units in enterprise
+        /// Product units on order
         /// </summary>
-        public int ProductUnitsInEnterprise { get => _ProductUnitsInEnterprise; set => Set(ref _ProductUnitsInEnterprise, value); }
+        public int ProductUnitsOnOrder { get => _ProductUnitsOnOrder; set => Set(ref _ProductUnitsOnOrder, value); }
         #endregion
 
         #endregion
@@ -229,7 +229,7 @@ namespace Librarian.ViewModels
             ProductSupplier = product.Supplier;
             ProductUnitPrice = product.UnitPrice;
             ProductUnitsInStock = product.UnitsInStock;
-            ProductUnitsInEnterprise = product.UnitsInEnterprise;
+            ProductUnitsOnOrder = product.UnitsOnOrder;
 
             _categoriesViewSource.Filter += OnCategoriesNameFilter;
             _suppliersViewSource.Filter += OnSuppliersNameFilter;

@@ -5,6 +5,7 @@ using Librarian.Services.Interfaces;
 using Librarian.ViewModels;
 using Librarian.Views.Windows;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Librarian.Services
 {
@@ -28,7 +29,7 @@ namespace Librarian.Services
             product.Supplier = productEditorModel.ProductSupplier;
             product.UnitPrice = productEditorModel.ProductUnitPrice;
             product.UnitsInStock = productEditorModel.ProductUnitsInStock;
-            product.UnitsInEnterprise = productEditorModel.ProductUnitsInEnterprise;
+            product.UnitsOnOrder = productEditorModel.ProductUnitsOnOrder;
 
             return true;
         }
@@ -69,6 +70,17 @@ namespace Librarian.Services
             return true;
         }
 
+        public void ShowFullCustomerInfo(Customer customer)
+        {
+            var customerFullInfoDetailsModel = new CustomerFullInfoViewModel(customer);
+            var customerFullInfoWindow = new CustomerFullInfoWindow
+            {
+                DataContext = customerFullInfoDetailsModel
+            };
+
+            customerFullInfoWindow.ShowDialog();
+        }
+
         public bool EditEmployee(Employee employee, IRepository<WorkingRate> workingRatesRepository)
         {
             var employeeEditorModel = new EmployeeEditorViewModel(employee, workingRatesRepository);
@@ -92,6 +104,17 @@ namespace Librarian.Services
             employee.Address = employeeEditorModel.EmployeeAddress;
 
             return true;
+        }
+
+        public void ShowFullEmployeeInfo(Employee employee)
+        {
+            var employeeFullInfoDetailsModel = new EmployeeFullInfoViewModel(employee);
+            var employeeFullInfoWindow = new EmployeeFullInfoWindow
+            {
+                DataContext = employeeFullInfoDetailsModel
+            };
+
+            employeeFullInfoWindow.ShowDialog();
         }
 
         public bool EditOrder(
@@ -141,6 +164,17 @@ namespace Librarian.Services
             orderDetails.Discount = orderDetailsEditorModel.OrderDetailsDiscount;
 
             return true;
+        }
+
+        public void ShowFullOrderInfo(Order order)
+        {
+            var orderFullInfoDetailsModel = new OrderFullInfoViewModel(order);
+            var orderFullInfoWindow = new OrderFullInfoWindow
+            {
+                DataContext = orderFullInfoDetailsModel
+            };
+
+            orderFullInfoWindow.ShowDialog();
         }
 
         public void ShowStatisticsDetails(StatisticsDetails statisticsDetails)

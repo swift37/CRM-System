@@ -4,17 +4,8 @@ using System;
 
 namespace Librarian.ViewModels
 {
-    public class CustomerEditorViewModel : ViewModel
+    public class CustomerFullInfoViewModel : ViewModel
     {
-        #region Tilte
-        private string? _Title = "Buyer Editor";
-
-        /// <summary>
-        /// Window title
-        /// </summary>
-        public string? Title { get => _Title; set => Set(ref _Title, value); }
-        #endregion
-
         #region CustomerId
         /// <summary>
         /// Customer id
@@ -85,13 +76,22 @@ namespace Librarian.ViewModels
         public string? CustomerAddress { get => _CustomerAddress; set => Set(ref _CustomerAddress, value); }
         #endregion
 
-        public CustomerEditorViewModel() : this(new Customer { Id = 1, Name = "John", Surname = "Winston", ContactNumber = "557345635", ContactMail = "john.winston@gmail.com" })
+        #region CustomerCashbackBalance
+        private decimal? _CustomerCashbackBalance;
+
+        /// <summary>
+        /// Customer cashback balance
+        /// </summary>
+        public decimal? CustomerCashbackBalance { get => _CustomerCashbackBalance; set => Set(ref _CustomerCashbackBalance, value); }
+        #endregion
+
+        public CustomerFullInfoViewModel() : this(new Customer { Id = 1, Name = "John", Surname = "Winston", ContactNumber = "557345635", ContactMail = "john.winston@gmail.com" })
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
         }
 
-        public CustomerEditorViewModel(Customer customer)
+        public CustomerFullInfoViewModel(Customer customer)
         {
             CustomerId = customer.Id;
             CustomerName = customer.Name;
@@ -101,6 +101,7 @@ namespace Librarian.ViewModels
             CustomerContactNumber = customer.ContactNumber;
             CustomerContactMail = customer.ContactMail;
             CustomerAddress = customer.Address;
+            CustomerCashbackBalance = customer.CashbackBalance;
         }
     }
 }

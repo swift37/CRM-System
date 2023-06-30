@@ -190,13 +190,16 @@ namespace Librarian.ViewModels
 
         private async Task OnLoadDataCommandExecuted()
         {
-            if (_ordersRepository.Entities is null || _shippersRepository.Entities is null) return;
+            if (_ordersRepository.Entities is null || _shippersRepository.Entities is null || _productsRepository.Entities is null) 
+                return;
 
             Orders = (await _ordersRepository.Entities.Where(o => o.IsActual).ToArrayAsync()).ToObservableCollection();
             
             ArchivedOrders = (await _ordersRepository.Entities.Where(o => !o.IsActual).ToArrayAsync()).ToObservableCollection();
 
             Shippers = (await _shippersRepository.Entities.Where(o => o.IsActual).ToArrayAsync()).ToObservableCollection();
+
+            _ = await _productsRepository.Entities.ToArrayAsync();
         }
         #endregion
 
@@ -262,6 +265,25 @@ namespace Librarian.ViewModels
             _ordersRepository.Update(editableOrder);
 
             _ordersViewSource.View.Refresh();
+        }
+        #endregion
+
+        #region ShowOrderDetailsCommand
+        private ICommand? _ShowOrderDetailsCommand;
+
+        /// <summary>
+        /// Show order details command 
+        /// </summary>
+        public ICommand? ShowOrderDetailsCommand => _ShowOrderDetailsCommand ??= new LambdaCommand<Order>(OnShowOrderDetailsCommandExecuted, CanShowOrderDetailsCommandnExecute);
+
+        private bool CanShowOrderDetailsCommandnExecute(Order? order) => order != null || SelectedOrder != null;
+
+        private void OnShowOrderDetailsCommandExecuted(Order? order)
+        {
+            var currentOrder = order ?? SelectedOrder;
+            if (currentOrder is null) return;
+
+            _dialogService.ShowFullOrderInfo(currentOrder);
         }
         #endregion
 

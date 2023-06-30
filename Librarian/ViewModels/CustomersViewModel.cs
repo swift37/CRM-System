@@ -141,6 +141,25 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #region ShowCustomerFullInfoCommand
+        private ICommand? _ShowCustomerFullInfoCommand;
+
+        /// <summary>
+        /// Show customer full info command 
+        /// </summary>
+        public ICommand? ShowCustomerFullInfoCommand => _ShowCustomerFullInfoCommand ??= new LambdaCommand<Customer>(OnShowCustomerFullInfoCommandExecuted, CanShowCustomerFullInfoCommandnExecute);
+
+        private bool CanShowCustomerFullInfoCommandnExecute(Customer? customer) => customer != null || SelectedCustomer != null;
+
+        private void OnShowCustomerFullInfoCommandExecuted(Customer? customer)
+        {
+            var currentCustomer = customer ?? SelectedCustomer;
+            if (currentCustomer is null) return;
+
+            _dialogService.ShowFullCustomerInfo(currentCustomer);
+        }
+        #endregion
+
         #region RemoveCustomerCommand
         private ICommand? _RemoveCustomerCommand;
 

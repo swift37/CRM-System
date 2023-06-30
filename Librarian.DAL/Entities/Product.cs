@@ -19,7 +19,7 @@ namespace Librarian.DAL.Entities
 
         public int UnitsInStock { get; set; }
 
-        public int UnitsInEnterprise { get; set; }
+        public int UnitsOnOrder { get; set; }
 
         public bool IsActual { get; set; } = true;
 

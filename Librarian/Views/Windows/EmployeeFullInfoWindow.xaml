@@ -1,0 +1,173 @@
+﻿<Window x:Class="Librarian.Views.Windows.EmployeeFullInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:b="clr-namespace:Librarian.Infrastructure.Behaviors"      
+        xmlns:vm="clr-namespace:Librarian.ViewModels"
+        xmlns:local="clr-namespace:Librarian.Views.Windows"
+        d:DataContext="{d:DesignInstance {x:Type vm:EmployeeFullInfoViewModel}, IsDesignTimeCreatable=True}"
+        Width="850" Height="390" MinWidth="850" MinHeight="390" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
+
+    <Border CornerRadius="15">
+        <br:Interaction.Behaviors>
+            <b:WindowTitleBarBehavior/>
+        </br:Interaction.Behaviors>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#26376f" Offset="0"/>
+                <GradientStop Color="#6a6ae4" Offset="1.5"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <DockPanel Margin="20,20,20,15">
+
+            <!--Title-->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <fa:IconImage Icon="Circle" Style="{StaticResource titleIcon}"/>
+                <TextBlock Text="Employee Full Info" Style="{StaticResource titleText}"/>
+            </StackPanel>
+
+            <!--Buttons-->
+            <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right">
+                <Button Content="Cancel" IsCancel="True" Padding="25,1" Style="{StaticResource dialogButton}"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="False"/>
+                <Button Content="Ok" IsDefault="True" Margin="7,0,0,0" Padding="25,1" Style="{StaticResource dialogButton}"
+                        Command="{StaticResource DialogResultCommand}"
+                        CommandParameter="True"/>
+            </UniformGrid>
+
+            <!--Fields-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="0,25,20,25">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Employee Name-->
+                    <DockPanel Grid.Row="0">
+                        <TextBlock DockPanel.Dock="Top" Text="Name" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeName}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+
+                    <!--Employee Surname-->
+                    <DockPanel Grid.Row="1">
+                        <TextBlock DockPanel.Dock="Top" Text="Surname" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeSurname}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+
+                    <!--Employee Phone Number-->
+                    <DockPanel Grid.Row="2">
+                        <TextBlock DockPanel.Dock="Top" Text="Phone" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeContactNumber}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+
+                    <!--Employee Email-->
+                    <DockPanel Grid.Row="3">
+                        <TextBlock DockPanel.Dock="Top" Text="Email" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeMail}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+
+                </Grid>
+
+                <Grid Grid.Column="1" Margin="10,25,10,25">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Employee Date Of Birth-->
+                    <DockPanel Grid.Row="0">
+                        <TextBlock DockPanel.Dock="Top" Text="Date Of Birth" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeDateOfBirth, StringFormat=dd.MM.yy}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+
+                    <!--Employee Hire Date-->
+                    <DockPanel Grid.Row="1">
+                        <TextBlock DockPanel.Dock="Top" Text="Hire Date" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeHireDate, StringFormat=dd.MM.yy}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+
+                    <!--Employee Identity Document Number-->
+                    <DockPanel Grid.Row="2">
+                        <TextBlock DockPanel.Dock="Top" Text="Identity Document Number" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeIdentityDocumentNumber}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+
+                    <!--Employee Working Rate-->
+                    <DockPanel Grid.Row="3">
+                        <TextBlock DockPanel.Dock="Top" Text="Working Rate" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeWorkingRate.Name}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+                </Grid>
+
+                <Grid Grid.Column="2" Margin="20,25,0,25">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Employee Title-->
+                    <DockPanel Grid.Row="0">
+                        <TextBlock DockPanel.Dock="Top" Text="Title" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeTitle}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+
+                    <!--Employee Extension Date-->
+                    <DockPanel Grid.Row="1">
+                        <TextBlock DockPanel.Dock="Top" Text="Extension" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeExtension, StringFormat=dd.MM.yy}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+
+                    <!--Employee Address-->
+                    <DockPanel Grid.Row="2">
+                        <TextBlock DockPanel.Dock="Top" Text="Address" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding EmployeeAddress}" Style="{StaticResource detailsText}"/>
+                    </DockPanel>
+
+                </Grid>
+            </Grid>
+        </DockPanel>
+
+    </Border>
+</Window>
+

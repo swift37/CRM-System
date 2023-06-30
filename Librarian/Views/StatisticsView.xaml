@@ -35,7 +35,7 @@
 
         <!--Tab Contol-->
         <TabControl Style="{DynamicResource TabControlCustomStyle}" Grid.Row="3" Margin="0,-55,0,0">
-            
+
             <!--Products-->
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Products">
                 <Grid>
@@ -93,7 +93,7 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            
+
             <!--Categories-->
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Categories">
                 <Grid>
@@ -151,7 +151,7 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            
+
             <!--Employees-->
             <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Employees">
                 <Grid>
@@ -211,33 +211,6 @@
             </TabItem>
 
         </TabControl>
-
-        <!--Pagination Section-->
-        <Border Grid.Row="4" HorizontalAlignment="Right" CornerRadius="5" Padding="5" Background="#243771" Margin="0,10,10,10">
-            <StackPanel Orientation="Horizontal">
-                <Button Style="{StaticResource pagingButton}">
-                    <fa:IconImage Icon="ChevronLeft" Style="{StaticResource pagingButtonIcon}"/>
-                </Button>
-
-                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
-
-                <Button Style="{StaticResource pagingButton}" Content="1"/>
-                <Button Style="{StaticResource pagingButton}" Content="2" Background="#5b60c4" Foreground="#ffffff"/>
-                <Button Style="{StaticResource pagingButton}" Content="3"/>
-
-                <TextBlock Text="..." Foreground="#9eabe2" VerticalAlignment="Center" FontSize="15" Margin="10,0"/>
-
-                <Button Style="{StaticResource pagingButton}" Content="7"/>
-                <Button Style="{StaticResource pagingButton}" Content="8"/>
-                <Button Style="{StaticResource pagingButton}" Content="9"/>
-
-                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
-
-                <Button Style="{StaticResource pagingButton}">
-                    <fa:IconImage Icon="ChevronRight" Style="{StaticResource pagingButtonIcon}"/>
-                </Button>
-            </StackPanel>
-        </Border>
 
     </Grid>
 </UserControl>

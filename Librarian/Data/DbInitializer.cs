@@ -113,7 +113,7 @@ namespace Librarian.Data
                 .Select(i => new Product
                 {
                     Name = $"Product {i}",
-                    UnitsInEnterprise = random.Next(100),
+                    UnitsOnOrder = random.Next(15000),
                     UnitsInStock = random.Next(1000),
                     Supplier = random.NextItem(_suppliers),
                     UnitPrice = (decimal)(random.NextDouble() * 300 + 50),

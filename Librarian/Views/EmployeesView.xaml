@@ -76,13 +76,6 @@
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
                               ItemsSource="{Binding EmployeesView}" SelectedItem="{Binding SelectedEmployee}" VirtualizingPanel.ScrollUnit ="Pixel">
                         <DataGrid.Columns>
-                            <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" ElementStyle="{StaticResource CheckBoxCustomStyle}">
-                                <DataGridCheckBoxColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <CheckBox Style="{StaticResource CheckBoxCustomStyle}"/>
-                                    </DataTemplate>
-                                </DataGridCheckBoxColumn.HeaderTemplate>
-                            </DataGridCheckBoxColumn>
 
                             <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Id}"/>
 
@@ -104,22 +97,12 @@
 
                             <DataGridTextColumn Header="Title" IsReadOnly="True" CanUserResize="False" Width="*"
                                     Binding="{Binding Title}"/>
-                            <DataGridTextColumn Header="Date Of Birth" IsReadOnly="True" CanUserResize="False" Width="105"
-                                    Binding="{Binding DateOfBirth, StringFormat=dd.MM.yyyy}"/>
-                            <DataGridTextColumn Header="Hire Date" IsReadOnly="True" CanUserResize="False" Width="105"
-                                    Binding="{Binding HireDate, StringFormat=dd.MM.yyyy}"/>
                             <DataGridTextColumn Header="Phone" IsReadOnly="True" CanUserResize="False" Width="120"
                                     Binding="{Binding ContactNumber}"/>
-                            <DataGridTextColumn Header="Email" IsReadOnly="True" CanUserResize="False" Width="*"
-                                    Binding="{Binding ContactMail}"/>
-                            <DataGridTextColumn Header="Address" IsReadOnly="True" CanUserResize="False" Width="*"
-                                    Binding="{Binding Address}"/>
-                            <DataGridTextColumn Header="Document" IsReadOnly="True" CanUserResize="False" Width="*"
-                                    Binding="{Binding IdentityDocumentNumber}"/>
+                            <DataGridTextColumn Header="Hire Date" IsReadOnly="True" CanUserResize="False" Width="105"
+                                    Binding="{Binding HireDate, StringFormat=dd.MM.yyyy}"/>
                             <DataGridTextColumn Header="Extension" IsReadOnly="True" CanUserResize="False" Width="105"
                                     Binding="{Binding Extension, StringFormat=dd.MM.yyyy}"/>
-                            <DataGridTextColumn Header="WorkingRate" IsReadOnly="True" CanUserResize="False" Width="105"
-                                    Binding="{Binding WorkingRate.Name}"/>
 
                             <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -127,6 +110,10 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditEmployeeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                                 <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource gridEditButton}" Margin="5,0,0,0" 
+                                                    Command="{Binding DataContext.ShowEmployeeFullInfoCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                <fa:IconImage Icon="List" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
                                                     Command="{Binding DataContext.ArchiveEmployeeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
@@ -177,13 +164,6 @@
                     <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
                               ItemsSource="{Binding ArchivedEmployeesView}" SelectedItem="{Binding SelectedEmployee}" VirtualizingPanel.ScrollUnit ="Pixel">
                         <DataGrid.Columns>
-                            <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" ElementStyle="{StaticResource CheckBoxCustomStyle}">
-                                <DataGridCheckBoxColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <CheckBox Style="{StaticResource CheckBoxCustomStyle}"/>
-                                    </DataTemplate>
-                                </DataGridCheckBoxColumn.HeaderTemplate>
-                            </DataGridCheckBoxColumn>
 
                             <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Id}"/>
 
@@ -205,22 +185,12 @@
 
                             <DataGridTextColumn Header="Title" IsReadOnly="True" CanUserResize="False" Width="*"
                                     Binding="{Binding Title}"/>
-                            <DataGridTextColumn Header="Date Of Birth" IsReadOnly="True" CanUserResize="False" Width="105"
-                                    Binding="{Binding DateOfBirth, StringFormat=dd.MM.yyyy}"/>
-                            <DataGridTextColumn Header="Hire Date" IsReadOnly="True" CanUserResize="False" Width="105"
-                                    Binding="{Binding HireDate, StringFormat=dd.MM.yyyy}"/>
                             <DataGridTextColumn Header="Phone" IsReadOnly="True" CanUserResize="False" Width="120"
                                     Binding="{Binding ContactNumber}"/>
-                            <DataGridTextColumn Header="Email" IsReadOnly="True" CanUserResize="False" Width="*"
-                                    Binding="{Binding ContactMail}"/>
-                            <DataGridTextColumn Header="Address" IsReadOnly="True" CanUserResize="False" Width="*"
-                                    Binding="{Binding Address}"/>
-                            <DataGridTextColumn Header="Document" IsReadOnly="True" CanUserResize="False" Width="*"
-                                    Binding="{Binding IdentityDocumentNumber}"/>
+                            <DataGridTextColumn Header="Hire Date" IsReadOnly="True" CanUserResize="False" Width="105"
+                                    Binding="{Binding HireDate, StringFormat=dd.MM.yyyy}"/>
                             <DataGridTextColumn Header="Extension" IsReadOnly="True" CanUserResize="False" Width="105"
                                     Binding="{Binding Extension, StringFormat=dd.MM.yyyy}"/>
-                            <DataGridTextColumn Header="WorkingRate" IsReadOnly="True" CanUserResize="False" Width="105"
-                                    Binding="{Binding WorkingRate.Name}"/>
 
                             <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -228,6 +198,10 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.UnArchiveEmployeeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                                 <fa:IconImage Icon="Undo" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource gridEditButton}" Margin="5,0,0,0" 
+                                                    Command="{Binding DataContext.ShowEmployeeFullInfoCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                <fa:IconImage Icon="List" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
                                                     Command="{Binding DataContext.RemoveEmployeeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
@@ -246,32 +220,6 @@
 
         </TabControl>
 
-        <!--Pagination Section-->
-        <Border Grid.Row="4" HorizontalAlignment="Right" CornerRadius="5" Padding="5" Background="#243771" Margin="0,10,10,10">
-            <StackPanel Orientation="Horizontal">
-                <Button Style="{StaticResource pagingButton}">
-                    <fa:IconImage Icon="ChevronLeft" Style="{StaticResource pagingButtonIcon}"/>
-                </Button>
-
-                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
-
-                <Button Style="{StaticResource pagingButton}" Content="1"/>
-                <Button Style="{StaticResource pagingButton}" Content="2" Background="#5b60c4" Foreground="#ffffff"/>
-                <Button Style="{StaticResource pagingButton}" Content="3"/>
-
-                <TextBlock Text="..." Foreground="#9eabe2" VerticalAlignment="Center" FontSize="15" Margin="10,0"/>
-
-                <Button Style="{StaticResource pagingButton}" Content="7"/>
-                <Button Style="{StaticResource pagingButton}" Content="8"/>
-                <Button Style="{StaticResource pagingButton}" Content="9"/>
-
-                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
-
-                <Button Style="{StaticResource pagingButton}">
-                    <fa:IconImage Icon="ChevronRight" Style="{StaticResource pagingButtonIcon}"/>
-                </Button>
-            </StackPanel>
-        </Border>
     </Grid>
 
 </UserControl>

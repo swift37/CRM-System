@@ -29,7 +29,7 @@ namespace Librarian.Infrastructure.DebugServices
                 .Select(i => new Product
                 {
                     Name = $"Product {i}",
-                    UnitsInEnterprise = random.Next(100),
+                    UnitsOnOrder = random.Next(15000),
                     UnitsInStock = random.Next(1000),
                     UnitPrice = (decimal)(random.NextDouble() * 300 + 50),
                     Supplier = random.NextItem(suppliers)

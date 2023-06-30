@@ -249,7 +249,7 @@ namespace Librarian.DAL.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UnitsInEnterprise")
+                    b.Property<int>("UnitsOnOrder")
                         .HasColumnType("int");
 
                     b.Property<int>("UnitsInStock")

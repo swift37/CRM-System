@@ -20,6 +20,9 @@ namespace Librarian.ViewModels
             .AddSingleton<OrderDetailsEditorViewModel>()
             .AddSingleton<ShipperEditorViewModel>()
             .AddSingleton<StatisticsDetailsViewModel>()
+            .AddSingleton<OrderFullInfoViewModel>()
+            .AddSingleton<CustomerFullInfoViewModel>()
+            .AddSingleton<EmployeeFullInfoViewModel>()
             ;
     }
 }

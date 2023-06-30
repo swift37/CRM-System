@@ -84,20 +84,11 @@
                               ItemsSource="{Binding OrdersView}" SelectedItem="{Binding SelectedOrder}"
                               VirtualizingPanel.IsVirtualizing="True"  VirtualizingPanel.ScrollUnit ="Pixel" VirtualizingPanel.VirtualizationMode="Recycling">
                         <DataGrid.Columns>
-                            <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" ElementStyle="{StaticResource CheckBoxCustomStyle}">
-                                <DataGridCheckBoxColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <CheckBox Style="{StaticResource CheckBoxCustomStyle}"/>
-                                    </DataTemplate>
-                                </DataGridCheckBoxColumn.HeaderTemplate>
-                            </DataGridCheckBoxColumn>
 
                             <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="70" Binding="{Binding Id}"/>
 
                             <DataGridTextColumn Header="Order Date" IsReadOnly="True" CanUserResize="False" Width="170"
                                     Binding="{Binding OrderDate}"/>
-                            <DataGridTextColumn Header="Product types" IsReadOnly="True" CanUserResize="False" Width="*"
-                                    Binding="{Binding OrderDetails.Count}"/>
                             <DataGridTextColumn Header="Amount" IsReadOnly="True" CanUserResize="False" Width="*"
                                     Binding="{Binding Amount, StringFormat=C}"/>
                             <DataGridTextColumn Header="Employee" IsReadOnly="True" CanUserResize="False" Width="*"
@@ -113,6 +104,10 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                                 <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource gridEditButton}" Margin="5,0,0,0" 
+                                                    Command="{Binding DataContext.ShowOrderDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                <fa:IconImage Icon="List" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
                                                     Command="{Binding DataContext.ArchiveOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
@@ -164,13 +159,6 @@
                               ItemsSource="{Binding ArchivedOrdersView}" SelectedItem="{Binding SelectedOrder}"
                               VirtualizingPanel.IsVirtualizing="True"  VirtualizingPanel.ScrollUnit ="Pixel" VirtualizingPanel.VirtualizationMode="Recycling">
                         <DataGrid.Columns>
-                            <DataGridCheckBoxColumn CanUserResize="False" Width="Auto" ElementStyle="{StaticResource CheckBoxCustomStyle}">
-                                <DataGridCheckBoxColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <CheckBox Style="{StaticResource CheckBoxCustomStyle}"/>
-                                    </DataTemplate>
-                                </DataGridCheckBoxColumn.HeaderTemplate>
-                            </DataGridCheckBoxColumn>
 
                             <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="70" Binding="{Binding Id}"/>
 
@@ -193,6 +181,10 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.UnArchiveOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                                 <fa:IconImage Icon="Undo" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource gridEditButton}" Margin="5,0,0,0" 
+                                                    Command="{Binding DataContext.ShowOrderDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                <fa:IconImage Icon="List" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
                                                     Command="{Binding DataContext.RemoveOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
@@ -275,32 +267,6 @@
 
         </TabControl>
 
-        <!--Pagination Section-->
-        <Border Grid.Row="4" HorizontalAlignment="Right" CornerRadius="5" Padding="5" Background="#243771" Margin="0,10,10,10">
-            <StackPanel Orientation="Horizontal">
-                <Button Style="{StaticResource pagingButton}">
-                    <fa:IconImage Icon="ChevronLeft" Style="{StaticResource pagingButtonIcon}"/>
-                </Button>
-
-                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
-
-                <Button Style="{StaticResource pagingButton}" Content="1"/>
-                <Button Style="{StaticResource pagingButton}" Content="2" Background="#5b60c4" Foreground="#ffffff"/>
-                <Button Style="{StaticResource pagingButton}" Content="3"/>
-
-                <TextBlock Text="..." Foreground="#9eabe2" VerticalAlignment="Center" FontSize="15" Margin="10,0"/>
-
-                <Button Style="{StaticResource pagingButton}" Content="7"/>
-                <Button Style="{StaticResource pagingButton}" Content="8"/>
-                <Button Style="{StaticResource pagingButton}" Content="9"/>
-
-                <Rectangle Width="1" Fill="#46558a" Margin="3,7"/>
-
-                <Button Style="{StaticResource pagingButton}">
-                    <fa:IconImage Icon="ChevronRight" Style="{StaticResource pagingButtonIcon}"/>
-                </Button>
-            </StackPanel>
-        </Border>
     </Grid>
 
 </UserControl>

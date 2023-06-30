@@ -16,7 +16,11 @@ namespace Librarian.Services.Interfaces
 
         bool EditCustomer(Customer customer);
 
+        void ShowFullCustomerInfo(Customer customer);
+
         bool EditEmployee(Employee employee, IRepository<WorkingRate> workingRatesRepository);
+
+        void ShowFullEmployeeInfo(Employee employee);
 
         bool EditOrder(
             Order order,
@@ -26,6 +30,8 @@ namespace Librarian.Services.Interfaces
             IRepository<Shipper> shippers);
 
         bool EditOrderDetails(OrderDetails orderDetails, IRepository<Product> products);
+
+        void ShowFullOrderInfo(Order order);
 
         bool EditShipper(Shipper shipper);
 

@@ -106,7 +106,7 @@ namespace Librarian.DAL.Migrations
                     SupplierId = table.Column<int>(type: "int", nullable: true),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     UnitsInStock = table.Column<int>(type: "int", nullable: false),
-                    UnitsInEnterprise = table.Column<int>(type: "int", nullable: false),
+                    UnitsOnOrder = table.Column<int>(type: "int", nullable: false),
                     IsActual = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },

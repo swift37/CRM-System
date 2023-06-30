@@ -187,6 +187,25 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+        #region ShowEmployeeFullInfoCommand
+        private ICommand? _ShowEmployeeFullInfoCommand;
+
+        /// <summary>
+        /// Show employee full info command 
+        /// </summary>
+        public ICommand? ShowEmployeeFullInfoCommand => _ShowEmployeeFullInfoCommand ??= new LambdaCommand<Employee>(OnShowEmployeeFullInfoCommandExecuted, CanShowEmployeeFullInfoCommandnExecute);
+
+        private bool CanShowEmployeeFullInfoCommandnExecute(Employee? employee) => employee != null || SelectedEmployee != null;
+
+        private void OnShowEmployeeFullInfoCommandExecuted(Employee? employee)
+        {
+            var currentEmployee = employee ?? SelectedEmployee;
+            if (currentEmployee is null) return;
+
+            _dialogService.ShowFullEmployeeInfo(currentEmployee);
+        }
+        #endregion
+
         #region ArchiveEmployeeCommand
         private ICommand? _ArchiveEmployeeCommand;
 

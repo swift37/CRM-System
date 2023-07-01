@@ -9,6 +9,7 @@ namespace Librarian.Services
             .AddTransient<ITradingService, TradingService>()
             .AddTransient<IUserDialogService, UserDialogService>()
             .AddTransient<IStatisticsCollectionService, StatisticsCollectionService>()
+            .AddTransient<IPasswordHashingService, PasswordHashingService>()
             ;
     }
 }

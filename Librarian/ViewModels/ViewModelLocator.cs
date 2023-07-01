@@ -38,6 +38,8 @@ namespace Librarian.ViewModels
 
         public ShipperEditorViewModel? ShipperEditorViewModel => App.Services?.GetRequiredService<ShipperEditorViewModel>();
         
+        public SupplierEditorViewModel? SupplierEditorViewModel => App.Services?.GetRequiredService<SupplierEditorViewModel>();
+        
         public StatisticsDetailsViewModel? StatisticsDetailsViewModel => App.Services?.GetRequiredService<StatisticsDetailsViewModel>();
         
         public OrderFullInfoViewModel? OrderFullInfoViewModel => App.Services?.GetRequiredService<OrderFullInfoViewModel>();
@@ -45,6 +47,10 @@ namespace Librarian.ViewModels
         public CustomerFullInfoViewModel? CustomerFullInfoViewModel => App.Services?.GetRequiredService<CustomerFullInfoViewModel>();
         
         public EmployeeFullInfoViewModel? EmployeeFullInfoViewModel => App.Services?.GetRequiredService<EmployeeFullInfoViewModel>();
+        
+        public SupplyFullInfoViewModel? SupplyFullInfoViewModel => App.Services?.GetRequiredService<SupplyFullInfoViewModel>();
+        
+        public SupplierFullInfoViewModel? SupplierFullInfoViewModel => App.Services?.GetRequiredService<SupplierFullInfoViewModel>();
 
     }
 }

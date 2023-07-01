@@ -28,10 +28,10 @@ namespace Librarian.Services
             
             glStats.Values = Enumerable.Range(1, 12).Select(i => new DataPoint
             {
-                Date = DateTime.Now.AddHours(-hoursCount / 12 * i + hoursCount / 12),
+                Date = DateTime.Now.AddHours(-hoursCount / 12 * (13 - i) + hoursCount / 12),
                 Value = orders.Where(o =>
-                o.OrderDate < DateTime.Now.AddHours(-hoursCount / 12 * i + hoursCount / 12) && 
-                o.OrderDate > DateTime.Now.AddHours(-hoursCount / 12 * i))
+                o.OrderDate < DateTime.Now.AddHours(-hoursCount / 12 * (13 - i) + hoursCount / 12) && 
+                o.OrderDate > DateTime.Now.AddHours(-hoursCount / 12 * (13 - i)))
                 .Sum(o => o.ProductsQuantity)
             }).AsChartValues();
 
@@ -78,7 +78,7 @@ namespace Librarian.Services
             if (ordersRepository.Entities is null)
                 throw new ArgumentNullException(nameof(ordersRepository.Entities));
 
-            for (int i = 0; i < 12; i++)
+            for (int i = 12; i > 0; i--)
             {
                 yield return new DataPoint
                 {
@@ -106,10 +106,10 @@ namespace Librarian.Services
 
             var yearSalesStatistics = Enumerable.Range(1, 12).Select(i => new DataPoint
             {
-                Date = DateTime.Today.AddMonths(-i),
+                Date = DateTime.Today.AddMonths(-13 + i),
                 Value = productOrderDetailsQuery.Where(d => d.Order != null &&
-                d.Order.OrderDate.Month == DateTime.Today.AddMonths(-i).Month &&
-                d.Order.OrderDate.Year == DateTime.Today.AddMonths(-i).Year)
+                d.Order.OrderDate.Month == DateTime.Today.AddMonths(-13 + i).Month &&
+                d.Order.OrderDate.Year == DateTime.Today.AddMonths(-13 + i).Year)
                 .Sum(d => d.Quantity)
             });
 
@@ -140,10 +140,10 @@ namespace Librarian.Services
 
             var yearSalesStatistics = Enumerable.Range(1, 12).Select(i => new DataPoint
             {
-                Date = DateTime.Today.AddMonths(-i),
+                Date = DateTime.Today.AddMonths(-13 + i),
                 Value = categoryOrderDetailsQuery.Where(d => d.Order != null &&
-                d.Order.OrderDate.Month == DateTime.Today.AddMonths(-i).Month &&
-                d.Order.OrderDate.Year == DateTime.Today.AddMonths(-i).Year)
+                d.Order.OrderDate.Month == DateTime.Today.AddMonths(-13 + i).Month &&
+                d.Order.OrderDate.Year == DateTime.Today.AddMonths(-13 + i).Year)
                 .Sum(d => d.Quantity)
             });
 
@@ -180,10 +180,10 @@ namespace Librarian.Services
 
             var yearSalesStatistics = Enumerable.Range(1, 12).Select(i => new DataPoint
             {
-                Date = DateTime.Today.AddMonths(-i),
+                Date = DateTime.Today.AddMonths(-13 + i),
                 Value = employeOrdersQuery.Where(o =>
-                o.OrderDate.Month == DateTime.Today.AddMonths(-i).Month &&
-                o.OrderDate.Year == DateTime.Today.AddMonths(-i).Year)
+                o.OrderDate.Month == DateTime.Today.AddMonths(-13 + i).Month &&
+                o.OrderDate.Year == DateTime.Today.AddMonths(-13 + i).Year)
                 .Sum(o => o.ProductsQuantity)
             });
 

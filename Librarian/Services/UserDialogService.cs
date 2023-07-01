@@ -205,6 +205,28 @@ namespace Librarian.Services
             return true;
         }
 
+        public void ShowFullSupplyInfo(Supply supply)
+        {
+            var supplyFullInfoDetailsModel = new SupplyFullInfoViewModel(supply);
+            var supplyFullInfoWindow = new SupplyFullInfoWindow
+            {
+                DataContext = supplyFullInfoDetailsModel
+            };
+
+            supplyFullInfoWindow.ShowDialog();
+        }
+
+        public void ShowFullSupplierInfo(Supplier supplier)
+        {
+            var supplierFullInfoDetailsModel = new SupplierFullInfoViewModel(supplier);
+            var supplierFullInfoWindow = new SupplierFullInfoWindow
+            {
+                DataContext = supplierFullInfoDetailsModel
+            };
+
+            supplierFullInfoWindow.ShowDialog();
+        }
+
         public void ShowFullOrderInfo(Order order)
         {
             var orderFullInfoDetailsModel = new OrderFullInfoViewModel(order);
@@ -225,6 +247,26 @@ namespace Librarian.Services
             };
 
             statisticsDetailsWindow.ShowDialog();
+        }
+
+        public bool EditSupplier(Supplier supplier)
+        {
+            var supplierEditorModel = new SupplierEditorViewModel(supplier);
+            var supplierEditorWindow = new SupplierEditorWindow
+            {
+                DataContext = supplierEditorModel
+            };
+
+            if (supplierEditorWindow.ShowDialog() != true) return false;
+
+            supplier.Name = supplierEditorModel.SupplierName;
+            supplier.ContactName = supplierEditorModel.SupplierContactName;
+            supplier.ContactTitle = supplierEditorModel.SupplierContactTitle;
+            supplier.ContactNumber = supplierEditorModel.SupplierContactNumber;
+            supplier.ContactMail = supplierEditorModel.SupplierContactMail;
+            supplier.Address = supplierEditorModel.SupplierAddress;
+
+            return true;
         }
 
         public bool EditShipper(Shipper shipper)

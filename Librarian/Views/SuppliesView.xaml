@@ -157,7 +157,7 @@
                               ItemsSource="{Binding SuppliersView}" SelectedItem="{Binding SelectedSupplier}"
                               VirtualizingPanel.IsVirtualizing="True"  VirtualizingPanel.ScrollUnit ="Pixel" VirtualizingPanel.VirtualizationMode="Recycling">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="Auto" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="60" Binding="{Binding Id}"/>
 
                             <DataGridTextColumn Header="Name" IsReadOnly="True" CanUserResize="False" Width="*"
                                     Binding="{Binding Name}"/>
@@ -174,6 +174,10 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditSupplierCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                                 <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource gridEditButton}" Margin="5,0,0,0" 
+                                                    Command="{Binding DataContext.ShowSupplierFullInfoCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                <fa:IconImage Icon="List" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
                                                     Command="{Binding DataContext.ArchiveSupplierCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 

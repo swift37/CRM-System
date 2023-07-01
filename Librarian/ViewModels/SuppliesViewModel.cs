@@ -237,7 +237,7 @@ namespace Librarian.ViewModels
             var currentSupply = supply ?? SelectedSupply;
             if (currentSupply is null) return;
 
-            //_dialogService.ShowFullSupplyInfo(currentSupply);
+            _dialogService.ShowFullSupplyInfo(currentSupply);
         }
         #endregion
 
@@ -287,7 +287,7 @@ namespace Librarian.ViewModels
         {
             var supplier = new Supplier();
 
-            //if (!_dialogService.EditSupplier(supplier)) return;
+            if (!_dialogService.EditSupplier(supplier)) return;
 
             _suppliersRepository.Add(supplier);
 
@@ -312,11 +312,30 @@ namespace Librarian.ViewModels
             var editableSupplier = supplier ?? SelectedSupplier;
             if (editableSupplier is null) return;
 
-            //if (!_dialogService.EditSupplier(editableSupplier)) return;
+            if (!_dialogService.EditSupplier(editableSupplier)) return;
 
             _suppliersRepository.Update(editableSupplier);
 
             _suppliersViewSource.View.Refresh();
+        }
+        #endregion
+
+        #region ShowSupplierFullInfoCommand
+        private ICommand? _ShowSupplierFullInfoCommand;
+
+        /// <summary>
+        /// Show supplier full info command 
+        /// </summary>
+        public ICommand? ShowSupplierFullInfoCommand => _ShowSupplierFullInfoCommand ??= new LambdaCommand<Supplier>(OnShowSupplierFullInfoCommandExecuted, CanShowSupplierFullInfoCommandnExecute);
+
+        private bool CanShowSupplierFullInfoCommandnExecute(Supplier? supplier) => supplier != null || SelectedSupplier != null;
+
+        private void OnShowSupplierFullInfoCommandExecuted(Supplier? supplier)
+        {
+            var currentSupplier = supplier ?? SelectedSupplier;
+            if (currentSupplier is null) return;
+
+            _dialogService.ShowFullSupplierInfo(currentSupplier);
         }
         #endregion
 

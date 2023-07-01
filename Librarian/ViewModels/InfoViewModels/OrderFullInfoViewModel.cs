@@ -1,12 +1,6 @@
 ﻿using Librarian.DAL.Entities;
-using Librarian.Infrastructure.DebugServices;
-using Librarian.Interfaces;
-using Librarian.Services.Interfaces;
-using Librarian.Services;
-using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System;
 
 namespace Librarian.ViewModels
@@ -14,24 +8,6 @@ namespace Librarian.ViewModels
     public class OrderFullInfoViewModel : ViewModel
     {
         #region Properties
-
-        #region CurrentOrder
-        private Order? _CurrentOrder;
-
-        /// <summary>
-        /// Current Order
-        /// </summary>
-        public Order? CurrentOrder { get => _CurrentOrder; set => Set(ref _CurrentOrder, value); }
-        #endregion
-
-        #region SelectedOrderDetails
-        private OrderDetails? _SelectedOrderDetails;
-
-        /// <summary>
-        /// Selected order details
-        /// </summary>
-        public OrderDetails? SelectedOrderDetails { get => _SelectedOrderDetails; set => Set(ref _SelectedOrderDetails, value); }
-        #endregion
 
         #region OrderId
         /// <summary>
@@ -140,12 +116,12 @@ namespace Librarian.ViewModels
         #endregion
 
         #region OrderDetails
-        private ObservableCollection<OrderDetails>? _OrderDetails;
+        private ICollection<OrderDetails>? _OrderDetails;
 
         /// <summary>
         /// Order details collection 
         /// </summary>
-        public ObservableCollection<OrderDetails>? OrderDetails { get => _OrderDetails; set => Set(ref _OrderDetails, value); }
+        public ICollection<OrderDetails>? OrderDetails { get => _OrderDetails; set => Set(ref _OrderDetails, value); }
         #endregion
 
         #endregion
@@ -172,7 +148,7 @@ namespace Librarian.ViewModels
             OrderShippingCost = order.ShippingCost;
             OrderShipName = order.ShipName;
             OrderShipAddress = order.ShipAddress;
-            OrderDetails = order.OrderDetails?.ToObservableCollection();
+            OrderDetails = order.OrderDetails;
         }
     }
 }

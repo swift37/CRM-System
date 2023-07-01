@@ -32,14 +32,8 @@
             </StackPanel>
 
             <!--Buttons-->
-            <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right">
-                <Button Content="Cancel" IsCancel="True" Padding="25,1" Style="{StaticResource dialogButton}"
-                        Command="{StaticResource DialogResultCommand}"
-                        CommandParameter="False"/>
-                <Button Content="Ok" IsDefault="True" Margin="7,0,0,0" Padding="25,1" Style="{StaticResource dialogButton}"
-                        Command="{StaticResource DialogResultCommand}"
-                        CommandParameter="True"/>
-            </UniformGrid>
+            <Button DockPanel.Dock="Bottom"  Content="Ok" IsDefault="True" Padding="25,1" HorizontalAlignment="Right"
+                    Style="{StaticResource dialogButton}" Command="{StaticResource DialogResultCommand}" CommandParameter="True"/>
 
             <!--Fields-->
             <Grid>

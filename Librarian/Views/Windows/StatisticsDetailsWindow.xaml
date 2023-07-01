@@ -42,22 +42,22 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <!--Labels-->
                 <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                                        Orientation="Horizontal" Margin="30,0,0,0">
-                    <TextBlock Text="{Binding Values[0].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="17,0,0,0"/>
-                    <TextBlock Text="{Binding Values[1].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
-                    <TextBlock Text="{Binding Values[2].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
-                    <TextBlock Text="{Binding Values[3].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
-                    <TextBlock Text="{Binding Values[4].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
-                    <TextBlock Text="{Binding Values[5].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
-                    <TextBlock Text="{Binding Values[6].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
-                    <TextBlock Text="{Binding Values[7].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
-                    <TextBlock Text="{Binding Values[8].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
-                    <TextBlock Text="{Binding Values[9].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
-                    <TextBlock Text="{Binding Values[10].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
-                    <TextBlock Text="{Binding Values[11].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="39,0,0,0"/>
+                                        Orientation="Horizontal" Margin="30,0,-20,0">
+                    <TextBlock Text="{Binding Values[0].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="10,0,0,0"/>
+                    <TextBlock Text="{Binding Values[1].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
+                    <TextBlock Text="{Binding Values[2].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
+                    <TextBlock Text="{Binding Values[3].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
+                    <TextBlock Text="{Binding Values[4].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
+                    <TextBlock Text="{Binding Values[5].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
+                    <TextBlock Text="{Binding Values[6].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
+                    <TextBlock Text="{Binding Values[7].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
+                    <TextBlock Text="{Binding Values[8].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
+                    <TextBlock Text="{Binding Values[9].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
+                    <TextBlock Text="{Binding Values[10].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
+                    <TextBlock Text="{Binding Values[11].Date, StringFormat=MM.yy}" Foreground="#717eb2" Margin="38,0,0,0"/>
                 </StackPanel>
 
                 <!--Chart-->

@@ -11,11 +11,6 @@
         d:DataContext="{d:DesignInstance {x:Type vm:OrderFullInfoViewModel}, IsDesignTimeCreatable=True}"
         Width="900" Height="520" MinWidth="900" MinHeight="520" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
-    <br:Interaction.Triggers>
-        <br:EventTrigger EventName="Loaded">
-            <br:InvokeCommandAction Command="{Binding LoadRepositoriesCommand}"/>
-        </br:EventTrigger>
-    </br:Interaction.Triggers>
 
     <Border CornerRadius="15">
         <br:Interaction.Behaviors>
@@ -176,7 +171,7 @@
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                         <ListBox Style="{DynamicResource ListBoxCustomStyle}" ItemContainerStyle="{DynamicResource ListBoxItemContainerCustomStyle}" 
-                                 ItemsSource="{Binding OrderDetails}" SelectedItem="{Binding SelectedOrderDetails}">
+                                 ItemsSource="{Binding OrderDetails}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">

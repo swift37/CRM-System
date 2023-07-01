@@ -7,6 +7,7 @@ namespace Librarian.DAL
     public static class RepositoryRegistrator
     {
         public static IServiceCollection AddRepositoriesDb(this IServiceCollection services) => services
+            .AddTransient<IRepository<User>, DbRepository<User>>()
             .AddTransient<IRepository<Category>, DbRepository<Category>>()
             .AddTransient<IRepository<Product>, ProductsRepository>()
             .AddTransient<IRepository<Employee>, EmployeesRepository>()

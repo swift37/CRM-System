@@ -14,6 +14,7 @@ namespace Librarian.Services
             .AddTransient<IStatisticsCollectionService, StatisticsCollectionService>()
             .AddTransient<IPasswordHashingService, PasswordHashingService>()
             .AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>()
+            .AddTransient<IAuthorizationService, AuthorizationService>()
             ;
     }
 }

@@ -8,11 +8,11 @@
 
         T? Get(int id);
 
-        Task<T?>? GetAsync(int id, CancellationToken cancellation = default);
+        Task<T?> GetAsync(int id, CancellationToken cancellation = default);
 
         T? Add(T entity);
 
-        Task<T?>? AddAsync(T entity, CancellationToken cancellation = default);
+        Task<T?> AddAsync(T entity, CancellationToken cancellation = default);
 
         void Update(T entity);
 

@@ -4,6 +4,15 @@ namespace Librarian.Tools
 {
     public static class RuleBuilderExtensions
     {
+        public static void Login<T>(this IRuleBuilder<T, string?> ruleBuilder, int minLenght = 4)
+        {
+            ruleBuilder
+                .MinimumLength(minLenght)
+                .WithMessage($"Minimum length wasn`t satisfied properly {minLenght}")
+                .Matches("[a-zA-Z0-9]")
+                .WithMessage($"Login must contain only latin characters and digits");
+        }
+
         public static void Password<T>(this IRuleBuilder<T, string?> ruleBuilder, int minLenght = 8)
         {
             ruleBuilder

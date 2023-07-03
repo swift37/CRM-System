@@ -5,7 +5,6 @@ using Librarian.Services.Interfaces;
 using Librarian.ViewModels;
 using Librarian.Views.Windows;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Librarian.Services
 {

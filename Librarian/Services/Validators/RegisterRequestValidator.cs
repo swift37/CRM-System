@@ -8,6 +8,7 @@ namespace Librarian.Services.Validators
     {
         public RegisterRequestValidator()
         {
+            RuleFor(x => x.Login).Login();
             RuleFor(x => x.Password).Password();
         }
     }

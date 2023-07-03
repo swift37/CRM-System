@@ -22,7 +22,7 @@ namespace Librarian.DAL
 
         public T? Get(int id) => Entities?.SingleOrDefault(item => item.Id == id); 
 
-        public async Task<T?>? GetAsync(int id, CancellationToken cancellation = default)
+        public async Task<T?> GetAsync(int id, CancellationToken cancellation = default)
         {
             if (Entities is null) throw new ArgumentNullException(nameof(Entities));
 
@@ -40,7 +40,7 @@ namespace Librarian.DAL
             return entity;
         }
 
-        public async Task<T?>? AddAsync(T entity, CancellationToken cancellation = default)
+        public async Task<T?> AddAsync(T entity, CancellationToken cancellation = default)
         {
             if (entity is null) throw new ArgumentNullException(nameof(entity));
 

@@ -1,4 +1,7 @@
-﻿using Librarian.Services.Interfaces;
+﻿using FluentValidation;
+using Librarian.Models;
+using Librarian.Services.Interfaces;
+using Librarian.Services.Validators;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Librarian.Services
@@ -10,6 +13,7 @@ namespace Librarian.Services
             .AddTransient<IUserDialogService, UserDialogService>()
             .AddTransient<IStatisticsCollectionService, StatisticsCollectionService>()
             .AddTransient<IPasswordHashingService, PasswordHashingService>()
+            .AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>()
             ;
     }
 }

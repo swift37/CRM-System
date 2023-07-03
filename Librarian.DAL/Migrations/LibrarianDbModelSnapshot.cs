@@ -22,33 +22,6 @@ namespace Librarian.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Librarian.DAL.Entities.User", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
-
-                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                b.Property<string>("Login")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<string>("Password")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<int>("PermissionLevel")
-                    .HasColumnType("int");
-
-                b.Property<bool>("IsActual")
-                        .HasColumnType("bit");
-
-                b.HasKey("Id");
-
-                b.ToTable("Users");
-            });
-
             modelBuilder.Entity("Librarian.DAL.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -117,6 +90,17 @@ namespace Librarian.DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Login")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PermissionLevel")
+                        .HasColumnType("int");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");

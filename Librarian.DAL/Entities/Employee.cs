@@ -5,6 +5,12 @@ namespace Librarian.DAL.Entities
 {
     public class Employee : Person, IArchivable
     {
+        public string? Login { get; set; }
+
+        public string? Password { get; set; }
+
+        public int PermissionLevel { get; set; }
+
         public DateTime DateOfBirth { get; set; }
 
         public DateTime HireDate { get; set; }

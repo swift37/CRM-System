@@ -5,8 +5,6 @@ namespace Librarian.DAL.Context
 {
     public class LibrarianDb : DbContext
     {
-        public DbSet<User> Users { get; set; }
-
         public DbSet<Product> Products { get; set; }
 
         public DbSet<Category> Categories { get; set; }
@@ -31,15 +29,6 @@ namespace Librarian.DAL.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(e => e.Login)
-                .IsRequired();
-
-                entity.Property(e => e.Password)
-                .IsRequired();
-            });
-
             modelBuilder.Entity<Product>()
                 .Property(p => p.UnitPrice)
                 .HasColumnType("decimal(18,2)");
@@ -50,6 +39,12 @@ namespace Librarian.DAL.Context
 
             modelBuilder.Entity<Employee>(entity =>
             {
+                entity.Property(e => e.Login)
+                .IsRequired();
+
+                entity.Property(e => e.Password)
+                .IsRequired();
+
                 entity.Property(e => e.DateOfBirth)
                 .HasColumnType("date");
 

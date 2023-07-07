@@ -176,7 +176,7 @@ namespace Librarian.ViewModels
             supply.SupplyDate = DateTime.Now;
             supply.SupplyDetails = new HashSet<SupplyDetails>();
 
-            if (!_dialogService.EditSupply(supply, _productsRepository, _suppliersRepository)) return;
+            if (!_dialogService.EditSupply(supply)) return;
 
             _suppliesRepository.Add(supply);
 
@@ -214,7 +214,7 @@ namespace Librarian.ViewModels
 
             var unchangedSupplyDetails = editableSupply.SupplyDetails;
 
-            if (!_dialogService.EditSupply(editableSupply, _productsRepository, _suppliersRepository)) return;
+            if (!_dialogService.EditSupply(editableSupply)) return;
 
             _suppliesRepository.Update(editableSupply);
 

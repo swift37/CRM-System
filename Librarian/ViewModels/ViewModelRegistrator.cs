@@ -5,6 +5,7 @@ namespace Librarian.ViewModels
     public static class ViewModelRegistrator
     {
         public static IServiceCollection AddViewModels(this IServiceCollection services) => services
+            .AddSingleton<AuthorizationViewModel>()
             .AddSingleton<MainWindowViewModel>()
             .AddSingleton<DashboardViewModel>()
             .AddSingleton<ProductsViewModel>()
@@ -29,6 +30,7 @@ namespace Librarian.ViewModels
             .AddSingleton<EmployeeFullInfoViewModel>()
             .AddSingleton<SupplyFullInfoViewModel>()
             .AddSingleton<SupplierFullInfoViewModel>()
+            .AddSingleton<PasswordCreatorViewModel>()
             ;
     }
 }

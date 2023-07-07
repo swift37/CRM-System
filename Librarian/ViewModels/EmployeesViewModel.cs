@@ -1,6 +1,7 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Infrastructure.DebugServices;
 using Librarian.Interfaces;
+using Librarian.Models;
 using Librarian.Services;
 using Librarian.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -153,14 +154,14 @@ namespace Librarian.ViewModels
 
         private void OnAddEmployeeCommandExecuted()
         {
-            var employee = new Employee();
+            var registerRequest = new RegisterRequest();
 
-            if (!_dialogService.EditEmployee(employee, _workingRatesRepository)) return;
+            if (!_dialogService.RegisterEmployee(registerRequest)) return;
 
-            _employeesRepository.Add(employee);
-            Employees?.Add(employee);
+            //_employeesRepository.Add(registerRequest);
+            //Employees?.Add(registerRequest);
 
-            SelectedEmployee = employee;
+            //SelectedEmployee = registerRequest;
         }
         #endregion
 
@@ -179,7 +180,7 @@ namespace Librarian.ViewModels
             var editableEmployee = employee ?? SelectedEmployee;
             if (editableEmployee is null) return;
 
-            if (!_dialogService.EditEmployee(editableEmployee, _workingRatesRepository))
+            if (!_dialogService.EditEmployee(editableEmployee))
                 return;
 
             _employeesRepository.Update(editableEmployee);

@@ -211,7 +211,7 @@ namespace Librarian.ViewModels
             var newProduct = new Product();
             newProduct.Category = category;
 
-            if (!_dialogService.EditProduct(newProduct, _categoriesRepository, _suppliersRepository)) 
+            if (!_dialogService.EditProduct(newProduct)) 
                 return;
 
             var product = _productsRepository.Add(newProduct);
@@ -237,7 +237,7 @@ namespace Librarian.ViewModels
             var editableProduct = product ?? SelectedProduct;
             if (editableProduct is null) return;
 
-            if (!_dialogService.EditProduct(editableProduct, _categoriesRepository, _suppliersRepository))
+            if (!_dialogService.EditProduct(editableProduct))
                 return;
 
             _productsRepository.Update(editableProduct);

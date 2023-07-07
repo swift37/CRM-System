@@ -108,20 +108,11 @@ namespace Librarian.ViewModels
         }
         #endregion
 
-        #region Tilte
-        private string? _Title = "Product Editor";
-
-        /// <summary>
-        /// Window title
-        /// </summary>
-        public string? Title { get => _Title; set => Set(ref _Title, value); }
-        #endregion
-
         #region ProductId
         /// <summary>
         /// Product id
         /// </summary>
-        public int ProductId { get; }
+        public int ProductId { get; set; }
         #endregion
 
         #region ProductName
@@ -202,7 +193,6 @@ namespace Librarian.ViewModels
         #endregion
 
         public ProductEditorViewModel() : this (
-            new Product { Id = 1, Name = "Test Product" }, 
             new DebugCategoriesRepository(),
             new DebugSuppliersRepository())
         {
@@ -210,12 +200,10 @@ namespace Librarian.ViewModels
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
 
             _ = OnLoadDataCommandExecuted();
+            InitProps(new Product { Id = 1, Name = "Test Product" });
         }
 
-        public ProductEditorViewModel(
-            Product product, 
-            IRepository<Category> categoriesRepository,
-            IRepository<Supplier> suppliersRepository)
+        public ProductEditorViewModel(IRepository<Category> categoriesRepository, IRepository<Supplier> suppliersRepository)
         {
             _categoriesRepository = categoriesRepository;
             _suppliersRepository = suppliersRepository;
@@ -223,6 +211,12 @@ namespace Librarian.ViewModels
             _categoriesViewSource = new CollectionViewSource();
             _suppliersViewSource = new CollectionViewSource();
 
+            _categoriesViewSource.Filter += OnCategoriesNameFilter;
+            _suppliersViewSource.Filter += OnSuppliersNameFilter;
+        }
+
+        public void InitProps(Product product)
+        {
             ProductId = product.Id;
             ProductName = product.Name;
             ProductCategory = product.Category;
@@ -230,9 +224,6 @@ namespace Librarian.ViewModels
             ProductUnitPrice = product.UnitPrice;
             ProductUnitsInStock = product.UnitsInStock;
             ProductUnitsOnOrder = product.UnitsOnOrder;
-
-            _categoriesViewSource.Filter += OnCategoriesNameFilter;
-            _suppliersViewSource.Filter += OnSuppliersNameFilter;
         }
 
         private void OnCategoriesNameFilter(object sender, FilterEventArgs e)

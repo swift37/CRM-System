@@ -1,6 +1,5 @@
 ﻿using Librarian.DAL.Entities;
 using Swftx.Wpf.ViewModels;
-using System;
 
 namespace Librarian.ViewModels
 {
@@ -10,7 +9,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Customer id
         /// </summary>
-        public int CustomerId { get; }
+        public int CustomerId { get; set; }
         #endregion
 
         #region CustomerName
@@ -85,13 +84,15 @@ namespace Librarian.ViewModels
         public decimal? CustomerCashbackBalance { get => _CustomerCashbackBalance; set => Set(ref _CustomerCashbackBalance, value); }
         #endregion
 
-        public CustomerFullInfoViewModel() : this(new Customer { Id = 1, Name = "John", Surname = "Winston", ContactNumber = "557345635", ContactMail = "john.winston@gmail.com" })
-        {
-            if (!App.IsDesignMode)
-                throw new InvalidOperationException(nameof(App.IsDesignMode));
-        }
+        //public CustomerFullInfoViewModel() : this(new Customer { Id = 1, Name = "John", Surname = "Winston", ContactNumber = "557345635", ContactMail = "john.winston@gmail.com" })
+        //{
+        //    if (!App.IsDesignMode)
+        //        throw new InvalidOperationException(nameof(App.IsDesignMode));
+        //}
 
-        public CustomerFullInfoViewModel(Customer customer)
+        public CustomerFullInfoViewModel() { }
+
+        public void InitProps(Customer customer)
         {
             CustomerId = customer.Id;
             CustomerName = customer.Name;

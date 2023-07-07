@@ -1,28 +1,26 @@
 ﻿using Librarian.DAL.Entities;
 using Librarian.Infrastructure.DebugServices;
 using Librarian.Interfaces;
+using Librarian.Services;
+using Librarian.Services.Interfaces;
+using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Librarian.ViewModels
 {
     public class EmployeeEditorViewModel : ViewModel
     {
         private readonly IRepository<WorkingRate> _workingRatesRepository;
-
+        private readonly IUserDialogService _dialogService;
+        private readonly IPasswordHashingService _hashingService;
         private CollectionViewSource _workingRatesViewSource;
 
-        #region Tilte
-        private string? _Title = "Seller Editor";
-
-        /// <summary>
-        /// Window title
-        /// </summary>
-        public string? Title { get => _Title; set => Set(ref _Title, value); }
-        #endregion
+        #region Properties
 
         #region WorkingRatesView
         /// <summary>
@@ -70,7 +68,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Employee id
         /// </summary>
-        public int EmployeeId { get; }
+        public int EmployeeId { get; set; }
         #endregion
 
         #region EmployeeName
@@ -172,20 +170,89 @@ namespace Librarian.ViewModels
         public string? EmployeeAddress { get => _EmployeeAddress; set => Set(ref _EmployeeAddress, value); }
         #endregion
 
+        #region EmployeeLogin
+        private string? _EmployeeLogin;
+
+        /// <summary>
+        /// Employee login
+        /// </summary>
+        public string? EmployeeLogin { get => _EmployeeLogin; set => Set(ref _EmployeeLogin, value); }
+        #endregion
+
+        #region EmployeePassword
+        private string? _EmployeePassword;
+
+        /// <summary>
+        /// Employee password
+        /// </summary>
+        public string? EmployeePassword { get => _EmployeePassword; set => Set(ref _EmployeePassword, value); }
+        #endregion
+
+        #region EmployeePermissionLevel
+        private int _EmployeePermissionLevel;
+
+        /// <summary>
+        /// Employee permission level
+        /// </summary>
+        public int EmployeePermissionLevel { get => _EmployeePermissionLevel; set => Set(ref _EmployeePermissionLevel, value); }
+        #endregion
+
+        #region IsNewEmployee
+        private bool _IsNewEmployee = false;
+
+        /// <summary>
+        /// Is new employee?
+        /// </summary>
+        public bool IsNewEmployee { get => _IsNewEmployee; set => Set(ref _IsNewEmployee, value); }
+        #endregion
+
+        #endregion
+
+        #region ChangePasswordCommand
+        private ICommand? _ChangePasswordCommand;
+
+        /// <summary>
+        /// Change password command
+        /// </summary>
+        public ICommand? ChangePasswordCommand => _ChangePasswordCommand ??= new LambdaCommand(OnChangePasswordCommandExecuted, CanChangePasswordCommandExecute);
+
+        private bool CanChangePasswordCommandExecute() => true;
+
+        private void OnChangePasswordCommandExecuted()
+        {
+            if (!_dialogService.ChangePassword(out string? newPassword)) return;
+
+            EmployeePassword = _hashingService.Hash(newPassword);
+        }
+        #endregion
+
         public EmployeeEditorViewModel() : this(
-            new Employee { Id = 1, Name = "John", Surname = "Winston" },
-            new DebugWorkingRatesRepository())
+            new DebugWorkingRatesRepository(),
+            new UserDialogService(),
+            new PasswordHashingService())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
+
+            InitProps(new Employee { Id = 1, Name = "John", Surname = "Winston" });
         }
 
-        public EmployeeEditorViewModel(Employee employee, IRepository<WorkingRate> workingRatesRepository)
+        public EmployeeEditorViewModel(
+            IRepository<WorkingRate> workingRatesRepository, 
+            IUserDialogService dialogService,
+            IPasswordHashingService hashingService)
         {
             _workingRatesRepository = workingRatesRepository;
+            _dialogService = dialogService;
+            _hashingService = hashingService;
 
             _workingRatesViewSource = new CollectionViewSource();
 
+            _workingRatesViewSource.Filter += OnWorkingRatesFilter;
+        }
+
+        public void InitProps(Employee employee)
+        {
             EmployeeId = employee.Id;
             EmployeeName = employee.Name;
             EmployeeSurname = employee.Surname;
@@ -198,8 +265,10 @@ namespace Librarian.ViewModels
             EmployeeIdentityDocumentNumber = employee.IdentityDocumentNumber;
             EmployeeWorkingRate = employee.WorkingRate;
             EmployeeAddress = employee.Address;
-
-            _workingRatesViewSource.Filter += OnWorkingRatesFilter;
+            EmployeeLogin = employee.Login;
+            EmployeePassword = employee.Password;
+            EmployeePermissionLevel = employee.PermissionLevel;
+            IsNewEmployee = false;
         }
 
         private void OnWorkingRatesFilter(object sender, FilterEventArgs e)

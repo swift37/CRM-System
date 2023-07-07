@@ -132,15 +132,15 @@ namespace Librarian.ViewModels
         #endregion
 
         public OrderDetailsEditorViewModel() : this(
-            new OrderDetails { Id = 1, Product = new Product { Name = "Test Product" } },
             new DebugProductsRepository())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
+
+            InitProps(new OrderDetails { Id = 1, Product = new Product { Name = "Test Product" } });
         }
 
         public OrderDetailsEditorViewModel(
-            OrderDetails orderDetails,
             IRepository<Product> products)
         {
             _productsRepository = products;
@@ -148,7 +148,10 @@ namespace Librarian.ViewModels
             _productsViewSource = new CollectionViewSource();
 
             _productsViewSource.Filter += OnProductsFilter;
+        }
 
+        public void InitProps(OrderDetails orderDetails)
+        {
             OrderDetailsProduct = orderDetails.Product;
             OrderDetailsQuantity = orderDetails.Quantity;
             OrderDetailsUnitPrice = orderDetails.UnitPrice;

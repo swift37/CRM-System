@@ -10,7 +10,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Supplier id
         /// </summary>
-        public int SupplierId { get; }
+        public int SupplierId { get; set; }
         #endregion
 
         #region SupplierName
@@ -67,13 +67,15 @@ namespace Librarian.ViewModels
         public string? SupplierAddress { get => _SupplierAddress; set => Set(ref _SupplierAddress, value); }
         #endregion
 
-        public SupplierFullInfoViewModel() : this(new Supplier { Id = 1, Name = "John", ContactNumber = "557345635", ContactMail = "john.winston@gmail.com" })
-        {
-            if (!App.IsDesignMode)
-                throw new InvalidOperationException(nameof(App.IsDesignMode));
-        }
+        //public SupplierFullInfoViewModel() : this(new Supplier { Id = 1, Name = "John", ContactNumber = "557345635", ContactMail = "john.winston@gmail.com" })
+        //{
+        //    if (!App.IsDesignMode)
+        //        throw new InvalidOperationException(nameof(App.IsDesignMode));
+        //}
 
-        public SupplierFullInfoViewModel(Supplier supplier)
+        public SupplierFullInfoViewModel() { }
+
+        public void InitProps(Supplier supplier)
         {
             SupplierId = supplier.Id;
             SupplierName = supplier.Name;

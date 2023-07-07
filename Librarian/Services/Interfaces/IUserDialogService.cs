@@ -7,10 +7,9 @@ namespace Librarian.Services.Interfaces
 {
     public interface IUserDialogService
     {
-        bool EditProduct(
-            Product product, 
-            IRepository<Category> categoriesRepository, 
-            IRepository<Supplier> suppliersRepository);
+        void OpenMainWindow(Employee? employee);
+
+        bool EditProduct(Product product);
 
         bool EditCategory(Category category);
 
@@ -18,25 +17,19 @@ namespace Librarian.Services.Interfaces
 
         void ShowFullCustomerInfo(Customer customer);
 
-        bool EditEmployee(Employee employee, IRepository<WorkingRate> workingRatesRepository);
+        bool RegisterEmployee(RegisterRequest registerRequest);
+
+        bool EditEmployee(Employee employee);
 
         void ShowFullEmployeeInfo(Employee employee);
 
-        bool EditOrder(
-            Order order,
-            IRepository<Product> products, 
-            IRepository<Employee> employees, 
-            IRepository<Customer> customers,
-            IRepository<Shipper> shippers);
+        bool EditOrder(Order order);
 
-        bool EditOrderDetails(OrderDetails orderDetails, IRepository<Product> products);
+        bool EditOrderDetails(OrderDetails orderDetails);
 
-        bool EditSupply(
-            Supply supply,
-            IRepository<Product> products,
-            IRepository<Supplier> suppliers);
+        bool EditSupply(Supply supply);
 
-        bool EditSupplyDetails(SupplyDetails supplyDetails, IRepository<Product> products);
+        bool EditSupplyDetails(SupplyDetails supplyDetails);
 
         void ShowFullSupplyInfo(Supply supply);
 
@@ -49,6 +42,8 @@ namespace Librarian.Services.Interfaces
         bool EditShipper(Shipper shipper);
 
         void ShowStatisticsDetails(StatisticsDetails statisticsDetails);
+
+        bool ChangePassword(out string? newPassword);
 
         bool Confirmation(string message, string caption);
 

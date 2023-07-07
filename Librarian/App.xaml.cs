@@ -1,6 +1,8 @@
 ﻿using Librarian.Data;
 using Librarian.Services;
 using Librarian.ViewModels;
+using Librarian.Views;
+using Librarian.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -29,7 +31,7 @@ namespace Librarian
             .AddDatabase(host.Configuration.GetSection("Database"))
             .AddServices()
             .AddViewModels()
-            ;
+            .AddViews();
 
         protected override async void OnStartup(StartupEventArgs e)
         {
@@ -41,7 +43,10 @@ namespace Librarian
             using (var scope = Services?.CreateScope())
                 scope?.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync().Wait();
 
-                base.OnStartup(e);
+            base.OnStartup(e);
+
+            Services?.GetRequiredService<AuthorizationWindow>().Show();
+
             await host.StartAsync();
         }
 

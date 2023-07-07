@@ -13,7 +13,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Order id
         /// </summary>
-        public int OrderId { get; }
+        public int OrderId { get; set; }
         #endregion
 
         #region OrderDate
@@ -126,15 +126,16 @@ namespace Librarian.ViewModels
 
         #endregion
 
-        public OrderFullInfoViewModel() : this(
-            new Order { Id = 1, OrderDate = DateTime.Now, RequiredDate = DateTime.Now, ShippedDate = DateTime.Now, Amount = 157, ProductsQuantity = 15 })
-        {
-            if (!App.IsDesignMode)
-                throw new InvalidOperationException(nameof(App.IsDesignMode));
-        }
+        //public OrderFullInfoViewModel() : this(
+        //    new Order { Id = 1, OrderDate = DateTime.Now, RequiredDate = DateTime.Now, ShippedDate = DateTime.Now, Amount = 157, ProductsQuantity = 15 })
+        //{
+        //    if (!App.IsDesignMode)
+        //        throw new InvalidOperationException(nameof(App.IsDesignMode));
+        //}
 
-        public OrderFullInfoViewModel(
-            Order order)
+        public OrderFullInfoViewModel(Order order) { }
+
+        public void InitProps(Order order)
         {
             OrderId = order.Id;
             OrderDate = order.OrderDate;

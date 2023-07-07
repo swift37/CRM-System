@@ -1,25 +1,46 @@
 ﻿using Librarian.DAL.Entities;
-using Librarian.Interfaces;
 using Librarian.Models;
 using Librarian.Services.Interfaces;
 using Librarian.ViewModels;
 using Librarian.Views.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Librarian.Services
 {
     public class UserDialogService : IUserDialogService
     {
-        public bool EditProduct(
-            Product product, 
-            IRepository<Category> categoriesRepository,
-            IRepository<Supplier> suppliersRepository)
+        private readonly IServiceProvider _services = null!;
+
+        public UserDialogService() 
         {
-            var productEditorModel = new ProductEditorViewModel(product, categoriesRepository, suppliersRepository);
-            var productEditorWindow = new ProductEditorWindow
-            {
-                DataContext = productEditorModel,
-            };
+            if (!App.IsDesignMode)
+                throw new InvalidOperationException(nameof(App.IsDesignMode));
+        }
+
+        public UserDialogService(IServiceProvider services) => _services = services;
+            
+
+        public void OpenMainWindow(Employee? employee)
+        {
+            var mainWindow = _services.GetRequiredService<MainWindow>();
+
+            var mainWindowModel = (MainWindowViewModel) mainWindow.DataContext;
+            
+            mainWindowModel.CurrentEmployee = employee;
+
+            mainWindow.Show();
+        }
+
+        public bool EditProduct(Product product)
+        {
+            var productEditorWindow = _services.GetRequiredService<ProductEditorWindow>();
+
+            var productEditorModel = (ProductEditorViewModel) productEditorWindow.DataContext;
+
+            productEditorModel.InitProps(product);
 
             if (productEditorWindow.ShowDialog() != true) return false;
 
@@ -35,11 +56,11 @@ namespace Librarian.Services
 
         public bool EditCategory(Category category)
         {
-            var categoryEditorModel = new CategoryEditorViewModel(category);
-            var categoryEditorWindow = new CategoryEditorWindow
-            {
-                DataContext = categoryEditorModel,
-            };
+            var categoryEditorWindow = _services.GetRequiredService<CategoryEditorWindow>();
+
+            var categoryEditorModel = (CategoryEditorViewModel) categoryEditorWindow.DataContext;
+
+            categoryEditorModel.InitProps(category);
 
             if (categoryEditorWindow.ShowDialog() != true) return false;
 
@@ -50,13 +71,13 @@ namespace Librarian.Services
 
         public bool EditCustomer(Customer customer)
         {
-            var customerEditorModel = new CustomerEditorViewModel(customer);
-            var customerEditWindow = new CustomerEditorWindow
-            {
-                DataContext = customerEditorModel,
-            };
+            var customerEditorWindow = _services.GetRequiredService<CustomerEditorWindow>();
 
-            if(customerEditWindow.ShowDialog() != true) return false;
+            var customerEditorModel = (CustomerEditorViewModel)customerEditorWindow.DataContext;
+
+            customerEditorModel.InitProps(customer);
+
+            if(customerEditorWindow.ShowDialog() != true) return false;
 
             customer.Name = customerEditorModel.CustomerName;
             customer.Surname = customerEditorModel.CustomerSurname;
@@ -71,25 +92,52 @@ namespace Librarian.Services
 
         public void ShowFullCustomerInfo(Customer customer)
         {
-            var customerFullInfoDetailsModel = new CustomerFullInfoViewModel(customer);
-            var customerFullInfoWindow = new CustomerFullInfoWindow
-            {
-                DataContext = customerFullInfoDetailsModel
-            };
+            var customerFullInfoWindow = _services.GetRequiredService<CustomerFullInfoWindow>();
+
+            var customerFullInfoModel = (CustomerFullInfoViewModel)customerFullInfoWindow.DataContext;
+
+            customerFullInfoModel.InitProps(customer);
 
             customerFullInfoWindow.ShowDialog();
         }
 
-        public bool EditEmployee(Employee employee, IRepository<WorkingRate> workingRatesRepository)
+        public bool RegisterEmployee(RegisterRequest registerRequest)
         {
-            var employeeEditorModel = new EmployeeEditorViewModel(employee, workingRatesRepository);
-            var employeeEditorWindow = new EmployeeEditorWindow
-            {
-                DataContext = employeeEditorModel
-            };
+            var employeeEditorWindow = _services.GetRequiredService<EmployeeEditorWindow>();
+
+            var employeeEditorModel = (EmployeeEditorViewModel)employeeEditorWindow.DataContext;;
+            employeeEditorModel.IsNewEmployee = true;
 
             if (employeeEditorWindow.ShowDialog() != true) return false;
 
+            registerRequest.Name = employeeEditorModel.EmployeeName;
+            registerRequest.Surname = employeeEditorModel.EmployeeSurname;
+            registerRequest.DateOfBirth = employeeEditorModel.EmployeeDateOfBirth;
+            registerRequest.HireDate = employeeEditorModel.EmployeeHireDate;
+            registerRequest.Extension = employeeEditorModel.EmployeeExtension;
+            registerRequest.Title = employeeEditorModel.EmployeeTitle;
+            registerRequest.ContactNumber = employeeEditorModel.EmployeeContactNumber;
+            registerRequest.ContactMail = employeeEditorModel.EmployeeMail;
+            registerRequest.IdentityDocumentNumber = employeeEditorModel.EmployeeIdentityDocumentNumber;
+            registerRequest.WorkingRate = employeeEditorModel.EmployeeWorkingRate;
+            registerRequest.Address = employeeEditorModel.EmployeeAddress;
+
+            return true;
+        }
+
+        public bool EditEmployee(Employee employee)
+        {
+            var employeeEditorWindow = _services.GetRequiredService<EmployeeEditorWindow>();
+
+            var employeeEditorModel = (EmployeeEditorViewModel)employeeEditorWindow.DataContext;
+
+            employeeEditorModel.InitProps(employee);
+
+            if (employeeEditorWindow.ShowDialog() != true) return false;
+
+            employee.Login = employeeEditorModel.EmployeeLogin;
+            employee.PermissionLevel = employeeEditorModel.EmployeePermissionLevel;
+            employee.Password = employeeEditorModel.EmployeePassword;
             employee.Name = employeeEditorModel.EmployeeName;
             employee.Surname = employeeEditorModel.EmployeeSurname;
             employee.DateOfBirth = employeeEditorModel.EmployeeDateOfBirth;
@@ -107,27 +155,22 @@ namespace Librarian.Services
 
         public void ShowFullEmployeeInfo(Employee employee)
         {
-            var employeeFullInfoDetailsModel = new EmployeeFullInfoViewModel(employee);
-            var employeeFullInfoWindow = new EmployeeFullInfoWindow
-            {
-                DataContext = employeeFullInfoDetailsModel
-            };
+            var employeeFullInfoWindow = _services.GetRequiredService<EmployeeFullInfoWindow>();
+
+            var employeeFullInfoModel = (EmployeeFullInfoViewModel)employeeFullInfoWindow.DataContext;
+
+            employeeFullInfoModel.InitProps(employee);
 
             employeeFullInfoWindow.ShowDialog();
         }
 
-        public bool EditOrder(
-            Order order,
-            IRepository<Product> products, 
-            IRepository<Employee> employees, 
-            IRepository<Customer> customers,
-            IRepository<Shipper> shippers)
+        public bool EditOrder(Order order)
         {
-            var orderEditorModel = new OrderEditorViewModel(order, products, employees, customers, shippers, this);
-            var orderEditorWindow = new OrderEditorWindow
-            {
-                DataContext = orderEditorModel
-            };
+            var orderEditorWindow = _services.GetRequiredService<OrderEditorWindow>();
+
+            var orderEditorModel = (OrderEditorViewModel)orderEditorWindow.DataContext;
+
+            orderEditorModel.InitProps(order);
 
             if (orderEditorWindow.ShowDialog() != true) return false;
 
@@ -147,13 +190,13 @@ namespace Librarian.Services
             return true;
         }
 
-        public bool EditOrderDetails(OrderDetails orderDetails, IRepository<Product> products)
+        public bool EditOrderDetails(OrderDetails orderDetails)
         {
-            var orderDetailsEditorModel = new OrderDetailsEditorViewModel(orderDetails, products);
-            var orderDetailsEditorWindow = new OrderDetailsEditorWindow
-            {
-                DataContext = orderDetailsEditorModel
-            };
+            var orderDetailsEditorWindow = _services.GetRequiredService<OrderDetailsEditorWindow>();
+
+            var orderDetailsEditorModel = (OrderDetailsEditorViewModel)orderDetailsEditorWindow.DataContext;
+
+            orderDetailsEditorModel.InitProps(orderDetails);
 
             if (orderDetailsEditorWindow.ShowDialog() != true) return false;
 
@@ -165,16 +208,24 @@ namespace Librarian.Services
             return true;
         }
 
-        public bool EditSupply(
-            Supply supply,
-            IRepository<Product> products,
-            IRepository<Supplier> suppliers)
+        public void ShowFullOrderInfo(Order order)
         {
-            var supplyEditorModel = new SupplyEditorViewModel(supply, products, suppliers, this);
-            var supplyEditorWindow = new SupplyEditorWindow
-            {
-                DataContext = supplyEditorModel
-            };
+            var orderFullInfoWindow = _services.GetRequiredService<OrderFullInfoWindow>();
+
+            var orderFullInfoModel = (OrderFullInfoViewModel)orderFullInfoWindow.DataContext;
+
+            orderFullInfoModel.InitProps(order);
+
+            orderFullInfoWindow.ShowDialog();
+        }
+
+        public bool EditSupply(Supply supply)
+        {
+            var supplyEditorWindow = _services.GetRequiredService<SupplyEditorWindow>();
+
+            var supplyEditorModel = (SupplyEditorViewModel)supplyEditorWindow.DataContext;
+
+            supplyEditorModel.InitProps(supply);
 
             if (supplyEditorWindow.ShowDialog() != true) return false;
 
@@ -187,13 +238,13 @@ namespace Librarian.Services
             return true;
         }
 
-        public bool EditSupplyDetails(SupplyDetails supplyDetails, IRepository<Product> products)
+        public bool EditSupplyDetails(SupplyDetails supplyDetails)
         {
-            var supplyDetailsEditorModel = new SupplyDetailsEditorViewModel(supplyDetails, products);
-            var supplyDetailsEditorWindow = new SupplyDetailsEditorWindow
-            {
-                DataContext = supplyDetailsEditorModel
-            };
+            var supplyDetailsEditorWindow = _services.GetRequiredService<SupplyDetailsEditorWindow>();
+
+            var supplyDetailsEditorModel = (SupplyDetailsEditorViewModel)supplyDetailsEditorWindow.DataContext;
+
+            supplyDetailsEditorModel.InitProps(supplyDetails);
 
             if (supplyDetailsEditorWindow.ShowDialog() != true) return false;
 
@@ -206,55 +257,33 @@ namespace Librarian.Services
 
         public void ShowFullSupplyInfo(Supply supply)
         {
-            var supplyFullInfoDetailsModel = new SupplyFullInfoViewModel(supply);
-            var supplyFullInfoWindow = new SupplyFullInfoWindow
-            {
-                DataContext = supplyFullInfoDetailsModel
-            };
+            var supplyFullInfoWindow = _services.GetRequiredService<SupplyFullInfoWindow>();
+
+            var supplyFullInfoModel = (SupplyFullInfoViewModel)supplyFullInfoWindow.DataContext;
+
+            supplyFullInfoModel.InitProps(supply);
 
             supplyFullInfoWindow.ShowDialog();
         }
 
-        public void ShowFullSupplierInfo(Supplier supplier)
-        {
-            var supplierFullInfoDetailsModel = new SupplierFullInfoViewModel(supplier);
-            var supplierFullInfoWindow = new SupplierFullInfoWindow
-            {
-                DataContext = supplierFullInfoDetailsModel
-            };
-
-            supplierFullInfoWindow.ShowDialog();
-        }
-
-        public void ShowFullOrderInfo(Order order)
-        {
-            var orderFullInfoDetailsModel = new OrderFullInfoViewModel(order);
-            var orderFullInfoWindow = new OrderFullInfoWindow
-            {
-                DataContext = orderFullInfoDetailsModel
-            };
-
-            orderFullInfoWindow.ShowDialog();
-        }
-
         public void ShowStatisticsDetails(StatisticsDetails statisticsDetails)
         {
-            var statisticsDetailsModel = new StatisticsDetailsViewModel(statisticsDetails);
-            var statisticsDetailsWindow = new StatisticsDetailsWindow
-            {
-                DataContext = statisticsDetailsModel
-            };
+            var statisticsDetailsWindow = _services.GetRequiredService<StatisticsDetailsWindow>();
+
+            var statisticsDetailsModel = (StatisticsDetailsViewModel)statisticsDetailsWindow.DataContext;
+
+            statisticsDetailsModel.InitProps(statisticsDetails);
 
             statisticsDetailsWindow.ShowDialog();
         }
 
         public bool EditSupplier(Supplier supplier)
         {
-            var supplierEditorModel = new SupplierEditorViewModel(supplier);
-            var supplierEditorWindow = new SupplierEditorWindow
-            {
-                DataContext = supplierEditorModel
-            };
+            var supplierEditorWindow = _services.GetRequiredService<SupplierEditorWindow>();
+
+            var supplierEditorModel = (SupplierEditorViewModel)supplierEditorWindow.DataContext;
+
+            supplierEditorModel.InitProps(supplier);
 
             if (supplierEditorWindow.ShowDialog() != true) return false;
 
@@ -268,18 +297,46 @@ namespace Librarian.Services
             return true;
         }
 
+        public void ShowFullSupplierInfo(Supplier supplier)
+        {
+            var supplierFullInfoWindow = _services.GetRequiredService<SupplierFullInfoWindow>();
+
+            var supplierFullInfoModel = (SupplierFullInfoViewModel)supplierFullInfoWindow.DataContext;
+
+            supplierFullInfoModel.InitProps(supplier);
+
+            supplierFullInfoWindow.ShowDialog();
+        }
+
         public bool EditShipper(Shipper shipper)
         {
-            var shipperEditorModel = new ShipperEditorViewModel(shipper);
-            var shipperEditorWindow = new ShipperEditorWindow
-            {
-                DataContext = shipperEditorModel
-            };
+            var shipperEditorWindow = _services.GetRequiredService<ShipperEditorWindow>();
+
+            var shipperEditorModel = (ShipperEditorViewModel)shipperEditorWindow.DataContext;
+
+            shipperEditorModel.InitProps(shipper);
 
             if (shipperEditorWindow.ShowDialog() != true) return false;
 
             shipper.Name = shipperEditorModel.ShipperName;
             shipper.ContactNumber = shipperEditorModel.ShipperContactNumber;
+
+            return true;
+        }
+
+        public bool ChangePassword(out string? newPassword)
+        {
+            var passwordCreatorWindow = _services.GetRequiredService<PasswordCreatorWindow>();
+
+            var passwordCreatorModel = (PasswordCreatorViewModel)passwordCreatorWindow.DataContext;
+
+            if (passwordCreatorWindow.ShowDialog() != true)
+            {
+                newPassword = null;
+                return false;
+            }
+
+            newPassword = passwordCreatorModel.Password;
 
             return true;
         }

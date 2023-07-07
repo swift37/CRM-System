@@ -20,7 +20,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Supply id
         /// </summary>
-        public int SupplyId { get; }
+        public int SupplyId { get; set; }
         #endregion
 
         #region SupplyDate
@@ -70,15 +70,16 @@ namespace Librarian.ViewModels
 
         #endregion
 
-        public SupplyFullInfoViewModel() : this(
-            new Supply { Id = 1, SupplyDate = DateTime.Now })
-        {
-            if (!App.IsDesignMode)
-                throw new InvalidOperationException(nameof(App.IsDesignMode));
-        }
+        //public SupplyFullInfoViewModel() : this(
+        //    new Supply { Id = 1, SupplyDate = DateTime.Now })
+        //{
+        //    if (!App.IsDesignMode)
+        //        throw new InvalidOperationException(nameof(App.IsDesignMode));
+        //}
 
-        public SupplyFullInfoViewModel(
-            Supply supply)
+        public SupplyFullInfoViewModel() { }
+
+        public void InitProps(Supply supply)
         {
             SupplyId = supply.Id;
             SupplyDate = supply.SupplyDate;

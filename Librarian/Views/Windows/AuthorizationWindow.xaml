@@ -1,0 +1,84 @@
+﻿<Window x:Class="Librarian.Views.Windows.AuthorizationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:vm="clr-namespace:Librarian.ViewModels"
+        xmlns:b="clr-namespace:Librarian.Infrastructure.Behaviors" 
+        d:DataContext="{d:DesignInstance vm:AuthorizationViewModel, IsDesignTimeCreatable=True}"
+        Width="900" Height="490" MinWidth="900" MinHeight="490" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
+
+    <Border CornerRadius="15">
+        <Border.Background>
+            <ImageBrush ImageSource="/../Resources/background2.jpg"/>
+        </Border.Background>
+
+        <Border CornerRadius="15">
+            <br:Interaction.Behaviors>
+                <b:WindowTitleBarBehavior/>
+            </br:Interaction.Behaviors>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" Opacity="0.94">
+                    <GradientStop Color="#26376f" Offset="0"/>
+                    <GradientStop Color="#6a6ae4" Offset="1.5"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid Margin="20,20,20,15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!--Title-->
+                <TextBlock Grid.Row="0" Text="Sign in to App" Style="{StaticResource authTitleText}"/>
+
+                <!--Login-->
+                <DockPanel Grid.Row="1" Width="350">
+                    <TextBlock DockPanel.Dock="Top" Text="Login" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="15,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <Grid>
+                        <TextBlock Margin="17,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Login" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput2, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtInput2" Style="{StaticResource textBoxAuth}" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </DockPanel>
+
+                <!--Password-->
+                <DockPanel Grid.Row="2" Width="350">
+                    <TextBlock DockPanel.Dock="Top" Text="Password" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="15,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <Grid>
+                        <TextBlock Margin="17,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Password" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput3, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtInput3" Style="{StaticResource textBoxAuth}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </DockPanel>
+
+                <!--Sign In Button-->
+                <Button Grid.Row="3" Content="Sign in" Style="{StaticResource authButton}" Command="{Binding SignInCommand}"/>
+
+                <!--Exeptions-->
+                <StackPanel Grid.Row="4" Width="350" Margin="25,10,0,0">
+                    <TextBlock Text="{Binding AuthExeptions[0]}" Style="{StaticResource authExeptionText}"/>
+                    <TextBlock Text="{Binding AuthExeptions[1]}" Style="{StaticResource authExeptionText}"/>
+                    <TextBlock Text="{Binding AuthExeptions[2]}" Style="{StaticResource authExeptionText}"/>
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+    </Border>
+</Window>
+

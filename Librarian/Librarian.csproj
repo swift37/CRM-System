@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\background.jpg" />
+    <None Remove="Resources\background2.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.5.2" />
     <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
@@ -26,6 +31,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Librarian.DAL\Librarian.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\background.jpg" />
+    <Resource Include="Resources\background2.jpg" />
   </ItemGroup>
 
   <ItemGroup>

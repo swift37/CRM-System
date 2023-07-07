@@ -123,23 +123,25 @@ namespace Librarian.ViewModels
         #endregion
 
         public SupplyDetailsEditorViewModel() : this(
-            new SupplyDetails { Id = 1, Product = new Product { Name = "Test Product" } },
             new DebugProductsRepository())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
+
+            InitProps(new SupplyDetails { Id = 1, Product = new Product { Name = "Test Product" } });
         }
 
-        public SupplyDetailsEditorViewModel(
-            SupplyDetails orderDetails,
-            IRepository<Product> products)
+        public SupplyDetailsEditorViewModel(IRepository<Product> products)
         {
             _productsRepository = products;
 
             _productsViewSource = new CollectionViewSource();
 
             _productsViewSource.Filter += OnProductsFilter;
+        }
 
+        public void InitProps(SupplyDetails orderDetails)
+        {
             SupplyDetailsProduct = orderDetails.Product;
             SupplyDetailsQuantity = orderDetails.Quantity;
             SupplyDetailsUnitPrice = orderDetails.UnitPrice;

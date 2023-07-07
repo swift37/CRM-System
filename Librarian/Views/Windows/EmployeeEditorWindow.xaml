@@ -7,9 +7,9 @@
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:b="clr-namespace:Librarian.Infrastructure.Behaviors"      
         xmlns:vm="clr-namespace:Librarian.ViewModels"
-        xmlns:local="clr-namespace:Librarian.Views.Windows"
+        xmlns:conv="clr-namespace:Librarian.Infrastructure.Converters"
         d:DataContext="{d:DesignInstance {x:Type vm:EmployeeEditorViewModel}, IsDesignTimeCreatable=True}"
-        Width="960" Height="425" MinWidth="960" MinHeight="425" WindowStartupLocation="CenterScreen"
+        Width="960" Height="485" MinWidth="960" MinHeight="485" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
 
     <Border CornerRadius="15">
@@ -51,6 +51,7 @@
 
                 <Grid Grid.Column="0" Margin="0,25,30,25">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -113,10 +114,21 @@
                         </Grid>
                     </DockPanel>
 
+                    <!--Employee Extension Date-->
+                    <DockPanel Grid.Row="4">
+                        <TextBlock DockPanel.Dock="Top" Text="Extension" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Border CornerRadius="10" Background="#ffffff" Padding="10,5" Margin="0,9,0,11">
+                            <DatePicker SelectedDate="{Binding EmployeeExtension}" BorderThickness="0" Foreground="#5c5c5c"/>
+                        </Border>
+                    </DockPanel>
+
                 </Grid>
 
                 <Grid Grid.Column="1" Margin="10,25,10,25">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -173,10 +185,25 @@
                               Text="{Binding WorkingRatesFilter, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </DockPanel>
+                    
+                    <!--Employee Address-->
+                    <DockPanel Grid.Row="4">
+                        <TextBlock DockPanel.Dock="Top" Text="Address" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                               Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                       Panel.ZIndex="1" Text="Enter Address" FontSize="12" FontWeight="Normal"
+                                       Visibility="{Binding ElementName=txtInput7, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBox x:Name="txtInput7" Style="{StaticResource textBoxEditor}" Text="{Binding EmployeeAddress}"/>
+                        </Grid>
+                    </DockPanel>
                 </Grid>
 
                 <Grid Grid.Column="2" Margin="30,25,0,25">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -191,36 +218,66 @@
                         <Grid>
                             <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
                                    Panel.ZIndex="1" Text="Enter Title" FontSize="12" FontWeight="Normal"
-                                   Visibility="{Binding ElementName=txtInput7, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+                                   Visibility="{Binding ElementName=txtInput8, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
-                            <TextBox x:Name="txtInput7" Style="{StaticResource textBoxEditor}" Text="{Binding EmployeeTitle}"/>
+                            <TextBox x:Name="txtInput8" Style="{StaticResource textBoxEditor}" Text="{Binding EmployeeTitle}"/>
                         </Grid>
                     </DockPanel>
 
-                    <!--Employee Address-->
+                    <!--Employee Permission Level-->
                     <DockPanel Grid.Row="1">
-                        <TextBlock DockPanel.Dock="Top" Text="Address" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                        <TextBlock DockPanel.Dock="Top" Text="Permission Level" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                         <Grid>
                             <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
-                                   Panel.ZIndex="1" Text="Enter Address" FontSize="12" FontWeight="Normal"
-                                   Visibility="{Binding ElementName=txtInput8, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+                                   Panel.ZIndex="1" Text="Enter Permission Level" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput9, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
-                            <TextBox x:Name="txtInput8" Style="{StaticResource textBoxEditor}" Text="{Binding EmployeeAddress}"/>
+                            <TextBox x:Name="txtInput9" Style="{StaticResource textBoxEditor}" Text="{Binding EmployeePermissionLevel}"/>
                         </Grid>
                     </DockPanel>
 
-                    <!--Employee Hire Date-->
+                    <!--Employee Login-->
                     <DockPanel Grid.Row="2">
-                        <TextBlock DockPanel.Dock="Top" Text="Extension" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                        <TextBlock DockPanel.Dock="Top" Text="Login" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                        <Border CornerRadius="10" Background="#ffffff" Padding="10,5" Margin="0,9,0,11">
-                            <DatePicker SelectedDate="{Binding EmployeeExtension}" BorderThickness="0" Foreground="#5c5c5c"/>
-                        </Border>
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Login" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput10, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBox x:Name="txtInput10" Style="{StaticResource textBoxEditor}" Text="{Binding EmployeeLogin}"/>
+                        </Grid>
                     </DockPanel>
+
+                    <!--Employee Password-->
+                    <DockPanel Grid.Row="3" Visibility="{Binding IsNewEmployee, Converter={StaticResource BoolToVisibility}}"
+                               IsEnabled="{Binding IsNewEmployee}">
+                        <TextBlock DockPanel.Dock="Top" Text="Password" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
+                           Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                        <Grid>
+                            <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Enter Password" FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtInput11, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBox x:Name="txtInput11" Style="{StaticResource textBoxEditor}" Text="{Binding EmployeePassword}"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <!--Order Details Add Button-->
+                    <Button Grid.Row="4" Style="{StaticResource changePasswordButton}" Command="{Binding ChangePasswordCommand}"
+                            Visibility="{Binding IsNewEmployee, Converter={StaticResource VisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="LockOpen" Style="{StaticResource addButtonIcon}"/>
+                            <TextBlock Text="Change password"/>
+                        </StackPanel>
+                    </Button>
+
                 </Grid>
+                
             </Grid>
         </DockPanel>
 

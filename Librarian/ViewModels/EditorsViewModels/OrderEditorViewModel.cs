@@ -53,7 +53,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Order id
         /// </summary>
-        public int OrderId { get; }
+        public int OrderId { get; set; }
         #endregion
 
         #region OrderDate
@@ -306,7 +306,7 @@ namespace Librarian.ViewModels
             var orderDetails = new OrderDetails();
             orderDetails.Order = CurrentOrder;
 
-            if (!_dialogService.EditOrderDetails(orderDetails, _productsRepository)) return;
+            if (!_dialogService.EditOrderDetails(orderDetails)) return;
 
             OrderDetails?.Add(orderDetails);
 
@@ -343,7 +343,6 @@ namespace Librarian.ViewModels
         #endregion
 
         public OrderEditorViewModel() : this(
-            new Order { Id = 1, OrderDate = DateTime.Now },
             new DebugProductsRepository(),
             new DebugEmployeesRepository(),
             new DebugCustomersRepository(),
@@ -352,10 +351,11 @@ namespace Librarian.ViewModels
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
+
+            InitProps(new Order { Id = 1, OrderDate = DateTime.Now });
         }
 
         public OrderEditorViewModel(
-            Order order,
             IRepository<Product> products, 
             IRepository<Employee> employees, 
             IRepository<Customer> customers,
@@ -373,7 +373,10 @@ namespace Librarian.ViewModels
 
             _customersViewSource.Filter += OnCustomersFilter;
             _shippersViewSource.Filter += OnShippersFilter;
+        }
 
+        public void InitProps(Order order)
+        {
             CurrentOrder = order;
             OrderId = order.Id;
             OrderDate = order.OrderDate;

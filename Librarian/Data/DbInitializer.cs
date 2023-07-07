@@ -191,6 +191,9 @@ namespace Librarian.Data
                 .Select(i => new Employee
                 {
                     Name = $"Employee {i}",
+                    Login = $"employee{i}",
+                    Password = "12345678",
+                    PermissionLevel = random.Next(1,5),
                     Surname = $"Surnm",
                     DateOfBirth = DateTime.Now.AddYears(-random.Next(18, 45)),
                     HireDate = DateTime.Now.AddYears(-random.Next(1, 10)),

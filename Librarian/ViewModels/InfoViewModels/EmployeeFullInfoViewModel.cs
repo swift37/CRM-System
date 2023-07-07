@@ -10,7 +10,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Employee id
         /// </summary>
-        public int EmployeeId { get; }
+        public int EmployeeId { get; set; }
         #endregion
 
         #region EmployeeName
@@ -112,13 +112,15 @@ namespace Librarian.ViewModels
         public string? EmployeeAddress { get => _EmployeeAddress; set => Set(ref _EmployeeAddress, value); }
         #endregion
 
-        public EmployeeFullInfoViewModel() : this(new Employee { Id = 1, Name = "John", Surname = "Winston" })
-        {
-            if (!App.IsDesignMode)
-                throw new InvalidOperationException(nameof(App.IsDesignMode));
-        }
+        //public EmployeeFullInfoViewModel() : this(new Employee { Id = 1, Name = "John", Surname = "Winston" })
+        //{
+        //    if (!App.IsDesignMode)
+        //        throw new InvalidOperationException(nameof(App.IsDesignMode));
+        //}
 
-        public EmployeeFullInfoViewModel(Employee employee)
+        public EmployeeFullInfoViewModel() { }
+
+        public void InitProps(Employee employee)
         {
             EmployeeId = employee.Id;
             EmployeeName = employee.Name;

@@ -220,7 +220,7 @@ namespace Librarian.ViewModels
             order.OrderDate = DateTime.Now;
             order.OrderDetails = new HashSet<OrderDetails>();
 
-            if (!_dialogService.EditOrder(order, _productsRepository, _employeesRepository, _customersRepository, _shippersRepository)) return;
+            if (!_dialogService.EditOrder(order)) return;
 
 
             _ordersRepository.Add(order);
@@ -259,7 +259,7 @@ namespace Librarian.ViewModels
 
             var unchangedOrderDetails = editableOrder.OrderDetails;
 
-            if (!_dialogService.EditOrder(editableOrder, _productsRepository, _employeesRepository, _customersRepository, _shippersRepository))
+            if (!_dialogService.EditOrder(editableOrder))
                 return;
 
             _ordersRepository.Update(editableOrder);

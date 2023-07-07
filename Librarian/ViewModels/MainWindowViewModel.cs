@@ -1,15 +1,17 @@
 ﻿using Librarian.DAL.Entities;
+using Librarian.Infrastructure.DebugServices;
 using Librarian.Interfaces;
+using Librarian.Services;
 using Librarian.Services.Interfaces;
 using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
+using System;
 using System.Windows.Input;
 
 namespace Librarian.ViewModels
 {
     public class MainWindowViewModel : ViewModel
     {
-        private readonly ITradingService _tradingService;
         private readonly IUserDialogService _dialogService;
         private readonly IStatisticsCollectionService _statisticsService;
         private readonly IRepository<Product> _productsRepository;
@@ -42,6 +44,15 @@ namespace Librarian.ViewModels
         /// Current ViewModel
         /// </summary>
         public ViewModel? CurrentViewModel { get => _CurrentViewModel; private set => Set(ref _CurrentViewModel, value); }
+        #endregion
+
+        #region CurrentEmployee
+        private Employee? _CurrentEmployee;
+
+        /// <summary>
+        /// Current Employee
+        /// </summary>
+        public Employee? CurrentEmployee { get => _CurrentEmployee; set => Set(ref _CurrentEmployee, value); }
         #endregion
 
         #endregion
@@ -174,6 +185,25 @@ namespace Librarian.ViewModels
 
         #endregion
 
+        public MainWindowViewModel() : this(
+            new DebugProductsRepository(),
+            new DebugCategoriesRepository(),
+            new DebugEmployeesRepository(),
+            new DebugCustomersRepository(),
+            new DebugOrdersRepository(),
+            new DebugOrdersDetailsRepository(),
+            new DebugSuppliesRepository(),
+            new DebugSuppliesDetailsRepository(),
+            new DebugWorkingRatesRepository(),
+            new DebugSuppliersRepository(),
+            new DebugShippersRepository(),
+            new UserDialogService(),
+            new StatisticsCollectionService())
+        {
+            if (!App.IsDesignMode)
+                throw new InvalidOperationException(nameof(App.IsDesignMode));
+        }
+
         public MainWindowViewModel(
             IRepository<Product> productsRepository, 
             IRepository<Category> categoriesRepository,
@@ -186,7 +216,6 @@ namespace Librarian.ViewModels
             IRepository<WorkingRate> workingRatesRepository,
             IRepository<Supplier> suppliersRepository,
             IRepository<Shipper> shippersRepository,
-            ITradingService tradingService,
             IUserDialogService dialogService,
             IStatisticsCollectionService statisticsService)
         {
@@ -201,24 +230,8 @@ namespace Librarian.ViewModels
             _workingRatesRepository = workingRatesRepository;
             _suppliersRepository = suppliersRepository;
             _shippersRepository = shippersRepository;
-            _tradingService = tradingService;
             _dialogService = dialogService;
             _statisticsService = statisticsService;
         }
-
-        //public async void TestTransactionAsync()
-        //{
-        //    var transactionsCount = _tradingService.Transactions?.Count();
-
-        //    var book = await _booksRepository.GetAsync(5);
-        //    var seller = await _sellersRepository.GetAsync(3);
-        //    var buyer = await _buyersRepository.GetAsync(7);
-
-        //    if (book is null || book.Name is null || seller is null || buyer is null) return;
-
-        //    var transact = await _tradingService.CrateTransactionAsync(book.Name, seller, buyer, 235m);
-
-        //    var transactionsCount2 = _tradingService.Transactions?.Count();
-        //}
     }       
 }

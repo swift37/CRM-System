@@ -10,7 +10,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Shipper id
         /// </summary>
-        public int ShipperId { get; }
+        public int ShipperId { get; set; }
         #endregion
 
         #region ShipperName
@@ -31,13 +31,15 @@ namespace Librarian.ViewModels
         public string? ShipperContactNumber { get => _ShipperContactNumber; set => Set(ref _ShipperContactNumber, value); }
         #endregion
 
-        public ShipperEditorViewModel() : this(new Shipper { Id = 1, Name = "DHL", ContactNumber = "345234532" })
-        {
-            if (!App.IsDesignMode)
-                throw new InvalidOperationException(nameof(App.IsDesignMode));
-        }
+        //public ShipperEditorViewModel() : this(new Shipper { Id = 1, Name = "DHL", ContactNumber = "345234532" })
+        //{
+        //    if (!App.IsDesignMode)
+        //        throw new InvalidOperationException(nameof(App.IsDesignMode));
+        //}
 
-        public ShipperEditorViewModel(Shipper shipper)
+        public ShipperEditorViewModel() { }
+
+        public void InitProps(Shipper shipper)
         {
             ShipperId = shipper.Id;
             ShipperName = shipper.Name;

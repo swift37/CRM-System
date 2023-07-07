@@ -10,7 +10,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Customer id
         /// </summary>
-        public int CustomerId { get; }
+        public int CustomerId { get; set; }
         #endregion
 
         #region CustomerName
@@ -76,13 +76,15 @@ namespace Librarian.ViewModels
         public string? CustomerAddress { get => _CustomerAddress; set => Set(ref _CustomerAddress, value); }
         #endregion
 
-        public CustomerEditorViewModel() : this(new Customer { Id = 1, Name = "John", Surname = "Winston", ContactNumber = "557345635", ContactMail = "john.winston@gmail.com" })
-        {
-            if (!App.IsDesignMode)
-                throw new InvalidOperationException(nameof(App.IsDesignMode));
-        }
+        //public CustomerEditorViewModel() : this(new Customer { Id = 1, Name = "John", Surname = "Winston", ContactNumber = "557345635", ContactMail = "john.winston@gmail.com" })
+        //{
+        //    if (!App.IsDesignMode)
+        //        throw new InvalidOperationException(nameof(App.IsDesignMode));
+        //}
 
-        public CustomerEditorViewModel(Customer customer)
+        public CustomerEditorViewModel() { }
+
+        public void InitProps(Customer customer)
         {
             CustomerId = customer.Id;
             CustomerName = customer.Name;

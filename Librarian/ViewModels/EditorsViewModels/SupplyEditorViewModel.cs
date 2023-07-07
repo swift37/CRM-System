@@ -50,7 +50,7 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Supply id
         /// </summary>
-        public int SupplyId { get; }
+        public int SupplyId { get; set; }
         #endregion
 
         #region SupplyDate
@@ -181,7 +181,7 @@ namespace Librarian.ViewModels
             var supplyDetails = new SupplyDetails();
             supplyDetails.Supply = CurrentSupply;
 
-            if (!_dialogService.EditSupplyDetails(supplyDetails, _productsRepository)) return;
+            if (!_dialogService.EditSupplyDetails(supplyDetails)) return;
 
             SupplyDetails?.Add(supplyDetails);
 
@@ -218,17 +218,17 @@ namespace Librarian.ViewModels
         #endregion
 
         public SupplyEditorViewModel() : this(
-            new Supply { Id = 1, SupplyDate = DateTime.Now },
             new DebugProductsRepository(),
             new DebugSuppliersRepository(),
             new UserDialogService())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
+
+            InitProps(new Supply { Id = 1, SupplyDate = DateTime.Now });
         }
 
         public SupplyEditorViewModel(
-            Supply supply,
             IRepository<Product> products,
             IRepository<Supplier> suppliers,
             IUserDialogService userDialogService)
@@ -240,7 +240,10 @@ namespace Librarian.ViewModels
             _suppliersViewSource = new CollectionViewSource();
 
             _suppliersViewSource.Filter += OnSuppliersFilter;
+        }
 
+        public void InitProps(Supply supply)
+        {
             CurrentSupply = supply;
             SupplyId = supply.Id;
             SupplyDate = supply.SupplyDate;

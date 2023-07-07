@@ -4,11 +4,6 @@ using Librarian.Models;
 using LiveCharts;
 using LiveCharts.Helpers;
 using LiveCharts.Configurations;
-using LiveCharts.Wpf;
-using System;
-using System.Collections;
-using System.Runtime.Intrinsics.Arm;
-
 namespace Librarian.ViewModels
 {
     public class StatisticsDetailsViewModel : ViewModel
@@ -73,7 +68,9 @@ namespace Librarian.ViewModels
         public double LastMonthProfit { get => _LastMonthProfit; set => Set(ref _LastMonthProfit, value); }
         #endregion
 
-        public StatisticsDetailsViewModel(StatisticsDetails statistics)
+        public StatisticsDetailsViewModel() { }
+
+        public void InitProps(StatisticsDetails statistics)
         {
             Configuration = new CartesianMapper<DataPoint>()
                 .Y(dp => dp.Value);

@@ -7,8 +7,7 @@
         xmlns:b="clr-namespace:Librarian.Infrastructure.Behaviors"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:vm="clr-namespace:Librarian.ViewModels"
-        xmlns:local="clr-namespace:Librarian"
-        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
         Width="1280" Height="740" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
     <br:Interaction.Triggers>
@@ -32,6 +31,7 @@
             </Border.Background>
 
             <StackPanel>
+                
                 <!--Current user-->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,35,0,0">
                     <Border CornerRadius="10" Width="40" Height="40">
@@ -42,13 +42,13 @@
                             </LinearGradientBrush>
                         </Border.Background>
 
-                        <TextBlock Text="A" Foreground="#ffffff" FontSize="22" FontWeight="SemiBold" 
+                        <TextBlock Text="{Binding CurrentEmployee.Name[0]}" Foreground="#ffffff" FontSize="22" FontWeight="SemiBold" 
                                  TextAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
                     <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="Administrator" FontSize="15" Margin="0,0,0,5" Foreground="#c2cfff"/>
-                        <TextBlock Text="Beta 1.0" FontSize="11" Foreground="#7788bf"/>
+                        <TextBlock Text="{Binding CurrentEmployee}" FontSize="15" Margin="0,0,0,5" Foreground="#c2cfff"/>
+                        <TextBlock Text="{Binding CurrentEmployee.Title}" FontSize="11" Foreground="#7788bf"/>
                     </StackPanel>
                 </StackPanel>
 

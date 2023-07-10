@@ -67,7 +67,8 @@
                 </DockPanel>
 
                 <!--Sign In Button-->
-                <Button Grid.Row="3" Content="Sign in" Style="{StaticResource authButton}" Command="{Binding SignInCommand}"/>
+                <Button Grid.Row="3" Content="Sign in" Style="{StaticResource authButton}" Command="{Binding SignInCommand}"
+                        IsDefault="True"/>
 
                 <!--Exeptions-->
                 <StackPanel Grid.Row="4" Width="350" Margin="25,10,0,0">

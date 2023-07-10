@@ -7,9 +7,8 @@
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:b="clr-namespace:Librarian.Infrastructure.Behaviors"      
         xmlns:vm="clr-namespace:Librarian.ViewModels"
-        xmlns:conv="clr-namespace:Librarian.Infrastructure.Converters"
         d:DataContext="{d:DesignInstance {x:Type vm:EmployeeEditorViewModel}, IsDesignTimeCreatable=True}"
-        Width="960" Height="485" MinWidth="960" MinHeight="485" WindowStartupLocation="CenterScreen"
+        Width="1000" Height="485" MinWidth="100" MinHeight="485" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" SnapsToDevicePixels="True">
 
     <Border CornerRadius="15">
@@ -38,7 +37,7 @@
                         CommandParameter="False"/>
                 <Button Content="Ok" IsDefault="True" Margin="7,0,0,0" Padding="25,1" Style="{StaticResource dialogButton}"
                         Command="{StaticResource DialogResultCommand}"
-                        CommandParameter="True"/>
+                        CommandParameter="True" IsEnabled="{Binding IsCorrectRegisterData}"/>
             </UniformGrid>
 
             <!--Fields-->
@@ -46,7 +45,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.1*"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0" Margin="0,25,30,25">
@@ -201,8 +200,9 @@
                     </DockPanel>
                 </Grid>
 
-                <Grid Grid.Column="2" Margin="30,25,0,25">
+                <Grid Grid.Column="2" Margin="30,25,0,20">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -239,7 +239,8 @@
                     </DockPanel>
 
                     <!--Employee Login-->
-                    <DockPanel Grid.Row="2">
+                    <DockPanel Grid.Row="2" Visibility="{Binding IsNewEmployee, Converter={StaticResource BoolToVisibility}}"
+                               IsEnabled="{Binding IsNewEmployee}">
                         <TextBlock DockPanel.Dock="Top" Text="Login" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff" 
                            Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
@@ -248,7 +249,8 @@
                                    Panel.ZIndex="1" Text="Enter Login" FontSize="12" FontWeight="Normal"
                                    Visibility="{Binding ElementName=txtInput10, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
-                            <TextBox x:Name="txtInput10" Style="{StaticResource textBoxEditor}" Text="{Binding EmployeeLogin}"/>
+                            <TextBox x:Name="txtInput10" Style="{StaticResource textBoxEditor}" 
+                                     Text="{Binding EmployeeLogin,UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </DockPanel>
 
@@ -263,18 +265,26 @@
                                    Panel.ZIndex="1" Text="Enter Password" FontSize="12" FontWeight="Normal"
                                    Visibility="{Binding ElementName=txtInput11, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
-                            <TextBox x:Name="txtInput11" Style="{StaticResource textBoxEditor}" Text="{Binding EmployeePassword}"/>
+                            <TextBox x:Name="txtInput11" Style="{StaticResource textBoxEditor}" 
+                                     Text="{Binding EmployeePassword, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </DockPanel>
 
-                    <!--Order Details Add Button-->
+                    <!--Change Button-->
                     <Button Grid.Row="4" Style="{StaticResource changePasswordButton}" Command="{Binding ChangePasswordCommand}"
                             Visibility="{Binding IsNewEmployee, Converter={StaticResource VisibilityConverter}}">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="LockOpen" Style="{StaticResource addButtonIcon}"/>
-                            <TextBlock Text="Change password"/>
+                            <TextBlock Text="Change login and password"/>
                         </StackPanel>
                     </Button>
+
+                    <!--Exeptions-->
+                    <StackPanel Grid.Row="5" Visibility="{Binding IsNewEmployee, Converter={StaticResource BoolToVisibility}}">
+                        <TextBlock Text="{Binding RegisterExeptions[0]}" Style="{StaticResource registerExeptionText}"/>
+                        <TextBlock Text="{Binding RegisterExeptions[1]}" Style="{StaticResource registerExeptionText}"/>
+                        <TextBlock Text="{Binding RegisterExeptions[2]}" Style="{StaticResource registerExeptionText}"/>
+                    </StackPanel>
 
                 </Grid>
                 

@@ -30,7 +30,7 @@ namespace Librarian.ViewModels
             .AddSingleton<EmployeeFullInfoViewModel>()
             .AddSingleton<SupplyFullInfoViewModel>()
             .AddSingleton<SupplierFullInfoViewModel>()
-            .AddSingleton<PasswordCreatorViewModel>()
+            .AddSingleton<PrivateSecurityChangeViewModel>()
             ;
     }
 }

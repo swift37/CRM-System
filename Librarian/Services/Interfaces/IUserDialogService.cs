@@ -43,7 +43,7 @@ namespace Librarian.Services.Interfaces
 
         void ShowStatisticsDetails(StatisticsDetails statisticsDetails);
 
-        bool ChangePassword(out string? newPassword);
+        bool ChangePassword(out string? newLogin, out string? newPassword);
 
         bool Confirmation(string message, string caption);
 

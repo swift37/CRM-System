@@ -33,6 +33,11 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
     </Style>
 
+    <Style x:Key="registerExeptionText" TargetType="TextBlock" BasedOn="{StaticResource authExeptionText}">
+        <Setter Property="Margin" Value="0,3"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
     <Style x:Key="categoryTitleText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="#ffffff"/>
         <Setter Property="FontSize" Value="16"/>

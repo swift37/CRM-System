@@ -1,8 +1,11 @@
-﻿using Librarian.DAL.Entities;
+﻿using FluentValidation;
+using Librarian.DAL.Entities;
 using Librarian.Infrastructure.DebugServices;
 using Librarian.Interfaces;
+using Librarian.Models;
 using Librarian.Services;
 using Librarian.Services.Interfaces;
+using Librarian.Services.Validators;
 using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
 using System;
@@ -14,6 +17,8 @@ namespace Librarian.ViewModels
     {
         private readonly IUserDialogService _dialogService;
         private readonly IStatisticsCollectionService _statisticsService;
+        private readonly IValidator<RegisterRequest> _registerValidator;
+        private readonly IAuthorizationService _authorizationService;
         private readonly IRepository<Product> _productsRepository;
         private readonly IRepository<Category> _categoriesRepository;
         private readonly IRepository<Employee> _employeesRepository;
@@ -103,7 +108,7 @@ namespace Librarian.ViewModels
 
         private void OnShowEmployeesViewCommandExecuted()
         {
-            CurrentViewModel = new EmployeesViewModel(_employeesRepository, _workingRatesRepository, _dialogService);
+            CurrentViewModel = new EmployeesViewModel(_employeesRepository, _workingRatesRepository, _dialogService, _authorizationService);
         }
         #endregion
 
@@ -198,7 +203,9 @@ namespace Librarian.ViewModels
             new DebugSuppliersRepository(),
             new DebugShippersRepository(),
             new UserDialogService(),
-            new StatisticsCollectionService())
+            new StatisticsCollectionService(),
+            new AuthorizationService(),
+            new RegisterRequestValidator())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
@@ -217,7 +224,9 @@ namespace Librarian.ViewModels
             IRepository<Supplier> suppliersRepository,
             IRepository<Shipper> shippersRepository,
             IUserDialogService dialogService,
-            IStatisticsCollectionService statisticsService)
+            IStatisticsCollectionService statisticsService,
+            IAuthorizationService authorizationService,
+            IValidator<RegisterRequest> registerValidator)
         {
             _productsRepository = productsRepository;
             _categoriesRepository = categoriesRepository;
@@ -232,6 +241,8 @@ namespace Librarian.ViewModels
             _shippersRepository = shippersRepository;
             _dialogService = dialogService;
             _statisticsService = statisticsService;
+            _registerValidator = registerValidator;
+            _authorizationService = authorizationService;
         }
     }       
 }

@@ -62,9 +62,6 @@ namespace Librarian.ViewModels
         {
             var loginRequest = new LoginRequest { Login = Login, Password = Password };
 
-            //var registerRequest = new RegisterRequest { Login = Login, Password = Password };
-            //var employee = await _authorizationService.RegisterAsync(registerRequest);
-
             Employee? employee;
 
             try

@@ -324,19 +324,21 @@ namespace Librarian.Services
             return true;
         }
 
-        public bool ChangePassword(out string? newPassword)
+        public bool ChangePassword(out string? newLogin, out string? newPassword)
         {
-            var passwordCreatorWindow = _services.GetRequiredService<PasswordCreatorWindow>();
+            var passwordCreatorWindow = _services.GetRequiredService<PrivateSecurityChangeWindow>();
 
-            var passwordCreatorModel = (PasswordCreatorViewModel)passwordCreatorWindow.DataContext;
+            var passwordCreatorModel = (PrivateSecurityChangeViewModel)passwordCreatorWindow.DataContext;
 
             if (passwordCreatorWindow.ShowDialog() != true)
             {
                 newPassword = null;
+                newLogin = null;
                 return false;
             }
 
             newPassword = passwordCreatorModel.Password;
+            newLogin = passwordCreatorModel.Login;
 
             return true;
         }

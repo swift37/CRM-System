@@ -23,7 +23,7 @@ namespace Librarian.ViewModels
         private readonly IRepository<Employee> _employeesRepository;
         private readonly IRepository<WorkingRate> _workingRatesRepository;
         private readonly IUserDialogService _dialogService;
-
+        private readonly IAuthorizationService _authorizationService;
         private CollectionViewSource _employeesViewSource;
         private CollectionViewSource _archivedEmployeesViewSource;
 
@@ -142,26 +142,28 @@ namespace Librarian.ViewModels
         }
         #endregion
 
-        #region AddEmployeeCommand
-        private ICommand? _AddEmployeeCommand;
+        #region AddEmployeeAsyncCommand
+        private ICommand? _AddEmployeeAsyncCommand;
 
         /// <summary>
-        /// Add employee command
+        /// Add employee async command
         /// </summary>
-        public ICommand? AddEmployeeCommand => _AddEmployeeCommand ??= new LambdaCommand(OnAddEmployeeCommandExecuted, CanAddEmployeeCommandExecute);
+        public ICommand? AddEmployeeAsyncCommand => _AddEmployeeAsyncCommand ??= new LambdaCommandAsync(OnAddEmployeeAsyncCommandExecuted, CanAddEmployeeAsyncCommandExecute);
 
-        private bool CanAddEmployeeCommandExecute() => true;
+        private bool CanAddEmployeeAsyncCommandExecute() => true;
 
-        private void OnAddEmployeeCommandExecuted()
+        private async Task OnAddEmployeeAsyncCommandExecuted()
         {
             var registerRequest = new RegisterRequest();
 
             if (!_dialogService.RegisterEmployee(registerRequest)) return;
 
-            //_employeesRepository.Add(registerRequest);
-            //Employees?.Add(registerRequest);
+            var employee = await _authorizationService.RegisterAsync(registerRequest);
 
-            //SelectedEmployee = registerRequest;
+            if (employee is null) return;
+
+            Employees?.Add(employee);
+            SelectedEmployee = employee;
         }
         #endregion
 
@@ -305,7 +307,8 @@ namespace Librarian.ViewModels
         public EmployeesViewModel() : this(
             new DebugEmployeesRepository(), 
             new DebugWorkingRatesRepository(),
-            new UserDialogService())
+            new UserDialogService(),
+            new AuthorizationService())
         {
             if(!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
@@ -316,11 +319,13 @@ namespace Librarian.ViewModels
         public EmployeesViewModel(
             IRepository<Employee> sellersRepository,
             IRepository<WorkingRate> workingRatesRepository,
-            IUserDialogService dialogService)
+            IUserDialogService dialogService,
+            IAuthorizationService authorizationService)
         {
             _employeesRepository = sellersRepository;
             _workingRatesRepository = workingRatesRepository;
             _dialogService = dialogService;
+            _authorizationService = authorizationService;
 
             _employeesViewSource = new CollectionViewSource();
             _archivedEmployeesViewSource = new CollectionViewSource();

@@ -1,13 +1,18 @@
-﻿using Librarian.DAL.Entities;
+﻿using FluentValidation;
+using Librarian.DAL.Entities;
 using Librarian.Infrastructure.DebugServices;
 using Librarian.Interfaces;
+using Librarian.Models;
 using Librarian.Services;
 using Librarian.Services.Interfaces;
+using Librarian.Services.Validators;
 using Swftx.Wpf.Commands;
 using Swftx.Wpf.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -16,8 +21,10 @@ namespace Librarian.ViewModels
     public class EmployeeEditorViewModel : ViewModel
     {
         private readonly IRepository<WorkingRate> _workingRatesRepository;
+        private readonly IRepository<Employee> _employeesRepository;
         private readonly IUserDialogService _dialogService;
         private readonly IPasswordHashingService _hashingService;
+        private readonly IValidator<RegisterRequest> _registerValidator;
         private CollectionViewSource _workingRatesViewSource;
 
         #region Properties
@@ -176,7 +183,18 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Employee login
         /// </summary>
-        public string? EmployeeLogin { get => _EmployeeLogin; set => Set(ref _EmployeeLogin, value); }
+        public string? EmployeeLogin 
+        {
+            get => _EmployeeLogin;
+            set
+            {
+                if (Set(ref _EmployeeLogin, value))
+                {
+                    RegisterValidate();
+                    OnPropertyChanged(nameof(RegisterExeptions));
+                }
+            }
+        }
         #endregion
 
         #region EmployeePassword
@@ -185,7 +203,18 @@ namespace Librarian.ViewModels
         /// <summary>
         /// Employee password
         /// </summary>
-        public string? EmployeePassword { get => _EmployeePassword; set => Set(ref _EmployeePassword, value); }
+        public string? EmployeePassword 
+        { 
+            get => _EmployeePassword;
+            set 
+            {
+                if (Set(ref _EmployeePassword, value))
+                {
+                    RegisterValidate();
+                    OnPropertyChanged(nameof(RegisterExeptions));
+                }  
+            }
+        }
         #endregion
 
         #region EmployeePermissionLevel
@@ -197,13 +226,38 @@ namespace Librarian.ViewModels
         public int EmployeePermissionLevel { get => _EmployeePermissionLevel; set => Set(ref _EmployeePermissionLevel, value); }
         #endregion
 
-        #region IsNewEmployee
-        private bool _IsNewEmployee = false;
 
+        #region RegisterExeptions
+        private ObservableCollection<string>? _RegisterExeptions = new();
+
+        /// <summary>
+        /// Register exeptions
+        /// </summary>
+        public ObservableCollection<string>? RegisterExeptions { get => _RegisterExeptions; set => Set(ref _RegisterExeptions, value); }
+        #endregion
+
+        #region IsNewEmployee
         /// <summary>
         /// Is new employee?
         /// </summary>
-        public bool IsNewEmployee { get => _IsNewEmployee; set => Set(ref _IsNewEmployee, value); }
+        public bool IsNewEmployee { get; set; } = true;
+        #endregion
+
+        #region IsCorrectRegisterData
+        public bool _IsCorrectRegisterData;
+
+        /// <summary>
+        /// Is correct register data?
+        /// </summary>
+        public bool IsCorrectRegisterData 
+        {
+            get 
+            {
+                if (!IsNewEmployee) return true;
+                return _IsCorrectRegisterData;
+            }
+            set => Set(ref _IsCorrectRegisterData, value);
+        }
         #endregion
 
         #endregion
@@ -220,16 +274,19 @@ namespace Librarian.ViewModels
 
         private void OnChangePasswordCommandExecuted()
         {
-            if (!_dialogService.ChangePassword(out string? newPassword)) return;
+            if (!_dialogService.ChangePassword(out string? newLogin, out string? newPassword)) return;
 
             EmployeePassword = _hashingService.Hash(newPassword);
+            EmployeeLogin = newLogin;
         }
         #endregion
 
         public EmployeeEditorViewModel() : this(
             new DebugWorkingRatesRepository(),
+            new DebugEmployeesRepository(),
             new UserDialogService(),
-            new PasswordHashingService())
+            new PasswordHashingService(),
+            new RegisterRequestValidator())
         {
             if (!App.IsDesignMode)
                 throw new InvalidOperationException(nameof(App.IsDesignMode));
@@ -239,12 +296,16 @@ namespace Librarian.ViewModels
 
         public EmployeeEditorViewModel(
             IRepository<WorkingRate> workingRatesRepository, 
+            IRepository<Employee> employeesRepository, 
             IUserDialogService dialogService,
-            IPasswordHashingService hashingService)
+            IPasswordHashingService hashingService,
+            IValidator<RegisterRequest> registerValidator)
         {
             _workingRatesRepository = workingRatesRepository;
+            _employeesRepository = employeesRepository;
             _dialogService = dialogService;
             _hashingService = hashingService;
+            _registerValidator = registerValidator;
 
             _workingRatesViewSource = new CollectionViewSource();
 
@@ -269,6 +330,29 @@ namespace Librarian.ViewModels
             EmployeePassword = employee.Password;
             EmployeePermissionLevel = employee.PermissionLevel;
             IsNewEmployee = false;
+        }
+
+        public void RegisterValidate()
+        {
+            if (_employeesRepository.Entities is null)
+                throw new ArgumentNullException(nameof(_employeesRepository.Entities));
+
+            IsCorrectRegisterData = false;
+            var validation = _registerValidator
+                    .Validate(new RegisterRequest { Login = EmployeeLogin, Password = EmployeePassword });
+
+            RegisterExeptions?.ClearAdd(validation.Errors.Select(e => e.ErrorMessage));
+
+            if (!validation.IsValid) return;
+
+            if (_employeesRepository.Entities.Select(e => e.Login).Contains(EmployeeLogin))
+            {
+                RegisterExeptions?.Clear();
+                RegisterExeptions?.Add("The login you entered is already taken.");
+                return;
+            }
+
+            IsCorrectRegisterData = true;
         }
 
         private void OnWorkingRatesFilter(object sender, FilterEventArgs e)

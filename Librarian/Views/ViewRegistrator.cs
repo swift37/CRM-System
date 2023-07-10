@@ -144,8 +144,8 @@ namespace Librarian.Views
             })
             .AddTransient(s =>
             {
-                var model = s.GetRequiredService<PasswordCreatorViewModel>();
-                var window = new PasswordCreatorWindow { DataContext = model };
+                var model = s.GetRequiredService<PrivateSecurityChangeViewModel>();
+                var window = new PrivateSecurityChangeWindow { DataContext = model };
 
                 return window;
             })

@@ -260,6 +260,14 @@ namespace Librarian.ViewModels
         }
         #endregion
 
+
+        #region IsExistingOrder
+        /// <summary>
+        /// Is existing order?
+        /// </summary>
+        public bool IsExistingOrder { get; set; }
+        #endregion
+
         #endregion
 
         #region LoadRepositoriesCommand
@@ -286,7 +294,7 @@ namespace Librarian.ViewModels
             Employees = await _employeesRepository.Entities.ToArrayAsync();
             Customers = await _customersRepository.Entities.ToArrayAsync();
             Shippers = await _shippersRepository.Entities.ToArrayAsync();
-            _ = await _productsRepository.Entities.ToArrayAsync();
+            //_ = await _productsRepository.Entities.ToArrayAsync();
         }
         #endregion
 
@@ -391,6 +399,7 @@ namespace Librarian.ViewModels
             OrderShipName = order.ShipName;
             OrderShipAddress = order.ShipAddress;
             OrderDetails = order.OrderDetails?.ToObservableCollection();
+            IsExistingOrder = true;
         }
 
         private void OnCustomersFilter(object sender, FilterEventArgs e)

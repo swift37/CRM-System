@@ -111,7 +111,9 @@ namespace Librarian.ViewModels
 
         private void OnShowOrdersViewCommandExecuted()
         {
-            CurrentViewModel = _services.GetRequiredService<OrdersViewModel>();
+            var orderViewModel = _services.GetRequiredService<OrdersViewModel>();
+            orderViewModel.CurrentEmployee = CurrentEmployee;
+            CurrentViewModel = orderViewModel;
         }
         #endregion
 

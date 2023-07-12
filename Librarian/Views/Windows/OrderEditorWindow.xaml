@@ -80,12 +80,12 @@
 
                         <Grid>
                             <TextBlock Margin="13,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
-                               Panel.ZIndex="1" Text="Select a Employee" FontSize="12" FontWeight="Normal"
-                               Visibility="{Binding ElementName=comboInput, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+                                       Panel.ZIndex="1" Text="Select a Employee" FontSize="12" FontWeight="Normal"
+                                       Visibility="{Binding ElementName=comboInput, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
 
                             <ComboBox Grid.Row="1" x:Name="comboInput" ItemsSource="{Binding Employees}" 
-                              Style="{DynamicResource editorComboBox}" ItemContainerStyle="{DynamicResource editorComboBoxItem}" 
-                              SelectedItem="{Binding OrderEmployee}"/>
+                                      Style="{DynamicResource editorComboBox}" ItemContainerStyle="{DynamicResource editorComboBoxItem}" 
+                                      SelectedItem="{Binding OrderEmployee}" IsEnabled="{Binding IsExistingOrder}"/>    
                         </Grid>
                     </DockPanel>
 

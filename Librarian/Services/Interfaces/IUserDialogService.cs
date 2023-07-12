@@ -1,7 +1,5 @@
 ﻿using Librarian.DAL.Entities;
-using Librarian.Interfaces;
 using Librarian.Models;
-using System.Collections.Generic;
 
 namespace Librarian.Services.Interfaces
 {
@@ -22,6 +20,8 @@ namespace Librarian.Services.Interfaces
         bool EditEmployee(Employee employee);
 
         void ShowFullEmployeeInfo(Employee employee);
+
+        bool CreateOrder(Employee? employee, Order order);
 
         bool EditOrder(Order order);
 

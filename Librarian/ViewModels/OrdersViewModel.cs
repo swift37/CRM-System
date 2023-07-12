@@ -22,8 +22,6 @@ namespace Librarian.ViewModels
         private readonly IRepository<Order> _ordersRepository;
         private readonly IRepository<OrderDetails> _ordersDetailsRepository;
         private readonly IRepository<Product> _productsRepository;
-        private readonly IRepository<Employee> _employeesRepository;
-        private readonly IRepository<Customer> _customersRepository;
         private readonly IRepository<Shipper> _shippersRepository;
         private readonly IUserDialogService _dialogService;
 
@@ -32,6 +30,15 @@ namespace Librarian.ViewModels
         private CollectionViewSource _shippersViewSource;
 
         #region Properties
+
+        #region CurrentEmployee
+        private Employee? _CurrentEmployee;
+
+        /// <summary>
+        /// Current Employee
+        /// </summary>
+        public Employee? CurrentEmployee { get => _CurrentEmployee; set => Set(ref _CurrentEmployee, value); }
+        #endregion
 
         #region OrdersView
         /// <summary>
@@ -220,7 +227,7 @@ namespace Librarian.ViewModels
             order.OrderDate = DateTime.Now;
             order.OrderDetails = new HashSet<OrderDetails>();
 
-            if (!_dialogService.EditOrder(order)) return;
+            if (!_dialogService.CreateOrder(CurrentEmployee, order)) return;
 
 
             _ordersRepository.Add(order);
@@ -465,8 +472,6 @@ namespace Librarian.ViewModels
             new DebugOrdersRepository(),
             new DebugOrdersDetailsRepository(),
             new DebugProductsRepository(),
-            new DebugEmployeesRepository(),
-            new DebugCustomersRepository(),
             new DebugShippersRepository(),
             new UserDialogService())
         {
@@ -480,16 +485,12 @@ namespace Librarian.ViewModels
             IRepository<Order> ordersRepository,
             IRepository<OrderDetails> ordersDetailsRepository,
             IRepository<Product> products,
-            IRepository<Employee> employees,
-            IRepository<Customer> customers,
             IRepository<Shipper> shippers,
             IUserDialogService dialogService)
         {
             _ordersRepository = ordersRepository;
             _ordersDetailsRepository = ordersDetailsRepository;
             _productsRepository = products;
-            _employeesRepository = employees;
-            _customersRepository = customers;
             _shippersRepository = shippers;
             _dialogService = dialogService;
 

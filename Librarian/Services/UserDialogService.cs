@@ -164,6 +164,32 @@ namespace Librarian.Services
             employeeFullInfoWindow.ShowDialog();
         }
 
+        public bool CreateOrder(Employee? employee, Order order)
+        {
+            var orderEditorWindow = _services.GetRequiredService<OrderEditorWindow>();
+
+            var orderEditorModel = (OrderEditorViewModel)orderEditorWindow.DataContext;
+
+            orderEditorModel.OrderEmployee = employee;
+
+            if (orderEditorWindow.ShowDialog() != true) return false;
+
+            order.OrderDate = orderEditorModel.OrderDate;
+            order.RequiredDate = orderEditorModel.RequiredDate;
+            order.ShippedDate = orderEditorModel.ShippedDate;
+            order.Amount = orderEditorModel.OrderAmount;
+            order.ProductsQuantity = orderEditorModel.OrderProductsQuantity;
+            order.Employee = orderEditorModel.OrderEmployee;
+            order.Customer = orderEditorModel.OrderCustomer;
+            order.ShipVia = orderEditorModel.OrderShipVia;
+            order.ShippingCost = orderEditorModel.OrderShippingCost;
+            order.ShipName = orderEditorModel.OrderShipName;
+            order.ShipAddress = orderEditorModel.OrderShipAddress;
+            order.OrderDetails = orderEditorModel.OrderDetails;
+
+            return true;
+        }
+
         public bool EditOrder(Order order)
         {
             var orderEditorWindow = _services.GetRequiredService<OrderEditorWindow>();

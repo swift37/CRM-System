@@ -76,7 +76,8 @@
                     </StackPanel>
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowEmployeesViewCommand}">
+                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowEmployeesViewCommand}"
+                             Visibility="{Binding IsEmployeeTabAccessible, Converter={StaticResource BoolToVisibility}}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Headset" Style="{StaticResource menuRadioButtonIcon}"/>
                         <TextBlock Text="Employees" Style="{StaticResource menuRadioButtonText}"/>
@@ -97,7 +98,8 @@
                     </StackPanel>
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowStatisticsViewCommand}">
+                <RadioButton Style="{StaticResource menuRadioButton}" Command="{Binding ShowStatisticsViewCommand}"
+                             Visibility="{Binding IsStatisticsTabAccessible, Converter={StaticResource BoolToVisibility}}">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="ChartArea" Style="{StaticResource menuRadioButtonIcon}"/>
                         <TextBlock Text="Statistics" Style="{StaticResource menuRadioButtonText}"/>

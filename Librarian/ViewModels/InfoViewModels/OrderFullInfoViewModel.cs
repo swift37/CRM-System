@@ -133,7 +133,7 @@ namespace Librarian.ViewModels
         //        throw new InvalidOperationException(nameof(App.IsDesignMode));
         //}
 
-        public OrderFullInfoViewModel(Order order) { }
+        public OrderFullInfoViewModel() { }
 
         public void InitProps(Order order)
         {

@@ -9,7 +9,71 @@
              xmlns:local="clr-namespace:Librarian.Views"
              xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              d:DataContext="{d:DesignInstance {x:Type vm:ProductsViewModel}, IsDesignTimeCreatable=True}"
-             d:DesignHeight="525" d:DesignWidth="900">
+             d:DesignHeight="525" d:DesignWidth="900"
+             x:Name="productsControl">
+    <UserControl.Resources>
+        <DataGridTemplateColumn x:Key="act_dg_operations_column" 
+                                Header="Operations" IsReadOnly="True" Width="Auto"
+                                Visibility="{Binding DataContext.IsAccessible, Source={x:Reference productsControl}, Converter={StaticResource BoolToVisibility}}">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal"
+                                IsEnabled="{Binding DataContext.IsAccessible, Source={x:Reference productsControl}}">
+                        <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditProductCommand, Source={x:Reference productsControl}}">
+                            <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
+                        </Button>
+                        <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
+                                Command="{Binding DataContext.ArchiveProductCommand, Source={x:Reference productsControl}}" 
+                                CommandParameter="{Binding SelectedProduct}">
+                            <fa:IconImage Icon="Archive" Style="{StaticResource gridButtonIcon}"/>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+
+        <DataGridTemplateColumn x:Key="arch_dg_operations_column"
+                                Header="Operations" IsReadOnly="True" Width="Auto"
+                                Visibility="{Binding DataContext.IsAccessible, Source={x:Reference productsControl}, Converter={StaticResource BoolToVisibility}}">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" 
+                                IsEnabled="{Binding DataContext.IsAccessible, Source={x:Reference productsControl}}">
+                        <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.UnArchiveProductCommand, Source={x:Reference productsControl}}"
+                                CommandParameter="{Binding SelectedProduct}">
+                            <fa:IconImage Icon="Undo" Style="{StaticResource gridButtonIcon}"/>
+                        </Button>
+                        <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
+                                Command="{Binding DataContext.RemoveProductCommand, Source={x:Reference productsControl}}" 
+                                CommandParameter="{Binding SelectedProduct}">
+                            <fa:IconImage Icon="Trash" Style="{StaticResource gridButtonIcon}"/>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+
+        <DataGridTemplateColumn x:Key="ctg_dg_operations_column"
+                                Header="Operations" IsReadOnly="True" Width="110"
+                                Visibility="{Binding DataContext.IsAccessible, Source={x:Reference productsControl}, Converter={StaticResource BoolToVisibility}}">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" 
+                                IsEnabled="{Binding DataContext.IsAccessible, Source={x:Reference productsControl}}">
+                        <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                            <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
+                        </Button>
+                        <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
+                                Command="{Binding DataContext.ArchiveCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                CommandParameter="{Binding SelectedCategory}">
+                            <fa:IconImage Icon="Trash" Style="{StaticResource gridButtonIcon}"/>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+    </UserControl.Resources>
+    
     <br:Interaction.Triggers>
         <br:EventTrigger EventName="Loaded">
             <br:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
@@ -30,14 +94,18 @@
                    Foreground="#ffffff"/>
 
         <!--Add Buttons-->
-        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddProductCommand}">
+        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddProductCommand}"
+                Visibility="{Binding IsAccessible, Converter={StaticResource BoolToVisibility}}"
+                IsEnabled="{Binding IsAccessible}">
             <StackPanel Orientation="Horizontal">
                 <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
                 <TextBlock Text="Add product"/>
             </StackPanel>
         </Button>
         
-        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddCategoryCommand}" Margin="0,0,0,-100" Panel.ZIndex="10000">
+        <Button Grid.Row="1" Style="{StaticResource addButton}" Command="{Binding AddCategoryCommand}" Margin="0,0,0,-100" Panel.ZIndex="10000"
+                Visibility="{Binding IsAccessible, Converter={StaticResource BoolToVisibility}}"
+                IsEnabled="{Binding IsAccessible}">
             <StackPanel Orientation="Horizontal">
                 <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
                 <TextBlock Text="Add category"/>
@@ -101,7 +169,9 @@
                                                 </StackPanel>
                                                 <Button DockPanel.Dock="Right" Style="{StaticResource addButton}" Width="220" Margin="0"
                                                         HorizontalAlignment="Right" VerticalAlignment="Center" CommandParameter="{Binding Name}"
-                                                        Command="{Binding DataContext.AddProductCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                        Command="{Binding DataContext.AddProductCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                        Visibility="{Binding DataContext.IsAccessible, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource BoolToVisibility}}"
+                                                        IsEnabled="{Binding DataContext.IsAccessible, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                                     <StackPanel Orientation="Horizontal">
                                                         <fa:IconImage Icon="Plus" Style="{StaticResource addButtonIcon}"/>
                                                         <TextBlock Text="Add product to category"/>
@@ -130,22 +200,7 @@
                             <DataGridTextColumn Header="Units On Order" IsReadOnly="True" CanUserResize="False" Width="125" 
                                                 Binding="{Binding UnitsOnOrder}"/>
 
-                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="Auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditProductCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                                <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
-                                            <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
-                                                    Command="{Binding DataContext.ArchiveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                                                    CommandParameter="{Binding SelectedProduct}">
-                                                <fa:IconImage Icon="Archive" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                            <StaticResource ResourceKey="act_dg_operations_column"/>
 
                         </DataGrid.Columns>
                     </DataGrid>
@@ -223,22 +278,7 @@
                             <DataGridTextColumn Header="Units On Order" IsReadOnly="True" CanUserResize="False" Width="125" 
                                                 Binding="{Binding UnitsOnOrder}"/>
 
-                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="Auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.UnArchiveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                                <fa:IconImage Icon="Undo" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
-                                            <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
-                                                    Command="{Binding DataContext.ArchiveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                                                    CommandParameter="{Binding SelectedProduct}">
-                                                <fa:IconImage Icon="Trash" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                            <StaticResource ResourceKey="arch_dg_operations_column"/>
 
                         </DataGrid.Columns>
                     </DataGrid>
@@ -287,22 +327,7 @@
                             <DataGridTextColumn Header="Products Count" IsReadOnly="True" CanUserResize="False" Width="175" 
                                                 Binding="{Binding Products.Count}"/>
 
-                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="110">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.EditCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                                <fa:IconImage Icon="Pencil" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
-                                            <Button Style="{StaticResource gridRemoveButton}" Margin="5,0,0,0" 
-                                                    Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                                                    CommandParameter="{Binding SelectedCategory}">
-                                                <fa:IconImage Icon="Trash" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                            <StaticResource ResourceKey="ctg_dg_operations_column"/>
 
                         </DataGrid.Columns>
                     </DataGrid>

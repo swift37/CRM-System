@@ -30,6 +30,23 @@ namespace Librarian.ViewModels
 
         #region Properties
 
+        #region CurrentEmployee
+        private Employee? _CurrentEmployee;
+
+        /// <summary>
+        /// Current Employee
+        /// </summary>
+        public Employee? CurrentEmployee { get => _CurrentEmployee; set => Set(ref _CurrentEmployee, value); }
+        #endregion
+
+        #region IsAccessible
+        /// <summary>
+        /// Is accessible?
+        /// </summary>
+        public bool IsAccessible => CurrentEmployee?.PermissionLevel > 1;
+        #endregion
+
+
         #region ProductsView
         public ICollectionView ProductsView => _productsViewSource.View;
         #endregion

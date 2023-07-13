@@ -31,6 +31,20 @@ namespace Librarian.ViewModels
         public Employee? CurrentEmployee { get => _CurrentEmployee; set => Set(ref _CurrentEmployee, value); }
         #endregion
 
+        #region IsEmployeeTabAccessible
+        /// <summary>
+        /// Is employee tab accessible?
+        /// </summary>
+        public bool IsEmployeeTabAccessible => CurrentEmployee?.PermissionLevel > 1;
+        #endregion
+
+        #region IsStatisticsTabAccessible
+        /// <summary>
+        /// Is statistics tab accessible?
+        /// </summary>
+        public bool IsStatisticsTabAccessible => CurrentEmployee?.PermissionLevel > 2;
+        #endregion
+
         #endregion
 
         #region Commands
@@ -63,7 +77,9 @@ namespace Librarian.ViewModels
 
         private void OnShowProductsViewCommandExecuted()
         { 
-            CurrentViewModel = _services.GetRequiredService<ProductsViewModel>();
+            var productsViewModel = _services.GetRequiredService<ProductsViewModel>();
+            productsViewModel.CurrentEmployee = CurrentEmployee;
+            CurrentViewModel = productsViewModel;
         }
         #endregion
 
@@ -129,7 +145,9 @@ namespace Librarian.ViewModels
 
         private void OnShowSuppliesViewCommandExecuted()
         {
-            CurrentViewModel = _services.GetRequiredService<SuppliesViewModel>();
+            var suppliesViewModel = _services.GetRequiredService<SuppliesViewModel>();
+            suppliesViewModel.CurrentEmployee = CurrentEmployee;
+            CurrentViewModel = suppliesViewModel;
         }
         #endregion
 

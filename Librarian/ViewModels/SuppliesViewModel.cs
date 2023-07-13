@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -30,6 +29,44 @@ namespace Librarian.ViewModels
         private CollectionViewSource _suppliersViewSource;
 
         #region Properties
+
+        #region CurrentEmployee
+        private Employee? _CurrentEmployee;
+
+        /// <summary>
+        /// Current Employee
+        /// </summary>
+        public Employee? CurrentEmployee { get => _CurrentEmployee; set => Set(ref _CurrentEmployee, value); }
+        #endregion
+
+        #region IsEditingAccessible
+        /// <summary>
+        /// Is editing accessible?
+        /// </summary>
+        public bool IsEditingAccessible => CurrentEmployee?.PermissionLevel > 2;
+        #endregion
+
+        #region IsAddingSuppliersAccessible
+        /// <summary>
+        /// Is adding entities accessible?
+        /// </summary>
+        public bool IsAddingSuppliersAccessible => CurrentEmployee?.PermissionLevel > 2;
+        #endregion
+
+        #region IsAddingSuppliesAccessible
+        /// <summary>
+        /// Is adding entities accessible?
+        /// </summary>
+        public bool IsAddingSuppliesAccessible => CurrentEmployee?.PermissionLevel > 1;
+        #endregion
+
+        #region IsSuppliersTabAccessible
+        /// <summary>
+        /// Is suppliers tab accessible?
+        /// </summary>
+        public bool IsSuppliersTabAccessible => CurrentEmployee?.PermissionLevel > 1;
+        #endregion
+
 
         #region SuppliesView
         /// <summary>

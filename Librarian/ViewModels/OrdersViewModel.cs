@@ -40,6 +40,13 @@ namespace Librarian.ViewModels
         public Employee? CurrentEmployee { get => _CurrentEmployee; set => Set(ref _CurrentEmployee, value); }
         #endregion
 
+        #region IsAccessible
+        /// <summary>
+        /// Is accessible?
+        /// </summary>
+        public bool IsAccessible => CurrentEmployee?.PermissionLevel > 2;
+        #endregion
+
         #region OrdersView
         /// <summary>
         /// Orders collection view.

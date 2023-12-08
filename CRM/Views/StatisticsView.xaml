@@ -1,0 +1,216 @@
+﻿<UserControl x:Class="CRM.Views.StatisticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:br="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:lc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:v="clr-namespace:CRM.Views"
+             xmlns:vm="clr-namespace:CRM.ViewModels"
+             xmlns:local="clr-namespace:CRM.Views"
+             d:DataContext="{d:DesignInstance {x:Type vm:StatisticsViewModel}}" 
+             d:DesignHeight="525" d:DesignWidth="900">
+    <br:Interaction.Triggers>
+        <br:EventTrigger EventName="Loaded">
+            <br:InvokeCommandAction Command="{Binding CollectStatisticsCommand}"/>
+        </br:EventTrigger>
+    </br:Interaction.Triggers>
+
+    <Grid Margin="30,20,20,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--Main Section-->
+        <TextBlock Grid.Row="1" Text="Statistics" FontSize="32" FontWeight="SemiBold" Margin="0,20,0,0" HorizontalAlignment="Left"
+                   Foreground="#ffffff"/>
+
+        <!--Separator-->
+        <Separator Grid.Row="2" Height="1" Background="#46558a" Margin="0,54,0,10"/>
+
+        <!--Tab Contol-->
+        <TabControl Style="{DynamicResource TabControlCustomStyle}" Grid.Row="3" Margin="0,-55,0,0">
+
+            <!--Products-->
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Products">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="Products Statistics" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="0" Text="Filter by" FontSize="13" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,215,0" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                    <!--Filter TextBox-->
+                    <Grid Grid.Row="0" Width="200" HorizontalAlignment="Right">
+                        <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Search in Products ..." FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtSearch, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtSearch" Style="{StaticResource textBoxFilter}" Text="{Binding ProductsFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <!--Products DataGrid-->
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                              ItemsSource="{Binding ProductsStatisticsView}" SelectedItem="{Binding SelectedProductStatistics}" 
+                              VirtualizingPanel.ScrollUnit="Pixel">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="70" Binding="{Binding Entity.Id}"/>
+
+                            <DataGridTextColumn Header="Product" IsReadOnly="True" CanUserResize="False" Width="*"
+                                                Binding="{Binding Entity.Name}"/>
+                            <DataGridTextColumn Header="Popularity" IsReadOnly="True" CanUserResize="False" Width="175"
+                                                Binding="{Binding Popularity, StringFormat=P}"/>
+                            <DataGridTextColumn Header="Sales Amount" IsReadOnly="True" CanUserResize="False" Width="175"
+                                                Binding="{Binding TotalIncome, StringFormat=C}"/>
+                            <DataGridTextColumn Header="Sales Count" IsReadOnly="True" CanUserResize="False" Width="175" 
+                                                Binding="{Binding TotalSales}"/>
+
+                            <DataGridTemplateColumn Header="Details" IsReadOnly="True" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.CollectProductStatisticsDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                            <fa:IconImage Icon="ChartLine" Style="{StaticResource gridButtonIcon}"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!--Categories-->
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Categories">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="Categories Statistics" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="0" Text="Filter by" FontSize="13" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,215,0" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                    <!--Filter TextBox-->
+                    <Grid Grid.Row="0" Width="200" HorizontalAlignment="Right">
+                        <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Search in Categories ..." FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtSearch2, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtSearch2" Style="{StaticResource textBoxFilter}" Text="{Binding CategoriesFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <!--Categories DataGrid-->
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                              ItemsSource="{Binding CategoriesStatisticsView}" SelectedItem="{Binding SelectedCategoryStatistics}" 
+                              VirtualizingPanel.ScrollUnit="Pixel">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="70" Binding="{Binding Entity.Id}"/>
+
+                            <DataGridTextColumn Header="Product" IsReadOnly="True" CanUserResize="False" Width="*"
+                                                Binding="{Binding Entity.Name}"/>
+                            <DataGridTextColumn Header="Popularity" IsReadOnly="True" CanUserResize="False" Width="175"
+                                                Binding="{Binding Popularity, StringFormat=P}"/>
+                            <DataGridTextColumn Header="Sales Amount" IsReadOnly="True" CanUserResize="False" Width="175"
+                                                Binding="{Binding TotalIncome, StringFormat=C}"/>
+                            <DataGridTextColumn Header="Sales Count" IsReadOnly="True" CanUserResize="False" Width="175" 
+                                                Binding="{Binding TotalSales}"/>
+
+                            <DataGridTemplateColumn Header="Details" IsReadOnly="True" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.CollectCategoryStatisticsDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                            <fa:IconImage Icon="ChartLine" Style="{StaticResource gridButtonIcon}"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!--Employees-->
+            <TabItem Style="{DynamicResource TabItemCustomStyle}" Header="Employees">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Counter Title-->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="Employees Statistics" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="0" Text="Filter by" FontSize="13" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,215,0" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                    <!--Filter TextBox-->
+                    <Grid Grid.Row="0" Width="200" HorizontalAlignment="Right">
+                        <TextBlock Margin="20,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" 
+                                   Panel.ZIndex="1" Text="Search in Employees ..." FontSize="12" FontWeight="Normal"
+                                   Visibility="{Binding ElementName=txtSearch3, Path=Text.IsEmpty,Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBox x:Name="txtSearch3" Style="{StaticResource textBoxFilter}" Text="{Binding EmployeesFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <!--Employees DataGrid-->
+                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridCustomStyle}" CellStyle="{DynamicResource DataGridCellCustomStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderCustomStyle}" RowStyle="{DynamicResource DataGridRowCustomStyle}"
+                              ItemsSource="{Binding EmployeesStatisticsView}" SelectedItem="{Binding SelectedEmployeeStatistics}" 
+                              VirtualizingPanel.ScrollUnit="Pixel">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="70" Binding="{Binding Entity.Id}"/>
+
+                            <DataGridTextColumn Header="Product" IsReadOnly="True" CanUserResize="False" Width="*"
+                                                Binding="{Binding Entity.Name}"/>
+                            <DataGridTextColumn Header="Popularity" IsReadOnly="True" CanUserResize="False" Width="175"
+                                                Binding="{Binding Popularity, StringFormat=P}"/>
+                            <DataGridTextColumn Header="Sales Amount" IsReadOnly="True" CanUserResize="False" Width="175"
+                                                Binding="{Binding TotalIncome, StringFormat=C}"/>
+                            <DataGridTextColumn Header="Sales Count" IsReadOnly="True" CanUserResize="False" Width="175" 
+                                                Binding="{Binding TotalSales}"/>
+
+                            <DataGridTemplateColumn Header="Details" IsReadOnly="True" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{StaticResource gridEditButton}" Command="{Binding DataContext.CollectEmployeeStatisticsDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                            <fa:IconImage Icon="ChartLine" Style="{StaticResource gridButtonIcon}"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+    </Grid>
+</UserControl>
